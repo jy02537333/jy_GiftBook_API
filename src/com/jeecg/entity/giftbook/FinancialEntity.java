@@ -1,48 +1,58 @@
 package com.jeecg.entity.giftbook;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.lang.String;
+import java.lang.Double;
+import java.lang.Integer;
+import java.math.BigDecimal;
+import javax.xml.soap.Text;
+import java.sql.Blob;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.SequenceGenerator;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**   
  * @Title: Entity
- * @Description: 成员礼金记录
+ * @Description: 金融超市
  * @author onlineGenerator
- * @date 2016-11-03 17:23:01
+ * @date 2017-02-14 17:48:41
  * @version V1.0   
  *
  */
 @Entity
-@Table(name = "membergiftmoney", schema = "")
+@Table(name = "financial", schema = "")
 @SuppressWarnings("serial")
-public class MembergiftmoneyEntity implements java.io.Serializable {
+public class FinancialEntity implements java.io.Serializable {
 	/**Id*/
 	private java.lang.String id;
-	/**组成员id*/
-	@Excel(name="组成员id")
-	private java.lang.String gourpmemberid;
-	/**组成员姓名*/
-	@Excel(name="组成员姓名")
-	private java.lang.String groupmember;
-	/**是否支出*/
-	@Excel(name="是否支出")
-	private java.lang.Integer isexpenditure;
-	/**金额*/
-	@Excel(name="金额")
-	private java.lang.String money;
-	/**支出类型编号*/
-	@Excel(name="支出类型编号")
-	private java.lang.String expendituretype;
-	/**支出类型名称*/
-	@Excel(name="支出类型名称")
-	private java.lang.String expendituretypename;
-	/**状态(0=删除，1正常)*/
-	@Excel(name="状态(0=删除，1正常)")
-	private java.lang.Integer state;
+	/**第三方公司名称*/
+	@Excel(name="第三方公司名称")
+	private java.lang.String thirdpartyname;
+	/**第三方公司关键字*/
+	@Excel(name="第三方公司关键字")
+	private java.lang.String thirdpartycode;
+	/**第三方公司关键字2*/
+	@Excel(name="第三方公司关键字2")
+	private java.lang.String thirdpartycode2;
+	/**第三方地址*/
+	@Excel(name="第三方地址")
+	private java.lang.String thirdpartyaddr;
+	/**描述*/
+	@Excel(name="描述")
+	private java.lang.String describe;
+	/**贷款额度*/
+	@Excel(name="贷款额度")
+	private java.lang.String moneylimit;
+	/**贷款利息*/
+	@Excel(name="贷款利息")
+	private java.lang.String moneyinterest;
 	/**创建时间*/
 	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private java.util.Date createDate;
@@ -58,8 +68,8 @@ public class MembergiftmoneyEntity implements java.io.Serializable {
 	/**更新人编号*/
 	@Excel(name="更新人编号")
 	private java.lang.String updateBy;
-	/**更信任姓名*/
-	@Excel(name="更信任姓名")
+	/**更新人姓名*/
+	@Excel(name="更新人姓名")
 	private java.lang.String updateName;
 	
 	/**
@@ -83,115 +93,115 @@ public class MembergiftmoneyEntity implements java.io.Serializable {
 	}
 	/**
 	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  组成员id
+	 *@return: java.lang.String  第三方公司名称
 	 */
-	@Column(name ="GOURPMEMBERID",nullable=true,length=32)
-	public java.lang.String getGourpmemberid(){
-		return this.gourpmemberid;
+	@Column(name ="THIRDPARTYNAME",nullable=true,length=200)
+	public java.lang.String getThirdpartyname(){
+		return this.thirdpartyname;
 	}
 
 	/**
 	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  组成员id
+	 *@param: java.lang.String  第三方公司名称
 	 */
-	public void setGourpmemberid(java.lang.String gourpmemberid){
-		this.gourpmemberid = gourpmemberid;
+	public void setThirdpartyname(java.lang.String thirdpartyname){
+		this.thirdpartyname = thirdpartyname;
 	}
 	/**
 	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  组成员姓名
+	 *@return: java.lang.String  第三方公司关键字
 	 */
-	@Column(name ="GROUPMEMBER",nullable=true,length=100)
-	public java.lang.String getGroupmember(){
-		return this.groupmember;
+	@Column(name ="THIRDPARTYCODE",nullable=true,length=200)
+	public java.lang.String getThirdpartycode(){
+		return this.thirdpartycode;
 	}
 
 	/**
 	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  组成员姓名
+	 *@param: java.lang.String  第三方公司关键字
 	 */
-	public void setGroupmember(java.lang.String groupmember){
-		this.groupmember = groupmember;
+	public void setThirdpartycode(java.lang.String thirdpartycode){
+		this.thirdpartycode = thirdpartycode;
 	}
 	/**
 	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  是否支出
+	 *@return: java.lang.String  第三方公司关键字2
 	 */
-	@Column(name ="ISEXPENDITURE",nullable=true,length=1)
-	public java.lang.Integer getIsexpenditure(){
-		return this.isexpenditure;
+	@Column(name ="THIRDPARTYCODE2",nullable=true,length=200)
+	public java.lang.String getThirdpartycode2(){
+		return this.thirdpartycode2;
 	}
 
 	/**
 	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  是否支出
+	 *@param: java.lang.String  第三方公司关键字2
 	 */
-	public void setIsexpenditure(java.lang.Integer isexpenditure){
-		this.isexpenditure = isexpenditure;
+	public void setThirdpartycode2(java.lang.String thirdpartycode2){
+		this.thirdpartycode2 = thirdpartycode2;
 	}
 	/**
 	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  金额
+	 *@return: java.lang.String  第三方地址
 	 */
-	@Column(name ="MONEY",nullable=true,scale=2,length=10)
-	public java.lang.String getMoney(){
-		return this.money;
+	@Column(name ="THIRDPARTYADDR",nullable=true,length=500)
+	public java.lang.String getThirdpartyaddr(){
+		return this.thirdpartyaddr;
 	}
 
 	/**
 	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  金额
+	 *@param: java.lang.String  第三方地址
 	 */
-	public void setMoney(java.lang.String money){
-		this.money = money;
-	}
-	/**
-	 *方法: 取得java.lang.Integer
-	 *@return: java.lang.Integer  支出类型编号
-	 */
-	@Column(name ="EXPENDITURETYPE",nullable=true,length=10)
-	public java.lang.String getExpendituretype(){
-		return this.expendituretype;
-	}
-
-	/**
-	 *方法: 设置java.lang.Integer
-	 *@param: java.lang.Integer  支出类型编号
-	 */
-	public void setExpendituretype(java.lang.String expendituretype){
-		this.expendituretype = expendituretype;
+	public void setThirdpartyaddr(java.lang.String thirdpartyaddr){
+		this.thirdpartyaddr = thirdpartyaddr;
 	}
 	/**
 	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  支出类型名称
+	 *@return: java.lang.String  描述
 	 */
-	@Column(name ="EXPENDITURETYPENAME",nullable=true,length=100)
-	public java.lang.String getExpendituretypename(){
-		return this.expendituretypename;
+	@Column(name ="DESCRIBE",nullable=true,length=500)
+	public java.lang.String getDescribe(){
+		return this.describe;
 	}
 
 	/**
 	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  支出类型名称
+	 *@param: java.lang.String  描述
 	 */
-	public void setExpendituretypename(java.lang.String expendituretypename){
-		this.expendituretypename = expendituretypename;
+	public void setDescribe(java.lang.String describe){
+		this.describe = describe;
 	}
 	/**
-	 *方法: 取得java.lang.Integer
-	 *@return: java.lang.Integer  状态(0=删除，1正常)
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  贷款额度
 	 */
-	@Column(name ="STATE",nullable=true,length=10)
-	public java.lang.Integer getState(){
-		return this.state;
+	@Column(name ="MONEYLIMIT",nullable=true,length=100)
+	public java.lang.String getMoneylimit(){
+		return this.moneylimit;
 	}
 
 	/**
-	 *方法: 设置java.lang.Integer
-	 *@param: java.lang.Integer  状态(0=删除，1正常)
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  贷款额度
 	 */
-	public void setState(java.lang.Integer state){
-		this.state = state;
+	public void setMoneylimit(java.lang.String moneylimit){
+		this.moneylimit = moneylimit;
+	}
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  贷款利息
+	 */
+	@Column(name ="MONEYINTEREST",nullable=true,length=100)
+	public java.lang.String getMoneyinterest(){
+		return this.moneyinterest;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  贷款利息
+	 */
+	public void setMoneyinterest(java.lang.String moneyinterest){
+		this.moneyinterest = moneyinterest;
 	}
 	/**
 	 *方法: 取得java.util.Date
@@ -275,7 +285,7 @@ public class MembergiftmoneyEntity implements java.io.Serializable {
 	}
 	/**
 	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  更信任姓名
+	 *@return: java.lang.String  更新人姓名
 	 */
 	@Column(name ="UPDATE_NAME",nullable=true,length=100)
 	public java.lang.String getUpdateName(){
@@ -284,7 +294,7 @@ public class MembergiftmoneyEntity implements java.io.Serializable {
 
 	/**
 	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  更信任姓名
+	 *@param: java.lang.String  更新人姓名
 	 */
 	public void setUpdateName(java.lang.String updateName){
 		this.updateName = updateName;

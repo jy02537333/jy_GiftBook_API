@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jeecgframework.core.util.base64.BASE64Decoder;
 import org.jeecgframework.core.util.base64.HandlerRSAUtils;
 
 import com.google.common.reflect.TypeToken;
@@ -83,7 +84,8 @@ public class TokenVerifyTool {
 			return sysUserEntity;
 		}
 		try {
-			String entity=HandlerRSAUtils.decryptionLogin(info);
+			byte[] bytes=new BASE64Decoder().decodeBuffer(info);
+			String entity=new String(bytes);
 			SysUserEntity user=	JSONHelper.fromJsonToObject(entity, SysUserEntity.class);
 			if(user!=null&&user.getLoginname()!=null)
 			{

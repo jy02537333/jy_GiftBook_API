@@ -11,3 +11,5 @@
 /gradle
 /classes
 /WebRoot/WEB-INF/classes
+/WEB-INF/classes
+*/classes

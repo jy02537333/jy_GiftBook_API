@@ -39,25 +39,25 @@ public class RSAUtils {
      */
     public static final String SIGNATURE_ALGORITHM = "MD5withRSA";
 
-    /**
-     * 获取公钥的key
-     */
-    private static final String PUBLIC_KEY = "RSAPublicKey";
-    
-    /**
-     * 获取私钥的key
-     */
-    private static final String PRIVATE_KEY = "RSAPrivateKey";
-    
 //    /**
 //     * 获取公钥的key
 //     */
-//    private static final String PUBLIC_KEY = "NMDaoitrbvcG4vGEW";
+//    private static final String PUBLIC_KEY = "RSAPublicKey";
 //    
 //    /**
 //     * 获取私钥的key
 //     */
-//    private static final String PRIVATE_KEY = "NND7GEFger58423_GE";
+//    private static final String PRIVATE_KEY = "RSAPrivateKey";
+    
+    /**
+     * 获取公钥的key
+     */
+    private static final String PUBLIC_KEY = "NMDaoitrbvcG4vGEW";
+    
+    /**
+     * 获取私钥的key
+     */
+    private static final String PRIVATE_KEY = "NND7GEFger58423_GE";
     
     
     

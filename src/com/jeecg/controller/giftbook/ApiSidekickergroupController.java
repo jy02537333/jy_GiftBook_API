@@ -100,7 +100,7 @@ public class ApiSidekickergroupController extends BaseController {
 	}
 
 	/**
-	 * 删除礼金类型
+	 * 删除亲友团
 	 * 
 	 * @return
 	 */
@@ -115,7 +115,7 @@ public class ApiSidekickergroupController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		sidekickergroup = systemService.getEntity(SidekickergroupEntity.class,
 				sidekickergroup.getId());
-		message = "礼金类型删除成功";
+		message = "亲友团删除成功";
 		try {
 			sidekickergroupService.delete(sidekickergroup);
 			systemService.addLog(message, Globals.Log_Type_DEL,
@@ -123,7 +123,7 @@ public class ApiSidekickergroupController extends BaseController {
 			j.setResult(1);
 		} catch (Exception e) {
 			e.printStackTrace();
-			message = "礼金类型删除失败";
+			message = "亲友团删除失败";
 			j.setResult(3);
 			throw new BusinessException(e.getMessage());
 		}
@@ -132,7 +132,7 @@ public class ApiSidekickergroupController extends BaseController {
 	}
 
 	/**
-	 * 批量删除礼金类型
+	 * 批量删除亲友团
 	 * 
 	 * @return
 	 */
@@ -143,7 +143,7 @@ public class ApiSidekickergroupController extends BaseController {
 			return AjaxReturnTool.emptyKey();
 		String message = null;
 		AjaxJson j = new AjaxJson();
-		message = "礼金类型删除成功";
+		message = "亲友团删除成功";
 		try {
 			for (String id : ids.split(",")) {
 				SidekickergroupEntity sidekickergroup = systemService
@@ -155,7 +155,7 @@ public class ApiSidekickergroupController extends BaseController {
 			j.setResult(1);
 		} catch (Exception e) {
 			e.printStackTrace();
-			message = "礼金类型删除失败";
+			message = "亲友团删除失败";
 			j.setResult(3);
 			throw new BusinessException(e.getMessage());
 		}
@@ -164,7 +164,7 @@ public class ApiSidekickergroupController extends BaseController {
 	}
 
 	/**
-	 * 添加礼金类型
+	 * 添加亲友团
 	 * 
 	 * @param ids
 	 * @return
@@ -178,7 +178,7 @@ public class ApiSidekickergroupController extends BaseController {
 		sidekickergroup.setCreateDate(new Date());
 		String message = null;
 		AjaxJson j = new AjaxJson();
-		message = "礼金类型添加成功";
+		message = "亲友团添加成功";
 		try {
 			Serializable obj = sidekickergroupService.save(sidekickergroup);
 			systemService.addLog(message, Globals.Log_Type_INSERT,
@@ -191,7 +191,7 @@ public class ApiSidekickergroupController extends BaseController {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			message = "礼金类型添加失败";
+			message = "亲友团添加失败";
 			j.setResult(3);
 			throw new BusinessException(e.getMessage());
 		}
@@ -200,7 +200,7 @@ public class ApiSidekickergroupController extends BaseController {
 	}
 
 	/**
-	 * 更新礼金类型
+	 * 更新亲友团
 	 * 
 	 * @param ids
 	 * @return
@@ -214,7 +214,7 @@ public class ApiSidekickergroupController extends BaseController {
 		sidekickergroup.setCreateDate(new Date());
 		String message = null;
 		AjaxJson j = new AjaxJson();
-		message = "礼金类型更新成功";
+		message = "亲友团更新成功";
 		SidekickergroupEntity t = sidekickergroupService.get(
 				SidekickergroupEntity.class, sidekickergroup.getId());
 		try {
@@ -225,7 +225,7 @@ public class ApiSidekickergroupController extends BaseController {
 			j.setResult(1);
 		} catch (Exception e) {
 			e.printStackTrace();
-			message = "礼金类型更新失败";
+			message = "亲友团更新失败";
 			j.setResult(3);
 			throw new BusinessException(e.getMessage());
 		}

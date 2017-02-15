@@ -20,10 +20,13 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;  
 import java.security.spec.X509EncodedKeySpec;  
   
+
+
 import javax.crypto.BadPaddingException;  
 import javax.crypto.Cipher;  
 import javax.crypto.IllegalBlockSizeException;  
 import javax.crypto.NoSuchPaddingException;  
+
   
   
 public class RSAEncrypt { 
@@ -219,7 +222,7 @@ public class RSAEncrypt {
         try {  
             // 使用默认RSA  
             cipher = Cipher.getInstance("RSA");  
-            // cipher= Cipher.getInstance("RSA", new BouncyCastleProvider());  
+            // cipher= Cipher.getInstance("RSA/ECB/PKCS1Padding", new BouncyCastleProvider());  
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);  
             byte[] output = cipher.doFinal(plainTextData);  
             return output;  
@@ -287,32 +290,39 @@ public class RSAEncrypt {
      * @throws Exception
      */
     public static byte[] decryptByPrivateKey(byte[] encryptedData, String privateKey)
-            throws Exception {
-        byte[] keyBytes = Base64Utils.decode(privateKey);
-        PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(keyBytes);
-        KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
-        Key privateK = keyFactory.generatePrivate(pkcs8KeySpec);
-        Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
-        cipher.init(Cipher.DECRYPT_MODE, privateK);
-        int inputLen = encryptedData.length;
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        int offSet = 0;
-        byte[] cache;
-        int i = 0;
-        // 对数据分段解密
-        while (inputLen - offSet > 0) {
-            if (inputLen - offSet > MAX_DECRYPT_BLOCK) {
-                cache = cipher.doFinal(encryptedData, offSet, MAX_DECRYPT_BLOCK);
-            } else {
-                cache = cipher.doFinal(encryptedData, offSet, inputLen - offSet);
-            }
-            out.write(cache, 0, cache.length);
-            i++;
-            offSet = i * MAX_DECRYPT_BLOCK;
-        }
-        byte[] decryptedData = out.toByteArray();
-        out.close();
-        return decryptedData;
+           {
+        try {
+			byte[] keyBytes = Base64Utils.decode(privateKey);
+			PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(keyBytes);
+			KeyFactory keyFactory = KeyFactory.getInstance(KEY_ALGORITHM);
+			Key privateK = keyFactory.generatePrivate(pkcs8KeySpec);
+			Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
+			cipher.init(Cipher.DECRYPT_MODE, privateK);
+			int inputLen = encryptedData.length;
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			int offSet = 0;
+			byte[] cache;
+			int i = 0;
+			// 对数据分段解密
+			while (inputLen - offSet > 0) {
+			    if (inputLen - offSet > MAX_DECRYPT_BLOCK) {
+			        cache = cipher.doFinal(encryptedData, offSet, MAX_DECRYPT_BLOCK);
+			    } else {
+			        cache = cipher.doFinal(encryptedData, offSet, inputLen - offSet);
+			    }
+			    out.write(cache, 0, cache.length);
+			    i++;
+			    offSet = i * MAX_DECRYPT_BLOCK;
+			}
+			byte[] decryptedData = out.toByteArray();
+			out.close();
+			return decryptedData;
+		} catch (javax.crypto.BadPaddingException e) {
+			e.printStackTrace();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+        return null;
     }
     /**
      * <p>
@@ -411,6 +421,7 @@ public class RSAEncrypt {
         try {  
             // 使用默认RSA  
             cipher = Cipher.getInstance("RSA");  
+           // cipher= Cipher.getInstance("RSA/ECB/PKCS1Padding", new BouncyCastleProvider()); 
             cipher.init(Cipher.ENCRYPT_MODE, privateKey);  
             byte[] output = cipher.doFinal(plainTextData);  
             return output;  
@@ -448,7 +459,8 @@ public class RSAEncrypt {
         try {  
             // 使用默认RSA  
             cipher = Cipher.getInstance("RSA");  
-            // cipher= Cipher.getInstance("RSA", new BouncyCastleProvider());  
+            //Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            // cipher= Cipher.getInstance("RSA/ECB/PKCS1Padding", new BouncyCastleProvider());  
             cipher.init(Cipher.DECRYPT_MODE, privateKey);  
             byte[] output = cipher.doFinal(cipherData);  
             return output;  
@@ -486,7 +498,7 @@ public class RSAEncrypt {
         try {  
             // 使用默认RSA  
             cipher = Cipher.getInstance("RSA");  
-            // cipher= Cipher.getInstance("RSA", new BouncyCastleProvider());  
+            // cipher= Cipher.getInstance("RSA/ECB/PKCS1Padding", new BouncyCastleProvider());  
             cipher.init(Cipher.DECRYPT_MODE, publicKey);  
             byte[] output = cipher.doFinal(cipherData);  
             return output;  

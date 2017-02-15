@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.alibaba.druid.util.Base64;
 
 
 
@@ -37,7 +36,7 @@ public class Base64Utils {
      * @throws Exception
      */
     public static byte[] decode(String base64) throws Exception {
-        return new sun.misc.BASE64Decoder().decodeBuffer(base64);
+        return new  BASE64Decoder().decodeBuffer(base64);
     }
 
     /**
@@ -52,7 +51,7 @@ public class Base64Utils {
     public static String encode(byte[] bytes) throws Exception {
 
     	
-        return new String(new sun.misc.BASE64Encoder().encode(bytes));
+        return new String(new  BASE64Encoder().encode(bytes));
     }
 
     /**

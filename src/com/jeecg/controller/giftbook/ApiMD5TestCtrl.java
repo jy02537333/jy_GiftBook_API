@@ -48,7 +48,14 @@ public class ApiMD5TestCtrl {
 	@ResponseBody
 	public String decryption(String str) throws Exception
 	{
-		return HandlerRSAUtils.decryption(str);
+		String str2="RxZ697JahUYff2UhI7KM6qgMKDqwFnkYEJWV27Kh5ZynHH0mgxnH7Bx+hPeIV/r20SVZ4A13tJJv\r\n5dG3VGwmeYDkYEgSxpJ/L1HBXT/GuaRXeBFRXqiwwEWReNVdr1J3vcpek43MFxb7yj3D6Xwxjbdc\r\nJWeKIZ1Y08iHvlstQAY=";
+		if(str2.length()==str.length())
+		{
+			str2="1";
+		}
+		String str3=HandlerRSAUtils.decryption(str);
+		
+		return str3;
 	}
 	
 	@RequestMapping(params = "encodeLogin")
@@ -72,7 +79,9 @@ public class ApiMD5TestCtrl {
 		try {
 			String strsss="{\"loginname\":\"a111\",\"loginpassword\":\"MTEx\",\"timestamp\":\"1486878409265\",\"decvices\":\"3EAF6F88E5CBC7C0E92848337263EF1E\"}";
 		String str=	HandlerRSAUtils.encode(strsss);
-			   str=	HandlerRSAUtils.decryption("RxZ697JahUYff2UhI7KM6qgMKDqwFnkYEJWV27Kh5ZynHH0mgxnH7Bx+hPeIV/r20SVZ4A13tJJv\r\n5dG3VGwmeYDkYEgSxpJ/L1HBXT/GuaRXeBFRXqiwwEWReNVdr1J3vcpek43MFxb7yj3D6Xwxjbdc\r\nJWeKIZ1Y08iHvlstQAY=");
+			   str=	HandlerRSAUtils.decryption(
+"PD9pOlV3LkY2tr9N3f0v5Q/3HRv4gIHAoDZ3EFrIXoxHXVGZ/GYq/pzegVElPRhE4/k+/YUsS1di\nnC4pRGdI2cPlmTUWn8QonMLfBGq1v1C2piKpvbU8rDnYmcqvJWwMryRoR9vkvJPDh3DaoxZzVBby\nOx+SkXkEw2Z+FFkkfiw="
+					   );
 	        System.out.println(str);  
 		
 		

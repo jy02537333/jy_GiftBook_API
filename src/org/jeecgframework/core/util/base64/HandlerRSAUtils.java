@@ -6,6 +6,10 @@ import java.io.InputStream;
 import java.util.Properties;
 
 
+
+
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import com.jeecg.controller.giftbook.ApiMD5TestCtrl;
 
 public class HandlerRSAUtils {
@@ -46,6 +50,7 @@ public class HandlerRSAUtils {
 	
 	public static String decryption(String str) throws Exception
 	{
+		str=StringEscapeUtils.unescapeJava(str);
 		byte[] bytes=	Base64Utils.decode(str); 
 	    byte[] res= RSAEncrypt.decryptByPrivateKey(bytes, priKey);
         String restr=new String(res);  
@@ -62,6 +67,7 @@ public class HandlerRSAUtils {
 	
 	public static String decryptionLogin(String str) throws Exception
 	{
+		str=StringEscapeUtils.unescapeJava(str);
 		byte[] bytes=	Base64Utils.decode(str); 
 	    byte[] res= RSAEncrypt.decryptByPrivateKey(bytes, priKeyLogin);
         String restr=new String(res);  

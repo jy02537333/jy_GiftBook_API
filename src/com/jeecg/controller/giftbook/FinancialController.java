@@ -1,6 +1,6 @@
 package com.jeecg.controller.giftbook;
-import com.jeecg.entity.giftbook.GroupmemberEntity;
-import com.jeecg.service.giftbook.GroupmemberServiceI;
+import com.jeecg.entity.giftbook.FinancialEntity;
+import com.jeecg.service.giftbook.FinancialServiceI;
 import java.util.ArrayList;
 import java.util.List;
 import java.text.SimpleDateFormat;
@@ -65,22 +65,22 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 /**   
  * @Title: Controller  
- * @Description: 组成员
+ * @Description: 金融超市
  * @author onlineGenerator
- * @date 2016-11-04 13:55:00
+ * @date 2017-02-14 17:48:41
  * @version V1.0   
  *
  */
 @Controller
-@RequestMapping("/groupmemberController")
-public class GroupmemberController extends BaseController {
+@RequestMapping("/financialController")
+public class FinancialController extends BaseController {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger logger = Logger.getLogger(GroupmemberController.class);
+	private static final Logger logger = Logger.getLogger(FinancialController.class);
 
 	@Autowired
-	private GroupmemberServiceI groupmemberService;
+	private FinancialServiceI financialService;
 	@Autowired
 	private SystemService systemService;
 	@Autowired
@@ -89,13 +89,13 @@ public class GroupmemberController extends BaseController {
 
 
 	/**
-	 * 组成员列表 页面跳转
+	 * 金融超市列表 页面跳转
 	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "list")
 	public ModelAndView list(HttpServletRequest request) {
-		return new ModelAndView("com/jeecg/giftbook/groupmemberList");
+		return new ModelAndView("com/jeecg/giftbook/financialList");
 	}
 
 	/**
@@ -108,39 +108,38 @@ public class GroupmemberController extends BaseController {
 	 */
 
 	@RequestMapping(params = "datagrid")
-	public void datagrid(GroupmemberEntity groupmember,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		CriteriaQuery cq = new CriteriaQuery(GroupmemberEntity.class, dataGrid);
+	public void datagrid(FinancialEntity financial,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		CriteriaQuery cq = new CriteriaQuery(FinancialEntity.class, dataGrid);
 		//查询条件组装器
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, groupmember, request.getParameterMap());
+		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, financial, request.getParameterMap());
 		try{
 		//自定义追加查询条件
 		}catch (Exception e) {
 			throw new BusinessException(e.getMessage());
 		}
 		cq.add();
-		this.groupmemberService.getDataGridReturn(cq, true);
+		this.financialService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
 
 	/**
-	 * 删除组成员
+	 * 删除金融超市
 	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "doDel")
 	@ResponseBody
-	public AjaxJson doDel(GroupmemberEntity groupmember, HttpServletRequest request) {
+	public AjaxJson doDel(FinancialEntity financial, HttpServletRequest request) {
 		String message = null;
 		AjaxJson j = new AjaxJson();
-		groupmember = systemService.getEntity(GroupmemberEntity.class, groupmember.getId());
-		message = "组成员删除成功";
+		financial = systemService.getEntity(FinancialEntity.class, financial.getId());
+		message = "金融超市删除成功";
 		try{
-			groupmemberService.delete(groupmember);
-			
+			financialService.delete(financial);
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			e.printStackTrace();
-			message = "组成员删除失败";
+			message = "金融超市删除失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
@@ -148,7 +147,7 @@ public class GroupmemberController extends BaseController {
 	}
 	
 	/**
-	 * 批量删除组成员
+	 * 批量删除金融超市
 	 * 
 	 * @return
 	 */
@@ -157,18 +156,18 @@ public class GroupmemberController extends BaseController {
 	public AjaxJson doBatchDel(String ids,HttpServletRequest request){
 		String message = null;
 		AjaxJson j = new AjaxJson();
-		message = "组成员删除成功";
+		message = "金融超市删除成功";
 		try{
 			for(String id:ids.split(",")){
-				GroupmemberEntity groupmember = systemService.getEntity(GroupmemberEntity.class, 
+				FinancialEntity financial = systemService.getEntity(FinancialEntity.class, 
 				id
 				);
-				groupmemberService.delete(groupmember);
+				financialService.delete(financial);
 				systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
-			message = "组成员删除失败";
+			message = "金融超市删除失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
@@ -177,23 +176,23 @@ public class GroupmemberController extends BaseController {
 
 
 	/**
-	 * 添加组成员
+	 * 添加金融超市
 	 * 
 	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
-	public AjaxJson doAdd(GroupmemberEntity groupmember, HttpServletRequest request) {
+	public AjaxJson doAdd(FinancialEntity financial, HttpServletRequest request) {
 		String message = null;
 		AjaxJson j = new AjaxJson();
-		message = "组成员添加成功";
+		message = "金融超市添加成功";
 		try{
-			groupmemberService.save(groupmember);
+			financialService.save(financial);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			e.printStackTrace();
-			message = "组成员添加失败";
+			message = "金融超市添加失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
@@ -201,25 +200,25 @@ public class GroupmemberController extends BaseController {
 	}
 	
 	/**
-	 * 更新组成员
+	 * 更新金融超市
 	 * 
 	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
-	public AjaxJson doUpdate(GroupmemberEntity groupmember, HttpServletRequest request) {
+	public AjaxJson doUpdate(FinancialEntity financial, HttpServletRequest request) {
 		String message = null;
 		AjaxJson j = new AjaxJson();
-		message = "组成员更新成功";
-		GroupmemberEntity t = groupmemberService.get(GroupmemberEntity.class, groupmember.getId());
+		message = "金融超市更新成功";
+		FinancialEntity t = financialService.get(FinancialEntity.class, financial.getId());
 		try {
-			MyBeanUtils.copyBeanNotNull2Bean(groupmember, t);
-			groupmemberService.saveOrUpdate(t);
+			MyBeanUtils.copyBeanNotNull2Bean(financial, t);
+			financialService.saveOrUpdate(t);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		} catch (Exception e) {
 			e.printStackTrace();
-			message = "组成员更新失败";
+			message = "金融超市更新失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
@@ -228,30 +227,30 @@ public class GroupmemberController extends BaseController {
 	
 
 	/**
-	 * 组成员新增页面跳转
+	 * 金融超市新增页面跳转
 	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "goAdd")
-	public ModelAndView goAdd(GroupmemberEntity groupmember, HttpServletRequest req) {
-		if (StringUtil.isNotEmpty(groupmember.getId())) {
-			groupmember = groupmemberService.getEntity(GroupmemberEntity.class, groupmember.getId());
-			req.setAttribute("groupmemberPage", groupmember);
+	public ModelAndView goAdd(FinancialEntity financial, HttpServletRequest req) {
+		if (StringUtil.isNotEmpty(financial.getId())) {
+			financial = financialService.getEntity(FinancialEntity.class, financial.getId());
+			req.setAttribute("financialPage", financial);
 		}
-		return new ModelAndView("com/jeecg/giftbook/groupmember-add");
+		return new ModelAndView("com/jeecg/giftbook/financial-add");
 	}
 	/**
-	 * 组成员编辑页面跳转
+	 * 金融超市编辑页面跳转
 	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "goUpdate")
-	public ModelAndView goUpdate(GroupmemberEntity groupmember, HttpServletRequest req) {
-		if (StringUtil.isNotEmpty(groupmember.getId())) {
-			groupmember = groupmemberService.getEntity(GroupmemberEntity.class, groupmember.getId());
-			req.setAttribute("groupmemberPage", groupmember);
+	public ModelAndView goUpdate(FinancialEntity financial, HttpServletRequest req) {
+		if (StringUtil.isNotEmpty(financial.getId())) {
+			financial = financialService.getEntity(FinancialEntity.class, financial.getId());
+			req.setAttribute("financialPage", financial);
 		}
-		return new ModelAndView("com/jeecg/giftbook/groupmember-update");
+		return new ModelAndView("com/jeecg/giftbook/financial-update");
 	}
 	
 	/**
@@ -261,7 +260,7 @@ public class GroupmemberController extends BaseController {
 	 */
 	@RequestMapping(params = "upload")
 	public ModelAndView upload(HttpServletRequest req) {
-		req.setAttribute("controller_name","groupmemberController");
+		req.setAttribute("controller_name","financialController");
 		return new ModelAndView("common/upload/pub_excel_upload");
 	}
 	
@@ -272,16 +271,16 @@ public class GroupmemberController extends BaseController {
 	 * @param response
 	 */
 	@RequestMapping(params = "exportXls")
-	public String exportXls(GroupmemberEntity groupmember,HttpServletRequest request,HttpServletResponse response
+	public String exportXls(FinancialEntity financial,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		CriteriaQuery cq = new CriteriaQuery(GroupmemberEntity.class, dataGrid);
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, groupmember, request.getParameterMap());
-		List<GroupmemberEntity> groupmembers = this.groupmemberService.getListByCriteriaQuery(cq,false);
-		modelMap.put(NormalExcelConstants.FILE_NAME,"组成员");
-		modelMap.put(NormalExcelConstants.CLASS,GroupmemberEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("组成员列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+		CriteriaQuery cq = new CriteriaQuery(FinancialEntity.class, dataGrid);
+		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, financial, request.getParameterMap());
+		List<FinancialEntity> financials = this.financialService.getListByCriteriaQuery(cq,false);
+		modelMap.put(NormalExcelConstants.FILE_NAME,"金融超市");
+		modelMap.put(NormalExcelConstants.CLASS,FinancialEntity.class);
+		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("金融超市列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
 			"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,groupmembers);
+		modelMap.put(NormalExcelConstants.DATA_LIST,financials);
 		return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
 	/**
@@ -291,11 +290,11 @@ public class GroupmemberController extends BaseController {
 	 * @param response
 	 */
 	@RequestMapping(params = "exportXlsByT")
-	public String exportXlsByT(GroupmemberEntity groupmember,HttpServletRequest request,HttpServletResponse response
+	public String exportXlsByT(FinancialEntity financial,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-    	modelMap.put(NormalExcelConstants.FILE_NAME,"组成员");
-    	modelMap.put(NormalExcelConstants.CLASS,GroupmemberEntity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("组成员列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+    	modelMap.put(NormalExcelConstants.FILE_NAME,"金融超市");
+    	modelMap.put(NormalExcelConstants.CLASS,FinancialEntity.class);
+    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("金融超市列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
     	"导出信息"));
     	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
     	return NormalExcelConstants.JEECG_EXCEL_VIEW;
@@ -316,9 +315,9 @@ public class GroupmemberController extends BaseController {
 			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
-				List<GroupmemberEntity> listGroupmemberEntitys = ExcelImportUtil.importExcel(file.getInputStream(),GroupmemberEntity.class,params);
-				for (GroupmemberEntity groupmember : listGroupmemberEntitys) {
-					groupmemberService.save(groupmember);
+				List<FinancialEntity> listFinancialEntitys = ExcelImportUtil.importExcel(file.getInputStream(),FinancialEntity.class,params);
+				for (FinancialEntity financial : listFinancialEntitys) {
+					financialService.save(financial);
 				}
 				j.setMsg("文件导入成功！");
 			} catch (Exception e) {
@@ -337,15 +336,15 @@ public class GroupmemberController extends BaseController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
-	public List<GroupmemberEntity> list() {
-		List<GroupmemberEntity> listGroupmembers=groupmemberService.getList(GroupmemberEntity.class);
-		return listGroupmembers;
+	public List<FinancialEntity> list() {
+		List<FinancialEntity> listFinancials=financialService.getList(FinancialEntity.class);
+		return listFinancials;
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<?> get(@PathVariable("id") String id) {
-		GroupmemberEntity task = groupmemberService.get(GroupmemberEntity.class, id);
+		FinancialEntity task = financialService.get(FinancialEntity.class, id);
 		if (task == null) {
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
 		}
@@ -354,23 +353,23 @@ public class GroupmemberController extends BaseController {
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResponseEntity<?> create(@RequestBody GroupmemberEntity groupmember, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<?> create(@RequestBody FinancialEntity financial, UriComponentsBuilder uriBuilder) {
 		//调用JSR303 Bean Validator进行校验，如果出错返回含400错误码及json格式的错误信息.
-		Set<ConstraintViolation<GroupmemberEntity>> failures = validator.validate(groupmember);
+		Set<ConstraintViolation<FinancialEntity>> failures = validator.validate(financial);
 		if (!failures.isEmpty()) {
 			return new ResponseEntity(BeanValidators.extractPropertyAndMessage(failures), HttpStatus.BAD_REQUEST);
 		}
 
 		//保存
 		try{
-			groupmemberService.save(groupmember);
+			financialService.save(financial);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
 		}
 		//按照Restful风格约定，创建指向新任务的url, 也可以直接返回id或对象.
-		String id = groupmember.getId();
-		URI uri = uriBuilder.path("/rest/groupmemberController/" + id).build().toUri();
+		String id = financial.getId();
+		URI uri = uriBuilder.path("/rest/financialController/" + id).build().toUri();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(uri);
 
@@ -378,16 +377,16 @@ public class GroupmemberController extends BaseController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> update(@RequestBody GroupmemberEntity groupmember) {
+	public ResponseEntity<?> update(@RequestBody FinancialEntity financial) {
 		//调用JSR303 Bean Validator进行校验，如果出错返回含400错误码及json格式的错误信息.
-		Set<ConstraintViolation<GroupmemberEntity>> failures = validator.validate(groupmember);
+		Set<ConstraintViolation<FinancialEntity>> failures = validator.validate(financial);
 		if (!failures.isEmpty()) {
 			return new ResponseEntity(BeanValidators.extractPropertyAndMessage(failures), HttpStatus.BAD_REQUEST);
 		}
 
 		//保存
 		try{
-			groupmemberService.saveOrUpdate(groupmember);
+			financialService.saveOrUpdate(financial);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -400,6 +399,6 @@ public class GroupmemberController extends BaseController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable("id") String id) {
-		groupmemberService.deleteEntityById(GroupmemberEntity.class, id);
+		financialService.deleteEntityById(FinancialEntity.class, id);
 	}
 }

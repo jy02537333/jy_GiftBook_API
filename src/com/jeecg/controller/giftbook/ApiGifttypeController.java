@@ -194,7 +194,10 @@ public class ApiGifttypeController extends BaseController {
 			if(obj==null)
 				j.setResult(0);
 			else
+				{
 				j.setResult(1);
+				j.setObj(obj);
+				}
 		}catch(Exception e){
 			e.printStackTrace();
 			message = "礼金类型添加失败";
