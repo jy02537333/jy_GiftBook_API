@@ -44,7 +44,7 @@ public class DataGridColumn {
 	protected String editor;//高级查询用的编辑器
 
 	private String defaultVal = "";//列默认值
-
+	private String columnFilters = "";//设置列值的过滤方法
 	
 	public String getEditor() {
 		return editor;
@@ -298,6 +298,13 @@ public class DataGridColumn {
 		this.defaultVal = defaultVal;
 	}
 
-	
+	public String getColumnFilters() {
+		return columnFilters;
+	}
+
+	public void setColumnFilters(String columnFilters) {
+		this.columnFilters = columnFilters;
+	}
+
 	
 }

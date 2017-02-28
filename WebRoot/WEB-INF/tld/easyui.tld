@@ -374,6 +374,11 @@
    			<rtexprvalue>true</rtexprvalue>
    			<description>UI标签库列表默认查询条件</description>
   		</attribute>
+  		<attribute>
+   			<name>columnFilters</name>
+   			<rtexprvalue>true</rtexprvalue>
+   			<description>设置值的过滤器</description>
+  		</attribute>
 	</tag>
 	<tag>
 		<name>dgDelOpt</name>

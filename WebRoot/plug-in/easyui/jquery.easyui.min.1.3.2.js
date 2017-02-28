@@ -7857,6 +7857,7 @@ function _57a(){
 var _57b=opts.loader.call(_577,_579,function(data){
 setTimeout(function(){
 $(_577).datagrid("loaded");
+convertVal();
 },0);
 _4e5(_577,data);
 setTimeout(function(){
@@ -7865,11 +7866,13 @@ _562(_577);
 },function(){
 setTimeout(function(){
 $(_577).datagrid("loaded");
+convertVal();
 },0);
 opts.onLoadError.apply(_577,arguments);
 });
 if(_57b==false){
 $(_577).datagrid("loaded");
+convertVal();
 }
 };
 };

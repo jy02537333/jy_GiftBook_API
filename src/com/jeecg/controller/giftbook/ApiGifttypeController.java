@@ -21,6 +21,8 @@ import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.entity.AjaxJson;
 import org.jeecgframework.core.util.AjaxReturnTool;
 import org.jeecgframework.core.util.TokenVerifyTool;
+import org.jeecgframework.poi.excel.annotation.Excel;
+import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
 
@@ -30,8 +32,24 @@ import org.jeecgframework.core.util.MyBeanUtils;
 
 
 
+
+
+
+
+
+
+
+import com.jeecg.entity.giftbook.FinancialSupermarketEntity;
 import com.jeecg.entity.giftbook.GifttypeEntity;
+import com.jeecg.service.giftbook.FinancialSupermarketServiceI;
 import com.jeecg.service.giftbook.GifttypeServiceI;
+
+
+
+
+
+
+
 
 
 
@@ -44,6 +62,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.http.HttpStatus;
 import org.jeecgframework.core.beanvalidator.BeanValidators;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
@@ -74,6 +93,8 @@ public class ApiGifttypeController extends BaseController {
 
 	@Autowired
 	private GifttypeServiceI gifttypeService;
+	@Autowired
+	private FinancialSupermarketServiceI financialSupermarketService;
 	@Autowired
 	private SystemService systemService;
 	@Autowired
@@ -107,8 +128,56 @@ public class ApiGifttypeController extends BaseController {
 		cq.add();
 		this.gifttypeService.getDataGridReturn(cq, true);
 		return AjaxReturnTool.retJsonp(
-				AjaxReturnTool.hanlderPage(dataGrid), request);
+				AjaxReturnTool.hanlderPage(dataGrid), request,response);
 	}
+	
+	@RequestMapping(params = "datagrid2")
+	@ResponseBody
+	public Object datagrid2(GifttypeEntity gifttype,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		dataGrid.setField("id,dtid,typename,parentid,createDate,createBy,createName,updateDate,updateBy,updateName,");
+		CriteriaQuery cq = new CriteriaQuery(GifttypeEntity.class, dataGrid);
+		//查询条件组装器
+		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, gifttype, request.getParameterMap());
+		try{
+			cq.eq("userid", request.getParameter("userid"));
+			cq.eq("isDefault", request.getParameter("1"));
+		}catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+		cq.add();
+		this.gifttypeService.getDataGridReturn(cq, true);
+		return AjaxReturnTool.retJsonp(
+				AjaxReturnTool.hanlderPage(dataGrid), request,response);
+	}
+	
+	@RequestMapping(params = "getAll")
+	@ResponseBody
+	public Object getAll(FinancialSupermarketEntity gifttype,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		response.setHeader("Access-Control-Allow-Origin", "*"); //解决跨域访问报错 
+		response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE"); 
+		response.setHeader("Access-Control-Max-Age", "3600"); //设置过期时间 
+		response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, client_id, uuid, Authorization"); 
+		response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate"); // 支持HTTP 1.1. 
+		response.setHeader("Pragma", "no-cache"); // 支持HTTP 1.0. response.setHeader("Expires", "0"); 
+		dataGrid.setField(//"id,dtid,typename,parentid,createDate,createBy,createName,updateDate,updateBy,updateName,");
+		"id,thirdpartyname,thirdpartycode,thirdpartycode2,thirdpartyaddr,description,moneylimit,logourl,moneyinterest,createDate");
+		
+		CriteriaQuery cq = new CriteriaQuery(FinancialSupermarketEntity.class, dataGrid);
+		//查询条件组装器
+		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, gifttype, request.getParameterMap());
+		try{
+		//	cq.eq("userid", request.getParameter("userid"));
+			//cq.eq("isDefault", request.getParameter("1"));
+			cq.addOrder("createDate", SortDirection.asc);
+		}catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+		cq.add();
+		this.financialSupermarketService.getDataGridReturn(cq, true);
+		return AjaxReturnTool.retJsonp(
+				AjaxReturnTool.hanlderPage(dataGrid), request,response);
+	}
+	
 
 	/**
 	 * 删除礼金类型
@@ -117,7 +186,7 @@ public class ApiGifttypeController extends BaseController {
 	 */
 	@RequestMapping(params = "doDel")
 	@ResponseBody
-	public Object doDel(GifttypeEntity gifttype, HttpServletRequest request) {
+	public Object doDel(GifttypeEntity gifttype, HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 		{
 			return AjaxReturnTool.emptyKey();
@@ -137,7 +206,7 @@ public class ApiGifttypeController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-	    return AjaxReturnTool.retJsonp(j, request);
+	    return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	/**
@@ -147,7 +216,7 @@ public class ApiGifttypeController extends BaseController {
 	 */
 	@RequestMapping(params = "doBatchDel")
 	@ResponseBody
-	public Object doBatchDel(String ids,HttpServletRequest request){
+	public Object doBatchDel(String ids,HttpServletRequest request,HttpServletResponse response){
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		String message = null;
@@ -169,7 +238,7 @@ public class ApiGifttypeController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 
@@ -181,7 +250,7 @@ public class ApiGifttypeController extends BaseController {
 	 */
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
-	public Object doAdd(GifttypeEntity gifttype, HttpServletRequest request) {
+	public Object doAdd(GifttypeEntity gifttype, HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		gifttype.setCreateDate(new Date());
@@ -205,7 +274,7 @@ public class ApiGifttypeController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	/**
@@ -216,7 +285,7 @@ public class ApiGifttypeController extends BaseController {
 	 */
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
-	public Object doUpdate(GifttypeEntity gifttype, HttpServletRequest request) {
+	public Object doUpdate(GifttypeEntity gifttype, HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		String message = null;
@@ -235,7 +304,7 @@ public class ApiGifttypeController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 
@@ -244,7 +313,7 @@ public class ApiGifttypeController extends BaseController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public Object get(@PathVariable("id") String id,HttpServletRequest request) {
+	public Object get(@PathVariable("id") String id,HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		AjaxJson j=new AjaxJson();
@@ -256,13 +325,13 @@ public class ApiGifttypeController extends BaseController {
 			j.setObj(task);
 			j.setResult(1);
 		}
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Object create(@RequestBody GifttypeEntity gifttype, UriComponentsBuilder uriBuilder
-			,HttpServletRequest request) {
+			,HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		AjaxJson j=new AjaxJson();
@@ -282,7 +351,7 @@ public class ApiGifttypeController extends BaseController {
 		//按照Restful风格约定，创建指向新任务的url, 也可以直接返回id或对象.
 		String id = gifttype.getId();
 
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -307,7 +376,7 @@ public class ApiGifttypeController extends BaseController {
 	@RequestMapping(params = "delete",value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public Object delete(@PathVariable("id") String id
-			,HttpServletRequest request) {
+			,HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		AjaxJson json=new AjaxJson();
@@ -320,7 +389,15 @@ public class ApiGifttypeController extends BaseController {
 			json.setResult(3);
 			json.setMsg("删除发生异常！");
 		}
-		return AjaxReturnTool.retJsonp(json, request);
+		return AjaxReturnTool.retJsonp(json, request,response);
+	}
+	
+	public static void main(String[] args) {
+		Long l= System.currentTimeMillis(); //1488096621l;//1488094255
+		System.out.println(l);
+		Date date=new Date(1488098049000l);
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");//小写的mm表示的是分钟  
+		System.out.println(sdf.format(date));
 	}
 }
 

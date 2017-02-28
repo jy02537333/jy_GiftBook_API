@@ -101,7 +101,7 @@ public class ApiAllTypeCtrl extends BaseController {
 			j.setMsg("网络异常！");
 		}
 
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	@RequestMapping(params = "getGroupMember")
@@ -137,7 +137,7 @@ public class ApiAllTypeCtrl extends BaseController {
 			j.setMsg("网络异常！");
 		}
 
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 }

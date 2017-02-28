@@ -26,8 +26,16 @@ import org.jeecgframework.core.util.MyBeanUtils;
 
 
 
+
+
+
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import com.jeecg.entity.giftbook.GroupmemberEntity;
 import com.jeecg.service.giftbook.GroupmemberServiceI;
+
+
+
 
 
 
@@ -111,7 +119,7 @@ public class ApiGroupmemberController extends BaseController {
 		}
 		
 		return AjaxReturnTool.retJsonp(
-				AjaxReturnTool.hanlderPage(dataGrid), request);
+				AjaxReturnTool.hanlderPage(dataGrid), request,response);
 	}
 
 	/**
@@ -121,7 +129,7 @@ public class ApiGroupmemberController extends BaseController {
 	 */
 	@RequestMapping(params = "doDel")
 	@ResponseBody
-	public Object doDel(GroupmemberEntity groupmember, HttpServletRequest request) {
+	public Object doDel(GroupmemberEntity groupmember, HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 		{
 			return AjaxReturnTool.emptyKey();
@@ -141,7 +149,7 @@ public class ApiGroupmemberController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-	    return AjaxReturnTool.retJsonp(j, request);
+	    return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	/**
@@ -151,7 +159,7 @@ public class ApiGroupmemberController extends BaseController {
 	 */
 	@RequestMapping(params = "doBatchDel")
 	@ResponseBody
-	public Object doBatchDel(String ids,HttpServletRequest request){
+	public Object doBatchDel(String ids,HttpServletRequest request,HttpServletResponse response){
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		String message = null;
@@ -173,19 +181,19 @@ public class ApiGroupmemberController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 
 	/**
-	 * 添加礼金类型
+	 * 添加组成员
 	 * 
 	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
-	public Object doAdd(GroupmemberEntity groupmember, HttpServletRequest request) {
+	public Object doAdd(GroupmemberEntity groupmember, HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		groupmember.setCreateDate(new Date());
@@ -198,7 +206,11 @@ public class ApiGroupmemberController extends BaseController {
 			if(obj==null)
 				j.setResult(0);
 			else
+				{
 				j.setResult(1);
+				groupmember.setId((String)obj);
+				j.setObj(groupmember);
+				}
 		}catch(Exception e){
 			e.printStackTrace();
 			message = "礼金类型添加失败";
@@ -206,18 +218,54 @@ public class ApiGroupmemberController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
+	/**
+	 * 导入成员
+	 * 
+	 * @param ids
+	 * @return
+	 */
+	@RequestMapping(params = "importMember")
+	@ResponseBody
+	public Object importMember(String importJson,String groupId, HttpServletRequest request,HttpServletResponse response) {
+		if(TokenVerifyTool.verify(request))
+			return AjaxReturnTool.emptyKey();
+		String message = null;
+		AjaxJson j = new AjaxJson();
+		message = "成员添加成功";
+		try{
+			java.lang.reflect.Type type	=new TypeToken<List<GroupmemberEntity>>() { }.getType();
+			Gson gson=new Gson();
+			List<GroupmemberEntity> list=gson.fromJson(importJson, type);
+			for (GroupmemberEntity groupmemberEntity : list) {
+				groupmemberEntity.setCreateDate(new Date());
+				groupmemberEntity.setGourpid(groupId);
+				groupmemberService.save(groupmemberEntity);
+			}
+			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+			j.setResult(1);
+		}catch(Exception e){
+			e.printStackTrace();
+			message = "礼金类型添加失败";
+			j.setResult(3);
+			throw new BusinessException(e.getMessage());
+		}
+		j.setMsg(message);
+		return AjaxReturnTool.retJsonp(j, request,response);
+	}
+	
+	
 
 	/**
-	 * 更新礼金类型
+	 * 更新组成员
 	 * 
 	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
-	public Object doUpdate(GroupmemberEntity groupmember, HttpServletRequest request) {
+	public Object doUpdate(GroupmemberEntity groupmember, HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		String message = null;
@@ -236,7 +284,7 @@ public class ApiGroupmemberController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 
@@ -245,7 +293,7 @@ public class ApiGroupmemberController extends BaseController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public Object get(@PathVariable("id") String id,HttpServletRequest request) {
+	public Object get(@PathVariable("id") String id,HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		AjaxJson j=new AjaxJson();
@@ -257,13 +305,13 @@ public class ApiGroupmemberController extends BaseController {
 			j.setObj(task);
 			j.setResult(1);
 		}
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Object create(@RequestBody GroupmemberEntity groupmember, UriComponentsBuilder uriBuilder
-			,HttpServletRequest request) {
+			,HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		AjaxJson j=new AjaxJson();
@@ -283,7 +331,7 @@ public class ApiGroupmemberController extends BaseController {
 		//按照Restful风格约定，创建指向新任务的url, 也可以直接返回id或对象.
 		String id = groupmember.getId();
 
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -308,7 +356,7 @@ public class ApiGroupmemberController extends BaseController {
 	@RequestMapping(params = "delete",value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public Object delete(@PathVariable("id") String id
-			,HttpServletRequest request) {
+			,HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		AjaxJson json=new AjaxJson();
@@ -321,7 +369,7 @@ public class ApiGroupmemberController extends BaseController {
 			json.setResult(3);
 			json.setMsg("删除发生异常！");
 		}
-		return AjaxReturnTool.retJsonp(json, request);
+		return AjaxReturnTool.retJsonp(json, request,response);
 	}
 }
 

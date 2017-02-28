@@ -95,7 +95,7 @@ public class ApiLoginlogController extends BaseController {
 		cq.add();
 		this.loginlogService.getDataGridReturn(cq, true);
 		return AjaxReturnTool.retJsonp(
-				AjaxReturnTool.hanlderPage(dataGrid), request);
+				AjaxReturnTool.hanlderPage(dataGrid), request,response);
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class ApiLoginlogController extends BaseController {
 	 */
 	@RequestMapping(params = "doDel")
 	@ResponseBody
-	public Object doDel(LoginlogEntity loginlog, HttpServletRequest request) {
+	public Object doDel(LoginlogEntity loginlog, HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 		{
 			return AjaxReturnTool.emptyKey();
@@ -125,7 +125,7 @@ public class ApiLoginlogController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-	    return AjaxReturnTool.retJsonp(j, request);
+	    return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class ApiLoginlogController extends BaseController {
 	 */
 	@RequestMapping(params = "doBatchDel")
 	@ResponseBody
-	public Object doBatchDel(String ids,HttpServletRequest request){
+	public Object doBatchDel(String ids,HttpServletRequest request,HttpServletResponse response){
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		String message = null;
@@ -157,7 +157,7 @@ public class ApiLoginlogController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 
@@ -169,7 +169,7 @@ public class ApiLoginlogController extends BaseController {
 	 */
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
-	public Object doAdd(LoginlogEntity loginlog, HttpServletRequest request) {
+	public Object doAdd(LoginlogEntity loginlog, HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		String message = null;
@@ -189,7 +189,7 @@ public class ApiLoginlogController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	/**
@@ -200,7 +200,7 @@ public class ApiLoginlogController extends BaseController {
 	 */
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
-	public Object doUpdate(LoginlogEntity loginlog, HttpServletRequest request) {
+	public Object doUpdate(LoginlogEntity loginlog, HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		String message = null;
@@ -219,7 +219,7 @@ public class ApiLoginlogController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 
@@ -228,7 +228,7 @@ public class ApiLoginlogController extends BaseController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public Object get(@PathVariable("id") String id,HttpServletRequest request) {
+	public Object get(@PathVariable("id") String id,HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		AjaxJson j=new AjaxJson();
@@ -240,13 +240,13 @@ public class ApiLoginlogController extends BaseController {
 			j.setObj(task);
 			j.setResult(1);
 		}
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Object create(@RequestBody LoginlogEntity loginlog, UriComponentsBuilder uriBuilder
-			,HttpServletRequest request) {
+			,HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		AjaxJson j=new AjaxJson();
@@ -266,7 +266,7 @@ public class ApiLoginlogController extends BaseController {
 		//按照Restful风格约定，创建指向新任务的url, 也可以直接返回id或对象.
 		String id = loginlog.getId();
 
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -291,7 +291,7 @@ public class ApiLoginlogController extends BaseController {
 	@RequestMapping(params = "delete",value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public Object delete(@PathVariable("id") String id
-			,HttpServletRequest request) {
+			,HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		AjaxJson json=new AjaxJson();
@@ -304,7 +304,7 @@ public class ApiLoginlogController extends BaseController {
 			json.setResult(3);
 			json.setMsg("删除发生异常！");
 		}
-		return AjaxReturnTool.retJsonp(json, request);
+		return AjaxReturnTool.retJsonp(json, request,response);
 	}
 }
 

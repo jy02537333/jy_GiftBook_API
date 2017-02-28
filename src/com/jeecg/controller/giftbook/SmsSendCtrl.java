@@ -26,10 +26,20 @@ public class SmsSendCtrl extends BaseController {
    public static String appKey="23526742";
    public static String secret="1753883b8ed9ac1f8403b1e854e61010";
    public static String signStr="礼薄";
+   /**
+    * 验证码
+    */
    public static String registerMode="SMS_35765027";
-   public static String mode1="SMS_35765027";
-   public static String mode2="SMS_35765027";
-   public static String mode3="SMS_35765027";
+   /**
+    * 发送邀请
+    */
+   public static String sendInvitationId="SMS_49255107";
+   /**
+    *  发送验证码
+    * @param request
+    * @param response
+    * @return
+    */
 	@RequestMapping(params = "sendSmsCode")
 	@ResponseBody
 	public Object sendSmsCode(HttpServletRequest request,
@@ -55,7 +65,41 @@ public class SmsSendCtrl extends BaseController {
 			j.setMsg("网络异常！");
 		}
 
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
+	}
+	/**
+	 * 发送邀请
+	 * @param phone
+	 * @param invitationName
+	 * @return
+	 */
+	public int sendInvitationInfo(String phone,String invitationName,String invitationId)
+	{
+		
+		try {
+		TaobaoClient client = new DefaultTaobaoClient("http://gw.api.taobao.com/router/rest", appKey, secret);
+		AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
+		req.setExtend("register");
+		req.setSmsType("normal");
+		req.setSmsFreeSignName(signStr);
+		int code=getCode();
+		req.setSmsParamString("{\"send_name\":\""+invitationName+"\",\"invitation_id\":\""+invitationId+"\"}");
+		req.setRecNum(phone);
+		req.setSmsTemplateCode(sendInvitationId);
+		AlibabaAliqinFcSmsNumSendResponse rsp;
+			rsp = client.execute(req);
+			if(rsp.getErrorCode()==null||rsp.getErrorCode().equals("0"))
+			{
+				return code ;
+			}
+		} catch (ApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return 0;
 	}
 	public int sendCode(String phone)
 	{
@@ -120,7 +164,7 @@ public class SmsSendCtrl extends BaseController {
 			j.setMsg("网络异常！");
 		}
 
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 	public static void main(String[] args) {
 		SmsSendCtrl s=new SmsSendCtrl();

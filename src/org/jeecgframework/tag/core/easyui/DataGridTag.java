@@ -251,13 +251,16 @@ public class DataGridTag extends TagSupport {
 	/**
 	 * 设置自定义函数操作URL
 	 */
-	public void setFunUrl(String title, String exp, String funname,String operationCode, String urlStyle) {
+	public void setFunUrl(String title, String exp, String funname,String operationCode, String urlStyle
+			//,String columnFilters
+			) {
 		DataGridUrl dataGridUrl = new DataGridUrl();
 		dataGridUrl.setTitle(title);
 		dataGridUrl.setType(OptTypeDirection.Fun);
 		dataGridUrl.setExp(exp);
 		dataGridUrl.setFunname(funname);
 		dataGridUrl.setUrlStyle(urlStyle);
+		//dataGridUrl.setColumnFilters(columnFilters); 
 		installOperationCode(dataGridUrl, operationCode,urlList);
 		
 	}
@@ -265,7 +268,9 @@ public class DataGridTag extends TagSupport {
 	/**
 	 * 设置自定义函数操作URL
 	 */
-	public void setOpenUrl(String url, String title, String width, String height, String exp,String operationCode, String openModel, String urlStyle) {
+	public void setOpenUrl(String url, String title, String width, String height, String exp,String operationCode, String openModel, String urlStyle
+			//,String columnFilters
+			) {
 		DataGridUrl dataGridUrl = new DataGridUrl();
 		dataGridUrl.setTitle(title);
 		dataGridUrl.setUrl(url);
@@ -274,6 +279,7 @@ public class DataGridTag extends TagSupport {
 		dataGridUrl.setType(OptTypeDirection.valueOf(openModel));
 		dataGridUrl.setExp(exp);
 		dataGridUrl.setUrlStyle(urlStyle);
+		//dataGridUrl.setColumnFilters(columnFilters);
 		installOperationCode(dataGridUrl, operationCode,urlList);
 		
 	}
@@ -294,7 +300,8 @@ public class DataGridTag extends TagSupport {
 			boolean query, String url, String funname, 
 			String arg,String queryMode, String dictionary,boolean popup,
 			boolean frozenColumn,String extend,
-			String style,String downloadName,boolean isAuto,String extendParams,String editor,String defaultVal) {
+			String style,String downloadName,boolean isAuto,String extendParams,String editor,String defaultVal
+			,String columnFilters) {
 		DataGridColumn dataGridColumn = new DataGridColumn();
 		dataGridColumn.setAlign(align);
 		dataGridColumn.setCheckbox(checkbox);
@@ -330,7 +337,7 @@ public class DataGridTag extends TagSupport {
 		dataGridColumn.setEditor(editor);
 
 		dataGridColumn.setDefaultVal(defaultVal);
-
+		dataGridColumn.setColumnFilters(columnFilters);
 		columnList.add(dataGridColumn);
 
 		Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
@@ -923,7 +930,7 @@ public class DataGridTag extends TagSupport {
 			sb.append("</form></div>");
 		}
 		if(toolBarList.size()==0 && !hasQueryColum(columnList)){
-			sb.append("<div style=\"height:0px;\" >");
+			sb.append("<div  style=\"height:0px;\" >");
 		}else{
 			sb.append("<div style=\"height:30px;\" class=\"datagrid-toolbar\">");
 		}
@@ -1282,12 +1289,17 @@ public class DataGridTag extends TagSupport {
 	                    String[] tld = column.getImageSize().split(",");
 	                    sb.append(",formatter:function(value,rec,index){");
 	                    sb.append(" return '<img width=\"" + tld[0]
-	                                    + "\" height=\"" + tld[1]
-	                                    + "\" border=\"0\" src=\"'+value+'\"/>';}");
+	                                    + "\" height=\"" + tld[1]+"\"");
+//	                    if(column.getColumnFilters()!=null&&column.getColumnFilters().trim().length()>0)
+//	                    		  sb.append( "onload=\""+column.getColumnFilters()+"\"  ");
+	                              sb.append( " border=\"0\" src=\"'+value+'\"/>';}");
 	                    tld = null;
 					}else{
 						sb.append(",formatter:function(value,rec,index){");
-						sb.append(" return '<img border=\"0\" src=\"'+value+'\"/>';}");
+						sb.append(" return '<img border=\"0\"" );
+//								if(column.getColumnFilters()!=null&&column.getColumnFilters().trim().length()>0)
+//		                    		  sb.append( "onload=\""+column.getColumnFilters()+"\"  ");
+								sb.append(" src=\"'+value+'\"/>';}");
 					}
 				} else if(column.getDownloadName() != null){
 	            	sb.append(",formatter:function(value,rec,index){");
@@ -1823,9 +1835,9 @@ public class DataGridTag extends TagSupport {
 			sb.append("</div>");
 		}
 		if(toolBarList.size()==0 && !hasQueryColum(columnList)){
-			sb.append("<div style=\"height:0px;\" >");
+			sb.append("<div style=\"height:0px;\" x='1' >");
 		}else{
-			sb.append("<div style=\"height:30px;\" class=\"datagrid-toolbar\">");
+			sb.append("<div style=\"height:30px;\" class=\"datagrid-toolbar\" x='1' >");
 		}
 		sb.append("<span style=\"float:left;\" >");
 		if(toolBarList.size()>0)

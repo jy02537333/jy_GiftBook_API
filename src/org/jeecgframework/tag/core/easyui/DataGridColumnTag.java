@@ -56,7 +56,7 @@ public class DataGridColumnTag extends TagSupport {
 	protected String editor;//高级查询用的编辑器
 
 	private String defaultVal = "";//列默认值
-
+	private String columnFilters= "";// 设置列值的过滤方法
 	public String getEditor() {
 		return editor;
 	}
@@ -69,7 +69,7 @@ public class DataGridColumnTag extends TagSupport {
 		
 		Tag t = findAncestorWithClass(this, DataGridTag.class);
 		DataGridTag parent = (DataGridTag) t;
-		parent.setColumn(title,field,width,showLen,rowspan,colspan,align,sortable,checkbox,formatter,formatterjs,hidden,replace,treefield,image,imageSize,query,url,funname,arg,queryMode, dictionary,popup,frozenColumn,extend,style,downloadName,autocomplete,extendParams,editor,defaultVal);
+		parent.setColumn(title,field,width,showLen,rowspan,colspan,align,sortable,checkbox,formatter,formatterjs,hidden,replace,treefield,image,imageSize,query,url,funname,arg,queryMode, dictionary,popup,frozenColumn,extend,style,downloadName,autocomplete,extendParams,editor,defaultVal,columnFilters);
 		return EVAL_PAGE;
 	}
 	
@@ -229,6 +229,12 @@ public class DataGridColumnTag extends TagSupport {
 		this.defaultVal = defaultVal;
 	}
 	
-	
+	public String getColumnFilters() {
+		return columnFilters;
+	}
+
+	public void setColumnFilters(String columnFilters) {
+		this.columnFilters = columnFilters;
+	}
 	
 }

@@ -40,6 +40,9 @@ public class MembergiftmoneyEntity implements java.io.Serializable {
 	/**支出类型名称*/
 	@Excel(name="支出类型名称")
 	private java.lang.String expendituretypename;
+	/**相关请帖*/
+	@Excel(name="相关请帖")
+	private java.lang.String correlativeinvitation;
 	/**状态(0=删除，1正常)*/
 	@Excel(name="状态(0=删除，1正常)")
 	private java.lang.Integer state;
@@ -89,6 +92,24 @@ public class MembergiftmoneyEntity implements java.io.Serializable {
 	public java.lang.String getGourpmemberid(){
 		return this.gourpmemberid;
 	}
+	
+	/**
+	 *方法: 相关请帖
+	 *@param: 相关请帖
+	 */
+	public void setCorrelativeinvitation(java.lang.String correlativeinvitation){
+		this.correlativeinvitation = correlativeinvitation;
+	}
+	/**
+	 *方法: 相关请帖
+	 *@return: 相关请帖
+	 */
+	@Column(name ="CORRELATIVEINVITATION",nullable=true,length=32)
+	public java.lang.String getCorrelativeinvitation(){
+		return this.correlativeinvitation;
+	}
+	
+	
 
 	/**
 	 *方法: 设置java.lang.String

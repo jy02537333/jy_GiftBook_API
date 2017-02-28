@@ -18,8 +18,11 @@ import org.jeecgframework.core.entity.AjaxJson;
 import org.jeecgframework.core.util.AjaxReturnTool;
 import org.jeecgframework.core.util.TokenVerifyTool;
 import org.jeecgframework.poi.excel.annotation.Excel;
+import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
+
+
 
 
 
@@ -31,6 +34,8 @@ import com.jeecg.service.giftbook.MembergiftmoneyServiceI;
 
 
 
+
+import com.thoughtworks.xstream.mapper.Mapper.Null;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -89,29 +94,47 @@ public class ApiMembergiftmoneyController extends BaseController {
 	public Object datagrid(MembergiftmoneyEntity membergiftmoney,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
-		dataGrid.setField("id,gourpmemberid,groupmember,isexpenditure,money,expendituretype,expendituretypename");
+		dataGrid.setField("id,gourpmemberid,groupmember,isexpenditure,money,expendituretype,expendituretypename,correlativeinvitation");
 		CriteriaQuery cq = new CriteriaQuery(MembergiftmoneyEntity.class, dataGrid);
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, membergiftmoney, request.getParameterMap());
 		try{
 			//自定义追加查询条件
+			String correlativeinvitatioStr=	membergiftmoney.getCorrelativeinvitation();
+			if(correlativeinvitatioStr!=null)
+			{
+				cq.eq("correlativeinvitation", correlativeinvitatioStr);
+			}
+			Integer isexpenditure=	membergiftmoney.getIsexpenditure();
+			if(isexpenditure!=null)
+			{
+				cq.eq("isexpenditure", isexpenditure);
+			}
+			String expendituretype=	membergiftmoney.getExpendituretype();
+			if(expendituretype!=null)
+			{
+				cq.eq("expendituretype", expendituretype);
+			}
+			 
+			cq.addOrder("createDate", SortDirection.desc);
 		}catch (Exception e) {
 			throw new BusinessException(e.getMessage());
 		} 
+		
 		cq.add();
 		this.membergiftmoneyService.getDataGridReturn(cq, true);
 		return AjaxReturnTool.retJsonp(
-				AjaxReturnTool.hanlderPage(dataGrid), request);
+				AjaxReturnTool.hanlderPage(dataGrid), request,response);
 	}
 
 	/**
-	 * 删除礼金类型
+	 * 删除礼金记录
 	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "doDel")
 	@ResponseBody
-	public Object doDel(MembergiftmoneyEntity membergiftmoney, HttpServletRequest request) {
+	public Object doDel(MembergiftmoneyEntity membergiftmoney, HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 		{
 			return AjaxReturnTool.emptyKey();
@@ -131,22 +154,22 @@ public class ApiMembergiftmoneyController extends BaseController {
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-	    return AjaxReturnTool.retJsonp(j, request);
+	    return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	/**
-	 * 批量删除礼金类型
+	 * 批量删除礼金记录
 	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "doBatchDel")
 	@ResponseBody
-	public Object doBatchDel(String ids,HttpServletRequest request){
+	public Object doBatchDel(String ids,HttpServletRequest request,HttpServletResponse response){
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		String message = null;
 		AjaxJson j = new AjaxJson();
-		message = "礼金类型删除成功";
+		message = "礼金记录删除成功";
 		try{
 			for(String id:ids.split(",")){
 				MembergiftmoneyEntity membergiftmoney = systemService.getEntity(MembergiftmoneyEntity.class, 
@@ -158,30 +181,30 @@ public class ApiMembergiftmoneyController extends BaseController {
 			j.setResult(1);
 		}catch(Exception e){
 			e.printStackTrace();
-			message = "礼金类型删除失败";
+			message = "礼金记录删除失败";
 			j.setResult(3);
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 
 	/**
-	 * 添加礼金类型
+	 * 添加礼金记录
 	 * 
 	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
-	public Object doAdd(MembergiftmoneyEntity membergiftmoney, HttpServletRequest request) {
+	public Object doAdd(MembergiftmoneyEntity membergiftmoney, HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		membergiftmoney.setCreateDate(new Date());
 		String message = null;
 		AjaxJson j = new AjaxJson();
-		message = "礼金类型添加成功";
+		message = "礼金记录添加成功";
 		try{
 		Serializable  obj=	membergiftmoneyService.save(membergiftmoney);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
@@ -191,29 +214,29 @@ public class ApiMembergiftmoneyController extends BaseController {
 				j.setResult(1);
 		}catch(Exception e){
 			e.printStackTrace();
-			message = "礼金类型添加失败";
+			message = "礼金记录添加失败";
 			j.setResult(3);
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	/**
-	 * 更新礼金类型
+	 * 更新礼金记录
 	 * 
 	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")
 	@ResponseBody
-	public Object doUpdate(MembergiftmoneyEntity membergiftmoney, HttpServletRequest request) {
+	public Object doUpdate(MembergiftmoneyEntity membergiftmoney, HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		membergiftmoney.setUpdateDate(new Date());
 		String message = null;
 		AjaxJson j = new AjaxJson();
-		message = "礼金类型更新成功";
+		message = "礼金记录更新成功";
 		MembergiftmoneyEntity t = membergiftmoneyService.get(MembergiftmoneyEntity.class, membergiftmoney.getId());
 		try {
 			MyBeanUtils.copyBeanNotNull2Bean(membergiftmoney, t);
@@ -222,12 +245,12 @@ public class ApiMembergiftmoneyController extends BaseController {
 			j.setResult(1);
 		} catch (Exception e) {
 			e.printStackTrace();
-			message = "礼金类型更新失败";
+			message = "礼金记录更新失败";
 			j.setResult(3);
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 
@@ -236,7 +259,7 @@ public class ApiMembergiftmoneyController extends BaseController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public Object get(@PathVariable("id") String id,HttpServletRequest request) {
+	public Object get(@PathVariable("id") String id,HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		AjaxJson j=new AjaxJson();
@@ -248,13 +271,13 @@ public class ApiMembergiftmoneyController extends BaseController {
 			j.setObj(task);
 			j.setResult(1);
 		}
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Object create(@RequestBody MembergiftmoneyEntity membergiftmoney, UriComponentsBuilder uriBuilder
-			,HttpServletRequest request) {
+			,HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		AjaxJson j=new AjaxJson();
@@ -274,7 +297,7 @@ public class ApiMembergiftmoneyController extends BaseController {
 		//按照Restful风格约定，创建指向新任务的url, 也可以直接返回id或对象.
 		String id = membergiftmoney.getId();
 
-		return AjaxReturnTool.retJsonp(j, request);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -299,7 +322,7 @@ public class ApiMembergiftmoneyController extends BaseController {
 	@RequestMapping(params = "delete",value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public Object delete(@PathVariable("id") String id
-			,HttpServletRequest request) {
+			,HttpServletRequest request,HttpServletResponse response) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		AjaxJson json=new AjaxJson();
@@ -312,7 +335,7 @@ public class ApiMembergiftmoneyController extends BaseController {
 			json.setResult(3);
 			json.setMsg("删除发生异常！");
 		}
-		return AjaxReturnTool.retJsonp(json, request);
+		return AjaxReturnTool.retJsonp(json, request,response);
 	}
 }
 
