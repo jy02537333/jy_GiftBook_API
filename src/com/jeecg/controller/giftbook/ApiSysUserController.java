@@ -1,4 +1,4 @@
-﻿package com.jeecg.controller.giftbook;
+package com.jeecg.controller.giftbook;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
