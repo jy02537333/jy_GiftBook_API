@@ -122,16 +122,14 @@ public interface IGenericBaseCommonDao {
 	 * 通过hql 查询语句查找对象
 	 * 
 	 * @param <T>
-	 * @param query
 	 * @return
 	 */
 	public <T> List<T> findByQueryString(String hql);
-
+	public <T> List<T> findHQLQuery(String hql,Map<String,Object> kv, Integer page, Integer count);
 	/**
 	 * 通过hql查询唯一对象
 	 * 
 	 * @param <T>
-	 * @param query
 	 * @return
 	 */
 	public <T> T singleResult(String hql);
@@ -139,7 +137,6 @@ public interface IGenericBaseCommonDao {
 	/**
 	 * 根据sql更新
 	 * 
-	 * @param query
 	 * @return
 	 */
 	public int updateBySqlString(String sql);
@@ -157,7 +154,6 @@ public interface IGenericBaseCommonDao {
 	 * 通过属性称获取实体带排序
 	 * 
 	 * @param <T>
-	 * @param clas
 	 * @return
 	 */
 	public <T> List<T> findByPropertyisOrder(Class<T> entityClass,
@@ -187,8 +183,6 @@ public interface IGenericBaseCommonDao {
 	 * 
 	 * hqlQuery方式分页
 	 * 
-	 * @param cq
-	 * @param isOffset
 	 * @return
 	 */
 	public PageList getPageList(final HqlQuery hqlQuery,
@@ -198,8 +192,6 @@ public interface IGenericBaseCommonDao {
 	 * 
 	 * sqlQuery方式分页
 	 * 
-	 * @param cq
-	 * @param isOffset
 	 * @return
 	 */
 	public PageList getPageListBySql(final HqlQuery hqlQuery,
@@ -213,7 +205,6 @@ public interface IGenericBaseCommonDao {
 	/**
 	 * 通过hql 查询语句查找HashMap对象
 	 * 
-	 * @param <T>
 	 * @param query
 	 * @return
 	 */
@@ -281,9 +272,6 @@ public interface IGenericBaseCommonDao {
 	/**
 	 * 使用指定的检索标准检索数据并分页返回数据-采用预处理方式
 	 * 
-	 * @param criteria
-	 * @param firstResult
-	 * @param maxResults
 	 * @return
 	 * @throws DataAccessException
 	 */
@@ -305,7 +293,6 @@ public interface IGenericBaseCommonDao {
 	 * 通过hql 查询语句查找对象
 	 * 
 	 * @param <T>
-	 * @param query
 	 * @return
 	 */
 	public <T> List<T> findHql(String hql, Object... param);
@@ -325,7 +312,6 @@ public interface IGenericBaseCommonDao {
 
 	/**
 	 * 执行存储过程
-	 * @param execute
 	 */
 	public <T> List<T> executeProcedure(String procedureSql,Object... params);
 

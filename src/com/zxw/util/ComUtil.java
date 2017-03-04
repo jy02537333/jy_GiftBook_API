@@ -15,6 +15,12 @@ public class ComUtil {
 			return "";
 		return obj.toString();
 	}
+	public static String clearSqlParam(String sqlParam)
+	{
+		if(sqlParam!=null)
+			sqlParam=sqlParam.replaceAll(">","").replaceAll("<","").replaceAll("=","");
+		return sqlParam;
+	}
 	
 	public static String getUUID32()
 	{

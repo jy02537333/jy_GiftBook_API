@@ -54,7 +54,6 @@ public class AjaxReturnTool {
 	
 	/**
 	 * 处理jsonp请求，如果没有jsonp请求正常返回
-	 * @param pd
 	 * @param ajaxJson
 	 * @return
 	 */
@@ -74,6 +73,7 @@ public class AjaxReturnTool {
 				obj.put("result", ajaxJson.getResult());
 				obj.put("msg", ajaxJson.getMsg());
 				obj.put("data", ajaxJson.getData());
+				obj.put("sumCount", ajaxJson.getSumCount());
 				try {
 				//	PrintWriter out =
 //((ServletWebRequest) RequestContextHolder.getRequestAttributes()).getResponse().getWriter();

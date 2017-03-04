@@ -43,9 +43,15 @@ public class MembergiftmoneyEntity implements java.io.Serializable {
 	/**相关请帖*/
 	@Excel(name="相关请帖")
 	private java.lang.String correlativeinvitation;
+	/**支出时间*/
+	@Excel(name="支出时间")
+	private java.util.Date expendituredate;
+
 	/**状态(0=删除，1正常)*/
 	@Excel(name="状态(0=删除，1正常)")
 	private java.lang.Integer state;
+	@Excel(name="备注")
+	private java.lang.String remark;
 	/**创建时间*/
 	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private java.util.Date createDate;
@@ -198,6 +204,26 @@ public class MembergiftmoneyEntity implements java.io.Serializable {
 	public void setExpendituretypename(java.lang.String expendituretypename){
 		this.expendituretypename = expendituretypename;
 	}
+
+
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  支出时间
+	 */
+	@Column(name ="EXPENDITUREDATE",nullable=true,length=100)
+	public java.util.Date getExpendituredate(){
+		return this.expendituredate;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  支出时间
+	 */
+	public void setExpendituredate(java.util.Date expendituredate){
+		this.expendituredate = expendituredate;
+	}
+
+
 	/**
 	 *方法: 取得java.lang.Integer
 	 *@return: java.lang.Integer  状态(0=删除，1正常)
@@ -213,6 +239,19 @@ public class MembergiftmoneyEntity implements java.io.Serializable {
 	 */
 	public void setState(java.lang.Integer state){
 		this.state = state;
+	}
+
+	@Column(name ="REMARK",nullable=true,length=255)
+	public java.lang.String getRemark(){
+		return this.remark;
+	}
+
+	/**
+	 *方法: 设置java.lang.Integer
+	 *@param: java.lang.Integer  状态(0=删除，1正常)
+	 */
+	public void setRemark(java.lang.String remark){
+		this.remark = remark;
 	}
 	/**
 	 *方法: 取得java.util.Date

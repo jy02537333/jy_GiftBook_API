@@ -47,7 +47,6 @@ public interface CommonService {
 	 * 根据实体名称和主键获取实体
 	 * 
 	 * @param <T>
-	 * @param entityName
 	 * @param id
 	 * @return
 	 */
@@ -93,8 +92,6 @@ public interface CommonService {
 	/**
 	 * 删除实体主键删除
 	 * 
-	 * @param <T>
-	 * @param entities
 	 */
 	public <T> void deleteEntityById(Class entityName, Serializable id);
 
@@ -118,15 +115,18 @@ public interface CommonService {
 	 * 通过hql 查询语句查找对象
 	 * 
 	 * @param <T>
-	 * @param query
 	 * @return
 	 */
 	public <T> List<T> findByQueryString(String hql);
-
+	/**
+	 * 通过hql 查询语句查找对象
+	 * @param <T>
+	 * @return
+	 */
+	public <T> List<T> findHQLQuery(String hql,Map<String,Object> kv,Integer page,Integer count);
 	/**
 	 * 根据sql更新
 	 * 
-	 * @param query
 	 * @return
 	 */
 	public int updateBySqlString(String sql);
@@ -144,7 +144,6 @@ public interface CommonService {
 	 * 通过属性称获取实体带排序
 	 * 
 	 * @param <T>
-	 * @param clas
 	 * @return
 	 */
 	public <T> List<T> findByPropertyisOrder(Class<T> entityClass,
@@ -188,8 +187,6 @@ public interface CommonService {
 	 * 
 	 * hqlQuery方式分页
 	 * 
-	 * @param cq
-	 * @param isOffset
 	 * @return
 	 */
 	public PageList getPageList(final HqlQuery hqlQuery,
@@ -199,8 +196,6 @@ public interface CommonService {
 	 * 
 	 * sqlQuery方式分页
 	 * 
-	 * @param cq
-	 * @param isOffset
 	 * @return
 	 */
 	public PageList getPageListBySql(final HqlQuery hqlQuery,
@@ -223,8 +218,6 @@ public interface CommonService {
 
 	/**
 	 * 文件上传
-	 * 
-	 * @param request
 	 */
 	public <T> T uploadFile(UploadFile uploadFile);
 
@@ -232,15 +225,12 @@ public interface CommonService {
 
 	/**
 	 * 生成XML文件
-	 * 
-	 * @param fileName
 	 *            XML全路径
 	 */
 	public HttpServletResponse createXml(ImportFile importFile);
 
 	/**
 	 * 解析XML文件
-	 * 
 	 * @param fileName
 	 *            XML全路径
 	 */
@@ -250,7 +240,6 @@ public interface CommonService {
 
 	/**
 	 * 根据模型生成JSON
-	 * 
 	 * @param all 全部对象
 	 * @param in 已拥有的对象
 	 * @param recursive 是否递归加载所有子节点
@@ -317,10 +306,9 @@ public interface CommonService {
 
 	/**
 	 * 使用指定的检索标准检索数据并分页返回数据-采用预处理方式
-	 * 
-	 * @param criteria
-	 * @param firstResult
-	 * @param maxResults
+	 * @param sql
+	 * @param page
+	 * @param rows
 	 * @return
 	 * @throws DataAccessException
 	 */
@@ -342,7 +330,7 @@ public interface CommonService {
 	 * 通过hql 查询语句查找对象
 	 * 
 	 * @param <T>
-	 * @param query
+	 * @param hql
 	 * @return
 	 */
 	public <T> List<T> findHql(String hql, Object... param);
@@ -354,7 +342,7 @@ public interface CommonService {
 
 	/**
 	 * 执行存储过程
-	 * @param executeSql
+	 * @param procedureSql
 	 * @param params
 	 * @return
 	 */

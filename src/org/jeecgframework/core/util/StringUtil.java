@@ -352,7 +352,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean isEmpty(String s) {
-		if (s != null && !s.equals("")) {
+		if (s != null && !s.trim().equals("")) {
 			return false;
 		}
 		return true;

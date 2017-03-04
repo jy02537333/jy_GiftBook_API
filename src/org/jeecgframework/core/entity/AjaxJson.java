@@ -17,6 +17,7 @@ public class AjaxJson {
 	 * 相关参数协议：result: 0	请求失败 ; 1	请求成功; 2	返回空值; 3	请求协议参数不完整  ; 4  用户名或密码错误; 5  FKEY验证失败
 	*/
 	private int result=2;
+	private double sumCount=0;
 	private String apiname;
 	private Object data;
 	private String msg = "操作成功";// 提示信息
@@ -68,7 +69,12 @@ public class AjaxJson {
 	public void setCallback(String callback) {
 		this.callback = callback;
 	}
-//	public String getJsonStr(){
+	public double getSumCount() { return sumCount;
+	}
+	public void setSumCount(double sumCount) {
+		this.sumCount = sumCount;
+	}
+	//	public String getJsonStr(){
 //		JSONObject obj = new JSONObject();
 //		obj.put("result", result);
 //		obj.put("apiname", apiname);

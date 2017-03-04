@@ -53,7 +53,6 @@ public class MembergiftmoneyServiceImpl extends CommonServiceImpl implements Mem
  	}
  	/**
 	 * 删除操作增强业务
-	 * @param id
 	 * @return
 	 */
 	private void doDelBus(MembergiftmoneyEntity t) throws Exception{

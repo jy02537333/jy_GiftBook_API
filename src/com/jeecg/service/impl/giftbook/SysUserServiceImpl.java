@@ -53,7 +53,6 @@ public class SysUserServiceImpl extends CommonServiceImpl implements SysUserServ
  	}
  	/**
 	 * 删除操作增强业务
-	 * @param id
 	 * @return
 	 */
 	private void doDelBus(SysUserEntity t) throws Exception{

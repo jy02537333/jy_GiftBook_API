@@ -12,6 +12,7 @@
    <t:dgCol title="支出类型编号"  field="expendituretype"    queryMode="group"  width="120"></t:dgCol>
    <t:dgCol title="支出类型名称"  field="expendituretypename"    queryMode="group"  width="120"></t:dgCol>
    <t:dgCol title="状态(0=删除，1正常)"  field="state"    queryMode="group"  width="120"></t:dgCol>
+   <t:dgCol title="支出时间"  field="expendituredate" formatter="yyyy-MM-dd"   queryMode="group"  width="120"></t:dgCol>
    <t:dgCol title="创建时间"  field="createDate" formatter="yyyy-MM-dd"   queryMode="group"  width="120"></t:dgCol>
    <t:dgCol title="创建人编号"  field="createBy"    queryMode="group"  width="120"></t:dgCol>
    <t:dgCol title="创建人姓名"  field="createName"    queryMode="group"  width="120"></t:dgCol>

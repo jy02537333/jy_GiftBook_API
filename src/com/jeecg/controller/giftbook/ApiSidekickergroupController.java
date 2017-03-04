@@ -80,7 +80,7 @@ public class ApiSidekickergroupController extends BaseController {
 			DataGrid dataGrid) {
 		if (TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
-		dataGrid.setField("id,userid,groupmembersnum,groupname,state,createDate,createBy,createName,updateDate,updateBy,updateName");
+		dataGrid.setField("id,userid,groupmembersnum,groupname,state,createDate,createBy,createName");
 		CriteriaQuery cq = new CriteriaQuery(SidekickergroupEntity.class,
 				dataGrid);
 		// 查询条件组装器

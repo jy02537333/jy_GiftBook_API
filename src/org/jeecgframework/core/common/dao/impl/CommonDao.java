@@ -68,7 +68,6 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 
 		return null;
 	}
-	
 	/**
 	 * admin账户初始化
 	 */
@@ -85,8 +84,6 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 		}
 		
 	}
-	
-
 	public String getUserRole(TSUser user) {
 		String userRole = "";
 		List<TSRoleUser> sRoleUser = findByProperty(TSRoleUser.class, "TSUser.id", user.getId());
@@ -95,12 +92,8 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 		}
 		return userRole;
 	}
-
-
 	/**
 	 * 文件上传
-	 * 
-	 * @param request
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -251,19 +244,14 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 		}
 		return object;
 	}
-    
 	private String toHexString(int index){
         String hexString = Integer.toHexString(index);   
         // 1个byte变成16进制的，只需要2位就可以表示了，取后面两位，去掉前面的符号填充   
         hexString = hexString.substring(hexString.length() -2);  
         return hexString;
 	}
-	
-	
 	/**
 	 * 文件下载或预览
-	 * 
-	 * @param request
 	 * @throws Exception
 	 * @throws Exception
 	 */
@@ -331,11 +319,9 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 		}
 		return response;
 	}
-
 	public Map<Object, Object> getDataSourceMap(Template template) {
 		return DataSourceMap.getDataSourceMap();
 	}
-
 	/**
 	 * 生成XML importFile 导出xml工具类
 	 */
@@ -385,7 +371,6 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 		}
 		return response;
 	}
-
 	/**
 	 * 解析XML文件将数据导入数据库中
 	 */
@@ -447,15 +432,12 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 			e.printStackTrace();
 		}
 	}
-
 	/**
 	 * 根据模型生成JSON
-	 * 
 	 * @param all
 	 *            全部对象
-	 * @param in
 	 *            已拥有的对象
-	 * @param comboBox
+	 * @param comboTree
 	 *            模型
 	 * @return
 	 */
@@ -467,7 +449,6 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 		return trees;
 
 	}
-
 	@SuppressWarnings("unchecked")
 	public ComboTree tree(TSDepart depart, boolean recursive) {
 		ComboTree tree = new ComboTree();
@@ -490,7 +471,6 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 		}
 		return tree;
 	}
-
 	public List<ComboTree> ComboTree(List all, ComboTreeModel comboTreeModel, List in, boolean recursive) {
 		List<ComboTree> trees = new ArrayList<ComboTree>();
 		for (Object obj : all) {
@@ -502,7 +482,6 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 		return trees;
 
 	}
-
     /**
      * 构建ComboTree
      * @param obj
@@ -659,4 +638,5 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 		}
 		return treegrid;
 	}
+
 }

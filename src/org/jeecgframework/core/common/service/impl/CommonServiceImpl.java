@@ -90,8 +90,6 @@ public class CommonServiceImpl implements CommonService {
 	 * 根据实体名返回全部对象
 	 * 
 	 * @param <T>
-	 * @param hql
-	 * @param size
 	 * @return
 	 */
 	public <T> List<T> getList(Class clas) {
@@ -147,7 +145,6 @@ public class CommonServiceImpl implements CommonService {
 	 * 删除实体主键ID删除对象
 	 * 
 	 * @param <T>
-	 * @param entities
 	 */
 	public <T> void deleteEntityById(Class entityName, Serializable id) {
 		commonDao.deleteEntityById(entityName, id);
@@ -168,17 +165,20 @@ public class CommonServiceImpl implements CommonService {
 	 * 通过hql 查询语句查找对象
 	 * 
 	 * @param <T>
-	 * @param query
 	 * @return
 	 */
 	public <T> List<T> findByQueryString(String hql) {
 		return commonDao.findByQueryString(hql);
 	}
 
+	public <T> List<T> findHQLQuery(String hql,Map<String,Object> kv, Integer page, Integer count) {
+		 return commonDao.findHQLQuery(hql,kv,page,count);
+	}
+
+
 	/**
 	 * 根据sql更新
 	 * 
-	 * @param query
 	 * @return
 	 */
 	public int updateBySqlString(String sql) {
@@ -200,7 +200,6 @@ public class CommonServiceImpl implements CommonService {
 	 * 通过属性称获取实体带排序
 	 * 
 	 * @param <T>
-	 * @param clas
 	 * @return
 	 */
 	public <T> List<T> findByPropertyisOrder(Class<T> entityClass,
@@ -249,8 +248,8 @@ public class CommonServiceImpl implements CommonService {
 	 * 
 	 * hqlQuery方式分页
 	 * 
-	 * @param cq
-	 * @param isOffset
+	 * @param hqlQuery
+	 * @param needParameter
 	 * @return
 	 */
 	public PageList getPageList(final HqlQuery hqlQuery,
@@ -262,8 +261,8 @@ public class CommonServiceImpl implements CommonService {
 	 * 
 	 * sqlQuery方式分页
 	 * 
-	 * @param cq
-	 * @param isOffset
+	 * @param hqlQuery
+	 * @param isToEntity
 	 * @return
 	 */
 	public PageList getPageListBySql(final HqlQuery hqlQuery,
@@ -297,7 +296,7 @@ public class CommonServiceImpl implements CommonService {
 	/**
 	 * 文件上传
 	 * 
-	 * @param request
+	 * @param uploadFile
 	 */
 	public <T> T uploadFile(UploadFile uploadFile) {
 		return commonDao.uploadFile(uploadFile);
@@ -312,7 +311,7 @@ public class CommonServiceImpl implements CommonService {
 	/**
 	 * 生成XML文件
 	 * 
-	 * @param fileName
+	 * @param importFile
 	 *            XML全路径
 	 * @return
 	 */
@@ -428,7 +427,7 @@ public class CommonServiceImpl implements CommonService {
 	 * 通过hql 查询语句查找对象
 	 * 
 	 * @param <T>
-	 * @param query
+	 * @param hql
 	 * @return
 	 */
 	public <T> List<T> findHql(String hql, Object... param) {

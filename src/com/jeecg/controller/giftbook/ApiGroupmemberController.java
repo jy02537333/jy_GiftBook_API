@@ -86,11 +86,10 @@ public class ApiGroupmemberController extends BaseController {
 	
 	/**
 	 * AJAX请求数据
-	 * 
+	 * @param groupmember
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")

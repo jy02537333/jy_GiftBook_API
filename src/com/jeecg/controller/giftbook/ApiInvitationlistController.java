@@ -104,6 +104,7 @@ public class ApiInvitationlistController extends BaseController {
 
 	@RequestMapping(params = "datagrid")
 	public void datagrid(InvitationlistEntity invitationlist,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		dataGrid.setField("id,invitationid,invitationName,inviteeid,inviteename,inviteephone,state,createDate");
 		CriteriaQuery cq = new CriteriaQuery(InvitationlistEntity.class, dataGrid);
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, invitationlist, request.getParameterMap());
