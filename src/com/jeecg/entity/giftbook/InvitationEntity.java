@@ -319,4 +319,5 @@ public class InvitationEntity implements java.io.Serializable {
 	public void setPhotoalbum(java.lang.String photoalbum){
 		this.photoalbum = photoalbum;
 	}
+
 }

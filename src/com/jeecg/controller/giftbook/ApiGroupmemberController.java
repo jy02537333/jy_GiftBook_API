@@ -121,8 +121,14 @@ public class ApiGroupmemberController extends BaseController {
 				AjaxReturnTool.hanlderPage(dataGrid), request,response);
 	}
 
+
+
+
+
+
+
 	/**
-	 * 删除礼金类型
+	 * 删除组成员
 	 * 
 	 * @return
 	 */
@@ -136,7 +142,7 @@ public class ApiGroupmemberController extends BaseController {
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		groupmember = systemService.getEntity(GroupmemberEntity.class, groupmember.getId());
-		message = "礼金类型删除成功";
+		message = "组成员删除成功";
 		try{
 			groupmemberService.delete(groupmember);
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -152,7 +158,7 @@ public class ApiGroupmemberController extends BaseController {
 	}
 
 	/**
-	 * 批量删除礼金类型
+	 * 批量删除组成员
 	 * 
 	 * @return
 	 */
@@ -163,7 +169,7 @@ public class ApiGroupmemberController extends BaseController {
 			return AjaxReturnTool.emptyKey();
 		String message = null;
 		AjaxJson j = new AjaxJson();
-		message = "礼金类型删除成功";
+		message = "组成员删除成功";
 		try{
 			for(String id:ids.split(",")){
 				GroupmemberEntity groupmember = systemService.getEntity(GroupmemberEntity.class, 
@@ -175,7 +181,7 @@ public class ApiGroupmemberController extends BaseController {
 			j.setResult(1);
 		}catch(Exception e){
 			e.printStackTrace();
-			message = "礼金类型删除失败";
+			message = "组成员删除失败";
 			j.setResult(3);
 			throw new BusinessException(e.getMessage());
 		}
@@ -187,7 +193,6 @@ public class ApiGroupmemberController extends BaseController {
 	/**
 	 * 添加组成员
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")

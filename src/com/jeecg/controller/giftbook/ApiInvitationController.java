@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.jeecgframework.core.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,10 +27,8 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.entity.AjaxJson;
-import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.service.SystemService;
-import org.jeecgframework.core.util.MyBeanUtils;
 
 import java.io.Serializable;
 
@@ -37,7 +36,6 @@ import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
 import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
-import org.jeecgframework.core.util.ResourceUtil;
 
 import java.io.IOException;
 
@@ -47,7 +45,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.Map;
 
-import org.jeecgframework.core.util.ExceptionUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -190,6 +187,10 @@ public class ApiInvitationController extends BaseController {
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
 	public AjaxJson doAdd(InvitationEntity invitation,String invitationListJson, HttpServletRequest request) {
+		if(TokenVerifyTool.verify(request))
+		{
+			return AjaxReturnTool.emptyKey();
+		}
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "请帖添加成功";

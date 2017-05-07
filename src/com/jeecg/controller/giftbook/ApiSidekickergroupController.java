@@ -3,6 +3,8 @@ package com.jeecg.controller.giftbook;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jeecg.entity.giftbook.GroupmemberEntity;
+import com.jeecg.service.giftbook.GroupmemberServiceI;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +31,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.http.HttpStatus;
 import org.jeecgframework.core.beanvalidator.BeanValidators;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -60,6 +64,8 @@ public class ApiSidekickergroupController extends BaseController {
 	@Autowired
 	private SidekickergroupServiceI sidekickergroupService;
 	@Autowired
+	private GroupmemberServiceI groupmemberService;
+	@Autowired
 	private SystemService systemService;
 	@Autowired
 	private Validator validator;
@@ -70,7 +76,6 @@ public class ApiSidekickergroupController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
@@ -97,6 +102,46 @@ public class ApiSidekickergroupController extends BaseController {
 		this.sidekickergroupService.getDataGridReturn(cq, true);
 		return AjaxReturnTool.retJsonp(AjaxReturnTool.hanlderPage(dataGrid),
 				request,response);
+	}
+
+	/**
+	 * AJAX请求数据
+	 * @param sidekickergroup
+	 * @param request
+	 * @param response
+	 * @param dataGrid
+	 */
+
+	@RequestMapping(params = "getFull")
+	@ResponseBody
+	public Object getFull(SidekickergroupEntity sidekickergroup, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		if(TokenVerifyTool.verify(request))
+			return AjaxReturnTool.emptyKey();
+		dataGrid.setField("id,userid,groupmembersnum,groupname,state,createDate,createBy,createName");
+		CriteriaQuery cq = new CriteriaQuery(SidekickergroupEntity.class, dataGrid);
+		//查询条件组装器
+		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, sidekickergroup, request.getParameterMap());
+		try{
+			//自定义追加查询条件
+			cq.eq("userid", request.getParameter("userid"));
+		}catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+		cq.add();
+		this.sidekickergroupService.getDataGridReturn(cq, true);
+		List<SidekickergroupEntity> list=dataGrid.getResults();
+		List<GroupmemberEntity> childList=new ArrayList<>();
+		for (SidekickergroupEntity item : list) {
+			List<GroupmemberEntity> child=this.groupmemberService.findByProperty(
+					GroupmemberEntity.class, "gourpid", item.getId());
+			for (GroupmemberEntity cItem:child				 ) {
+				cItem.setGourpName(item.getGroupname());
+			}
+			childList.addAll(child);
+		}
+		dataGrid.setResults(childList);
+		return AjaxReturnTool.retJsonp(
+				AjaxReturnTool.hanlderPage(dataGrid), request,response);
 	}
 
 	/**
@@ -166,7 +211,6 @@ public class ApiSidekickergroupController extends BaseController {
 	/**
 	 * 添加亲友团
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
@@ -202,7 +246,6 @@ public class ApiSidekickergroupController extends BaseController {
 	/**
 	 * 更新亲友团
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")

@@ -30,6 +30,8 @@ public class GroupmemberEntity implements java.io.Serializable {
 	/**组id*/
 	@Excel(name="组id")
 	private java.lang.String gourpid;
+	/**组名称*/
+	private java.lang.String gourpName;
 	/**组成员姓名*/
 	@Excel(name="组成员姓名")
 	private java.lang.String groupmember;
@@ -50,6 +52,7 @@ public class GroupmemberEntity implements java.io.Serializable {
 	/**状态(0=删除，1正常)*/
 	@Excel(name="状态(0=删除，1正常)")
 	private java.lang.Integer state;
+
 	/**创建时间*/
 	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private java.util.Date createDate;
@@ -157,6 +160,24 @@ public class GroupmemberEntity implements java.io.Serializable {
 	public void setGourpid(java.lang.String gourpid){
 		this.gourpid = gourpid;
 	}
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  组id
+	 */
+	@Transient
+	public java.lang.String getGourpName(){
+		return this.gourpName;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  组id
+	 */
+	public void setGourpName(java.lang.String gourpName){
+		this.gourpName = gourpName;
+	}
+
+
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  组成员姓名
