@@ -6,8 +6,8 @@
         .div_root{border:1px solid  #cccccc;margin: 2vw 2vw 3vw 2vw;height:30.5vw;}
         .div_img{width: 20vw;float:left;}
         .item_img{width: 19vw;height:19vw;padding:6%;}
-    .span_item_title{display:block;font-size:4vw;margin-bottom:1vw;}
-    .span_item_content{display:block;color:#bbbbbb;font-size:3.2vw;margin-bottom:0.5vw;}
+        .span_item_title{display:block;font-size:4vw;margin-bottom:1vw;}
+        .span_item_content{display:block;color:#bbbbbb;font-size:3.2vw;margin-bottom:0.5vw;}
         .div_content{width: 58vw;float:left;padding:2vw 0 0 2vw ;}
         .div_right{float:right;padding-top: 7vw;width:6vw;}
         .item_right_img{width: 100%;}
@@ -19,17 +19,17 @@
 <body>
 <div id="root">
 </div>
-<script src="https://www.libugj.cn/plug-in-ui/hplus/js/jquery.min.js?v=2.1.4"></script>
+<script src="plug-in-ui/hplus/js/jquery.min.js?v=2.1.4"></script>
 <script>
-var page=1;
-var url1="https://www.libugj.cn/apiGifttypeCtrl.do?getAll&curPage="+page;
+    var page=1;
+    var url1="apiGifttypeCtrl.do?getAll&curPage="+page;
     $.ajax({
         type : "GET",
         async: true,
         url:url1,
         dataType: "jsonp",
         jsonp: "callback",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
-       jsonpCallback:"callbackm",//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写"?"，jQuery会自动为你处理数据
+        jsonpCallback:"callbackm",//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写"?"，jQuery会自动为你处理数据
         success: function(json){
             window.console.log(json);
         },
@@ -41,11 +41,11 @@ var url1="https://www.libugj.cn/apiGifttypeCtrl.do?getAll&curPage="+page;
     function callbackm(data)
     {
         if(data.result==1) {
-              if(data.data.length>0)
+            if(data.data.length>0)
             {
                 page++;
             }else
-              return;
+                return;
             for (var i = 0; i < data.data.length; i++) {
                 htmlStr = htmlStr + "<div class=\"div_root\" onclick='goUrl(\"" + data.data[i].thirdpartyaddr+ "\")'>";
                 htmlStr = htmlStr + "<div class=\"div_img\">";
@@ -66,12 +66,12 @@ var url1="https://www.libugj.cn/apiGifttypeCtrl.do?getAll&curPage="+page;
             $("#root").html(htmlStr);
         }
     }
-function goUrl(url)
-{
-    if(url.indexOf("http://")==-1)
-        url="http://"+url;
-  location.href=url;
-}
+    function goUrl(url)
+    {
+        if(url.indexOf("http://")==-1)
+            url="http://"+url;
+        location.href=url;
+    }
 </script>
 </body>
 </html>

@@ -35,6 +35,9 @@ public class InvitationEntity implements java.io.Serializable {
 	/**邀请人*/
 	@Excel(name="邀请人")
 	private java.lang.String inviterid;
+	/**邀请人电话*/
+	@Excel(name="邀请人电话")
+	private java.lang.String inviterphone;
 	/**宴席地址*/
 	@Excel(name="宴席地址")
 	private java.lang.String feastaddress;
@@ -72,7 +75,7 @@ public class InvitationEntity implements java.io.Serializable {
 	@Excel(name="更新人编号")
 	private java.lang.String updateBy;
 	/**更信任姓名*/
-	@Excel(name="更信任姓名")
+	@Excel(name="更新任姓名")
 	private java.lang.String updateName;
 	
 	/**
@@ -110,6 +113,23 @@ public class InvitationEntity implements java.io.Serializable {
 	public void setInviterid(java.lang.String inviterid){
 		this.inviterid = inviterid;
 	}
+
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  邀请人电话
+	 */
+	@Column(name ="INVITERPHONE",nullable=true,length=32)
+	public String getInviterphone() {
+		return inviterphone;
+	}
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  邀请人电话
+	 */
+	public void setInviterphone(String inviterphone) {
+		this.inviterphone = inviterphone;
+	}
+
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  宴席地址

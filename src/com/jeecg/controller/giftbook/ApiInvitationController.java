@@ -97,7 +97,7 @@ public class ApiInvitationController extends BaseController {
 	 */
 	@RequestMapping(params = "list")
 	public ModelAndView list(HttpServletRequest request) {
-		return new ModelAndView("com/jeecg/giftbook/invitationList");
+		return new ModelAndView("com/jeecg/giftbook/api_invitationList");
 	}
 
 	/**
@@ -106,12 +106,10 @@ public class ApiInvitationController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
-
 	@RequestMapping(params = "datagrid")
 	public void datagrid(InvitationEntity invitation,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		dataGrid.setField("id,inviterid,feastaddress,feastdate,feasttype,invitername,coverimg,photoalbum,state,createDate");
+		dataGrid.setField("id,inviterid,inviterphone,feastaddress,feastdate,feasttype,invitername,coverimg,photoalbum,state,createDate");
 		CriteriaQuery cq = new CriteriaQuery(InvitationEntity.class, dataGrid);
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, invitation, request.getParameterMap());
