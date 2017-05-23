@@ -6,16 +6,12 @@ import java.lang.String;
 import java.lang.Double;
 import java.lang.Integer;
 import java.math.BigDecimal;
+import javax.persistence.*;
 import javax.xml.soap.Text;
 import java.sql.Blob;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.List;
+
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.SequenceGenerator;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**   
@@ -77,7 +73,16 @@ public class InvitationEntity implements java.io.Serializable {
 	/**更信任姓名*/
 	@Excel(name="更新任姓名")
 	private java.lang.String updateName;
-	
+
+	private List<InvitationlistEntity> invitationlistEntityList;
+	@Transient
+	public List<InvitationlistEntity> getInvitationlistEntityList() {
+		return invitationlistEntityList;
+	}
+	public void setInvitationlistEntityList(List<InvitationlistEntity> invitationlistEntityList) {
+		this.invitationlistEntityList = invitationlistEntityList;
+	}
+
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  Id

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.util.*;
+import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -99,6 +100,55 @@ public class ApiInvitationController extends BaseController {
 	public ModelAndView list(HttpServletRequest request) {
 		return new ModelAndView("com/jeecg/giftbook/api_invitationList");
 	}
+	/**
+	 * 请帖详情 页面跳转
+	 *
+	 * @return
+	 */
+	@RequestMapping(params = "invitationDetail")
+	public ModelAndView invitationDetail(HttpServletRequest request) {
+		return new ModelAndView("com/jeecg/giftbook/api_invitationDetail");
+	}
+	/**
+	 * easyui AJAX请帖详情
+	 *
+	 * @param request
+	 * @param response
+	 * @param dataGrid
+	 */
+	@RequestMapping(params = "byid")
+	@ResponseBody
+	public Object byid(InvitationEntity invitation,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		dataGrid.setField("id,invitationid,invitationName,inviteeid");
+		//dataGrid.setField("id,inviterid,inviterphone,feastaddress,feastdate,feasttype,invitername,coverimg,photoalbum,state,createDate");
+		CriteriaQuery cq = new CriteriaQuery(InvitationEntity.class, dataGrid);
+		//查询条件组装器
+		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, invitation, request.getParameterMap());
+		try{
+			cq.eq("inviteeid",request.getParameter("userid"));
+			cq.addOrder("feastdate", SortDirection.desc);
+		}catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+		AjaxJson json= null;
+		try {
+			cq.add();
+			this.invitationlistService.getDataGridReturn(cq, true);
+			invitation=	invitationService.get(InvitationEntity.class,request.getParameter("invitationid"));
+			InvitationlistEntity invitationlistEntity=invitationlistService.get(InvitationlistEntity.class,request.getParameter("invitationChildId"));
+			List<InvitationlistEntity> addChild=new ArrayList<>();
+			addChild.add(invitationlistEntity);
+			invitation.setInvitationlistEntityList(addChild);
+			json = new AjaxJson();
+			json.setObj(invitation);
+			json.setResult(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			json = new AjaxJson();
+			json.setResult(0);
+		}
+		return AjaxReturnTool.retJsonp(json, request,response);
+	}
 
 	/**
 	 * easyui AJAX请求数据
@@ -122,6 +172,53 @@ public class ApiInvitationController extends BaseController {
 		this.invitationService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
+
+	/**
+	 * easyui AJAX请求数据
+	 *
+	 * @param request
+	 * @param response
+	 * @param dataGrid
+	 */
+	@RequestMapping(params = "getList")
+	@ResponseBody
+	public Object getList(InvitationEntity invitation,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		dataGrid.setField("id,invitationid,invitationName,inviteeid");
+		//dataGrid.setField("id,inviterid,inviterphone,feastaddress,feastdate,feasttype,invitername,coverimg,photoalbum,state,createDate");
+		CriteriaQuery cq = new CriteriaQuery(InvitationEntity.class, dataGrid);
+		//查询条件组装器
+		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, invitation, request.getParameterMap());
+		try{
+			cq.eq("inviteeid",request.getParameter("userid"));
+			cq.addOrder("feastdate", SortDirection.desc);
+		}catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+		AjaxJson json= null;
+		try {
+			cq.add();
+			this.invitationlistService.getDataGridReturn(cq, true);
+			List<InvitationlistEntity> list= dataGrid.getResults();
+			List<InvitationEntity> retList=new ArrayList<>();
+			for (InvitationlistEntity item:list			 ) {
+                InvitationEntity invitationEntity=	invitationService.get(InvitationEntity.class,item.getId());
+                List<InvitationlistEntity> addChild=new ArrayList<>();
+                addChild.add(item);
+                invitationEntity.setInvitationlistEntityList(addChild);
+                retList.add(invitationEntity);
+            }
+			json = new AjaxJson();
+			json.setVarList(retList);
+			json.setResult(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			json = new AjaxJson();
+			json.setResult(0);
+		}
+		return AjaxReturnTool.retJsonp(json, request,response);
+	}
+
+
 
 	/**
 	 * 删除请帖
@@ -179,7 +276,6 @@ public class ApiInvitationController extends BaseController {
 	/**
 	 * 添加请帖
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
@@ -213,7 +309,7 @@ public class ApiInvitationController extends BaseController {
 					sbBuffer.append(",'"+invitation.getInvitername()+"'");
 					sbBuffer.append(",'"+entity.getInviteeid()+"'");
 					sbBuffer.append(",'"+entity.getInviteename()+"'");
-					sbBuffer.append(",'"+entity.getInviteephone()+"',1,now()");
+					sbBuffer.append(",'"+entity.getInviteephone()+"',1,"+invitation.getFeastdate()+"");
 					sbBuffer.append(",'"+invitation.getInviterid()+"'");
 					sbBuffer.append(",'"+invitation.getInvitername()+"'),");
 					phones[i]=entity.getInviteephone();
@@ -259,7 +355,6 @@ public class ApiInvitationController extends BaseController {
 	/**
 	 * 更新请帖
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")

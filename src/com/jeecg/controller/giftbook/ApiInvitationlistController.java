@@ -118,6 +118,7 @@ public class ApiInvitationlistController extends BaseController {
 		TagUtil.datagrid(response, dataGrid);
 	}
 
+
 	/**
 	 * 删除请帖人员列表
 	 * 
