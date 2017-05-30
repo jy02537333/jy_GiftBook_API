@@ -45,6 +45,7 @@ public class SysUserEntity implements java.io.Serializable {
 	/** 登录密码 */
 	@Excel(name = "登录密码")
 	private java.lang.String loginpassword;
+	private String oldPwd;
 	/** 电子邮箱 */
 	@Excel(name = "电子邮箱")
 	private java.lang.String useremail;
@@ -272,6 +273,15 @@ public class SysUserEntity implements java.io.Serializable {
 	 */
 	public void setLoginpassword(java.lang.String loginpassword) {
 		this.loginpassword = loginpassword;
+	}
+
+	@Transient
+	public String getOldPwd() {
+		return oldPwd;
+	}
+
+	public void setOldPwd(String oldPwd) {
+		this.oldPwd = oldPwd;
 	}
 
 	/**

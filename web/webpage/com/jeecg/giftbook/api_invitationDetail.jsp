@@ -17,12 +17,21 @@
     </style>
 </head>
 <body>
+<h1 id="title">详情</h1>
+<span id="testid"></span>
 <div id="root">
 </div>
 <script src="plug-in-ui/hplus/js/jquery.min.js?v=2.1.4"></script>
 <script>
-    var page=1;
-    var url1="apiGifttypeCtrl.do?getAll&curPage="+page;
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]); return null;
+    }
+    var id=getQueryString("invitationid");
+    var childId=getQueryString();
+    $("#testid").html(id);
+    var url1="apiInvitationController.do?byid&invitationid="+id+"&invitationChildId="+childId;
     $.ajax({
         type : "GET",
         async: true,
@@ -63,6 +72,7 @@
                 htmlStr = htmlStr + "<div class=\"div_bottom\"><span class=\"span_hidden\">" + data.data[i].description + "</span></div>";
                 htmlStr = htmlStr + "</div>";
             }
+            $("#title").html();
             $("#root").html(htmlStr);
         }
     }

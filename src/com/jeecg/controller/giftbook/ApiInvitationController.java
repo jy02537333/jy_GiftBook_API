@@ -124,16 +124,10 @@ public class ApiInvitationController extends BaseController {
 		CriteriaQuery cq = new CriteriaQuery(InvitationEntity.class, dataGrid);
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, invitation, request.getParameterMap());
-		try{
-			cq.eq("inviteeid",request.getParameter("userid"));
-			cq.addOrder("feastdate", SortDirection.desc);
-		}catch (Exception e) {
-			throw new BusinessException(e.getMessage());
-		}
 		AjaxJson json= null;
 		try {
-			cq.add();
-			this.invitationlistService.getDataGridReturn(cq, true);
+			//cq.add();
+			//this.invitationlistService.getDataGridReturn(cq, true);
 			invitation=	invitationService.get(InvitationEntity.class,request.getParameter("invitationid"));
 			InvitationlistEntity invitationlistEntity=invitationlistService.get(InvitationlistEntity.class,request.getParameter("invitationChildId"));
 			List<InvitationlistEntity> addChild=new ArrayList<>();
@@ -309,7 +303,7 @@ public class ApiInvitationController extends BaseController {
 					sbBuffer.append(",'"+invitation.getInvitername()+"'");
 					sbBuffer.append(",'"+entity.getInviteeid()+"'");
 					sbBuffer.append(",'"+entity.getInviteename()+"'");
-					sbBuffer.append(",'"+entity.getInviteephone()+"',1,"+invitation.getFeastdate()+"");
+					sbBuffer.append(",'"+entity.getInviteephone()+"',1,'"+DateUtils.date2Str(invitation.getFeastdate(),DateUtils.datetimeFormat)+"'");
 					sbBuffer.append(",'"+invitation.getInviterid()+"'");
 					sbBuffer.append(",'"+invitation.getInvitername()+"'),");
 					phones[i]=entity.getInviteephone();

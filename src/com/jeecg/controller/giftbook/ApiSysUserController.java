@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.jeecgframework.core.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,11 +15,7 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.entity.AjaxJson;
-import org.jeecgframework.core.util.AjaxReturnTool;
-import org.jeecgframework.core.util.DateUtils;
-import org.jeecgframework.core.util.TokenVerifyTool;
 import org.jeecgframework.web.system.service.SystemService;
-import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.base64.HandlerRSAUtils;
 
 import com.jeecg.entity.giftbook.LoginlogEntity;
@@ -82,7 +79,6 @@ public class ApiSysUserController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
@@ -140,24 +136,25 @@ public class ApiSysUserController extends BaseController {
 						&& dataGrid.getResults().size()>0) {
 					SysUserEntity retEntity = (SysUserEntity) dataGrid
 							.getResults().get(0);
-					String token =HandlerRSAUtils.encode(retEntity
-							.toSignString(signEntity.getTimestamp(),
-									signEntity.getDecvices()) );
-					LoginlogEntity loginlogEntity = (LoginlogEntity) loginlogService
-							.findUniqueByProperty(LoginlogEntity.class,
-									"userid", retEntity.getId());
-					if (loginlogEntity == null) {
-						loginlogEntity = new LoginlogEntity();
-						loginlogEntity.setDevice(signEntity.getDecvices());
-						loginlogEntity.setLogindate(DateUtils.getDate());
-						loginlogEntity.setUserid(retEntity.getId());
-						querySidekickergroupExisting(signEntity.getId());
-					} else {
-						loginlogEntity.setLastlogindate(loginlogEntity
-								.getLogindate());
-					}
-					loginlogEntity.setLogintoken(token);
-					loginlogService.saveOrUpdate(loginlogEntity);
+					String token =saveLoginInfo(retEntity);
+//					String token =HandlerRSAUtils.encode(retEntity
+//							.toSignString(signEntity.getTimestamp(),
+//									signEntity.getDecvices()) );
+//					LoginlogEntity loginlogEntity = (LoginlogEntity) loginlogService
+//							.findUniqueByProperty(LoginlogEntity.class,
+//									"userid", retEntity.getId());
+//					if (loginlogEntity == null) {
+//						loginlogEntity = new LoginlogEntity();
+//						loginlogEntity.setDevice(signEntity.getDecvices());
+//						loginlogEntity.setLogindate(DateUtils.getDate());
+//						loginlogEntity.setUserid(retEntity.getId());
+//						querySidekickergroupExisting(signEntity.getId());
+//					} else {
+//						loginlogEntity.setLastlogindate(loginlogEntity
+//								.getLogindate());
+//					}
+//					loginlogEntity.setLogintoken(token);
+//					loginlogService.saveOrUpdate(loginlogEntity);
 					Map<String, Object> retMap = new HashMap<String, Object>();
 					retMap.put("token", token);
 					retMap.put("obj", retEntity);
@@ -270,8 +267,6 @@ public class ApiSysUserController extends BaseController {
 
 	/**
 	 * 添加用户
-	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
@@ -301,9 +296,51 @@ public class ApiSysUserController extends BaseController {
 	}
 
 	/**
+	 * 修改密码
+	 *
+	 * @return
+	 */
+	@RequestMapping(params = "editPwd")
+	@ResponseBody
+	public Object editPwd(SysUserEntity sysUser, HttpServletRequest request,HttpServletResponse response) {
+		if (TokenVerifyTool.verify(request))
+			return AjaxReturnTool.emptyKey();
+		SysUserEntity signEntity = TokenVerifyTool.verifyLoginInfo(request.getParameter("info"));
+		String message = null;
+		AjaxJson j = new AjaxJson();
+		message = "密码修改成功！";
+		int ret=1;
+		SysUserEntity user=sysUserService.findUniqueByProperty(SysUserEntity.class,"loginname",sysUser.getLoginname());
+		if(user.getLoginpassword().equals(StringUtil.decodeSpecialCharsWhenLikeUseBackslash(signEntity.getOldPwd())))
+		{
+			try {
+				signEntity.setLoginpassword(StringUtil.decodeSpecialCharsWhenLikeUseBackslash(signEntity.getLoginpassword()));
+				sysUserService.saveOrUpdate(signEntity);
+				String token =saveLoginInfo(signEntity);
+				Map<String, Object> retMap = new HashMap<String, Object>();
+				retMap.put("token", token);
+				retMap.put("obj", signEntity);
+				j.setMap(retMap);
+				j.setResult(1);
+
+			} catch (Exception e) {
+				ret=2;
+				message="修改密码出异常！";
+				e.printStackTrace();
+			}
+		}else
+		{
+			ret=4;
+			message = "密码或者帐号不不正确！";
+		}
+		j.setMsg(message);
+		j.setResult(ret);
+		return AjaxReturnTool.retJsonp(j, request,response);
+	}
+
+	/**
 	 * 更新用户
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")
@@ -416,4 +453,36 @@ public class ApiSysUserController extends BaseController {
 		}
 		return AjaxReturnTool.retJsonp(json, request,response);
 	}
+
+	/**
+	 * 保存登录信息
+	 */
+	private String saveLoginInfo(SysUserEntity signEntity)
+	{
+		try {
+			String  token=HandlerRSAUtils.encode(signEntity
+                    .toSignString(signEntity.getTimestamp(),
+                            signEntity.getDecvices()) );
+			LoginlogEntity loginlogEntity = (LoginlogEntity) loginlogService
+                    .findUniqueByProperty(LoginlogEntity.class,
+                            "userid", signEntity.getId());
+			if (loginlogEntity == null) {
+                loginlogEntity = new LoginlogEntity();
+                loginlogEntity.setDevice(signEntity.getDecvices());
+                loginlogEntity.setLogindate(DateUtils.getDate());
+                loginlogEntity.setUserid(signEntity.getId());
+                querySidekickergroupExisting(signEntity.getId());
+            } else {
+                loginlogEntity.setLastlogindate(loginlogEntity
+                        .getLogindate());
+            }
+			loginlogEntity.setLogintoken(token);
+			loginlogService.saveOrUpdate(loginlogEntity);
+			return token;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }
