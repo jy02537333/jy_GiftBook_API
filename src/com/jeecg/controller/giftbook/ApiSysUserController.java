@@ -4,7 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.hibernate.criterion.Conjunction;
+import org.hibernate.criterion.Criterion;
+import org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.core.util.*;
+import org.jeecgframework.web.demo.entity.test.QueryCondition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -104,6 +108,37 @@ public class ApiSysUserController extends BaseController {
 				request,response);
 	}
 
+
+
+	@RequestMapping(params = "login2")
+	@ResponseBody
+	public Object login2(@RequestParam(value = "info") String info,
+						SysUserEntity sysUser, HttpServletRequest request,HttpServletResponse response) {
+		DataGrid dataGrid = new DataGrid();
+		dataGrid.setField("id,userphone,portrait,username,loginname,useremail,provinceid,province,cityid,city,districtid,district,detailaddress,loginflag,qqopenid,wxopenid,sinaopenid");
+		Map<String, String[]> map = new HashMap<String, String[]>();
+//		map.put("loginname", new String[] { "a111"});
+//		map.put("loginpassword",
+//				new String[] { "gagawe" });
+		AjaxJson j = new AjaxJson();
+		CriteriaQuery cq = new CriteriaQuery(SysUserEntity.class,
+				dataGrid);
+		// 查询条件组装器
+		try{
+			//自定义追加查询条件
+//			sysUser.setLoginname("a111" );
+//			sysUser.setLoginpassword("MTEx1" );
+			org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil
+					.installHql(cq, sysUser, map);
+		}catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+		cq.add();
+		this.sysUserService.getDataGridReturn(cq, true);
+		return AjaxReturnTool.retJsonp(
+				AjaxReturnTool.hanlderPage(dataGrid), request,response);
+	}
+
 	/**
 	 * 登陆
 	 * 
@@ -120,14 +155,12 @@ public class ApiSysUserController extends BaseController {
 			if (signEntity != null && signEntity.getLoginname() != null
 					&& signEntity.getLoginname().equals(sysUser.getLoginname())) {
 				DataGrid dataGrid = new DataGrid();
-				dataGrid.setField("id,userphone,portrait,username,loginname,useremail,provinceid,province,cityid,city,districtid,district,detailaddress,loginflag,qqopenid,wxopenid,sinaopenid");
+				dataGrid.setField("id,userphone,portrait,username,loginname,loginpassword,useremail,provinceid,province,cityid,city,districtid,district,detailaddress,loginflag,qqopenid,wxopenid,sinaopenid");
 				Map<String, String[]> map = new HashMap<String, String[]>();
-				map.put("loginname", new String[] { signEntity.getLoginname() });
-				map.put("loginpassword",
-						new String[] { signEntity.getLoginpassword() });
 				CriteriaQuery cq = new CriteriaQuery(SysUserEntity.class,
 						dataGrid);
 				// 查询条件组装器
+//				sysUser.setLoginpassword(signEntity.getLoginpassword().trim());
 				org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil
 						.installHql(cq, sysUser, map);
 				cq.add();
@@ -136,7 +169,20 @@ public class ApiSysUserController extends BaseController {
 						&& dataGrid.getResults().size()>0) {
 					SysUserEntity retEntity = (SysUserEntity) dataGrid
 							.getResults().get(0);
-					String token =saveLoginInfo(retEntity);
+					if(retEntity.getLoginpassword().equals(signEntity.getLoginpassword()))
+					{
+						String token =saveLoginInfo(retEntity);
+						Map<String, Object> retMap = new HashMap<String, Object>();
+						retMap.put("token", token);
+						retMap.put("obj", retEntity);
+						j.setMap(retMap);
+						j.setResult(1);
+						message = "登录成功";
+					}else
+					{
+						j.setResult(0);
+						message = "帐号或者密码不正确";
+					}
 //					String token =HandlerRSAUtils.encode(retEntity
 //							.toSignString(signEntity.getTimestamp(),
 //									signEntity.getDecvices()) );
@@ -155,12 +201,7 @@ public class ApiSysUserController extends BaseController {
 //					}
 //					loginlogEntity.setLogintoken(token);
 //					loginlogService.saveOrUpdate(loginlogEntity);
-					Map<String, Object> retMap = new HashMap<String, Object>();
-					retMap.put("token", token);
-					retMap.put("obj", retEntity);
-					j.setMap(retMap);
-					j.setResult(1);
-					message = "登录成功";
+
 				} else {
 					j.setResult(0);
 					message = "帐号或者密码不正确";

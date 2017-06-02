@@ -43,9 +43,12 @@ public class InvitationEntity implements java.io.Serializable {
 	/**宴席类型*/
 	@Excel(name="宴席类型")
 	private java.lang.String feasttype;
-	/**邀请人*/
-	@Excel(name="邀请人")
-	private java.lang.String invitername;
+	/**男士*/
+	@Excel(name="男士")
+	private java.lang.String manname;
+	/**女士*/
+	@Excel(name="女士")
+	private java.lang.String womanname;
 	/**封面图片*/
 	@Excel(name="封面图片")
 	private java.lang.String coverimg;
@@ -73,6 +76,10 @@ public class InvitationEntity implements java.io.Serializable {
 	/**更信任姓名*/
 	@Excel(name="更新任姓名")
 	private java.lang.String updateName;
+
+	/**收礼名称*/
+	@Excel(name="收礼名称")
+	private java.lang.String receivinggiftsname;
 
 	private List<InvitationlistEntity> invitationlistEntityList;
 	@Transient
@@ -185,20 +192,56 @@ public class InvitationEntity implements java.io.Serializable {
 	}
 	/**
 	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  邀请人
+	 *@return: java.lang.String  男士
 	 */
-	@Column(name ="INVITERNAME",nullable=true,length=100)
-	public java.lang.String getInvitername(){
-		return this.invitername;
+	@Column(name ="MANNAME",nullable=true,length=100)
+	public java.lang.String getManname(){
+		return this.manname;
 	}
 
 	/**
 	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  邀请人
+	 *@param: java.lang.String  男士
 	 */
-	public void setInvitername(java.lang.String invitername){
-		this.invitername = invitername;
+	public void setManname(java.lang.String manname){
+		this.manname = manname;
 	}
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  女士
+	 */
+	@Column(name ="WOMANNAME",nullable=true,length=100)
+	public java.lang.String getWomanname(){
+		return this.womanname;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  女士
+	 */
+	public void setWomanname(java.lang.String womanname){
+		this.womanname = womanname;
+	}
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  请帖名称
+	 */
+	@Column(name ="RECEIVINGGIFTSNAME",nullable=true,length=100)
+	public java.lang.String getReceivinggiftsname(){
+		return this.receivinggiftsname;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  请帖名称
+	 */
+	public void setReceivinggiftsname(java.lang.String receivinggiftsname){
+		this.receivinggiftsname = receivinggiftsname;
+	}
+
+
+
+
 	/**
 	 *方法: 取得java.lang.Integer
 	 *@return: java.lang.Integer  状态(0=删除，1正常)
