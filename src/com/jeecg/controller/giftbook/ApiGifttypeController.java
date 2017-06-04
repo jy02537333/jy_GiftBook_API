@@ -244,8 +244,6 @@ public class ApiGifttypeController extends BaseController {
 
 	/**
 	 * 添加礼金类型
-	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")

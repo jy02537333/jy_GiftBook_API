@@ -20,6 +20,32 @@ import com.jeecg.service.giftbook.LoginlogServiceI;
  * @date 2016年11月4日 上午9:53:26
  */
 public class TokenVerifyTool {
+
+	/**
+	 * 获取用户信息
+	 * @param request
+	 * @return
+	 */
+	public static SysUserEntity getUser(HttpServletRequest request)
+	{
+		if(request==null||
+				//request.getAttribute("token")==null||
+				request.getParameter("token")==null)
+		{
+			return null;
+		}
+		try {
+			String token=request.getParameter("token");
+			String entityJson =HandlerRSAUtils.decryption(token);
+			@SuppressWarnings("serial")
+			SysUserEntity user=
+                    JSONHelper.fromJsonToObject(entityJson, SysUserEntity.class);
+			return  user;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	public static  Boolean verify(HttpServletRequest request)
 	{
 		if(request==null||
@@ -72,8 +98,6 @@ public class TokenVerifyTool {
 		return false;
 	}
 	/**
-	 * 
-	 * @param request
 	 * @return
 	 */
 	public static  SysUserEntity verifyLoginInfo(String info)

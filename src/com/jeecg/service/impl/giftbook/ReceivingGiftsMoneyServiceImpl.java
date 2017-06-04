@@ -1,7 +1,7 @@
 package com.jeecg.service.impl.giftbook;
-import com.jeecg.service.giftbook.InvitationServiceI;
+import com.jeecg.entity.giftbook.ReceivingGiftsMoneyEntity;
+import com.jeecg.service.giftbook.ReceivingGiftsMoneyServiceI;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
-import com.jeecg.entity.giftbook.InvitationEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
@@ -13,25 +13,25 @@ import org.jeecgframework.core.util.MyClassLoader;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.web.cgform.enhance.CgformEnhanceJavaInter;
 
-@Service("invitationService")
+@Service("receivingGiftsMoneyService")
 @Transactional
-public class InvitationServiceImpl extends CommonServiceImpl implements InvitationServiceI {
+public class ReceivingGiftsMoneyServiceImpl extends CommonServiceImpl implements ReceivingGiftsMoneyServiceI {
 
 	
- 	public void delete(InvitationEntity entity) throws Exception{
+ 	public void delete(ReceivingGiftsMoneyEntity entity) throws Exception{
  		super.delete(entity);
  		//执行删除操作增强业务
 		this.doDelBus(entity);
  	}
  	
- 	public Serializable save(InvitationEntity entity) throws Exception{
+ 	public Serializable save(ReceivingGiftsMoneyEntity entity) throws Exception{
  		Serializable t = super.save(entity);
  		//执行新增操作增强业务
  		this.doAddBus(entity);
  		return t;
  	}
  	
- 	public void saveOrUpdate(InvitationEntity entity) throws Exception{
+ 	public void saveOrUpdate(ReceivingGiftsMoneyEntity entity) throws Exception{
  		super.saveOrUpdate(entity);
  		//执行更新操作增强业务
  		this.doUpdateBus(entity);
@@ -42,54 +42,61 @@ public class InvitationServiceImpl extends CommonServiceImpl implements Invitati
 	 * @param t
 	 * @return
 	 */
-	private void doAddBus(InvitationEntity t) throws Exception{
+	private void doAddBus(ReceivingGiftsMoneyEntity t) throws Exception{
  	}
  	/**
 	 * 更新操作增强业务
 	 * @param t
 	 * @return
 	 */
-	private void doUpdateBus(InvitationEntity t) throws Exception{
+	private void doUpdateBus(ReceivingGiftsMoneyEntity t) throws Exception{
  	}
  	/**
 	 * 删除操作增强业务
 	 * @return
 	 */
-	private void doDelBus(InvitationEntity t) throws Exception{
+	private void doDelBus(ReceivingGiftsMoneyEntity t) throws Exception{
  	}
-//
-// 	private Map<String,Object> populationMap(InvitationEntity t){
-//		Map<String,Object> map = new HashMap<String,Object>();
-//		map.put("id", t.getId());
-//		map.put("inviterid", t.getInviterid());
-//		map.put("feastaddress", t.getFeastaddress());
-//		map.put("feastdate", t.getFeastdate());
-//		map.put("feasttype", t.getFeasttype());
-//		map.put("invitername", t.getInvitername());
-//		map.put("state", t.getState());
-//		map.put("create_date", t.getCreateDate());
-//		map.put("create_by", t.getCreateBy());
-//		map.put("create_name", t.getCreateName());
-//		map.put("update_date", t.getUpdateDate());
-//		map.put("update_by", t.getUpdateBy());
-//		map.put("update_name", t.getUpdateName());
-//		return map;
-//	}
-//
+ 	
+ 	private Map<String,Object> populationMap(ReceivingGiftsMoneyEntity t){
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("id", t.getId());
+		map.put("gourpmemberid", t.getGourpmemberid());
+		map.put("groupmember", t.getGroupmember());
+		map.put("isexpenditure", t.getIsexpenditure());
+		map.put("money", t.getMoney());
+		map.put("expendituretype", t.getExpendituretype());
+		map.put("expendituretypename", t.getExpendituretypename());
+		map.put("correlativeinvitation", t.getCorrelativeinvitation());
+		map.put("expendituredate", t.getExpendituredate());
+		map.put("remark", t.getRemark());
+		map.put("state", t.getState());
+		map.put("create_date", t.getCreateDate());
+		map.put("create_by", t.getCreateBy());
+		map.put("create_name", t.getCreateName());
+		map.put("update_date", t.getUpdateDate());
+		map.put("update_by", t.getUpdateBy());
+		map.put("update_name", t.getUpdateName());
+		return map;
+	}
+ 	
  	/**
 	 * 替换sql中的变量
 	 * @param sql
 	 * @param t
 	 * @return
 	 */
- 	public String replaceVal(String sql,InvitationEntity t){
+ 	public String replaceVal(String sql,ReceivingGiftsMoneyEntity t){
  		sql  = sql.replace("#{id}",String.valueOf(t.getId()));
- 		sql  = sql.replace("#{inviterid}",String.valueOf(t.getInviterid()));
- 		sql  = sql.replace("#{feastaddress}",String.valueOf(t.getFeastaddress()));
- 		sql  = sql.replace("#{feastdate}",String.valueOf(t.getFeastdate()));
- 		sql  = sql.replace("#{feasttype}",String.valueOf(t.getFeasttype()));
- 		sql  = sql.replace("#{manname}",String.valueOf(t.getManname()));
-		sql  = sql.replace("#{womanname}",String.valueOf(t.getWomanname()));
+ 		sql  = sql.replace("#{gourpmemberid}",String.valueOf(t.getGourpmemberid()));
+ 		sql  = sql.replace("#{groupmember}",String.valueOf(t.getGroupmember()));
+ 		sql  = sql.replace("#{isexpenditure}",String.valueOf(t.getIsexpenditure()));
+ 		sql  = sql.replace("#{money}",String.valueOf(t.getMoney()));
+ 		sql  = sql.replace("#{expendituretype}",String.valueOf(t.getExpendituretype()));
+ 		sql  = sql.replace("#{expendituretypename}",String.valueOf(t.getExpendituretypename()));
+ 		sql  = sql.replace("#{correlativeinvitation}",String.valueOf(t.getCorrelativeinvitation()));
+ 		sql  = sql.replace("#{expendituredate}",String.valueOf(t.getExpendituredate()));
+ 		sql  = sql.replace("#{remark}",String.valueOf(t.getRemark()));
  		sql  = sql.replace("#{state}",String.valueOf(t.getState()));
  		sql  = sql.replace("#{create_date}",String.valueOf(t.getCreateDate()));
  		sql  = sql.replace("#{create_by}",String.valueOf(t.getCreateBy()));

@@ -34,6 +34,12 @@ public class InvitationlistEntity implements java.io.Serializable {
 	/**被邀请人*/
 	@Excel(name="被邀请人")
 	private java.lang.String inviteename;
+	/**男士*/
+	@Excel(name="男士")
+	private java.lang.String manname;
+	/**女士*/
+	@Excel(name="女士")
+	private java.lang.String womanname;
 	/**被邀请人电话*/
 	@Excel(name="被邀请人电话")
 	private java.lang.String inviteephone;
@@ -147,6 +153,39 @@ public class InvitationlistEntity implements java.io.Serializable {
 	 */
 	public void setInviteename(java.lang.String inviteename){
 		this.inviteename = inviteename;
+	}
+
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  男士
+	 */
+	@Column(name ="MANNAME",nullable=true,length=100)
+	public java.lang.String getManname(){
+		return this.manname;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  男士
+	 */
+	public void setManname(java.lang.String manname){
+		this.manname = manname;
+	}
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  女士
+	 */
+	@Column(name ="WOMANNAME",nullable=true,length=100)
+	public java.lang.String getWomanname(){
+		return this.womanname;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  女士
+	 */
+	public void setWomanname(java.lang.String womanname){
+		this.womanname = womanname;
 	}
 	/**
 	 *方法: 取得java.lang.String

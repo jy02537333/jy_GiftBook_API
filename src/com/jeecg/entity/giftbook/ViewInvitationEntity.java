@@ -6,16 +6,11 @@ import java.lang.String;
 import java.lang.Double;
 import java.lang.Integer;
 import java.math.BigDecimal;
+import javax.persistence.*;
 import javax.xml.soap.Text;
 import java.sql.Blob;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.SequenceGenerator;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**   
@@ -44,6 +39,12 @@ public class ViewInvitationEntity implements java.io.Serializable {
 	/**被邀请人*/
 	@Excel(name="被邀请人")
 	private String inviteename;
+	/**男士*/
+	@Excel(name="男士")
+	private java.lang.String manname;
+	/**女士*/
+	@Excel(name="女士")
+	private java.lang.String womanname;
 	/**被邀请人电话*/
 	@Excel(name="被邀请人电话")
 	private String inviteephone;
@@ -135,7 +136,8 @@ public class ViewInvitationEntity implements java.io.Serializable {
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  邀请人信息
 	 */
-	@Column(name ="INVITATIONNAME",nullable=true,length=100)
+//	@Column(name ="INVITATIONNAME",nullable=true,length=100)
+	@Transient
 	public String getInvitationname(){
 		return this.invitationname;
 	}
@@ -147,6 +149,40 @@ public class ViewInvitationEntity implements java.io.Serializable {
 	public void setInvitationname(String invitationname){
 		this.invitationname = invitationname;
 	}
+
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  男士
+	 */
+	@Column(name ="MANNAME",nullable=true,length=100)
+	public java.lang.String getManname(){
+		return this.manname;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  男士
+	 */
+	public void setManname(java.lang.String manname){
+		this.manname = manname;
+	}
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  女士
+	 */
+	@Column(name ="WOMANNAME",nullable=true,length=100)
+	public java.lang.String getWomanname(){
+		return this.womanname;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  女士
+	 */
+	public void setWomanname(java.lang.String womanname){
+		this.womanname = womanname;
+	}
+
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  被邀请人

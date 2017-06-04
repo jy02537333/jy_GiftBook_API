@@ -285,7 +285,7 @@ public class ApiInvitationController extends BaseController {
 		try{
 			invitation.setCreateDate(new Date());
 			invitation.setCreateBy(invitation.getInviterid());
-			invitation.setCreateName(invitation.getInvitername());
+			invitation.setCreateName(invitation.getCreateName());
 			Serializable retId=invitationService.save(invitation);
 			if(retId!=null)
 			{
@@ -293,19 +293,21 @@ public class ApiInvitationController extends BaseController {
 				java.lang.reflect.Type type	=new TypeToken<List<InvitationlistEntity>>() { }.getType();
 				Gson gson=new Gson();
 				StringBuffer sbBuffer=new StringBuffer(
-					"INSERT INTO invitationlist (id,invitationId,invitationName,InviteeId,InviteeName,InviteePhone,State,CREATE_DATE,CREATE_BY,CREATE_NAME)values");
+					"INSERT INTO invitationlist (id,invitationId,invitationName,InviteeId,InviteeName,InviteePhone,State,CREATE_DATE,CREATE_BY,CREATE_NAME,ManName,WomanName)values");
 				List<InvitationlistEntity> list=gson.fromJson(invitationListJson, type);
 				String[] phones=new String[list.size()];
 				int i=0;
 				for (InvitationlistEntity entity : list) {
 					sbBuffer.append("(REPLACE(UUID(),'-','')");
 					sbBuffer.append(",'"+invitation.getId()+"'");
-					sbBuffer.append(",'"+invitation.getInvitername()+"'");
+					sbBuffer.append(",'"+invitation.getCreateName()+"'");
 					sbBuffer.append(",'"+entity.getInviteeid()+"'");
 					sbBuffer.append(",'"+entity.getInviteename()+"'");
 					sbBuffer.append(",'"+entity.getInviteephone()+"',1,'"+DateUtils.date2Str(invitation.getFeastdate(),DateUtils.datetimeFormat)+"'");
 					sbBuffer.append(",'"+invitation.getInviterid()+"'");
-					sbBuffer.append(",'"+invitation.getInvitername()+"'),");
+					sbBuffer.append(",'"+invitation.getCreateName()+"'");
+					sbBuffer.append(",'"+invitation.getManname()+"'");
+					sbBuffer.append(",'"+invitation.getWomanname()+"'),");
 					phones[i]=entity.getInviteephone();
 					i++;
 				}
