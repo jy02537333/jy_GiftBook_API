@@ -1,7 +1,7 @@
 package com.jeecg.service.impl.giftbook;
-import com.jeecg.entity.giftbook.VReceivesMoneyEntity;
-import com.jeecg.service.giftbook.VReceivesMoneyServiceI;
+import com.jeecg.service.giftbook.VReceivingMoneyServiceI;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import com.jeecg.entity.giftbook.VReceivingMoneyEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
@@ -13,28 +13,25 @@ import org.jeecgframework.core.util.MyClassLoader;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.web.cgform.enhance.CgformEnhanceJavaInter;
 
-/**
- * 收到礼金
- */
-@Service("vReceivesMoneyService")
+@Service("vReceivingMoneyService")
 @Transactional
-public class VReceivesMoneyServiceImpl extends CommonServiceImpl implements VReceivesMoneyServiceI {
+public class VReceivingMoneyServiceImpl extends CommonServiceImpl implements VReceivingMoneyServiceI {
 
 	
- 	public void delete(VReceivesMoneyEntity entity) throws Exception{
+ 	public void delete(VReceivingMoneyEntity entity) throws Exception{
  		super.delete(entity);
  		//执行删除操作增强业务
 		this.doDelBus(entity);
  	}
  	
- 	public Serializable save(VReceivesMoneyEntity entity) throws Exception{
+ 	public Serializable save(VReceivingMoneyEntity entity) throws Exception{
  		Serializable t = super.save(entity);
  		//执行新增操作增强业务
  		this.doAddBus(entity);
  		return t;
  	}
  	
- 	public void saveOrUpdate(VReceivesMoneyEntity entity) throws Exception{
+ 	public void saveOrUpdate(VReceivingMoneyEntity entity) throws Exception{
  		super.saveOrUpdate(entity);
  		//执行更新操作增强业务
  		this.doUpdateBus(entity);
@@ -45,29 +42,31 @@ public class VReceivesMoneyServiceImpl extends CommonServiceImpl implements VRec
 	 * @param t
 	 * @return
 	 */
-	private void doAddBus(VReceivesMoneyEntity t) throws Exception{
+	private void doAddBus(VReceivingMoneyEntity t) throws Exception{
  	}
  	/**
 	 * 更新操作增强业务
 	 * @param t
 	 * @return
 	 */
-	private void doUpdateBus(VReceivesMoneyEntity t) throws Exception{
+	private void doUpdateBus(VReceivingMoneyEntity t) throws Exception{
  	}
  	/**
 	 * 删除操作增强业务
 	 * @return
 	 */
-	private void doDelBus(VReceivesMoneyEntity t) throws Exception{
+	private void doDelBus(VReceivingMoneyEntity t) throws Exception{
  	}
  	
- 	private Map<String,Object> populationMap(VReceivesMoneyEntity t){
+ 	private Map<String,Object> populationMap(VReceivingMoneyEntity t){
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("title", t.getTitle());
-		map.put("create_date", t.getCreateDate());
+		map.put("createdate", t.getCreatedate());
+		map.put("createby", t.getCreateby());
 		map.put("id", t.getId());
+		map.put("typeid", t.getTypeid());
 		map.put("receivestype", t.getReceivestype());
-		map.put("sum_money", t.getSumMoney());
+		map.put("summoney", t.getSummoney());
 		map.put("num", t.getNum());
 		return map;
 	}
@@ -78,12 +77,14 @@ public class VReceivesMoneyServiceImpl extends CommonServiceImpl implements VRec
 	 * @param t
 	 * @return
 	 */
- 	public String replaceVal(String sql,VReceivesMoneyEntity t){
+ 	public String replaceVal(String sql,VReceivingMoneyEntity t){
  		sql  = sql.replace("#{title}",String.valueOf(t.getTitle()));
- 		sql  = sql.replace("#{create_date}",String.valueOf(t.getCreateDate()));
+ 		sql  = sql.replace("#{createdate}",String.valueOf(t.getCreatedate()));
+ 		sql  = sql.replace("#{createby}",String.valueOf(t.getCreateby()));
  		sql  = sql.replace("#{id}",String.valueOf(t.getId()));
+ 		sql  = sql.replace("#{typeid}",String.valueOf(t.getTypeid()));
  		sql  = sql.replace("#{receivestype}",String.valueOf(t.getReceivestype()));
- 		sql  = sql.replace("#{sum_money}",String.valueOf(t.getSumMoney()));
+ 		sql  = sql.replace("#{summoney}",String.valueOf(t.getSummoney()));
  		sql  = sql.replace("#{num}",String.valueOf(t.getNum()));
  		sql  = sql.replace("#{UUID}",UUID.randomUUID().toString());
  		return sql;

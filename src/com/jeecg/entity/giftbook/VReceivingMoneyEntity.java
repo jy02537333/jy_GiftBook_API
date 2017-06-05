@@ -1,52 +1,59 @@
 package com.jeecg.entity.giftbook;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.lang.String;
+import java.lang.Double;
 import java.lang.Integer;
+import java.math.BigDecimal;
+import javax.xml.soap.Text;
+import java.sql.Blob;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
+import javax.persistence.SequenceGenerator;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**   
  * @Title: Entity
- * @Description: v_receives_money
+ * @Description: v_receiving_money
  * @author onlineGenerator
- * @date 2017-06-03 15:20:35
+ * @date 2017-06-05 17:02:10
  * @version V1.0   
  *
  */
 @Entity
-@Table(name = "v_receives_money", schema = "")
+@Table(name = "v_receiving_money", schema = "")
 @SuppressWarnings("serial")
-public class VReceivesMoneyEntity implements java.io.Serializable {
+public class VReceivingMoneyEntity implements java.io.Serializable {
 	/**标题*/
 	@Excel(name="标题")
 	private String title;
 	/**创建时间*/
 	@Excel(name="创建时间",format = "yyyy-MM-dd")
-	private Date createDate;
+	private Date createdate;
+	/**创建人编号*/
+	@Excel(name="创建人编号")
+	private String createby;
 	/**Id*/
 	private String id;
+	/**收礼类型*/
+	@Excel(name="收礼类型")
+	private Integer typeid;
 	/**receivestype*/
 	@Excel(name="receivestype")
 	private String receivestype;
-	/**receivestypeid*/
-	@Excel(name="receivestypeid")
-	private String receivestypeid;
-	/**sumMoney*/
-	@Excel(name="sumMoney")
-	private String sumMoney;
+	/**summoney*/
+	@Excel(name="summoney")
+	private String summoney;
 	/**num*/
 	@Excel(name="num")
 	private Integer num;
-	/**create_by*/
-	@Excel(name="create_by")
-	private String create_by;
-
+	
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  标题
@@ -67,17 +74,33 @@ public class VReceivesMoneyEntity implements java.io.Serializable {
 	 *方法: 取得java.util.Date
 	 *@return: java.util.Date  创建时间
 	 */
-	@Column(name ="CREATE_DATE",nullable=true)
-	public Date getCreateDate(){
-		return this.createDate;
+	@Column(name ="CREATEDATE",nullable=true)
+	public Date getCreatedate(){
+		return this.createdate;
 	}
 
 	/**
 	 *方法: 设置java.util.Date
 	 *@param: java.util.Date  创建时间
 	 */
-	public void setCreateDate(Date createDate){
-		this.createDate = createDate;
+	public void setCreatedate(Date createdate){
+		this.createdate = createdate;
+	}
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  创建人编号
+	 */
+	@Column(name ="CREATEBY",nullable=true,length=100)
+	public String getCreateby(){
+		return this.createby;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  创建人编号
+	 */
+	public void setCreateby(String createby){
+		this.createby = createby;
 	}
 	/**
 	 *方法: 取得java.lang.String
@@ -99,6 +122,22 @@ public class VReceivesMoneyEntity implements java.io.Serializable {
 		this.id = id;
 	}
 	/**
+	 *方法: 取得java.lang.Integer
+	 *@return: java.lang.Integer  收礼类型
+	 */
+	@Column(name ="TYPEID",nullable=false,length=10)
+	public Integer getTypeid(){
+		return this.typeid;
+	}
+
+	/**
+	 *方法: 设置java.lang.Integer
+	 *@param: java.lang.Integer  收礼类型
+	 */
+	public void setTypeid(Integer typeid){
+		this.typeid = typeid;
+	}
+	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  receivestype
 	 */
@@ -116,37 +155,19 @@ public class VReceivesMoneyEntity implements java.io.Serializable {
 	}
 	/**
 	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  receivestype
+	 *@return: java.lang.String  summoney
 	 */
-	@Column(name ="RECEIVESTYPEID",nullable=true,length=3)
-	public String getReceivestypeId(){
-		return this.receivestypeid;
+	@Column(name ="SUMMONEY",nullable=true,scale=2,length=32)
+	public String getSummoney(){
+		return this.summoney;
 	}
 
 	/**
 	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  receivestype
+	 *@param: java.lang.String  summoney
 	 */
-	public void setReceivestypeId(String receivestypeid){
-		this.receivestypeid = receivestypeid;
-	}
-
-
-	/**
-	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  sumMoney
-	 */
-	@Column(name ="SUM_MONEY",nullable=true,scale=2,length=32)
-	public String getSumMoney(){
-		return this.sumMoney;
-	}
-
-	/**
-	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  sumMoney
-	 */
-	public void setSumMoney(String sumMoney){
-		this.sumMoney = sumMoney;
+	public void setSummoney(String summoney){
+		this.summoney = summoney;
 	}
 	/**
 	 *方法: 取得java.lang.Integer
@@ -163,21 +184,5 @@ public class VReceivesMoneyEntity implements java.io.Serializable {
 	 */
 	public void setNum(Integer num){
 		this.num = num;
-	}
-	/**
-	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  num
-	 */
-	@Column(name ="CREATE_BY",nullable=false,length=19)
-	public String getCreate_by(){
-		return this.create_by;
-	}
-
-	/**
-	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  num
-	 */
-	public void setCreate_by(String create_by){
-		this.create_by = create_by;
 	}
 }
