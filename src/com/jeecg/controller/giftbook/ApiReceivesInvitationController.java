@@ -105,6 +105,9 @@ public class ApiReceivesInvitationController extends BaseController {
 			receivesInvitationEntity.setCreateBy(request.getParameter("userid").toString());
 			cq.add();
 			this.receivesInvitationService.getDataGridReturn(cq, true);
+			j.setVarList(dataGrid.getResults());
+			j.setResult(1);
+			j.setSumCount(dataGrid.getTotal());
 		} catch (Exception e) {
 			e.printStackTrace();
 			j.setResult(0);

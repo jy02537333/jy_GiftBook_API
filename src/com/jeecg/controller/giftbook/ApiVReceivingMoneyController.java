@@ -109,6 +109,8 @@ public class ApiVReceivingMoneyController extends BaseController {
 		cq.add();
 		this.vReceivingMoneyService.getDataGridReturn(cq, true);
 		j.setVarList(dataGrid.getResults());
+		j.setSumCount(dataGrid.getTotal());
+		j.setResult(1);
 	} catch (Exception e) {
 		e.printStackTrace();
 		j.setResult(0);

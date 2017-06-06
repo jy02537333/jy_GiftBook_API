@@ -178,10 +178,10 @@ public class ApiMembergiftmoneyController extends BaseController {
 		}
 
 
-		Integer page=	request.getParameter("curPage")==null?null:
-				Integer.parseInt( request.getParameter("curPage").toString());
-		Integer count=	request.getParameter("pageSize")==null?null:
-				Integer.parseInt( request.getParameter("pageSize").toString());
+		Integer page=	request.getParameter("page")==null?null:
+				Integer.parseInt( request.getParameter("page").toString());
+		Integer count=	request.getParameter("getCount")==null?null:
+				Integer.parseInt( request.getParameter("getCount").toString());
 
 		List< MembergiftmoneyEntity> list= null;
 		try {

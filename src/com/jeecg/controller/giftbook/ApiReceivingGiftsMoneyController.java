@@ -7,7 +7,9 @@ import com.jeecg.entity.giftbook.ReceivingGiftsMoneyEntity;
 import com.jeecg.entity.giftbook.SysUserEntity;
 import com.jeecg.service.giftbook.ReceivingGiftsMoneyServiceI;
 import org.apache.log4j.Logger;
+import org.jeecgframework.core.entity.AjaxJson;
 import org.jeecgframework.core.util.*;
+import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,10 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
-import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.service.SystemService;
 
 import org.jeecgframework.poi.excel.ExcelImportUtil;
@@ -93,18 +93,29 @@ public class ApiReceivingGiftsMoneyController extends BaseController {
 	 */
 
 	@RequestMapping(params = "datagrid")
-	public void datagrid(ReceivingGiftsMoneyEntity receivingGiftsMoney, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+	@ResponseBody
+	public Object datagrid(ReceivingGiftsMoneyEntity receivingGiftsMoney, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		if (TokenVerifyTool.verify(request))
+			return AjaxReturnTool.emptyKey();
+		dataGrid.setField(
+				"id,gourpmemberid,groupmember,isexpenditure,money,expendituretype,expendituretypename,correlativeinvitation,expendituredate,remark,state,createDate,createBy,createName");
+		org.jeecgframework.core.entity.AjaxJson j = new org.jeecgframework.core.entity.AjaxJson();
 		CriteriaQuery cq = new CriteriaQuery(ReceivingGiftsMoneyEntity.class, dataGrid);
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, receivingGiftsMoney, request.getParameterMap());
 		try{
-		//自定义追加查询条件
-		}catch (Exception e) {
-			throw new BusinessException(e.getMessage());
+			//自定义追加查询条件
+			cq.addOrder("createDate", SortDirection.desc);
+			cq.add();
+			this.receivingGiftsMoneyService.getDataGridReturn(cq, true);
+			j.setVarList(dataGrid.getResults());
+			j.setResult(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			j.setResult(0);
+			j.setMsg("网络异常！");
 		}
-		cq.add();
-		this.receivingGiftsMoneyService.getDataGridReturn(cq, true);
-		TagUtil.datagrid(response, dataGrid);
+		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
 	/**
@@ -118,13 +129,15 @@ public class ApiReceivingGiftsMoneyController extends BaseController {
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		receivingGiftsMoney = systemService.getEntity(ReceivingGiftsMoneyEntity.class, receivingGiftsMoney.getId());
-		message = "receiving_gifts_money删除成功";
+		message = "删除收礼成功";
 		try{
 			receivingGiftsMoneyService.delete(receivingGiftsMoney);
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+			j.setResult(1);
 		}catch(Exception e){
 			e.printStackTrace();
-			message = "receiving_gifts_money删除失败";
+			message = "删除收礼失败";
+			j.setResult(0);
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
@@ -172,11 +185,15 @@ public class ApiReceivingGiftsMoneyController extends BaseController {
 		String message = null;
 		org.jeecgframework.core.entity.AjaxJson j = new org.jeecgframework.core.entity.AjaxJson();
 		try{
+			message="记账成功！";
 			SysUserEntity user=TokenVerifyTool.getUser(request);
 			receivingGiftsMoney.setCreateDate(new Date());
 			receivingGiftsMoney.setCreateBy(user.getId());
 			receivingGiftsMoney.setCreateName(user.getUsername());
+			receivingGiftsMoney.setExpendituredate(new Date());
+			receivingGiftsMoney.setState(1);
 			receivingGiftsMoneyService.save(receivingGiftsMoney);
+			j.setResult(1);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			e.printStackTrace();

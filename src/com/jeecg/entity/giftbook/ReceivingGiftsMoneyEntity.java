@@ -40,7 +40,7 @@ public class ReceivingGiftsMoneyEntity implements java.io.Serializable {
 	private String groupmember;
 	/**是否支出*/
 	@Excel(name="是否支出")
-	private String isexpenditure;
+	private Integer isexpenditure;
 	/**金额*/
 	@Excel(name="金额")
 	private String money;
@@ -137,7 +137,7 @@ public class ReceivingGiftsMoneyEntity implements java.io.Serializable {
 	 *@return: java.lang.String  是否支出
 	 */
 	@Column(name ="ISEXPENDITURE",nullable=true,length=1)
-	public String getIsexpenditure(){
+	public Integer getIsexpenditure(){
 		return this.isexpenditure;
 	}
 
@@ -145,7 +145,7 @@ public class ReceivingGiftsMoneyEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  是否支出
 	 */
-	public void setIsexpenditure(String isexpenditure){
+	public void setIsexpenditure(Integer isexpenditure){
 		this.isexpenditure = isexpenditure;
 	}
 	/**

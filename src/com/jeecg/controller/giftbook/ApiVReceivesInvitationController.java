@@ -112,6 +112,7 @@ public class ApiVReceivesInvitationController extends BaseController {
 			cq.add();
 			this.vReceivesInvitationService.getDataGridReturn(cq, true);
 			j.setVarList(cq.getResults());
+			j.setSumCount(dataGrid.getTotal());
 			j.setResult(1);
 			j.setMsg("成功！");
 		} catch (Exception e) {

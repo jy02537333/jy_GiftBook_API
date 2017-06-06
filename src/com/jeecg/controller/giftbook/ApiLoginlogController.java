@@ -75,7 +75,6 @@ public class ApiLoginlogController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
@@ -89,6 +88,8 @@ public class ApiLoginlogController extends BaseController {
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, loginlog, request.getParameterMap());
 		try{
 			//自定义追加查询条件
+			cq.setCurPage(dataGrid.getPage());
+			cq.setPageSize(10);
 		}catch (Exception e) {
 			throw new BusinessException(e.getMessage());
 		}
@@ -164,7 +165,6 @@ public class ApiLoginlogController extends BaseController {
 	/**
 	 * 添加礼金类型
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
@@ -195,7 +195,6 @@ public class ApiLoginlogController extends BaseController {
 	/**
 	 * 更新礼金类型
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")
