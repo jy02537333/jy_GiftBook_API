@@ -286,6 +286,7 @@ public class ApiInvitationController extends BaseController {
 			invitation.setCreateDate(new Date());
 			invitation.setCreateBy(invitation.getInviterid());
 			invitation.setCreateName(invitation.getCreateName());
+			invitation.setState(1);
 			Serializable retId=invitationService.save(invitation);
 			if(retId!=null)
 			{

@@ -51,7 +51,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**   
- * @Title: Controller  
+ * @Title: 收礼详细
  * @Description: v_receiving_money
  * @author onlineGenerator
  * @date 2017-06-05 17:02:09
@@ -106,16 +106,16 @@ public class ApiVReceivingMoneyController extends BaseController {
 		try{
 			cq.addOrder("createdate", SortDirection.desc);
 			//自定义追加查询条件
-		cq.add();
-		this.vReceivingMoneyService.getDataGridReturn(cq, true);
-		j.setVarList(dataGrid.getResults());
-		j.setSumCount(dataGrid.getTotal());
-		j.setResult(1);
-	} catch (Exception e) {
-		e.printStackTrace();
-		j.setResult(0);
-		j.setMsg("网络异常！");
-	}
+			cq.add();
+			this.vReceivingMoneyService.getDataGridReturn(cq, true);
+			j.setVarList(dataGrid.getResults());
+			j.setSumCount(dataGrid.getTotal());
+			j.setResult(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			j.setResult(0);
+			j.setMsg("网络异常！");
+		}
 		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
