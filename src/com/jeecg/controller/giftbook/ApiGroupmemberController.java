@@ -247,6 +247,8 @@ public class ApiGroupmemberController extends BaseController {
 				groupmemberEntity.setCreateDate(new Date());
 				groupmemberEntity.setCreateBy(user.getId());
 				groupmemberEntity.setCreateName(user.getUsername());
+				groupmemberEntity.setTotalmoney("0");
+				groupmemberEntity.setState(1);
 //				groupmemberEntity.setGourpid(groupId);
 				groupmemberService.save(groupmemberEntity);
 			}
