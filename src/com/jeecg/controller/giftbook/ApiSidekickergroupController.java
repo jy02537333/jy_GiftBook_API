@@ -265,6 +265,7 @@ public class ApiSidekickergroupController extends BaseController {
 			sidekickergroupService.saveOrUpdate(t);
 			systemService.addLog(message, Globals.Log_Type_UPDATE,
 					Globals.Log_Leavel_INFO);
+			j.setObj(t);
 			j.setResult(1);
 		} catch (Exception e) {
 			e.printStackTrace();
