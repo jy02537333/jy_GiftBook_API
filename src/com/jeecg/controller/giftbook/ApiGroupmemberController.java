@@ -4,6 +4,7 @@ package com.jeecg.controller.giftbook;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jeecg.entity.giftbook.SysUserEntity;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -227,7 +228,6 @@ public class ApiGroupmemberController extends BaseController {
 	/**
 	 * 导入成员
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "importMember")
@@ -240,11 +240,14 @@ public class ApiGroupmemberController extends BaseController {
 		message = "成员添加成功";
 		try{
 			java.lang.reflect.Type type	=new TypeToken<List<GroupmemberEntity>>() { }.getType();
+			SysUserEntity user=TokenVerifyTool.getUser(request);
 			Gson gson=new Gson();
 			List<GroupmemberEntity> list=gson.fromJson(importJson, type);
 			for (GroupmemberEntity groupmemberEntity : list) {
 				groupmemberEntity.setCreateDate(new Date());
-				groupmemberEntity.setGourpid(groupId);
+				groupmemberEntity.setCreateBy(user.getId());
+				groupmemberEntity.setCreateName(user.getUsername());
+//				groupmemberEntity.setGourpid(groupId);
 				groupmemberService.save(groupmemberEntity);
 			}
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
@@ -264,7 +267,6 @@ public class ApiGroupmemberController extends BaseController {
 	/**
 	 * 更新组成员
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")
