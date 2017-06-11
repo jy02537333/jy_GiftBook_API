@@ -8,6 +8,7 @@ import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
 import org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil;
 import org.jeecgframework.core.util.*;
+import org.jeecgframework.core.util.base64.BASE64Decoder;
 import org.jeecgframework.web.demo.entity.test.QueryCondition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -171,6 +172,7 @@ public class ApiSysUserController extends BaseController {
 							.getResults().get(0);
 					if(retEntity.getLoginpassword().equals(signEntity.getLoginpassword()))
 					{
+						retEntity=getSignificanceProperty(signEntity,retEntity);
 						String token =saveLoginInfo(retEntity);
 						Map<String, Object> retMap = new HashMap<String, Object>();
 						retMap.put("token", token);
@@ -183,25 +185,6 @@ public class ApiSysUserController extends BaseController {
 						j.setResult(0);
 						message = "帐号或者密码不正确";
 					}
-//					String token =HandlerRSAUtils.encode(retEntity
-//							.toSignString(signEntity.getTimestamp(),
-//									signEntity.getDecvices()) );
-//					LoginlogEntity loginlogEntity = (LoginlogEntity) loginlogService
-//							.findUniqueByProperty(LoginlogEntity.class,
-//									"userid", retEntity.getId());
-//					if (loginlogEntity == null) {
-//						loginlogEntity = new LoginlogEntity();
-//						loginlogEntity.setDevice(signEntity.getDecvices());
-//						loginlogEntity.setLogindate(DateUtils.getDate());
-//						loginlogEntity.setUserid(retEntity.getId());
-//						querySidekickergroupExisting(signEntity.getId());
-//					} else {
-//						loginlogEntity.setLastlogindate(loginlogEntity
-//								.getLogindate());
-//					}
-//					loginlogEntity.setLogintoken(token);
-//					loginlogService.saveOrUpdate(loginlogEntity);
-
 				} else {
 					j.setResult(0);
 					message = "帐号或者密码不正确";
@@ -392,13 +375,21 @@ public class ApiSysUserController extends BaseController {
 		String message = null;
 		AjaxJson j = new AjaxJson();
 		message = "用户更新成功";
-		SysUserEntity t = sysUserService.get(SysUserEntity.class,
+		SysUserEntity t =sysUserService.get(SysUserEntity.class,
 				sysUser.getId());
 		try {
+			SysUserEntity tokenUser= TokenVerifyTool.getUser(request);
 			MyBeanUtils.copyBeanNotNull2Bean(sysUser, t);
 			sysUserService.saveOrUpdate(t);
 			systemService.addLog(message, Globals.Log_Type_UPDATE,
 					Globals.Log_Leavel_INFO);
+			t=getSignificanceProperty(tokenUser,t);
+
+			String token =saveLoginInfo(t);
+			Map<String, Object> retMap = new HashMap<String, Object>();
+			retMap.put("token", token);
+			retMap.put("obj", t);
+			j.setMap(retMap);
 			j.setResult(1);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -504,6 +495,13 @@ public class ApiSysUserController extends BaseController {
 			String  token=HandlerRSAUtils.encode(signEntity
                     .toSignString(signEntity.getTimestamp(),
                             signEntity.getDecvices()) );
+//			byte[] bytes=new BASE64Decoder().decodeBuffer(token);
+//			String entity=new String(bytes);
+//			SysUserEntity user=	JSONHelper.fromJsonToObject(entity, SysUserEntity.class);
+//			if(signEntity.getId().equals(user.getId()))
+//			{
+//
+//			}
 			LoginlogEntity loginlogEntity = (LoginlogEntity) loginlogService
                     .findUniqueByProperty(LoginlogEntity.class,
                             "userid", signEntity.getId());
@@ -525,5 +523,13 @@ public class ApiSysUserController extends BaseController {
 			return null;
 		}
 	}
+
+	public SysUserEntity getSignificanceProperty(SysUserEntity requestInfoUser,SysUserEntity sqlUser)
+	{
+		sqlUser.setDecvices(requestInfoUser.getDecvices());
+		sqlUser.setTimestamp(requestInfoUser.getTimestamp());
+		return sqlUser;
+	}
+
 
 }

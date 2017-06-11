@@ -204,7 +204,7 @@ public class SysUserEntity implements java.io.Serializable {
 	 * 
 	 * @return: java.lang.String 用户头像
 	 */
-	@Column(name = "Portrait_thumbnail", nullable = true, length = 255)
+	@Transient
 	public java.lang.String getPortraitThumbnail() {
 		return this.portraitThumbnail;
 	}
@@ -653,7 +653,14 @@ public class SysUserEntity implements java.io.Serializable {
 		sb.append("\",\"decvices\":\"");
 		if (decvicesStr != null)
 			sb.append(decvicesStr);
-		sb.append("\"}");
+		sb.append("\",");
+
+		sb.append("\"username\":\"");
+		if (decvicesStr != null)
+			sb.append(username);
+		sb.append("\"");
+
+		sb.append("}");
 		return sb.toString();
 	}
 
