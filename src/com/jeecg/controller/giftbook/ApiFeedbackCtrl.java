@@ -56,10 +56,9 @@ public class ApiFeedbackCtrl extends BaseController {
 	}
 
 	@RequestMapping(params = "about")
-	@ResponseBody
-	public Object about(HttpServletRequest request,
+	public ModelAndView about(HttpServletRequest request,
 			HttpServletResponse response) {
-		return new ModelAndView("com/jeecg/giftbook/api_about");
+		return new ModelAndView("com/jeecg/giftbook/api_feedback");
 	}
 
 }

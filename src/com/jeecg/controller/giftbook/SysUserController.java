@@ -166,7 +166,6 @@ public class SysUserController extends BaseController {
 	/**
 	 * 添加用户
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
@@ -190,7 +189,6 @@ public class SysUserController extends BaseController {
 	/**
 	 * 更新用户
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")

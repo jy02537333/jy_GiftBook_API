@@ -56,7 +56,7 @@ import org.springframework.web.util.UriComponentsBuilder;
  * @author zhangdaihao
  * @date 2016/11/4 14:19:13
  * @version V1.0
- * 
+ *
  */
 @Controller
 @RequestMapping("/apiSysUserCtrl")
@@ -80,7 +80,7 @@ public class ApiSysUserController extends BaseController {
 
 	/**
 	 * AJAX请求数据
-	 * 
+	 *
 	 * @param request
 	 * @param response
 	 * @param dataGrid
@@ -89,7 +89,7 @@ public class ApiSysUserController extends BaseController {
 	@RequestMapping(params = "datagrid")
 	@ResponseBody
 	public Object datagrid(SysUserEntity sysUser, HttpServletRequest request,
-			HttpServletResponse response, DataGrid dataGrid) {
+						   HttpServletResponse response, DataGrid dataGrid) {
 		if (TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		dataGrid.setField("id,userphone,portrait,username,loginname,useremail,provinceid,province,cityid,city,districtid,district,detailaddress,loginflag,qqopenid,wxopenid,sinaopenid,createDate");
@@ -114,7 +114,7 @@ public class ApiSysUserController extends BaseController {
 	@RequestMapping(params = "login2")
 	@ResponseBody
 	public Object login2(@RequestParam(value = "info") String info,
-						SysUserEntity sysUser, HttpServletRequest request,HttpServletResponse response) {
+						 SysUserEntity sysUser, HttpServletRequest request,HttpServletResponse response) {
 		DataGrid dataGrid = new DataGrid();
 		dataGrid.setField("id,userphone,portrait,username,loginname,useremail,provinceid,province,cityid,city,districtid,district,detailaddress,loginflag,qqopenid,wxopenid,sinaopenid");
 		Map<String, String[]> map = new HashMap<String, String[]>();
@@ -142,13 +142,13 @@ public class ApiSysUserController extends BaseController {
 
 	/**
 	 * 登陆
-	 * 
+	 *
 	 * @return
 	 */
 	@RequestMapping(params = "login")
 	@ResponseBody
 	public Object login(@RequestParam(value = "info") String info,
-			SysUserEntity sysUser, HttpServletRequest request,HttpServletResponse response) {
+						SysUserEntity sysUser, HttpServletRequest request,HttpServletResponse response) {
 		String message = "登录信息异常";
 		AjaxJson j = new AjaxJson();
 		try {
@@ -156,7 +156,7 @@ public class ApiSysUserController extends BaseController {
 			if (signEntity != null && signEntity.getLoginname() != null
 					&& signEntity.getLoginname().equals(sysUser.getLoginname())) {
 				DataGrid dataGrid = new DataGrid();
-				dataGrid.setField("id,userphone,portrait,username,loginname,loginpassword,useremail,provinceid,province,cityid,city,districtid,district,detailaddress,loginflag,qqopenid,wxopenid,sinaopenid");
+				dataGrid.setField("id,userphone,portrait,username,loginname,sex,loginpassword,useremail,provinceid,province,cityid,city,districtid,district,detailaddress,loginflag,qqopenid,wxopenid,sinaopenid");
 				Map<String, String[]> map = new HashMap<String, String[]>();
 				CriteriaQuery cq = new CriteriaQuery(SysUserEntity.class,
 						dataGrid);
@@ -173,6 +173,7 @@ public class ApiSysUserController extends BaseController {
 					if(retEntity.getLoginpassword().equals(signEntity.getLoginpassword()))
 					{
 						retEntity=getSignificanceProperty(signEntity,retEntity);
+						retEntity.setLoginpassword("");
 						String token =saveLoginInfo(retEntity);
 						Map<String, Object> retMap = new HashMap<String, Object>();
 						retMap.put("token", token);
@@ -199,7 +200,7 @@ public class ApiSysUserController extends BaseController {
 		j.setMsg(message);
 		return  AjaxReturnTool.retJsonp(j, request,response);
 	}
-	
+
 	public void querySidekickergroupExisting(String userid)
 	{
 		SidekickergroupEntity entity=(SidekickergroupEntity)sidekickergroupService.findUniqueByProperty(
@@ -229,7 +230,7 @@ public class ApiSysUserController extends BaseController {
 
 	/**
 	 * 删除用户
-	 * 
+	 *
 	 * @return
 	 */
 	@RequestMapping(params = "doDel")
@@ -259,7 +260,7 @@ public class ApiSysUserController extends BaseController {
 
 	/**
 	 * 批量删除用户
-	 * 
+	 *
 	 * @return
 	 */
 	@RequestMapping(params = "doBatchDel")
@@ -334,18 +335,27 @@ public class ApiSysUserController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		message = "密码修改成功！";
 		int ret=1;
-		SysUserEntity user=sysUserService.findUniqueByProperty(SysUserEntity.class,"loginname",sysUser.getLoginname());
-		if(user.getLoginpassword().equals(StringUtil.decodeSpecialCharsWhenLikeUseBackslash(signEntity.getOldPwd())))
+		SysUserEntity user=sysUserService.findUniqueByProperty(SysUserEntity.class,"loginname",signEntity.getLoginname());
+		if(user.getLoginpassword().equals(signEntity.getOldPwd()))
 		{
 			try {
-				signEntity.setLoginpassword(StringUtil.decodeSpecialCharsWhenLikeUseBackslash(signEntity.getLoginpassword()));
-				sysUserService.saveOrUpdate(signEntity);
-				String token =saveLoginInfo(signEntity);
-				Map<String, Object> retMap = new HashMap<String, Object>();
-				retMap.put("token", token);
-				retMap.put("obj", signEntity);
-				j.setMap(retMap);
-				j.setResult(1);
+				String newPwd=signEntity.getLoginpassword();//记录新密码
+				MyBeanUtils.copyBeanNotNull2Bean(user, signEntity);//将新user的空信息补全
+				signEntity.setLoginpassword(newPwd);
+//				sysUserService.saveOrUpdate(signEntity);
+				String pwd=StringUtil.decodeSpecialCharsWhenLikeUseBackslash( signEntity.getLoginpassword() );//去除特殊字符
+				 ret=sysUserService.updateBySqlString("update sys_user set loginpassword='"+pwd+"' where id='"+signEntity.getId()+"' ");
+//				sysUser=getSignificanceProperty(signEntity,sysUser);
+				signEntity.setLoginpassword("");
+				if(ret>0) {
+					String token = saveLoginInfo(signEntity);
+					Map<String, Object> retMap = new HashMap<String, Object>();
+					retMap.put("token", token);
+					retMap.put("obj", signEntity);
+					j.setMap(retMap);
+					ret=1;
+					j.setResult(1);
+				}
 
 			} catch (Exception e) {
 				ret=2;
@@ -364,7 +374,7 @@ public class ApiSysUserController extends BaseController {
 
 	/**
 	 * 更新用户
-	 * 
+	 *
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")
@@ -384,7 +394,7 @@ public class ApiSysUserController extends BaseController {
 			systemService.addLog(message, Globals.Log_Type_UPDATE,
 					Globals.Log_Leavel_INFO);
 			t=getSignificanceProperty(tokenUser,t);
-
+			t.setLoginpassword("");
 			String token =saveLoginInfo(t);
 			Map<String, Object> retMap = new HashMap<String, Object>();
 			retMap.put("token", token);
@@ -420,7 +430,7 @@ public class ApiSysUserController extends BaseController {
 	@RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Object create(@RequestBody SysUserEntity sysUser,
-			UriComponentsBuilder uriBuilder, HttpServletRequest request,HttpServletResponse response) {
+						 UriComponentsBuilder uriBuilder, HttpServletRequest request,HttpServletResponse response) {
 		if (TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		AjaxJson j = new AjaxJson();
@@ -470,7 +480,7 @@ public class ApiSysUserController extends BaseController {
 	@RequestMapping(params = "delete", value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseBody
 	public Object delete(@PathVariable("id") String id,
-			HttpServletRequest request,HttpServletResponse response) {
+						 HttpServletRequest request,HttpServletResponse response) {
 		if (TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		AjaxJson json = new AjaxJson();
@@ -493,8 +503,8 @@ public class ApiSysUserController extends BaseController {
 	{
 		try {
 			String  token=HandlerRSAUtils.encode(signEntity
-                    .toSignString(signEntity.getTimestamp(),
-                            signEntity.getDecvices()) );
+					.toSignString(signEntity.getTimestamp(),
+							signEntity.getDecvices()) );
 //			byte[] bytes=new BASE64Decoder().decodeBuffer(token);
 //			String entity=new String(bytes);
 //			SysUserEntity user=	JSONHelper.fromJsonToObject(entity, SysUserEntity.class);
@@ -503,18 +513,18 @@ public class ApiSysUserController extends BaseController {
 //
 //			}
 			LoginlogEntity loginlogEntity = (LoginlogEntity) loginlogService
-                    .findUniqueByProperty(LoginlogEntity.class,
-                            "userid", signEntity.getId());
+					.findUniqueByProperty(LoginlogEntity.class,
+							"userid", signEntity.getId());
 			if (loginlogEntity == null) {
-                loginlogEntity = new LoginlogEntity();
-                loginlogEntity.setDevice(signEntity.getDecvices());
-                loginlogEntity.setLogindate(DateUtils.getDate());
-                loginlogEntity.setUserid(signEntity.getId());
-                querySidekickergroupExisting(signEntity.getId());
-            } else {
-                loginlogEntity.setLastlogindate(loginlogEntity
-                        .getLogindate());
-            }
+				loginlogEntity = new LoginlogEntity();
+				loginlogEntity.setDevice(signEntity.getDecvices());
+				loginlogEntity.setLogindate(DateUtils.getDate());
+				loginlogEntity.setUserid(signEntity.getId());
+				querySidekickergroupExisting(signEntity.getId());
+			} else {
+				loginlogEntity.setLastlogindate(loginlogEntity
+						.getLogindate());
+			}
 			loginlogEntity.setLogintoken(token);
 			loginlogService.saveOrUpdate(loginlogEntity);
 			return token;

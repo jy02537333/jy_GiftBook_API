@@ -653,9 +653,9 @@ public class SysUserEntity implements java.io.Serializable {
 		sb.append("\",\"decvices\":\"");
 		if (decvicesStr != null)
 			sb.append(decvicesStr);
-		sb.append("\",");
+		sb.append("\"");
 
-		sb.append("\"username\":\"");
+		sb.append(",\"username\":\"");
 		if (decvicesStr != null)
 			sb.append(username);
 		sb.append("\"");
