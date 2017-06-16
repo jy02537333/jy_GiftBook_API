@@ -19,10 +19,10 @@ import javax.persistence.SequenceGenerator;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**   
- * @Title: 我发送的请帖信息
+ * @Title: 视图 我发送的请帖
  * @Description: v_send_invitation
  * @author onlineGenerator
- * @date 2017-06-07 15:34:59
+ * @date 2017-06-14 22:10:45
  * @version V1.0   
  *
  */
@@ -30,8 +30,8 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 @Table(name = "v_send_invitation", schema = "")
 @SuppressWarnings("serial")
 public class VSendInvitationEntity implements java.io.Serializable {
-	/**Id*/
-	private java.lang.String id;
+	/**id*/
+	private String id;
 	/**男士姓名*/
 	@Excel(name="男士姓名")
 	private String manname;
@@ -43,13 +43,22 @@ public class VSendInvitationEntity implements java.io.Serializable {
 	private Integer state;
 	/**创建时间*/
 	@Excel(name="创建时间",format = "yyyy-MM-dd")
-	private Date create_date;
+	private Date createdate;
 	/**创建人编号*/
 	@Excel(name="创建人编号")
-	private String create_by;
+	private String createby;
 	/**创建人姓名*/
 	@Excel(name="创建人姓名")
-	private String create_name;
+	private String createname;
+	/**更新时间*/
+	@Excel(name="更新时间",format = "yyyy-MM-dd")
+	private Date updatedate;
+	/**更新人编号*/
+	@Excel(name="更新人编号")
+	private String updateby;
+	/**更信任姓名*/
+	@Excel(name="更信任姓名")
+	private String updatename;
 	/**邀请人编号*/
 	@Excel(name="邀请人编号")
 	private String inviterid;
@@ -74,24 +83,26 @@ public class VSendInvitationEntity implements java.io.Serializable {
 	/**num*/
 	@Excel(name="num")
 	private Integer num;
-
+	
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  id
+	 */
 	@Id
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
-	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	@Column(name ="ID",nullable=true,length=32)
+	public String getId(){
 		return this.id;
 	}
 
 	/**
 	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  Id
+	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
-
-
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  男士姓名
@@ -144,49 +155,97 @@ public class VSendInvitationEntity implements java.io.Serializable {
 	 *方法: 取得java.util.Date
 	 *@return: java.util.Date  创建时间
 	 */
-	@Column(name ="CREATE_DATE",nullable=true)
-	public Date getCreateDate(){
-		return this.create_date;
+	@Column(name ="CREATEDATE",nullable=true)
+	public Date getCreatedate(){
+		return this.createdate;
 	}
 
 	/**
 	 *方法: 设置java.util.Date
 	 *@param: java.util.Date  创建时间
 	 */
-	public void setCreateDate(Date createDate){
-		this.create_date = createDate;
+	public void setCreatedate(Date createdate){
+		this.createdate = createdate;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  创建人编号
 	 */
-	@Column(name ="CREATE_BY",nullable=true,length=100)
-	public String getCreateBy(){
-		return this.create_by;
+	@Column(name ="CREATEBY",nullable=true,length=100)
+	public String getCreateby(){
+		return this.createby;
 	}
 
 	/**
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人编号
 	 */
-	public void setCreateBy(String createBy){
-		this.create_by = createBy;
+	public void setCreateby(String createby){
+		this.createby = createby;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  创建人姓名
 	 */
-	@Column(name ="CREATE_NAME",nullable=true,length=100)
-	public String getCreateName(){
-		return this.create_name;
+	@Column(name ="CREATENAME",nullable=true,length=100)
+	public String getCreatename(){
+		return this.createname;
 	}
 
 	/**
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人姓名
 	 */
-	public void setCreateName(String createName){
-		this.create_name = createName;
+	public void setCreatename(String createname){
+		this.createname = createname;
+	}
+	/**
+	 *方法: 取得java.util.Date
+	 *@return: java.util.Date  更新时间
+	 */
+	@Column(name ="UPDATEDATE",nullable=true)
+	public Date getUpdatedate(){
+		return this.updatedate;
+	}
+
+	/**
+	 *方法: 设置java.util.Date
+	 *@param: java.util.Date  更新时间
+	 */
+	public void setUpdatedate(Date updatedate){
+		this.updatedate = updatedate;
+	}
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  更新人编号
+	 */
+	@Column(name ="UPDATEBY",nullable=true,length=100)
+	public String getUpdateby(){
+		return this.updateby;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  更新人编号
+	 */
+	public void setUpdateby(String updateby){
+		this.updateby = updateby;
+	}
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  更信任姓名
+	 */
+	@Column(name ="UPDATENAME",nullable=true,length=100)
+	public String getUpdatename(){
+		return this.updatename;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  更信任姓名
+	 */
+	public void setUpdatename(String updatename){
+		this.updatename = updatename;
 	}
 	/**
 	 *方法: 取得java.lang.String

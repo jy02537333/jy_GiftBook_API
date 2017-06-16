@@ -111,13 +111,13 @@ public class ApiVSendInvitationController extends BaseController {
 
 		if (TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
-		dataGrid.setField("id,manname,womanname,state,create_date,create_by,create_name,inviterid,inviterphone,feastaddress,feastdate,coverimg,photoalbum,feasttype,num");
+		dataGrid.setField("id,manname,womanname,state,createdate,createby,createname,inviterid,inviterphone,feastaddress,feastdate,coverimg,photoalbum,feasttype,num");
 		org.jeecgframework.core.entity.AjaxJson j = new org.jeecgframework.core.entity.AjaxJson();
 		CriteriaQuery cq = new CriteriaQuery(VSendInvitationEntity.class, dataGrid);
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, vSendInvitation, request.getParameterMap());
 		try{
-			cq.addOrder("create_date", SortDirection.desc);
+			cq.addOrder("createdate", SortDirection.desc);
 			//自定义追加查询条件
 			cq.add();
 			this.vSendInvitationService.getDataGridReturn(cq, true);

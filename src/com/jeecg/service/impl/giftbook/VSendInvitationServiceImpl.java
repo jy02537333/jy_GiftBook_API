@@ -63,9 +63,9 @@ public class VSendInvitationServiceImpl extends CommonServiceImpl implements VSe
 		map.put("manname", t.getManname());
 		map.put("womanname", t.getWomanname());
 		map.put("state", t.getState());
-		map.put("create_date", t.getCreateDate());
-		map.put("create_by", t.getCreateBy());
-		map.put("create_name", t.getCreateName());
+		map.put("create_date", t.getCreatedate());
+		map.put("create_by", t.getCreateby());
+		map.put("create_name", t.getCreatename());
 		map.put("inviterid", t.getInviterid());
 		map.put("inviterphone", t.getInviterphone());
 		map.put("feastaddress", t.getFeastaddress());
@@ -87,9 +87,9 @@ public class VSendInvitationServiceImpl extends CommonServiceImpl implements VSe
  		sql  = sql.replace("#{manname}",String.valueOf(t.getManname()));
  		sql  = sql.replace("#{womanname}",String.valueOf(t.getWomanname()));
  		sql  = sql.replace("#{state}",String.valueOf(t.getState()));
- 		sql  = sql.replace("#{create_date}",String.valueOf(t.getCreateDate()));
- 		sql  = sql.replace("#{create_by}",String.valueOf(t.getCreateBy()));
- 		sql  = sql.replace("#{create_name}",String.valueOf(t.getCreateName()));
+ 		sql  = sql.replace("#{create_date}",String.valueOf(t.getCreatedate()));
+ 		sql  = sql.replace("#{create_by}",String.valueOf(t.getCreateby()));
+ 		sql  = sql.replace("#{create_name}",String.valueOf(t.getCreatename()));
  		sql  = sql.replace("#{inviterid}",String.valueOf(t.getInviterid()));
  		sql  = sql.replace("#{inviterphone}",String.valueOf(t.getInviterphone()));
  		sql  = sql.replace("#{feastaddress}",String.valueOf(t.getFeastaddress()));

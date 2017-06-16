@@ -1,5 +1,7 @@
 package com.jeecg.controller.giftbook;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,7 @@ import com.zxw.util.ComUtil;
 @Controller
 @RequestMapping("/apiSmsSendCtrl")
 public class SmsSendCtrl extends BaseController {
+	public static Map<String ,String > codeMap=new HashMap<>();
    public static String appKey="23526742";
    public static String secret="1753883b8ed9ac1f8403b1e854e61010";
    public static String signStr="礼薄";
@@ -103,7 +106,6 @@ public class SmsSendCtrl extends BaseController {
 	}
 	public int sendCode(String phone)
 	{
-		
 		try {
 		TaobaoClient client = new DefaultTaobaoClient("http://gw.api.taobao.com/router/rest", appKey, secret);
 		AlibabaAliqinFcSmsNumSendRequest req = new AlibabaAliqinFcSmsNumSendRequest();
@@ -118,6 +120,7 @@ public class SmsSendCtrl extends BaseController {
 			rsp = client.execute(req);
 			if(rsp.getErrorCode()==null||rsp.getErrorCode().equals("0"))
 			{
+				codeMap.put(phone,code+"");
 				return code ;
 			}
 		} catch (ApiException e) {

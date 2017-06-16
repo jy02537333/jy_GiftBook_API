@@ -3,6 +3,7 @@ package com.jeecg.controller.giftbook;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.zxw.util.ComUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Criterion;
@@ -46,6 +47,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -296,23 +298,41 @@ public class ApiSysUserController extends BaseController {
 	 */
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
-	public Object doAdd(SysUserEntity sysUser, HttpServletRequest request,HttpServletResponse response) {
-		if (TokenVerifyTool.verify(request))
-			return AjaxReturnTool.emptyKey();
+	public Object doAdd(@RequestParam(value = "info") String info,SysUserEntity sysUser, HttpServletRequest request,HttpServletResponse response) {
 		String message = null;
 		AjaxJson j = new AjaxJson();
-		message = "用户添加成功";
+		message = "注册成功";
 		try {
-			Serializable obj = sysUserService.save(sysUser);
+			SysUserEntity signEntity = TokenVerifyTool.verifyLoginInfo(info);
+			String code=SmsSendCtrl.codeMap.get(signEntity.getLoginname());
+			if(code==null||code.trim().length()==0||code.equals(ComUtil.getParam(request,"code")))
+			{
+				j.setResult(5);
+				j.setMsg("验证码不正确！");
+				return AjaxReturnTool.retJsonp(j, request,response);
+			}
+			signEntity.setUserphone(signEntity.getLoginname());
+			signEntity.setSex(0);
+			signEntity.setLoginflag(1);
+			Serializable obj = sysUserService.save(signEntity);
 			systemService.addLog(message, Globals.Log_Type_INSERT,
 					Globals.Log_Leavel_INFO);
 			if (obj == null)
 				j.setResult(0);
-			else
+			else {
+				signEntity.setLoginpassword("");
+				String token = saveLoginInfo(signEntity);
+				Map<String, Object> retMap = new HashMap<String, Object>();
+				retMap.put("token", token);
+				retMap.put("obj", signEntity);
+				j.setMap(retMap);
 				j.setResult(1);
+				message = "登录成功";
+				SmsSendCtrl.codeMap.remove(signEntity.getLoginname());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			message = "用户添加失败";
+			message = "注册失败";
 			j.setResult(3);
 			throw new BusinessException(e.getMessage());
 		}
