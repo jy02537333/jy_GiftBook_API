@@ -220,7 +220,7 @@ public class ApiSysUserController extends BaseController {
 				entity=new SidekickergroupEntity();
 				entity.setIsDefault(1);
 				entity.setGroupmembersnum(0);
-				entity.setGroupname("py");
+				entity.setGroupname("朋友");
 				entity.setUserid(userid);
 				sidekickergroupService.save(entity);
 			} catch (Exception e) {
@@ -304,37 +304,44 @@ public class ApiSysUserController extends BaseController {
 		message = "注册成功";
 		try {
 			SysUserEntity signEntity = TokenVerifyTool.verifyLoginInfo(info);
+
 			String code=SmsSendCtrl.codeMap.get(signEntity.getLoginname());
-			if(code==null||code.trim().length()==0||code.equals(ComUtil.getParam(request,"code")))
+			if(code==null||code.trim().length()==0||!code.equals(ComUtil.getParam(request,"code")))
 			{
 				j.setResult(5);
 				j.setMsg("验证码不正确！");
 				return AjaxReturnTool.retJsonp(j, request,response);
 			}
 			signEntity.setUserphone(signEntity.getLoginname());
-			signEntity.setSex(0);
-			signEntity.setLoginflag(1);
-			Serializable obj = sysUserService.save(signEntity);
-			systemService.addLog(message, Globals.Log_Type_INSERT,
-					Globals.Log_Leavel_INFO);
-			if (obj == null)
+			SysUserEntity findUser= sysUserService.findUniqueByProperty(SysUserEntity.class,"userphone",signEntity.getUserphone());
+			if(findUser==null) {
+				signEntity.setId(ComUtil.getUUID32());
+				signEntity.setSex(0);
+				signEntity.setLoginflag(1);
+				Serializable obj = sysUserService.save(signEntity);
+				systemService.addLog(message, Globals.Log_Type_INSERT,
+						Globals.Log_Leavel_INFO);
+				if (obj == null)
+					j.setResult(0);
+				else {
+					String token = saveLoginInfo(signEntity);
+					Map<String, Object> retMap = new HashMap<String, Object>();
+					retMap.put("token", token);
+					retMap.put("obj", signEntity);
+					j.setMap(retMap);
+					j.setResult(1);
+					message = "登录成功";
+					SmsSendCtrl.codeMap.remove(signEntity.getLoginname());
+				}
+			}else
+			{
+				message = "该帐号已经存在！";
 				j.setResult(0);
-			else {
-				signEntity.setLoginpassword("");
-				String token = saveLoginInfo(signEntity);
-				Map<String, Object> retMap = new HashMap<String, Object>();
-				retMap.put("token", token);
-				retMap.put("obj", signEntity);
-				j.setMap(retMap);
-				j.setResult(1);
-				message = "登录成功";
-				SmsSendCtrl.codeMap.remove(signEntity.getLoginname());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			message = "注册失败";
 			j.setResult(3);
-			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
 		return AjaxReturnTool.retJsonp(j, request,response);
@@ -515,6 +522,22 @@ public class ApiSysUserController extends BaseController {
 		}
 		return AjaxReturnTool.retJsonp(json, request,response);
 	}
+	@RequestMapping(params = "getLog")
+	@ResponseBody
+	public Object getLog( HttpServletRequest request,HttpServletResponse response)
+	{
+		LoginlogEntity loginlogEntity =systemService.
+				singleResult("from  LoginlogEntity where id='"+ComUtil.getParam(request,"id")+"'");
+		return 1;
+	}
+	@RequestMapping(params = "setCode")
+	@ResponseBody
+	public Object setCode( HttpServletRequest request,HttpServletResponse response)
+	{
+		SmsSendCtrl.codeMap.put(ComUtil.getParam(request,"phone"),
+				ComUtil.getParam(request,"code"));
+		return 1;
+	}
 
 	/**
 	 * 保存登录信息
@@ -525,21 +548,17 @@ public class ApiSysUserController extends BaseController {
 			String  token=HandlerRSAUtils.encode(signEntity
 					.toSignString(signEntity.getTimestamp(),
 							signEntity.getDecvices()) );
-//			byte[] bytes=new BASE64Decoder().decodeBuffer(token);
-//			String entity=new String(bytes);
-//			SysUserEntity user=	JSONHelper.fromJsonToObject(entity, SysUserEntity.class);
-//			if(signEntity.getId().equals(user.getId()))
-//			{
-//
-//			}
-			LoginlogEntity loginlogEntity = (LoginlogEntity) loginlogService
-					.findUniqueByProperty(LoginlogEntity.class,
-							"userid", signEntity.getId());
+			String id=signEntity.getId();
+//			LoginlogEntity loginlogEntity = (LoginlogEntity) loginlogService
+//					.get(LoginlogEntity.class, id);
+			LoginlogEntity loginlogEntity =systemService.
+					singleResult("from  LoginlogEntity where id='"+id+"'");
 			if (loginlogEntity == null) {
 				loginlogEntity = new LoginlogEntity();
 				loginlogEntity.setDevice(signEntity.getDecvices());
 				loginlogEntity.setLogindate(DateUtils.getDate());
 				loginlogEntity.setUserid(signEntity.getId());
+				loginlogEntity.setId(id);
 				querySidekickergroupExisting(signEntity.getId());
 			} else {
 				loginlogEntity.setLastlogindate(loginlogEntity

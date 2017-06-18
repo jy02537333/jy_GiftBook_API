@@ -5,7 +5,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.jeecg.entity.giftbook.SysUserEntity;
+import com.jeecg.entity.giftbook.VGroupAndMemberEntity;
+import com.jeecg.service.giftbook.VGroupAndMemberServiceI;
 import org.apache.log4j.Logger;
+import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,6 +83,8 @@ public class ApiGroupmemberController extends BaseController {
 	@Autowired
 	private GroupmemberServiceI groupmemberService;
 	@Autowired
+	private VGroupAndMemberServiceI vGroupAndMemberServiceI;
+	@Autowired
 	private SystemService systemService;
 	@Autowired
 	private Validator validator;
@@ -122,7 +127,37 @@ public class ApiGroupmemberController extends BaseController {
 				AjaxReturnTool.hanlderPage(dataGrid), request,response);
 	}
 
+	/**
+	 *  获取用户亲友组与亲友成员信息
+	 * @param request
+	 * @param response
+	 * @param dataGrid
+	 */
 
+	@RequestMapping(params = "getFullMember")
+	@ResponseBody
+	public Object getFullMember(VGroupAndMemberEntity vGroupAndMemberEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		if(TokenVerifyTool.verify(request))
+			return AjaxReturnTool.emptyKey();
+		dataGrid.setField("groupid,isdefault,groupmembersnum,groupname,createdate,id,groupmember,totalmoney,memberphone,affiliatedperson,affiliatedpersonid");
+		CriteriaQuery cq = new CriteriaQuery(VGroupAndMemberEntity.class, dataGrid);
+		//查询条件组装器
+		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, vGroupAndMemberEntity, request.getParameterMap());
+		try{
+			//自定义追加查询条件
+			cq.addOrder("groupid", SortDirection.asc);
+			cq.addOrder("createdate",SortDirection.desc);
+			cq.add();
+			this.vGroupAndMemberServiceI.getDataGridReturn(cq, true);
+			List<GroupmemberEntity> list=dataGrid.getResults();
+		}catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+
+
+		return AjaxReturnTool.retJsonp(
+				AjaxReturnTool.hanlderPage(dataGrid), request,response);
+	}
 
 
 

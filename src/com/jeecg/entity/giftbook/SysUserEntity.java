@@ -127,7 +127,6 @@ public class SysUserEntity implements java.io.Serializable {
 	 * @return: java.lang.Integer 自动编号
 	 */
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID", nullable = true, length = 32)
 	public java.lang.String getId() {
 		return this.id;

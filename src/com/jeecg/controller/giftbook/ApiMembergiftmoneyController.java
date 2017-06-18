@@ -168,11 +168,18 @@ public class ApiMembergiftmoneyController extends BaseController {
 			whereStr.append(" and month(createDate)=:month");
 			kv.put("month",Integer.parseInt(month) );
 		}
+		whereStr.append(" and createBy=:createBy");
+		kv.put("createBy",request.getParameter("createBy") );
+
 		String getCount=	request.getParameter("getCount");
 		if(!StringUtil.isEmpty(getCount))
 		{
 			String countHql="select sum(money) from MembergiftmoneyEntity  where 1=1 "+whereStr+" ";
 			 List<Object> sumList=this.membergiftmoneyService.findHQLQuery(countHql,kv,null,null);
+			 if(sumList!=null&&sumList.get(0)==null)
+			 {
+				 j.setSumCount(0);
+			 }else
 			 if(sumList!=null&&sumList.size()>0)
 			 	j.setSumCount(Double.parseDouble( sumList.get(0).toString()) );
 		}
@@ -282,6 +289,7 @@ public class ApiMembergiftmoneyController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		message = "礼金记录添加成功";
 		try{
+			membergiftmoney.setState(1);
 		Serializable  obj=	membergiftmoneyService.save(membergiftmoney);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 			if(obj==null)

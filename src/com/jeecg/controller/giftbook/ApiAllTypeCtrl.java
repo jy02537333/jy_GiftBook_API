@@ -58,8 +58,6 @@ public class ApiAllTypeCtrl extends BaseController {
 	 * 
 	 * @param request
 	 * @param response
-	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "getAll")
@@ -103,6 +101,43 @@ public class ApiAllTypeCtrl extends BaseController {
 
 		return AjaxReturnTool.retJsonp(j, request,response);
 	}
+
+	@RequestMapping(params = "getGroupMemberFull")
+	@ResponseBody
+	public Object getGroupMemberFull(HttpServletRequest request,
+								 HttpServletResponse response) {
+		if (TokenVerifyTool.verify(request))
+			return AjaxReturnTool.emptyKey();
+		AjaxJson j = new AjaxJson();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			String useridString = request.getParameter("userid");
+			if (useridString != null) {
+				// map.put("groupmembers",
+				// groupmemberService.findByProperty(GroupmemberEntity.class,
+				// "createBy", useridString));
+				List<GroupmemberEntity> list = groupmemberService
+						.findByQueryString("select id,groupmember from GroupmemberEntity where createBy='"
+								+ useridString
+								+ "'and gourpid='"
+								+ request.getParameter("groupid") + "'");
+				j.setVarList(list);
+				j.setResult(1);
+				j.setMsg("成功！");
+			} else {
+				j.setResult(0);
+				j.setMsg("缺少参数！");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			j.setResult(3);
+			j.setMsg("网络异常！");
+		}
+
+		return AjaxReturnTool.retJsonp(j, request,response);
+
+	}
+
 
 	@RequestMapping(params = "getGroupMember")
 	@ResponseBody

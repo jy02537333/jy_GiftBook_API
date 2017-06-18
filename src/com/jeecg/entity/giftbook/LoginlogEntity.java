@@ -61,8 +61,6 @@ public class LoginlogEntity implements java.io.Serializable {
 	 *@return: java.lang.String  Id
 	 */
 	@Id
-	@GeneratedValue(generator = "paymentableGenerator")
-	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
 	public java.lang.String getId(){
 		return this.id;

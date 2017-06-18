@@ -30,7 +30,7 @@ public class AjaxReturnTool {
 				varList=dataGrid.getResults();
 				result=1;
 			}else {
-				result=2;   
+				result=1;
 			}
 			msg="请求成功！";
 		}catch (Exception e){

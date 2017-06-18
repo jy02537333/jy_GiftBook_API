@@ -224,6 +224,7 @@ public class ApiSidekickergroupController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		message = "亲友团添加成功";
 		try {
+			sidekickergroup.setState(1);
 			Serializable obj = sidekickergroupService.save(sidekickergroup);
 			systemService.addLog(message, Globals.Log_Type_INSERT,
 					Globals.Log_Leavel_INFO);
