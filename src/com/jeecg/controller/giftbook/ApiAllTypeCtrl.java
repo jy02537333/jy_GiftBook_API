@@ -175,4 +175,21 @@ public class ApiAllTypeCtrl extends BaseController {
 		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
+	@RequestMapping(params = "getdata11")
+	@ResponseBody
+	public Object getdata11(HttpServletRequest request,
+							HttpServletResponse response)
+	{
+		String str=
+		 "[{\"name\":\"name\",\"id\":\"1x\"},{\"name\":\"name1\",\"id\":\"1\"},{\"name\":\"name2\",\"id\":\"2\"},{\"name3\":\"name09090\",\"id\":\"090909\"},"
+				+ "{\"name\":\"name4\",\"id\":\"4\"},{\"name\":\"name5\",\"id\":\"5\"},{\"name\":\"name666\",\"id\":\"666\"},{\"name\":\"name22\",\"id\":\"23232\"},{\"name\":\"name0909090\",\"id\":\"090909090909\"},"
+				+ "{\"name\":\"name44\",\"id\":\"44\"},{\"name\":\"name555\",\"id\":\"555\"},{\"name\":\"name6666\",\"id\":\"6666\"},{\"name\":\"name22222\",\"id\":\"2323232\"},{\"name\":\"name090\",\"id\":\"090\"},"
+				+ "{\"name\":\"name55\",\"id\":\"55\"},{\"name\":\"name5555\",\"id\":\"5555\"},{\"name\":\"name66666\",\"id\":\"666666\"},{\"name\":\"name223232\",\"id\":\"23232323232\"},{\"name\":\"name09090\",\"id\":\"0909090909\"},"
+				+ "{\"name\":\"name66\",\"id\":\"66\"},{\"name\":\"name55555\",\"id\":\"55555\"},{\"name\":\"name66666\",\"id\":\"666666\"},{\"name\":\"name2223232\",\"id\":\"32323232323\"},{\"name\":\"name754765756g\",\"id\":\"f54f754f754f7e54f4efe7754\"}]";
+		AjaxJson j = new AjaxJson();
+		j.setResult(1);
+		j.setMsg("fawefewa");
+		j.setObj(str);
+		return AjaxReturnTool.retJsonp(j, request,response);
+	}
 }
