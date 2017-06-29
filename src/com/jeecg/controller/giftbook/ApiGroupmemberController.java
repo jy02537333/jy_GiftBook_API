@@ -139,7 +139,7 @@ public class ApiGroupmemberController extends BaseController {
 	public Object getFullMember(VGroupAndMemberEntity vGroupAndMemberEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		if(TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
-		dataGrid.setField("groupid,isdefault,groupmembersnum,groupname,createdate,id,groupmember,totalmoney,memberphone,affiliatedperson,affiliatedpersonid");
+		dataGrid.setField("userid,groupid,isdefault,groupmembersnum,groupname,createdate,id,groupmember,totalmoney,memberphone,affiliatedperson,affiliatedpersonid");
 		CriteriaQuery cq = new CriteriaQuery(VGroupAndMemberEntity.class, dataGrid);
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, vGroupAndMemberEntity, request.getParameterMap());

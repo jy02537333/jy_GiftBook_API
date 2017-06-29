@@ -94,7 +94,8 @@ public class ApiSidekickergroupController extends BaseController {
 		try {
 			// 自定义追加查询条件
 			cq.eq("userid", request.getParameter("userid"));
-			cq.eq("isDefault", request.getParameter("1"));
+//			cq.eq("isDefault", request.getParameter("1"));
+			sidekickergroup.setState(1);
 		} catch (Exception e) {
 			throw new BusinessException(e.getMessage());
 		}
@@ -104,45 +105,7 @@ public class ApiSidekickergroupController extends BaseController {
 				request,response);
 	}
 
-	/**
-	 * AJAX请求数据
-	 * @param sidekickergroup
-	 * @param request
-	 * @param response
-	 * @param dataGrid
-	 */
 
-	@RequestMapping(params = "getFull")
-	@ResponseBody
-	public Object getFull(SidekickergroupEntity sidekickergroup, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		if(TokenVerifyTool.verify(request))
-			return AjaxReturnTool.emptyKey();
-		dataGrid.setField("id,userid,groupmembersnum,groupname,state,createDate,createBy,createName");
-		CriteriaQuery cq = new CriteriaQuery(SidekickergroupEntity.class, dataGrid);
-		//查询条件组装器
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, sidekickergroup, request.getParameterMap());
-		try{
-			//自定义追加查询条件
-			cq.eq("userid", request.getParameter("userid"));
-		}catch (Exception e) {
-			throw new BusinessException(e.getMessage());
-		}
-		cq.add();
-		this.sidekickergroupService.getDataGridReturn(cq, true);
-		List<SidekickergroupEntity> list=dataGrid.getResults();
-		List<GroupmemberEntity> childList=new ArrayList<>();
-		for (SidekickergroupEntity item : list) {
-			List<GroupmemberEntity> child=this.groupmemberService.findByProperty(
-					GroupmemberEntity.class, "gourpid", item.getId());
-			for (GroupmemberEntity cItem:child				 ) {
-				cItem.setGourpName(item.getGroupname());
-			}
-			childList.addAll(child);
-		}
-		dataGrid.setResults(childList);
-		return AjaxReturnTool.retJsonp(
-				AjaxReturnTool.hanlderPage(dataGrid), request,response);
-	}
 
 	/**
 	 * 删除亲友团
@@ -225,6 +188,7 @@ public class ApiSidekickergroupController extends BaseController {
 		message = "亲友团添加成功";
 		try {
 			sidekickergroup.setState(1);
+			sidekickergroup.setIsDefault(0);
 			Serializable obj = sidekickergroupService.save(sidekickergroup);
 			systemService.addLog(message, Globals.Log_Type_INSERT,
 					Globals.Log_Leavel_INFO);

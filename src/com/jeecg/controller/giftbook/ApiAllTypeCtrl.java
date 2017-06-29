@@ -8,11 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Validator;
 
+import com.jeecg.entity.giftbook.VGroupAndMemberEntity;
+import com.jeecg.service.giftbook.VGroupAndMemberServiceI;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
+import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
+import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.entity.AjaxJson;
 import org.jeecgframework.core.util.AjaxReturnTool;
 import org.jeecgframework.core.util.TokenVerifyTool;
+import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,9 +48,7 @@ public class ApiAllTypeCtrl extends BaseController {
 			.getLogger(ApiGifttypeController.class);
 
 	@Autowired
-	private GroupmemberServiceI groupmemberService;
-	@Autowired
-	private SidekickergroupServiceI sidekickergroupService;
+	private VGroupAndMemberServiceI vGroupAndMemberServiceI;
 	@Autowired
 	private GifttypeServiceI gifttypeService;
 	@Autowired
@@ -63,7 +66,7 @@ public class ApiAllTypeCtrl extends BaseController {
 	@RequestMapping(params = "getAll")
 	@ResponseBody
 	public Object getAll(HttpServletRequest request,
-			HttpServletResponse response) {
+						 HttpServletResponse response, DataGrid dataGrid) {
 		if (TokenVerifyTool.verify(request))
 			return AjaxReturnTool.emptyKey();
 		AjaxJson j = new AjaxJson();
@@ -72,21 +75,19 @@ public class ApiAllTypeCtrl extends BaseController {
 			Map<String, Object> map = new HashMap<String, Object>();
 			String useridString = request.getParameter("userid");
 			if (useridString != null) {
-				// map.put("groupmembers",
-				// groupmemberService.findByProperty(GroupmemberEntity.class,
-				// "createBy", useridString));
-				if (request.getParameter("groupid") != null) {
-					List<GroupmemberEntity> list = groupmemberService
-							.findByQueryString("select id,groupmember from GroupmemberEntity where createBy='"
-									+ useridString
-									+ "'and gourpid='"
-									+ request.getParameter("groupid") + "'");
-					map.put("groupmembers", list);
-				}
-
-				map.put("sidekickerGroups", sidekickergroupService
-						.findByProperty(SidekickergroupEntity.class, "userid",
-								useridString));
+				VGroupAndMemberEntity vGroupAndMemberEntity=new VGroupAndMemberEntity();
+				vGroupAndMemberEntity.setUserid(useridString);
+				dataGrid.setField("userid,groupid,isdefault,groupmembersnum,groupname,createdate,id,groupmember,totalmoney,memberphone,affiliatedperson,affiliatedpersonid");
+				CriteriaQuery cq = new CriteriaQuery(VGroupAndMemberEntity.class, dataGrid);
+				//查询条件组装器
+				org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, vGroupAndMemberEntity, request.getParameterMap());
+					//自定义追加查询条件
+					cq.addOrder("groupid", SortDirection.asc);
+					cq.addOrder("createdate",SortDirection.desc);
+					cq.add();
+					this.vGroupAndMemberServiceI.getDataGridReturn(cq, true);
+					List<GroupmemberEntity> list=dataGrid.getResults();
+				map.put("sidekickerGroups", list);
 				map.put("gifttypes", gifttypeService.findByProperty(
 						GifttypeEntity.class, "userid", useridString));
 			}
@@ -102,78 +103,6 @@ public class ApiAllTypeCtrl extends BaseController {
 		return AjaxReturnTool.retJsonp(j, request,response);
 	}
 
-	@RequestMapping(params = "getGroupMemberFull")
-	@ResponseBody
-	public Object getGroupMemberFull(HttpServletRequest request,
-								 HttpServletResponse response) {
-		if (TokenVerifyTool.verify(request))
-			return AjaxReturnTool.emptyKey();
-		AjaxJson j = new AjaxJson();
-		try {
-			Map<String, Object> map = new HashMap<String, Object>();
-			String useridString = request.getParameter("userid");
-			if (useridString != null) {
-				// map.put("groupmembers",
-				// groupmemberService.findByProperty(GroupmemberEntity.class,
-				// "createBy", useridString));
-				List<GroupmemberEntity> list = groupmemberService
-						.findByQueryString("select id,groupmember from GroupmemberEntity where createBy='"
-								+ useridString
-								+ "'and gourpid='"
-								+ request.getParameter("groupid") + "'");
-				j.setVarList(list);
-				j.setResult(1);
-				j.setMsg("成功！");
-			} else {
-				j.setResult(0);
-				j.setMsg("缺少参数！");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			j.setResult(3);
-			j.setMsg("网络异常！");
-		}
-
-		return AjaxReturnTool.retJsonp(j, request,response);
-
-	}
-
-
-	@RequestMapping(params = "getGroupMember")
-	@ResponseBody
-	public Object getGroupMember(HttpServletRequest request,
-			HttpServletResponse response) {
-		if (TokenVerifyTool.verify(request))
-			return AjaxReturnTool.emptyKey();
-		AjaxJson j = new AjaxJson();
-
-		try {
-			Map<String, Object> map = new HashMap<String, Object>();
-			String useridString = request.getParameter("userid");
-			if (useridString != null) {
-				// map.put("groupmembers",
-				// groupmemberService.findByProperty(GroupmemberEntity.class,
-				// "createBy", useridString));
-				List<GroupmemberEntity> list = groupmemberService
-						.findByQueryString("select id,groupmember from GroupmemberEntity where createBy='"
-								+ useridString
-								+ "'and gourpid='"
-								+ request.getParameter("groupid") + "'");
-				j.setVarList(list);
-				j.setResult(1);
-				j.setMsg("成功！");
-			} else {
-				j.setResult(0);
-				j.setMsg("缺少参数！");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			j.setResult(3);
-			j.setMsg("网络异常！");
-		}
-
-		return AjaxReturnTool.retJsonp(j, request,response);
-	}
 
 	@RequestMapping(params = "getdata11")
 	@ResponseBody

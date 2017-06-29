@@ -39,15 +39,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.HttpStatus;
 import org.jeecgframework.core.beanvalidator.BeanValidators;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import java.io.Serializable;
-import java.util.UUID;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -205,16 +202,18 @@ public class ApiSysUserController extends BaseController {
 
 	public void querySidekickergroupExisting(String userid)
 	{
-		SidekickergroupEntity entity=(SidekickergroupEntity)sidekickergroupService.findUniqueByProperty(
+		List<SidekickergroupEntity> list=sidekickergroupService.findByProperty(
 				SidekickergroupEntity.class
 				, "userid", userid);
-		if(entity==null)
+		if(list==null||list.size()==0)
 		{
-			entity=new SidekickergroupEntity();
+			SidekickergroupEntity	entity=new SidekickergroupEntity();
 			entity.setIsDefault(1);
 			entity.setGroupmembersnum(0);
 			entity.setGroupname("亲戚");
 			entity.setUserid(userid);
+			entity.setState(1);
+			entity.setCreateDate(new Date());
 			try {
 				sidekickergroupService.save(entity);
 				entity=new SidekickergroupEntity();
@@ -222,6 +221,8 @@ public class ApiSysUserController extends BaseController {
 				entity.setGroupmembersnum(0);
 				entity.setGroupname("朋友");
 				entity.setUserid(userid);
+				entity.setState(1);
+				entity.setCreateDate(new Date());
 				sidekickergroupService.save(entity);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
