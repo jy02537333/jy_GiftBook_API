@@ -190,13 +190,14 @@ public class ApiSidekickergroupController extends BaseController {
 			sidekickergroup.setState(1);
 			sidekickergroup.setIsDefault(0);
 			Serializable obj = sidekickergroupService.save(sidekickergroup);
+			sidekickergroup.setId(obj.toString());
 			systemService.addLog(message, Globals.Log_Type_INSERT,
 					Globals.Log_Leavel_INFO);
 			if (obj == null)
 				j.setResult(0);
 			else {
 				j.setResult(1);
-				j.setObj(obj);
+				j.setObj(sidekickergroup);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
