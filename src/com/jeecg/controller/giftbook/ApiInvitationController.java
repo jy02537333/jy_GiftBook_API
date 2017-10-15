@@ -176,15 +176,16 @@ public class ApiInvitationController extends BaseController {
 	 */
 	@RequestMapping(params = "getList")
 	@ResponseBody
-	public Object getList(InvitationEntity invitation,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+	public Object getList(InvitationlistEntity invitationList,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		dataGrid.setField("id,invitationid,invitationName,inviteeid");
 		//dataGrid.setField("id,inviterid,inviterphone,feastaddress,feastdate,feasttype,invitername,coverimg,photoalbum,state,createDate");
-		CriteriaQuery cq = new CriteriaQuery(InvitationEntity.class, dataGrid);
+		CriteriaQuery cq = new CriteriaQuery(InvitationlistEntity.class, dataGrid);
 		//查询条件组装器
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, invitation, request.getParameterMap());
+		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, invitationList, request.getParameterMap());
 		try{
-			cq.eq("inviteeid",request.getParameter("userid"));
-			cq.addOrder("feastdate", SortDirection.desc);
+//			cq.eq("inviteeid",request.getParameter("userid"));
+			cq.eq("inviteephone",request.getParameter("phone"));
+			cq.addOrder("createDate", SortDirection.desc);
 		}catch (Exception e) {
 			throw new BusinessException(e.getMessage());
 		}
@@ -195,7 +196,7 @@ public class ApiInvitationController extends BaseController {
 			List<InvitationlistEntity> list= dataGrid.getResults();
 			List<InvitationEntity> retList=new ArrayList<>();
 			for (InvitationlistEntity item:list			 ) {
-                InvitationEntity invitationEntity=	invitationService.get(InvitationEntity.class,item.getId());
+                InvitationEntity invitationEntity=	invitationService.get(InvitationEntity.class,item.getInvitationid());
                 List<InvitationlistEntity> addChild=new ArrayList<>();
                 addChild.add(item);
                 invitationEntity.setInvitationlistEntityList(addChild);

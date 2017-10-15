@@ -40,6 +40,7 @@ public class AjaxReturnTool {
 			ajaxJson.setResult(result);
 			ajaxJson.setObj(varList);
 			ajaxJson.setMsg(msg);
+			ajaxJson.setTotalCount( dataGrid.getTotal());
 		}
 		return ajaxJson;
 	}

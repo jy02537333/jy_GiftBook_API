@@ -23,7 +23,7 @@ public class AjaxJson {
 	private String msg = "操作成功";// 提示信息
 	/**api调用，页面返回调用方法*/
 	private String callback="";
-	
+	private int totalCount=0;
 	/**
 	 * /相关参数协议：result: 0	请求失败 ; 1	请求成功; 2	返回空值; 3	请求协议参数不完整  ; 4  用户名或密码错误; 5  FKEY验证失败
 	 * @return
@@ -73,6 +73,14 @@ public class AjaxJson {
 	}
 	public void setSumCount(double sumCount) {
 		this.sumCount = sumCount;
+	}
+
+	public int getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(int totalCount) {
+		this.totalCount = totalCount;
 	}
 	//	public String getJsonStr(){
 //		JSONObject obj = new JSONObject();
