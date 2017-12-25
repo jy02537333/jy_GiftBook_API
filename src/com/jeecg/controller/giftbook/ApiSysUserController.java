@@ -349,6 +349,51 @@ public class ApiSysUserController extends BaseController {
 	}
 
 	/**
+	 * 重置密码
+	 *
+	 * @return
+	 */
+	@RequestMapping(params = "resetPwd")
+	@ResponseBody
+	public Object resetPwd(SysUserEntity sysUser, HttpServletRequest request,HttpServletResponse response) {
+		String message = null;
+		AjaxJson j = new AjaxJson();
+		message = "密码重置成功！";
+		int ret=1;
+			try {
+				String code=SmsSendCtrl.codeMap.get(sysUser.getLoginname());
+				if(code==null||code.trim().length()==0||!code.equals(ComUtil.getParam(request,"code")))
+				{
+					j.setResult(5);
+					j.setMsg("验证码不正确！");
+					return AjaxReturnTool.retJsonp(j, request,response);
+				}
+				ret=sysUserService.updateBySqlString("update sys_user set loginpassword='"+sysUser.getLoginpassword()+
+						"' where userphone='"+sysUser.getUserphone()+"' ");
+				if(ret==1) {
+					sysUser=	sysUserService.findUniqueByProperty(SysUserEntity.class,"userphone",sysUser.getUserphone());
+				}
+					String token = saveLoginInfo(sysUser);
+					Map<String, Object> retMap = new HashMap<String, Object>();
+					retMap.put("token", token);
+					retMap.put("obj", sysUser);
+					j.setMap(retMap);
+					ret=1;
+					j.setResult(1);
+
+			} catch (Exception e) {
+				ret=2;
+				message="密码重置出现异常！";
+				e.printStackTrace();
+			}
+		j.setMsg(message);
+		j.setResult(ret);
+		return AjaxReturnTool.retJsonp(j, request,response);
+	}
+
+
+
+	/**
 	 * 修改密码
 	 *
 	 * @return
@@ -422,8 +467,8 @@ public class ApiSysUserController extends BaseController {
 			systemService.addLog(message, Globals.Log_Type_UPDATE,
 					Globals.Log_Leavel_INFO);
 			t=getSignificanceProperty(tokenUser,t);
-			t.setLoginpassword("");
 			String token =saveLoginInfo(t);
+//			t.setLoginpassword("");
 			Map<String, Object> retMap = new HashMap<String, Object>();
 			retMap.put("token", token);
 			retMap.put("obj", t);
@@ -546,6 +591,8 @@ public class ApiSysUserController extends BaseController {
 	private String saveLoginInfo(SysUserEntity signEntity)
 	{
 		try {
+			String pwd=signEntity.getLoginpassword();
+//			signEntity.setLoginpassword("");
 			String  token=HandlerRSAUtils.encode(signEntity
 					.toSignString(signEntity.getTimestamp(),
 							signEntity.getDecvices()) );
@@ -567,6 +614,8 @@ public class ApiSysUserController extends BaseController {
 			}
 			loginlogEntity.setLogintoken(token);
 			loginlogService.saveOrUpdate(loginlogEntity);
+//			signEntity.setLoginpassword(pwd);
+//			sysUserService.saveOrUpdate(signEntity);
 			return token;
 		} catch (Exception e) {
 			e.printStackTrace();

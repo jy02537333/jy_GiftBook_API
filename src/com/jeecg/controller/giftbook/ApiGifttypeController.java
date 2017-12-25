@@ -107,7 +107,6 @@ public class ApiGifttypeController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
@@ -263,7 +262,8 @@ public class ApiGifttypeController extends BaseController {
 			else
 				{
 				j.setResult(1);
-				j.setObj(obj);
+				gifttype.setId(obj.toString());
+				j.setObj(gifttype);
 				}
 		}catch(Exception e){
 			e.printStackTrace();

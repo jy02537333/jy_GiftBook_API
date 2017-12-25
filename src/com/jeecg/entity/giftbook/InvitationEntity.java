@@ -37,6 +37,9 @@ public class InvitationEntity implements java.io.Serializable {
 	/**宴席地址*/
 	@Excel(name="宴席地址")
 	private java.lang.String feastaddress;
+	/**宴席酒店*/
+	@Excel(name="宴席酒店")
+	private java.lang.String feasthotel;
 	/**宴席时间*/
 	@Excel(name="宴席时间",format = "yyyy-MM-dd")
 	private java.util.Date feastdate;
@@ -141,6 +144,27 @@ public class InvitationEntity implements java.io.Serializable {
 	public void setInviterphone(String inviterphone) {
 		this.inviterphone = inviterphone;
 	}
+
+
+
+	/**
+	 *方法: 取得java.lang.String
+	 *@return: java.lang.String  宴席酒店
+	 */
+	@Column(name ="FEASTHOTEL",nullable=true,length=100)
+	public java.lang.String getFeasthotel(){
+		return this.feasthotel;
+	}
+
+	/**
+	 *方法: 设置java.lang.String
+	 *@param: java.lang.String  宴席酒店
+	 */
+	public void setFeasthotel(java.lang.String feasthotel){
+		this.feasthotel = feasthotel;
+	}
+
+
 
 	/**
 	 *方法: 取得java.lang.String

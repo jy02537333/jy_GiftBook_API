@@ -133,7 +133,6 @@ public class ApiGroupmemberController extends BaseController {
 	 * @param response
 	 * @param dataGrid
 	 */
-
 	@RequestMapping(params = "getFullMember")
 	@ResponseBody
 	public Object getFullMember(VGroupAndMemberEntity vGroupAndMemberEntity, HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
@@ -153,8 +152,6 @@ public class ApiGroupmemberController extends BaseController {
 		}catch (Exception e) {
 			throw new BusinessException(e.getMessage());
 		}
-
-
 		return AjaxReturnTool.retJsonp(
 				AjaxReturnTool.hanlderPage(dataGrid), request,response);
 	}
@@ -320,6 +317,7 @@ public class ApiGroupmemberController extends BaseController {
 			groupmemberService.saveOrUpdate(t);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 			j.setResult(1);
+			j.setObj(t);
 		} catch (Exception e) {
 			e.printStackTrace();
 			message = "礼金类型更新失败";

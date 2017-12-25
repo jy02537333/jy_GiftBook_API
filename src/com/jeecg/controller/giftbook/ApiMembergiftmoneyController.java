@@ -4,6 +4,10 @@ package com.jeecg.controller.giftbook;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.jeecg.entity.giftbook.GroupmemberEntity;
+import com.jeecg.entity.giftbook.SidekickergroupEntity;
+import com.jeecg.service.giftbook.GroupmemberServiceI;
+import com.jeecg.service.giftbook.SidekickergroupServiceI;
 import com.zxw.util.ComUtil;
 import com.zxw.util.JsonEqualSymbolConvertJson;
 import org.apache.log4j.Logger;
@@ -76,6 +80,10 @@ public class ApiMembergiftmoneyController extends BaseController {
 
 	@Autowired
 	private MembergiftmoneyServiceI membergiftmoneyService;
+	@Autowired
+	private GroupmemberServiceI groupmemberService;
+	@Autowired
+	private SidekickergroupServiceI sidekickergroupService;
 	@Autowired
 	private SystemService systemService;
 	@Autowired
@@ -291,12 +299,29 @@ public class ApiMembergiftmoneyController extends BaseController {
 		message = "礼金记录添加成功";
 		try{
 			membergiftmoney.setState(1);
-		Serializable  obj=	membergiftmoneyService.save(membergiftmoney);
+			Serializable  memberId=null;
+			if(membergiftmoney.getGourpmemberid()==null||membergiftmoney.getGourpmemberid().equals("")) {
+				GroupmemberEntity entity = new GroupmemberEntity();
+				entity.setState(1);
+				entity.setCreateDate(new Date());
+				entity.setGroupmember(membergiftmoney.getGroupmember());
+			  List<SidekickergroupEntity> sidekickergroupList=	sidekickergroupService.findHql
+					  ("FROM SidekickergroupEntity WHERE isDefault=1 and userid='"+membergiftmoney.getCreateBy()+"'");
+			  entity.setGourpid(sidekickergroupList.get(0).getId());
+				memberId=groupmemberService.save(entity);
+				if(memberId!=null)
+					membergiftmoney.setGourpmemberid(memberId.toString());
+			}
+		    Serializable  obj=	membergiftmoneyService.save(membergiftmoney);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 			if(obj==null)
 				j.setResult(0);
 			else
+			{
+				membergiftmoney.setId(obj.toString());
 				j.setResult(1);
+				j.setObj(membergiftmoney);
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 			message = "礼金记录添加失败";
@@ -305,6 +330,30 @@ public class ApiMembergiftmoneyController extends BaseController {
 		}
 		j.setMsg(message);
 		return AjaxReturnTool.retJsonp(j, request,response);
+	}
+
+	public List<SidekickergroupEntity> datagrid(SidekickergroupEntity sidekickergroup,
+						   HttpServletRequest request, HttpServletResponse response,
+						   DataGrid dataGrid) {
+		dataGrid.setField("id,userid,groupmembersnum,groupname,state,createDate,createBy,createName");
+		CriteriaQuery cq = new CriteriaQuery(SidekickergroupEntity.class,
+				dataGrid);
+		// 查询条件组装器
+		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq,
+				sidekickergroup, request.getParameterMap());
+		try {
+			// 自定义追加查询条件
+			cq.eq("userid", request.getParameter("userid"));
+//			cq.eq("isDefault", request.getParameter("1"));
+			sidekickergroup.setState(1);
+		} catch (Exception e) {
+			throw new BusinessException(e.getMessage());
+		}
+		cq.add();
+		this.sidekickergroupService.getDataGridReturn(cq, true);
+		//sidekickergroupService.findHql()
+		List<SidekickergroupEntity> retList= dataGrid.getResults();
+		return retList;
 	}
 
 	/**
