@@ -19,6 +19,7 @@ import net.sf.json.JSONObject;
 
 import org.jeecgframework.codegenerate.database.JeecgReadTable;
 import org.jeecgframework.codegenerate.pojo.Columnt;
+import org.jeecgframework.codegenerate.util.CodeResourceUtil;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.util.StringUtil;
@@ -64,6 +65,10 @@ public class CgformTransController {
 
 		List<String> list = new ArrayList<String>();
 		try {
+			CodeResourceUtil.URL="jdbc:mysql://59.110.136.238:3306/giftbook?useUnicode=true&characterEncoding=UTF-8";
+			CodeResourceUtil.USERNAME="root";
+			CodeResourceUtil.PASSWORD="libo_db";
+			CodeResourceUtil.DATABASE_NAME="giftbook";
 			list = new JeecgReadTable().readAllTableNames();
 		} catch (SQLException e1) {
 			e1.printStackTrace();

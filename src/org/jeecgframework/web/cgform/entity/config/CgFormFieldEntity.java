@@ -34,6 +34,22 @@ import org.hibernate.annotations.GenericGenerator;
 public class CgFormFieldEntity implements java.io.Serializable {
 	/**id*/
 	private java.lang.String id;
+	/**功能注释*/
+	private java.lang.String content;
+	/**创建时间*/
+	private java.util.Date createDate;
+	/**创建人ID*/
+	private java.lang.String createBy;
+	/**创建人名称*/
+	private java.lang.String createName;
+	/**修改时间*/
+	private java.util.Date updateDate;
+	/**修改人ID*/
+	private java.lang.String updateBy;
+	/**修改人名称*/
+	private java.lang.String updateName;
+
+
 	/**字段名称*/
 	private java.lang.String fieldName;
 	/**关联的表*/
@@ -66,20 +82,8 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	private java.lang.String fieldValidType;
 	/**查询类型single(默认：单字段查询),group(范围查询)*/
 	private java.lang.String queryMode;
-	/**功能注释*/
-	private java.lang.String content;
-	/**创建时间*/
-	private java.util.Date createDate;
-	/**创建人ID*/
-	private java.lang.String createBy;
-	/**创建人名称*/
-	private java.lang.String createName;
-	/**修改时间*/
-	private java.util.Date updateDate;
-	/**修改人ID*/
-	private java.lang.String updateBy;
-	/**修改人名称*/
-	private java.lang.String updateName;
+
+
 	/**字典Code*/
 	private java.lang.String dictField;
 	/**字典Table*/
@@ -95,8 +99,8 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	/**字段默认值*/
 	private java.lang.String fieldDefault;
 	//add-start--Author:luobaoli  Date:20150610 for：添加扩展参数字段
-	/**扩展参数**/
-	private java.lang.String extendJson;
+//	/**扩展参数**/
+//	private java.lang.String extendJson;
 	//add-start--Author:luobaoli  Date:20150610 for：添加扩展参数字段
 	
 	/**
@@ -552,14 +556,14 @@ public class CgFormFieldEntity implements java.io.Serializable {
 		this.fieldDefault = fieldDefault;
 	}
 
-	//add-start--Author:luobaoli  Date:20150610 for：添加扩展参数字段
-	@Column(name ="extend_json",nullable=true,length=500)
-	public java.lang.String getExtendJson() {
-		return extendJson;
-	}
-
-	public void setExtendJson(java.lang.String extendJson) {
-		this.extendJson = extendJson;
-	}
+//	//add-start--Author:luobaoli  Date:20150610 for：添加扩展参数字段
+//	@Column(name ="extend_json",nullable=true,length=500)
+//	public java.lang.String getExtendJson() {
+//		return extendJson;
+//	}
+//
+//	public void setExtendJson(java.lang.String extendJson) {
+//		this.extendJson = extendJson;
+//	}
 	//add-end--Author:luobaoli  Date:20150610 for：添加扩展参数字段
 }
