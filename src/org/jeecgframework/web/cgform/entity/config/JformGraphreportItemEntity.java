@@ -33,46 +33,32 @@ public class JformGraphreportItemEntity implements java.io.Serializable {
 	/**id*/
 	private String id;
 	/**字段名*/
-	@Excel(name="字段名")
 	private String fieldName;
 	/**字段文本*/
-	@Excel(name="字段文本")
 	private String fieldTxt;
 	/**排序*/
-	@Excel(name="排序")
 	private Integer orderNum;
 	/**字段类型*/
-	@Excel(name="字段类型")
 	private String fieldType;
 	/**是否显示*/
-	@Excel(name="是否显示")
 	private String isShow;
 	/**是否查询*/
-	@Excel(name="是否查询")
 	private String searchFlag;
 	/**查询模式*/
-	@Excel(name="查询模式")
 	private String searchMode;
 	/**字典Code*/
-	@Excel(name="字典Code")
 	private String dictCode;
 	/**显示图表*/
-	@Excel(name="显示图表")
 	private String isGraph;
 	/**图表类型*/
-	@Excel(name="图表类型")
 	private String graphType;
 	/**图表名称*/
-	@Excel(name="图表名称")
 	private String graphName;
 	/**标签名称*/
-	@Excel(name="标签名称")
 	private String tabName;
 	/**字段href*/
-	@Excel(name="字段href")
 	private String fieldHref;
 	/**取值表达式*/
-	@Excel(name="取值表达式")
 	private String replaceVa;
 	/**cgreportHeadId*/
 	private String cgreportHeadId;

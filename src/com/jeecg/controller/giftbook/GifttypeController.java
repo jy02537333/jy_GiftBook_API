@@ -34,12 +34,7 @@ import java.io.Serializable;
 import org.jeecgframework.core.util.BrowserUtils;
 import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.TemplateExportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
-import org.jeecgframework.poi.excel.entity.vo.TemplateExcelConstants;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.jeecgframework.core.util.ResourceUtil;
 
 import java.io.IOException;
@@ -114,7 +109,6 @@ public class GifttypeController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
@@ -188,7 +182,6 @@ public class GifttypeController extends BaseController {
 	/**
 	 * 添加礼金类型
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
@@ -214,7 +207,6 @@ public class GifttypeController extends BaseController {
 	/**
 	 * 更新礼金类型
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")
@@ -285,15 +277,7 @@ public class GifttypeController extends BaseController {
 	@RequestMapping(params = "exportXls")
 	public String exportXls(GifttypeEntity gifttype,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		CriteriaQuery cq = new CriteriaQuery(GifttypeEntity.class, dataGrid);
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, gifttype, request.getParameterMap());
-		List<GifttypeEntity> gifttypes = this.gifttypeService.getListByCriteriaQuery(cq,false);
-		modelMap.put(NormalExcelConstants.FILE_NAME,"礼金类型");
-		modelMap.put(NormalExcelConstants.CLASS,GifttypeEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("礼金类型列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-			"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,gifttypes);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return "";
 	}
 	/**
 	 * 导出excel 使模板
@@ -304,12 +288,7 @@ public class GifttypeController extends BaseController {
 	@RequestMapping(params = "exportXlsByT")
 	public String exportXlsByT(GifttypeEntity gifttype,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-    	modelMap.put(NormalExcelConstants.FILE_NAME,"礼金类型");
-    	modelMap.put(NormalExcelConstants.CLASS,GifttypeEntity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("礼金类型列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-    	"导出信息"));
-    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
-    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return "";
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -324,10 +303,10 @@ public class GifttypeController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(2);
-			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
-				List<GifttypeEntity> listGifttypeEntitys = ExcelImportUtil.importExcel(file.getInputStream(),GifttypeEntity.class,params);
+				List<GifttypeEntity> listGifttypeEntitys =(List<GifttypeEntity>)
+				ExcelImportUtil.importExcelByIs(file.getInputStream(),GifttypeEntity.class,params);
 				for (GifttypeEntity gifttype : listGifttypeEntitys) {
 					gifttypeService.save(gifttype);
 				}

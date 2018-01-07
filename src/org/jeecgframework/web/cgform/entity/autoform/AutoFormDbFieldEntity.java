@@ -51,10 +51,8 @@ public class AutoFormDbFieldEntity implements java.io.Serializable {
 	/**数据源ID*/
 	private java.lang.String autoFormDbId;
 	/**字段名*/
-	@Excel(name="字段名")
 	private java.lang.String fieldName;
 
-	@Excel(name="字段文本")
 	private String fieldText;
 
 	/**

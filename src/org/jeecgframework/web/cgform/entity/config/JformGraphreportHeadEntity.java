@@ -33,28 +33,20 @@ public class JformGraphreportHeadEntity implements java.io.Serializable {
 	/**id*/
 	private String id;
 	/**名称*/
-	@Excel(name = "名称")
 	private String name;
 	/**编码*/
-	@Excel(name = "编码")
 	private String code;
 	/**查询数据SQL*/
-	@Excel(name = "查询数据SQL")
 	private String cgrSql;
 	/**描述*/
-	@Excel(name = "描述")
 	private String content;
 	/**y轴文字*/
-	@Excel(name = "y轴文字")
 	private String ytext;
 	/**x轴数据*/
-	@Excel(name = "x轴数据")
 	private String categories;
 	/**是否显示明细*/
-	@Excel(name = "是否显示明细")
 	private String isShowList;
 	/**扩展JS*/
-	@Excel(name = "扩展JS")
 	private String xpageJs;
 	
 	/**

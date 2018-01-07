@@ -1,5 +1,6 @@
 package org.jeecgframework.web.system.pojo.base;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
 import javax.persistence.Column;
@@ -20,12 +21,10 @@ import javax.persistence.Table;
 public class TSUser extends TSBaseUser implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private String signatureFile;// 签名文件
-	@Excel(name = "手机")
 	private String mobilePhone;// 手机
-	@Excel(name = "办公电话")
 	private String officePhone;// 办公电话
-	@Excel(name = "邮箱")
 	private String email;// 邮箱
+	private TSDepart TSDepart = new TSDepart();// 部门
 	/**创建时间*/
 	private java.util.Date createDate;
 	/**创建人ID*/
@@ -168,5 +167,15 @@ public class TSUser extends TSBaseUser implements java.io.Serializable {
 	 */
 	public void setUpdateName(java.lang.String updateName){
 		this.updateName = updateName;
+	}
+	@JsonIgnore    //getList查询转换为列表时处理json转换异常
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "departid")
+	public TSDepart getTSDepart() {
+		return this.TSDepart;
+	}
+
+	public void setTSDepart(TSDepart TSDepart) {
+		this.TSDepart = TSDepart;
 	}
 }

@@ -33,46 +33,32 @@ public class FinancialSupermarketEntity implements java.io.Serializable {
 	/**Id*/
 	private java.lang.String id;
 	/**第三方公司名称*/
-	@Excel(name="第三方公司名称")
 	private java.lang.String thirdpartyname;
 	/**第三方公司关键字*/
-	@Excel(name="第三方公司关键字")
 	private java.lang.String thirdpartycode;
 	/**第三方公司关键字2*/
-	@Excel(name="第三方公司关键字2")
 	private java.lang.String thirdpartycode2;
 	/**第三方地址*/
-	@Excel(name="第三方地址")
 	private java.lang.String thirdpartyaddr;
 	/**描述*/
-	@Excel(name="描述")
 	private java.lang.String description;
 	/**贷款额度*/
-	@Excel(name="贷款额度")
 	private java.lang.String moneylimit;
 	/**logo*/
-	@Excel(name="logo")
 	private java.lang.String logourl;
 	/**贷款利息*/
-	@Excel(name="贷款利息")
 	private java.lang.String moneyinterest;
 	/**创建时间*/
-	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private java.util.Date createDate;
 	/**创建人编号*/
-	@Excel(name="创建人编号")
 	private java.lang.String createBy;
 	/**创建人姓名*/
-	@Excel(name="创建人姓名")
 	private java.lang.String createName;
 	/**更新时间*/
-	@Excel(name="更新时间",format = "yyyy-MM-dd")
 	private java.util.Date updateDate;
 	/**更新人编号*/
-	@Excel(name="更新人编号")
 	private java.lang.String updateBy;
 	/**更新人姓名*/
-	@Excel(name="更新人姓名")
 	private java.lang.String updateName;
 	
 	/**

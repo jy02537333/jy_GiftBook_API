@@ -23,31 +23,22 @@ public class VReceivesInvitationEntity implements java.io.Serializable {
 	/**Id*/
 	private java.lang.String id;
 	/**邀请人编号*/
-	@Excel(name="邀请人编号")
 	private java.lang.String inviterid;
 	/**收礼名称*/
-	@Excel(name="收礼名称")
 	private java.lang.String receivinggiftsname;
 	/**宴席时间*/
-	@Excel(name="宴席时间",format = "yyyy-MM-dd")
 	private java.util.Date feastdate;
 	/**宴席类型*/
-	@Excel(name="宴席类型")
 	private java.lang.String feasttype;
 	/**封面图片*/
-	@Excel(name="封面图片")
 	private java.lang.String coverimg;
 	/**男士姓名*/
-	@Excel(name="男士姓名")
 	private java.lang.String manname;
 	/**女士姓名*/
-	@Excel(name="女士姓名")
 	private java.lang.String womanname;
 	/**summoney*/
-	@Excel(name="summoney")
 	private java.lang.String summoney;
 	/**sumcount*/
-	@Excel(name="sumcount")
 	private java.lang.Double sumcount;
 
 	/**

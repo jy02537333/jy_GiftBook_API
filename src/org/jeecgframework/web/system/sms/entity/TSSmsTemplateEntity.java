@@ -45,13 +45,10 @@ public class TSSmsTemplateEntity implements java.io.Serializable {
 	/**更新日期*/
 	private java.util.Date updateDate;
 	/**模板类型*/
-	@Excel(name="模板类型")
 	private java.lang.String templateType;
 	/**模板名称*/
-	@Excel(name="模板名称")
 	private java.lang.String templateName;
 	/**模板内容*/
-	@Excel(name="模板内容")
 	private java.lang.String templateContent;
 	
 	/**

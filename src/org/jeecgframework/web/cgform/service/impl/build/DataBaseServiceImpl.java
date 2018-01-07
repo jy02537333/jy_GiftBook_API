@@ -8,29 +8,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
-import org.jeecgframework.core.constant.DataBaseConstant;
-import org.jeecgframework.core.util.ApplicationContextUtil;
-import org.jeecgframework.core.util.DBTypeUtil;
-import org.jeecgframework.core.util.DateUtils;
-import org.jeecgframework.core.util.MyClassLoader;
-import org.jeecgframework.core.util.ResourceUtil;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.UUIDGenerator;
-import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.common.CommUtils;
-import org.jeecgframework.web.cgform.enhance.CgformEnhanceJavaInter;
+import org.jeecgframework.web.cgform.common.SysVar;
 import org.jeecgframework.web.cgform.entity.button.CgformButtonSqlEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
-import org.jeecgframework.web.cgform.entity.enhance.CgformEnhanceJavaEntity;
 import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.cgform.service.build.DataBaseService;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
+import org.jeecgframework.core.util.DBTypeUtil;
+import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.UUIDGenerator;
+import org.jeecgframework.core.util.oConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer;
@@ -38,16 +34,13 @@ import org.springframework.jdbc.support.incrementer.PostgreSQLSequenceMaxValueIn
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 /**
  * @ClassName: DataBaseServiceImpl
  * @Description: (表单模板数据操作service)
  * @author zhoujunfeng
  */
 @Service("dataBaseService")
-//--author：luobaoli---------date:20150616--------for: 修改spring事务回滚异常设置，以便支持BusinessException
-@Transactional(rollbackFor=Exception.class)
-//--author：luobaoli---------date:20150616--------for: 修改spring事务回滚异常设置，以便支持BusinessException
+@Transactional
 public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseService{
 	private static final Logger logger = Logger.getLogger(DataBaseServiceImpl.class);
 	@Autowired
@@ -60,11 +53,9 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * 表单添加
 	 * @param tableName 表名
 	 * @param data 添加的数据map
-	 * @throws BusinessException
 	 */
 
-	public void insertTable(String tableName, Map<String, Object> data) throws BusinessException {
-		CgFormHeadEntity cgFormHeadEntity = cgFormFieldService.getCgFormHeadByTableName(tableName);
+	public int insertTable(String tableName, Map<String, Object> data) {CgFormHeadEntity cgFormHeadEntity = cgFormFieldService.getCgFormHeadByTableName(tableName);
 		//系统上下文变量赋值
 		fillInsertSysVar(data);
 		//主键适配器（根据不同的数据库进行生成）
@@ -90,18 +81,23 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		String sql = "INSERT INTO " + tableName + " (" + insertKey + ") VALUES (" + insertValue + ")";
 		Object key = null;
-
-		key = this.executeSqlReturnKey(sql,data);
-
+		try {
+			//类型转换冲突
+			try {
+				key = this.executeSqlReturnKey(sql,data);
+			} catch (DataRetrievalFailureException e) {
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 		if(key!=null && key instanceof Long){
 			data.put("id", key);
 		}
 		if(cgFormHeadEntity!=null){
 			executeSqlExtend(cgFormHeadEntity.getId(),"add",data);
-
-			executeJavaExtend(cgFormHeadEntity.getId(),"add",data);
-
 		}
+		return 1;
 	}
 	/**
 	 * 根据数据库和主键策略来适配Insert的sql语句
@@ -109,7 +105,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * @param data	插入的数据
 	 */
 	private void keyAdapter(CgFormHeadEntity cgFormHeadEntity,
-			Map<String, Object> data) {
+							Map<String, Object> data) {
 		String pkType = cgFormHeadEntity.getJformPkType();
 		String dbType = DBTypeUtil.getDBType();
 		if("NATIVE".equalsIgnoreCase(pkType)||"SEQUENCE".equalsIgnoreCase(pkType)){
@@ -142,7 +138,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 				//根据类型进行值的适配
 				if("date".equalsIgnoreCase(type)){
 					//日期->java.util.Date
-					Object newV = String.valueOf(beforeV);
+					Object newV = null;
 					try {
 						String dateType = fieldConfig.getShowType();
 						if("datetime".equalsIgnoreCase(dateType)){
@@ -179,11 +175,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 						data.put(String.valueOf(key), newV);
 					}
 				}
-
-			} else if(oConvertUtils.isNotEmpty(fieldConfigs.get(key).getFieldDefault())) {
-				data.remove(key.toString().toLowerCase());
 			}
-
 		}
 		return data;
 	}
@@ -195,7 +187,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * @param data 修改的数据map
 	 */
 
-	public int updateTable(String tableName, Object id, Map<String, Object> data) throws BusinessException {
+	public int updateTable(String tableName, Object id, Map<String, Object> data) {
 		fillUpdateSysVar(data);
 		dataAdapter(tableName,data);
 		String comma = "";
@@ -223,13 +215,9 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 
 		if(cgFormHeadEntity!=null){
 			executeSqlExtend(cgFormHeadEntity.getId(),"update",data);
-
-			executeJavaExtend(cgFormHeadEntity.getId(),"update",data);
-
 		}
 		return num;
 	}
-
 
 	/**
 	 * 查询表单
@@ -240,8 +228,8 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	public Map<String, Object> findOneForJdbc(String tableName, String id) {
 		StringBuffer sqlBuffer = new StringBuffer();
 		sqlBuffer.append("select * from ").append(tableName);
-		sqlBuffer.append(" where id= ? ");
-		Map<String, Object> map = commonDao.findOneForJdbc(sqlBuffer.toString(), id);
+		sqlBuffer.append(" where id='").append(id).append("'");
+		Map<String, Object> map = this.findOneForJdbc(sqlBuffer.toString());
 		return map;
 	}
 
@@ -258,11 +246,8 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			if(StringUtils.isNotEmpty(sqlPlugin)){
 				String [] sqls = sqlPlugin.split(";");
 				for(String sql:sqls){
-
-					/*if(sql.toLowerCase().indexOf(CgAutoListConstant.SQL_INSERT)!=-1
-							||sql.toLowerCase().indexOf(CgAutoListConstant.SQL_UPDATE)!=-1){*/
-					if(true){
-
+					if(sql.toLowerCase().indexOf(CgAutoListConstant.SQL_INSERT)!=-1
+							||sql.toLowerCase().indexOf(CgAutoListConstant.SQL_UPDATE)!=-1){
 						//执行sql
 						logger.debug("sql plugin -------->"+sql);
 						sql = formateSQl(sql,  data);
@@ -275,7 +260,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 						}
 					}
 				}
-		}
+			}
 		}
 	}
 
@@ -307,10 +292,8 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			sql = sql.replace("#{UUID}", UUIDGenerator.generate());
 		}
 		for (String key : params.keySet()) {
-
 //            sql = sql.replace("${" + key + "}", "'"+String.valueOf(params.get(key))+"'");
 			sql = sql.replace("#{" + key + "}",String.valueOf(params.get(key)));
-
 		}
 		return sql;
 	}
@@ -321,30 +304,29 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		//插入主表信息
 		Map<String, Object> mainMap = mapMore.get(mainTableName).get(0);
 		//消除字段
-	    String [] filterName = {"tableName","saveOrUpdateMore"};
-	    mainMap = CommUtils.attributeMapFilter(mainMap,filterName);
-	    if(mainMap.get("id")==null||"".equals((String)mainMap.get("id"))){
-		    Object pkValue = getPkValue(mainTableName);
-		    mainMap.put("id", pkValue);
-	    }
+		String [] filterName = {"tableName","saveOrUpdateMore"};
+		mainMap = CommUtils.attributeMapFilter(mainMap,filterName);
+		Object pkValue = getPkValue(mainTableName);
+		mainMap.put("id", pkValue);
 		insertTable(mainTableName, mainMap);
+
 		//插入附表信息
 		//去除主表信息
 		String [] filterMainTable = {mainTableName};
 		mapMore = CommUtils.attributeMapFilter(mapMore,filterMainTable);
 		Iterator it=mapMore.entrySet().iterator();
 		while(it.hasNext()){
-	        Map.Entry entry=(Map.Entry)it.next();
-	        String ok=(String)entry.getKey();
-	        List<Map<String, Object>> ov=(List<Map<String, Object>>)entry.getValue();
-	        for(Map<String, Object> fieldMap:ov){
-	        	//处理关联键
-	        	List<Map<String, Object>> fkFieldList =  getFKField(mainTableName, ok);
-	        	Object subPkValue = getPkValue(ok);
-	        	fieldMap.put("id", subPkValue);
-	        	fieldMap = CommUtils.convertFKMap(fieldMap,mainMap,fkFieldList);
-	        	insertTable(ok, fieldMap);
-	        }
+			Map.Entry entry=(Map.Entry)it.next();
+			String ok=(String)entry.getKey();
+			List<Map<String, Object>> ov=(List<Map<String, Object>>)entry.getValue();
+			for(Map<String, Object> fieldMap:ov){
+				//处理关联键
+				List<Map<String, Object>> fkFieldList =  getFKField(mainTableName, ok);
+				Object subPkValue = getPkValue(ok);
+				fieldMap.put("id", subPkValue);
+				fieldMap = CommUtils.convertFKMap(fieldMap,mainMap,fkFieldList);
+				insertTable(ok, fieldMap);
+			}
 		}
 		return mainMap;
 	}
@@ -356,8 +338,8 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		Map<String, Object> mainMap = mapMore.get(mainTableName).get(0);
 		Object mainTableId = mainMap.get("id");
 		//消除字段
-	    String [] filterName =  {"tableName","saveOrUpdateMore","id"};
-	    mainMap = CommUtils.attributeMapFilter(mainMap,filterName);
+		String [] filterName =  {"tableName","saveOrUpdateMore","id"};
+		mainMap = CommUtils.attributeMapFilter(mainMap,filterName);
 		updateTable(mainTableName,mainTableId, mainMap);
 		mainMap.put("id", mainTableId);
 		//更新附表信息
@@ -365,40 +347,40 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		mapMore = CommUtils.attributeMapFilter(mapMore,filterMainTable);
 		Iterator it=mapMore.entrySet().iterator();
 		while(it.hasNext()){
-	        Map.Entry entry=(Map.Entry)it.next();
-	        String ok=(String)entry.getKey();
-	        List<Map<String, Object>> ov=(List<Map<String, Object>>)entry.getValue();
-	        //处理关联键
-        	List<Map<String, Object>> fkFieldList =  getFKField(mainTableName, ok);
-        	//根据主表id获取附表信息
-        	Map<Object,Map<String, Object>> subTableDateMap = getSubTableData(fkFieldList, mainTableName, ok, mainTableId);
-	        for(Map<String, Object> fieldMap:ov){
-	        	Object subId = fieldMap.get("id")==null?"":fieldMap.get("id");
-	        	if(subId==null || "".equals(String.valueOf(subId))){
-	        		fieldMap = CommUtils.convertFKMap(fieldMap,mainMap,fkFieldList);
-		        	fieldMap.put("id", getPkValue(ok));
-		        	insertTable(ok, fieldMap);
-	        	}else{
-	        		fieldMap = CommUtils.convertFKMap(fieldMap,mainMap,fkFieldList);
-	        		//消除字段
-	        	    String [] subFilterName =  {"id"};
-	        	    fieldMap = CommUtils.attributeMapFilter(fieldMap,subFilterName);
-	        		updateTable(ok,subId,fieldMap);
-	        		//剔除已经更新了的数据
-	        		if(subTableDateMap.containsKey(subId)){
-	        			subTableDateMap.remove(subId);
-	        		}
-	        	}
-	        }
-	        //subTableDateMap中剩余的数据就是删除的数据
-	        if(subTableDateMap.size()>0){
-	        	Iterator itSub=subTableDateMap.entrySet().iterator();
-		    	while(itSub.hasNext()){
-		    		Map.Entry entrySub=(Map.Entry)itSub.next();
-		    		Object subId=entrySub.getKey();
-		    		deleteSubTableDataById(subId,ok);
-		    	}
-	        }
+			Map.Entry entry=(Map.Entry)it.next();
+			String ok=(String)entry.getKey();
+			List<Map<String, Object>> ov=(List<Map<String, Object>>)entry.getValue();
+			//处理关联键
+			List<Map<String, Object>> fkFieldList =  getFKField(mainTableName, ok);
+			//根据主表id获取附表信息
+			Map<Object,Map<String, Object>> subTableDateMap = getSubTableData(fkFieldList, mainTableName, ok, mainTableId);
+			for(Map<String, Object> fieldMap:ov){
+				Object subId = fieldMap.get("id")==null?"":fieldMap.get("id");
+				if(subId==null || "".equals(String.valueOf(subId))){
+					fieldMap = CommUtils.convertFKMap(fieldMap,mainMap,fkFieldList);
+					fieldMap.put("id", getPkValue(ok));
+					insertTable(ok, fieldMap);
+				}else{
+					fieldMap = CommUtils.convertFKMap(fieldMap,mainMap,fkFieldList);
+					//消除字段
+					String [] subFilterName =  {"id"};
+					fieldMap = CommUtils.attributeMapFilter(fieldMap,subFilterName);
+					updateTable(ok,subId,fieldMap);
+					//剔除已经更新了的数据
+					if(subTableDateMap.containsKey(subId)){
+						subTableDateMap.remove(subId);
+					}
+				}
+			}
+			//subTableDateMap中剩余的数据就是删除的数据
+			if(subTableDateMap.size()>0){
+				Iterator itSub=subTableDateMap.entrySet().iterator();
+				while(itSub.hasNext()){
+					Map.Entry entrySub=(Map.Entry)itSub.next();
+					Object subId=entrySub.getKey();
+					deleteSubTableDataById(subId,ok);
+				}
+			}
 		}
 		return true;
 	}
@@ -524,17 +506,29 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * @param data
 	 */
 	private void fillUpdateSysVar(Map<String, Object> data) {
-		if(data.containsKey(DataBaseConstant.UPDATE_DATE_TABLE)){
-			data.put(DataBaseConstant.UPDATE_DATE_TABLE, DateUtils.formatDate());
+		if(data.containsKey(CgAutoListConstant.MODIFY_DATE)){
+			data.put(CgAutoListConstant.MODIFY_DATE, SysVar.sysdate.getSysValue());
 		}
-		if(data.containsKey(DataBaseConstant.UPDATE_TIME_TABLE)){
-			data.put(DataBaseConstant.UPDATE_TIME_TABLE, DateUtils.formatTime());
+		if(data.containsKey(CgAutoListConstant.MODIFY_DATETIME)){
+			data.put(CgAutoListConstant.MODIFY_DATETIME, SysVar.systime.getSysValue());
 		}
-		if(data.containsKey(DataBaseConstant.UPDATE_BY_TABLE)){
-			data.put(DataBaseConstant.UPDATE_BY_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE));
+		if(data.containsKey(CgAutoListConstant.MODIFYIER_ID)){
+			data.put(CgAutoListConstant.MODIFYIER_ID, SysVar.userid.getSysValue());
 		}
-		if(data.containsKey(DataBaseConstant.UPDATE_NAME_TABLE)){
-			data.put(DataBaseConstant.UPDATE_NAME_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_NAME));
+		if(data.containsKey(CgAutoListConstant.MODIFYIER_KEY)){
+			data.put(CgAutoListConstant.MODIFYIER_KEY, SysVar.userkey.getSysValue());
+		}
+		if(data.containsKey(CgAutoListConstant.MODIFYIER_NAME)){
+			data.put(CgAutoListConstant.MODIFYIER_NAME, SysVar.username.getSysValue());
+		}
+		if(data.containsKey(CgAutoListConstant.MODIFYIER_REALNAME)){
+			data.put(CgAutoListConstant.MODIFYIER_REALNAME, SysVar.userrealname.getSysValue());
+		}
+		if(data.containsKey(CgAutoListConstant.MODIFYIER_DEPARTMENTID)){
+			data.put(CgAutoListConstant.MODIFYIER_DEPARTMENTID, SysVar.department_id.getSysValue());
+		}
+		if(data.containsKey(CgAutoListConstant.MODIFYIER_DEPARTMENTID)){
+			data.put(CgAutoListConstant.MODIFYIER_DEPARTMENTNAME, SysVar.department_name.getSysValue());
 		}
 	}
 
@@ -543,26 +537,29 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * @param data
 	 */
 	private void fillInsertSysVar(Map<String, Object> data) {
-		if(data.containsKey(DataBaseConstant.CREATE_DATE_TABLE)){
-			data.put(DataBaseConstant.CREATE_DATE_TABLE, DateUtils.formatDate());
+		if(data.containsKey(CgAutoListConstant.CREATE_DATE)){
+			data.put(CgAutoListConstant.CREATE_DATE, SysVar.sysdate.getSysValue());
 		}
-		if(data.containsKey(DataBaseConstant.CREATE_TIME_TABLE)){
-			data.put(DataBaseConstant.CREATE_TIME_TABLE, DateUtils.formatTime());
+		if(data.containsKey(CgAutoListConstant.CREATE_DATETIME)){
+			data.put(CgAutoListConstant.CREATE_DATETIME, SysVar.systime.getSysValue());
 		}
-		if(data.containsKey(DataBaseConstant.CREATE_BY_TABLE)){
-			data.put(DataBaseConstant.CREATE_BY_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE));
+		if(data.containsKey(CgAutoListConstant.CREATOR_ID)){
+			data.put(CgAutoListConstant.CREATOR_ID, SysVar.userid.getSysValue());
 		}
-		if(data.containsKey(DataBaseConstant.CREATE_NAME_TABLE)){
-			data.put(DataBaseConstant.CREATE_NAME_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_NAME));
+		if(data.containsKey(CgAutoListConstant.CREATOR_KEY)){
+			data.put(CgAutoListConstant.CREATOR_KEY, SysVar.userkey.getSysValue());
 		}
-		if(data.containsKey(DataBaseConstant.SYS_COMPANY_CODE_TABLE)){
-			data.put(DataBaseConstant.SYS_COMPANY_CODE_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_COMPANY_CODE));
+		if(data.containsKey(CgAutoListConstant.CREATOR_NAME)){
+			data.put(CgAutoListConstant.CREATOR_NAME, SysVar.username.getSysValue());
 		}
-		if(data.containsKey(DataBaseConstant.SYS_ORG_CODE_TABLE)){
-			data.put(DataBaseConstant.SYS_ORG_CODE_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_ORG_CODE));
+		if(data.containsKey(CgAutoListConstant.CREATOR_REALNAME)){
+			data.put(CgAutoListConstant.CREATOR_REALNAME, SysVar.userrealname.getSysValue());
 		}
-		if(data.containsKey(DataBaseConstant.SYS_USER_CODE_TABLE)){
-			data.put(DataBaseConstant.SYS_USER_CODE_TABLE, ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE));
+		if(data.containsKey(CgAutoListConstant.CREATOR_DEPARTMENTID)){
+			data.put(CgAutoListConstant.CREATOR_DEPARTMENTID, SysVar.department_id.getSysValue());
+		}
+		if(data.containsKey(CgAutoListConstant.CREATOR_DEPARTMENTID)){
+			data.put(CgAutoListConstant.CREATOR_DEPARTMENTNAME, SysVar.department_name.getSysValue());
 		}
 	}
 	/**
@@ -571,19 +568,21 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * @return
 	 */
 	private String replaceExtendSqlSysVar(String sql){
-		sql = sql.replace("{"+DataBaseConstant.SYS_USER_CODE_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE))
-				.replace("{"+DataBaseConstant.SYS_USER_NAME_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_NAME))
-				.replace("{"+DataBaseConstant.SYS_ORG_CODE_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_ORG_CODE))
-				.replace("{"+DataBaseConstant.SYS_COMPANY_CODE_TABLE+"}", ResourceUtil.getUserSystemData(DataBaseConstant.SYS_COMPANY_CODE))
-				.replace("{"+DataBaseConstant.SYS_DATE_TABLE+"}",  DateUtils.formatDate())
-				.replace("{"+DataBaseConstant.SYS_TIME_TABLE+"}",  DateUtils.formatTime());
+		sql = sql.replace("#{sys.userid}", SysVar.userid.getSysValue())
+				.replace("#{sys.userkey}", SysVar.userkey.getSysValue())
+				.replace("#{sys.username}", SysVar.username.getSysValue())
+				.replace("#{sys.user_realname}", SysVar.userrealname.getSysValue())
+				.replace("#{sys.depid}", SysVar.department_id.getSysValue())
+				.replace("#{sys.depname}", SysVar.department_name.getSysValue())
+				.replace("#{sys.sysdate}", SysVar.sysdate.getSysValue())
+				.replace("#{sys.sysdtime}", SysVar.systime.getSysValue());
 		return sql;
 	}
 
 	private Map<String,CgFormFieldEntity> getAllFieldByTableName(String tableName){
 		//获取版本号
-        String version = cgFormFieldService.getCgFormVersionByTableName(tableName);
-        Map<String,CgFormFieldEntity> map  = cgFormFieldService.getAllCgFormFieldByTableName(tableName, version);
+		String version = cgFormFieldService.getCgFormVersionByTableName(tableName);
+		Map<String,CgFormFieldEntity> map  = cgFormFieldService.getAllCgFormFieldByTableName(tableName, version);
 		return map;
 	}
 
@@ -595,59 +594,5 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		return flag;
 	}
-
-	/**
-	 * 执行JAVA增强实现类
-	 */
-	@Override
-	public void executeJavaExtend(String formId, String buttonCode,Map<String, Object> data) throws BusinessException{
-		CgformEnhanceJavaEntity cgformEnhanceJavaEntity = getCgformEnhanceJavaEntityByCodeFormId(buttonCode,formId);
-		if(cgformEnhanceJavaEntity!=null){
-			String cgJavaType = cgformEnhanceJavaEntity.getCgJavaType();
-			String cgJavaValue = cgformEnhanceJavaEntity.getCgJavaValue();
-
-			if(StringUtil.isNotEmpty(cgJavaValue)){
-				Object obj = null;
-				try {
-					if("class".equals(cgJavaType)){
-						//因新增时已经校验了实例化是否可以成功，所以这块就不需要再做一次判断
-						obj = MyClassLoader.getClassByScn(cgJavaValue).newInstance();
-					}else if("spring".equals(cgJavaType)){
-						obj = ApplicationContextUtil.getContext().getBean(cgJavaValue);
-					}
-					if(obj instanceof CgformEnhanceJavaInter){
-						CgformEnhanceJavaInter javaInter = (CgformEnhanceJavaInter) obj;
-						javaInter.execute(data);
-					}
-				} catch (Exception e) {
-					logger.error(e.getMessage());
-					e.printStackTrace();
-					throw new BusinessException("执行JAVA增强出现异常！");
-				} 
-			}
-
-		}
-	}
-	
-	public CgformEnhanceJavaEntity getCgformEnhanceJavaEntityByCodeFormId(String buttonCode, String formId) {
-		StringBuilder hql = new StringBuilder("");
-		hql.append(" from CgformEnhanceJavaEntity t");
-		hql.append(" where t.formId='").append(formId).append("'");
-		hql.append(" and  t.buttonCode ='").append(buttonCode).append("'");
-		List<CgformEnhanceJavaEntity> list = this.findHql(hql.toString());
-		if(list!=null&&list.size()>0){
-			return list.get(0);
-		}
-		return null;
-	}
-
-	public List<CgformEnhanceJavaEntity> getCgformEnhanceJavaEntityByFormId( String formId) {
-		StringBuilder hql = new StringBuilder("");
-		hql.append(" from CgformEnhanceJavaEntity t");
-		hql.append(" where t.formId='").append(formId).append("'");
-		List<CgformEnhanceJavaEntity> list = this.findHql(hql.toString());
-		return list;
-	}
-
 }
 

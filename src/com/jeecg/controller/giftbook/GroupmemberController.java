@@ -31,12 +31,7 @@ import java.io.OutputStream;
 import org.jeecgframework.core.util.BrowserUtils;
 import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.TemplateExportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
-import org.jeecgframework.poi.excel.entity.vo.TemplateExcelConstants;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.jeecgframework.core.util.ResourceUtil;
 import java.io.IOException;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -179,7 +174,6 @@ public class GroupmemberController extends BaseController {
 	/**
 	 * 添加组成员
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
@@ -203,7 +197,6 @@ public class GroupmemberController extends BaseController {
 	/**
 	 * 更新组成员
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")
@@ -274,15 +267,7 @@ public class GroupmemberController extends BaseController {
 	@RequestMapping(params = "exportXls")
 	public String exportXls(GroupmemberEntity groupmember,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		CriteriaQuery cq = new CriteriaQuery(GroupmemberEntity.class, dataGrid);
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, groupmember, request.getParameterMap());
-		List<GroupmemberEntity> groupmembers = this.groupmemberService.getListByCriteriaQuery(cq,false);
-		modelMap.put(NormalExcelConstants.FILE_NAME,"组成员");
-		modelMap.put(NormalExcelConstants.CLASS,GroupmemberEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("组成员列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-			"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,groupmembers);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return "";
 	}
 	/**
 	 * 导出excel 使模板
@@ -293,12 +278,7 @@ public class GroupmemberController extends BaseController {
 	@RequestMapping(params = "exportXlsByT")
 	public String exportXlsByT(GroupmemberEntity groupmember,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-    	modelMap.put(NormalExcelConstants.FILE_NAME,"组成员");
-    	modelMap.put(NormalExcelConstants.CLASS,GroupmemberEntity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("组成员列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-    	"导出信息"));
-    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
-    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return "";
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -313,10 +293,10 @@ public class GroupmemberController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(2);
-			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
-				List<GroupmemberEntity> listGroupmemberEntitys = ExcelImportUtil.importExcel(file.getInputStream(),GroupmemberEntity.class,params);
+				List<GroupmemberEntity> listGroupmemberEntitys =(List<GroupmemberEntity> )
+				ExcelImportUtil.importExcelByIs(file.getInputStream(),GroupmemberEntity.class,params);
 				for (GroupmemberEntity groupmember : listGroupmemberEntitys) {
 					groupmemberService.save(groupmember);
 				}

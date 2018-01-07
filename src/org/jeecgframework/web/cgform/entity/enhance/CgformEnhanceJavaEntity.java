@@ -37,13 +37,10 @@ public class CgformEnhanceJavaEntity implements java.io.Serializable {
 	private java.lang.String buttonCode;
 	
 	/**类型*/
-	@Excel(name="类型")
 	private java.lang.String cgJavaType;
 	/**数值*/
-	@Excel(name="数值")
 	private java.lang.String cgJavaValue;
 	/**表单ID*/
-	@Excel(name="表单ID")
 	private java.lang.String formId;
 	
 	/**

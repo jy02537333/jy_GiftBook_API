@@ -2,9 +2,7 @@ package com.jeecg.controller.giftbook;
 import com.jeecg.entity.giftbook.FinancialSupermarketEntity;
 import com.jeecg.service.giftbook.FinancialSupermarketServiceI;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,23 +22,11 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.AjaxReturnTool;
 import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.tag.core.easyui.TagUtil;
-import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
 
-import java.io.OutputStream;
-
-import org.jeecgframework.core.util.BrowserUtils;
-import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.TemplateExportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
-import org.jeecgframework.poi.excel.entity.vo.TemplateExcelConstants;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.jeecgframework.core.util.ResourceUtil;
 
 import java.io.IOException;
 
@@ -52,12 +38,8 @@ import java.util.Map;
 
 import org.jeecgframework.core.util.ExceptionUtil;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -114,7 +96,6 @@ public class ApiFinancialSupermarketController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
@@ -191,7 +172,6 @@ public class ApiFinancialSupermarketController extends BaseController {
 	/**
 	 * 添加金融超市
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
@@ -215,7 +195,6 @@ public class ApiFinancialSupermarketController extends BaseController {
 	/**
 	 * 更新金融超市
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")
@@ -284,17 +263,8 @@ public class ApiFinancialSupermarketController extends BaseController {
 	 * @param response
 	 */
 	@RequestMapping(params = "exportXls")
-	public String exportXls(FinancialSupermarketEntity financialSupermarket,HttpServletRequest request,HttpServletResponse response
+	public void exportXls(FinancialSupermarketEntity financialSupermarket,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		CriteriaQuery cq = new CriteriaQuery(FinancialSupermarketEntity.class, dataGrid);
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, financialSupermarket, request.getParameterMap());
-		List<FinancialSupermarketEntity> financialSupermarkets = this.financialSupermarketService.getListByCriteriaQuery(cq,false);
-		modelMap.put(NormalExcelConstants.FILE_NAME,"金融超市");
-		modelMap.put(NormalExcelConstants.CLASS,FinancialSupermarketEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("金融超市列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-			"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,financialSupermarkets);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
 	/**
 	 * 导出excel 使模板
@@ -303,14 +273,8 @@ public class ApiFinancialSupermarketController extends BaseController {
 	 * @param response
 	 */
 	@RequestMapping(params = "exportXlsByT")
-	public String exportXlsByT(FinancialSupermarketEntity financialSupermarket,HttpServletRequest request,HttpServletResponse response
+	public void exportXlsByT(FinancialSupermarketEntity financialSupermarket,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-    	modelMap.put(NormalExcelConstants.FILE_NAME,"金融超市");
-    	modelMap.put(NormalExcelConstants.CLASS,FinancialSupermarketEntity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("金融超市列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-    	"导出信息"));
-    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
-    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -325,10 +289,10 @@ public class ApiFinancialSupermarketController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(2);
-			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
-				List<FinancialSupermarketEntity> listFinancialSupermarketEntitys = ExcelImportUtil.importExcel(file.getInputStream(),FinancialSupermarketEntity.class,params);
+				List<FinancialSupermarketEntity> listFinancialSupermarketEntitys =(List<FinancialSupermarketEntity>)
+						ExcelImportUtil.importExcelByIs(file.getInputStream(),FinancialSupermarketEntity.class,params);
 				for (FinancialSupermarketEntity financialSupermarket : listFinancialSupermarketEntitys) {
 					financialSupermarketService.save(financialSupermarket);
 				}

@@ -8,10 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.jeecgframework.poi.excel.entity.ExportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
-import org.jeecgframework.poi.excel.entity.vo.TemplateExcelConstants;
-import org.jeecgframework.poi.excel.entity.vo.TemplateWordConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -179,17 +175,7 @@ public class CourseController extends BaseController {
 	@RequestMapping(params = "exportXls")
 	public String exportXls(CourseEntity course,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap map) {
-
-        CriteriaQuery cq = new CriteriaQuery(CourseEntity.class, dataGrid);
-        org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, course, request.getParameterMap());
-        List<CourseEntity> courses = this.courseService.getListByCriteriaQuery(cq,false);
-
-        map.put(NormalExcelConstants.FILE_NAME,"用户信息");
-        map.put(NormalExcelConstants.CLASS,CourseEntity.class);
-        map.put(NormalExcelConstants.PARAMS,new ExportParams("课程列表", "导出人:Jeecg",
-                "导出信息"));
-        map.put(NormalExcelConstants.DATA_LIST,courses);
-        return NormalExcelConstants.JEECG_EXCEL_VIEW;
+return null;
 
 	}
 	/**
@@ -211,10 +197,11 @@ public class CourseController extends BaseController {
             temp.put("summon", i*10000);
             map.put("i"+i, temp);
         }
-        modelMap.put(TemplateExcelConstants.FILE_NAME,"工资统计信息");
-        modelMap.put(TemplateExcelConstants.PARAMS,new TemplateExportParams("export/template/exportTemp.xls",1));
-        modelMap.put(TemplateExcelConstants.MAP_DATA,map);
-        return TemplateExcelConstants.JEECG_TEMPLATE_EXCEL_VIEW;
+//        modelMap.put(TemplateExcelConstants.FILE_NAME,"工资统计信息");
+//        modelMap.put(TemplateExcelConstants.PARAMS,new TemplateExportParams("export/template/exportTemp.xls",1));
+//        modelMap.put(TemplateExcelConstants.MAP_DATA,map);
+//        return TemplateExcelConstants.JEECG_TEMPLATE_EXCEL_VIEW;
+		return null;
 	}
 	/**
 	 * 导出excel 使模板
@@ -234,12 +221,13 @@ public class CourseController extends BaseController {
         Map<String,Object> obj = new HashMap<String, Object>();
         map.put("obj", obj);
         obj.put("name", courses.size());
-        modelMap.put(TemplateExcelConstants.FILE_NAME,"课程信息");
-        modelMap.put(TemplateExcelConstants.PARAMS,new TemplateExportParams("export/template/exportTemp.xls"));
-        modelMap.put(TemplateExcelConstants.MAP_DATA,map);
-        modelMap.put(TemplateExcelConstants.CLASS,CourseEntity.class);
-        modelMap.put(TemplateExcelConstants.LIST_DATA,courses);
-        return TemplateExcelConstants.JEECG_TEMPLATE_EXCEL_VIEW;
+//        modelMap.put(TemplateExcelConstants.FILE_NAME,"课程信息");
+//        modelMap.put(TemplateExcelConstants.PARAMS,new TemplateExportParams("export/template/exportTemp.xls"));
+//        modelMap.put(TemplateExcelConstants.MAP_DATA,map);
+//        modelMap.put(TemplateExcelConstants.CLASS,CourseEntity.class);
+//        modelMap.put(TemplateExcelConstants.LIST_DATA,courses);
+//        return TemplateExcelConstants.JEECG_TEMPLATE_EXCEL_VIEW;
+		return null;
 	}
 	/**
 	 * 导出Word 使模板
@@ -262,10 +250,11 @@ public class CourseController extends BaseController {
 		map.put("Author", "scott");
 		map.put("email", "scott@jeecg.org");
 		map.put("list", courses);
-		modelMap.put(TemplateWordConstants.FILE_NAME,"Word测试");
-		modelMap.put(TemplateWordConstants.MAP_DATA,map);
-		modelMap.put(TemplateWordConstants.URL,"export/template/test.docx");
-		return TemplateWordConstants.JEECG_TEMPLATE_WORD_VIEW;
+//		modelMap.put(TemplateWordConstants.FILE_NAME,"Word测试");
+//		modelMap.put(TemplateWordConstants.MAP_DATA,map);
+//		modelMap.put(TemplateWordConstants.URL,"export/template/test.docx");
+//		return TemplateWordConstants.JEECG_TEMPLATE_WORD_VIEW;
+		return null;
 	}
 
 	@RequestMapping(params = "importExcel", method = RequestMethod.POST)
@@ -279,11 +268,12 @@ public class CourseController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(2);
-			params.setHeadRows(2);
+//			params.setHeadRows(2);
 			params.setNeedSave(true);
 			try {
 
-				List<CourseEntity> listCourses =  ExcelImportUtil.importExcel(file.getInputStream(),CourseEntity.class,params);
+				List<CourseEntity> listCourses =  (List<CourseEntity>)
+				ExcelImportUtil.importExcelByIs(file.getInputStream(),CourseEntity.class,params);
 
 				for (CourseEntity course : listCourses) {
 					if(course.getName()!=null){

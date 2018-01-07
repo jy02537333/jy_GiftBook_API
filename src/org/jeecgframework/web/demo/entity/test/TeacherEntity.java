@@ -35,10 +35,8 @@ public class TeacherEntity implements java.io.Serializable {
 	/**id*/
 	private java.lang.String id;
 	/**name*/
-	@Excel(name="老师姓名",orderNum="2",needMerge=true)
 	private java.lang.String name;
 	
-	@Excel(name="老师照片",orderNum="3",type=2,height=15,width=20)
 	private java.lang.String pic;
 	
 	/**

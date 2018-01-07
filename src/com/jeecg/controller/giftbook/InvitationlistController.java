@@ -27,16 +27,8 @@ import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
 
-import java.io.OutputStream;
-import org.jeecgframework.core.util.BrowserUtils;
-import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.TemplateExportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
-import org.jeecgframework.poi.excel.entity.vo.TemplateExcelConstants;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.jeecgframework.core.util.ResourceUtil;
 import java.io.IOException;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -178,7 +170,6 @@ public class InvitationlistController extends BaseController {
 	/**
 	 * 添加请帖人员列表
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
@@ -202,7 +193,6 @@ public class InvitationlistController extends BaseController {
 	/**
 	 * 更新请帖人员列表
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")
@@ -273,15 +263,7 @@ public class InvitationlistController extends BaseController {
 	@RequestMapping(params = "exportXls")
 	public String exportXls(InvitationlistEntity invitationlist,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		CriteriaQuery cq = new CriteriaQuery(InvitationlistEntity.class, dataGrid);
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, invitationlist, request.getParameterMap());
-		List<InvitationlistEntity> invitationlists = this.invitationlistService.getListByCriteriaQuery(cq,false);
-		modelMap.put(NormalExcelConstants.FILE_NAME,"请帖人员列表");
-		modelMap.put(NormalExcelConstants.CLASS,InvitationlistEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("请帖人员列表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-			"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,invitationlists);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return "";
 	}
 	/**
 	 * 导出excel 使模板
@@ -292,12 +274,7 @@ public class InvitationlistController extends BaseController {
 	@RequestMapping(params = "exportXlsByT")
 	public String exportXlsByT(InvitationlistEntity invitationlist,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-    	modelMap.put(NormalExcelConstants.FILE_NAME,"请帖人员列表");
-    	modelMap.put(NormalExcelConstants.CLASS,InvitationlistEntity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("请帖人员列表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-    	"导出信息"));
-    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
-    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return "";
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -312,10 +289,9 @@ public class InvitationlistController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(2);
-			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
-				List<InvitationlistEntity> listInvitationlistEntitys = ExcelImportUtil.importExcel(file.getInputStream(),InvitationlistEntity.class,params);
+				List<InvitationlistEntity> listInvitationlistEntitys =(List<InvitationlistEntity> ) ExcelImportUtil.importExcelByIs(file.getInputStream(),InvitationlistEntity.class,params);
 				for (InvitationlistEntity invitationlist : listInvitationlistEntitys) {
 					invitationlistService.save(invitationlist);
 				}

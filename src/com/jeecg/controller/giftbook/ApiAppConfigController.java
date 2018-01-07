@@ -11,10 +11,6 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.entity.AjaxJson;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.*;
-import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
-import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +21,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -34,11 +28,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**   
@@ -264,17 +255,8 @@ public class ApiAppConfigController extends BaseController {
 	 * @param response
 	 */
 	@RequestMapping(params = "exportXls")
-	public String exportXls(AppConfigEntity appConfig,HttpServletRequest request,HttpServletResponse response
+	public void exportXls(AppConfigEntity appConfig,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		CriteriaQuery cq = new CriteriaQuery(AppConfigEntity.class, dataGrid);
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, appConfig, request.getParameterMap());
-		List<AppConfigEntity> appConfigs = this.appConfigService.getListByCriteriaQuery(cq,false);
-		modelMap.put(NormalExcelConstants.FILE_NAME,"app_config");
-		modelMap.put(NormalExcelConstants.CLASS,AppConfigEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("app_config列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-			"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,appConfigs);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
 	/**
 	 * 导出excel 使模板
@@ -283,14 +265,8 @@ public class ApiAppConfigController extends BaseController {
 	 * @param response
 	 */
 	@RequestMapping(params = "exportXlsByT")
-	public String exportXlsByT(AppConfigEntity appConfig,HttpServletRequest request,HttpServletResponse response
+	public void exportXlsByT(AppConfigEntity appConfig,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-    	modelMap.put(NormalExcelConstants.FILE_NAME,"app_config");
-    	modelMap.put(NormalExcelConstants.CLASS,AppConfigEntity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("app_config列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-    	"导出信息"));
-    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
-    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -299,31 +275,6 @@ public class ApiAppConfigController extends BaseController {
 	public AjaxJson importExcel(HttpServletRequest request, HttpServletResponse response) {
 		AjaxJson j = new AjaxJson();
 		
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
-		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
-			MultipartFile file = entity.getValue();// 获取上传文件对象
-			ImportParams params = new ImportParams();
-			params.setTitleRows(2);
-			params.setHeadRows(1);
-			params.setNeedSave(true);
-			try {
-				List<AppConfigEntity> listAppConfigEntitys = ExcelImportUtil.importExcel(file.getInputStream(),AppConfigEntity.class,params);
-				for (AppConfigEntity appConfig : listAppConfigEntitys) {
-					appConfigService.save(appConfig);
-				}
-				j.setMsg("文件导入成功！");
-			} catch (Exception e) {
-				j.setMsg("文件导入失败！");
-				logger.error(ExceptionUtil.getExceptionMessage(e));
-			}finally{
-				try {
-					file.getInputStream().close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
 		return j;
 	}
 	

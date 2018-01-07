@@ -1,14 +1,11 @@
 package com.jeecg.controller.giftbook;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.jeecgframework.core.util.base64.Base64Utils;
 import org.jeecgframework.core.util.base64.HandlerRSAUtils;
-import org.jeecgframework.core.util.base64.RSAEncrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

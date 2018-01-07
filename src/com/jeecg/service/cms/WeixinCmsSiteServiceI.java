@@ -1,0 +1,34 @@
+package com.jeecg.service.cms;
+
+import org.jeecgframework.core.common.service.CommonService;
+import com.jeecg.entity.cms.WeixinCmsSiteEntity;
+
+import java.io.Serializable;
+
+public interface WeixinCmsSiteServiceI extends CommonService {
+	
+ 	public <T> void delete(T entity);
+ 	
+ 	public <T> Serializable save(T entity);
+ 	
+ 	public <T> void saveOrUpdate(T entity);
+ 	
+ 	/**
+	 * 默认按钮-sql增强-新增操作
+	 * @param id
+	 * @return
+	 */
+ 	public boolean doAddSql(WeixinCmsSiteEntity t);
+ 	/**
+	 * 默认按钮-sql增强-更新操作
+	 * @param id
+	 * @return
+	 */
+ 	public boolean doUpdateSql(WeixinCmsSiteEntity t);
+ 	/**
+	 * 默认按钮-sql增强-删除操作
+	 * @param id
+	 * @return
+	 */
+ 	public boolean doDelSql(WeixinCmsSiteEntity t);
+}

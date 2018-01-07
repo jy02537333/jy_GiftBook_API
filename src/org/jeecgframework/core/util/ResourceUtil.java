@@ -19,6 +19,8 @@ import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
 import org.jeecgframework.web.system.pojo.base.TSType;
 import org.jeecgframework.web.system.pojo.base.TSTypegroup;
 import org.jeecgframework.web.system.pojo.base.TSUser;
+import weixin.guanjia.account.entity.WeixinAccountEntity;
+import weixin.util.WeiXinConstants;
 
 
 /**
@@ -127,7 +129,6 @@ public class ResourceUtil {
 	/**
 	 * 获取配置文件参数
 	 * 
-	 * @param name
 	 * @return
 	 */
 	public static final Map<Object, Object> getConfigMap(String path) {
@@ -182,15 +183,6 @@ public class ResourceUtil {
 		return request.getParameter(field);
 	}
 
-	/**
-	 * 获取数据库类型
-	 * 
-	 * @return
-	 * @throws Exception 
-	 */
-	public static final String getJdbcUrl() {
-		return DBTypeUtil.getDBType().toLowerCase();
-	}
 
     /**
      * 获取随机码的长度
@@ -201,14 +193,6 @@ public class ResourceUtil {
         return bundle.getString("randCodeLength");
     }
 
-    /**
-     * 获取随机码的类型
-     *
-     * @return 随机码的类型
-     */
-    public static String getRandCodeType() {
-        return bundle.getString("randCodeType");
-    }
 
 
     /**
@@ -313,7 +297,6 @@ public class ResourceUtil {
     /**
      * 处理数据权限规则变量
      * 以用户变量为准  先得到用户变量，如果用户没有设置，则获到 系统变量
-     * @param key
      * 			Session 中的值
      * @return
      */
@@ -322,6 +305,117 @@ public class ResourceUtil {
 		if(StringUtil.isEmpty(value))
 			value = ResourceUtil.getUserSystemData(ruleValue);
 		return value!= null ? value : ruleValue;
+	}
+
+
+	/**
+	 * 获取登录用户微信账号信息
+	 * @return
+	 */
+	public static final WeixinAccountEntity getWeiXinAccount() {
+		HttpSession session = ContextHolderUtils.getSession();
+		if(session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT)!=null){
+			WeixinAccountEntity WeixinAccountEntity = (weixin.guanjia.account.entity.WeixinAccountEntity) session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT);
+			return WeixinAccountEntity;
+		}else{
+			return null;
+		}
+	}
+
+	/**
+	 * 获取登录用户微信账号信息
+	 * @return
+	 */
+	public static final String getShangJiaAccountId() {
+		HttpSession session = ContextHolderUtils.getSession();
+		if(session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT)!=null){
+			WeixinAccountEntity weixinAccountEntity = (weixin.guanjia.account.entity.WeixinAccountEntity) session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT);
+			return weixinAccountEntity.getId();
+		}else{
+			return null;
+		}
+	}
+
+	/**
+	 * 获取登录用户微信账号ID
+	 * @return
+	 */
+	public static final String getWeiXinAccountId() {
+		HttpSession session = ContextHolderUtils.getSession();
+		if(session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT)!=null){
+			WeixinAccountEntity weixinAccountEntity = (weixin.guanjia.account.entity.WeixinAccountEntity) session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT);
+			return weixinAccountEntity.getId();
+		}else{
+			return null;
+		}
+	}
+
+	/**
+	 * 获取浏览用户的openId
+	 * @return
+	 */
+	public static final String getUserOpenId() {
+		HttpSession session = ContextHolderUtils.getSession();
+		Object userOpenId = session.getAttribute(WeiXinConstants.USER_OPENID);
+		if(userOpenId!=null){
+			return userOpenId.toString();
+		}else{
+			return null;
+		}
+	}
+
+
+
+	/**
+	 * 没有登录，跳转到登陆界面，获得登录前的url
+	 * @param request
+	 * @return
+	 */
+	public static String getRedirUrl(HttpServletRequest request){
+		String requestPath = request.getRequestURI() + "?" + request.getQueryString();
+		requestPath = requestPath.substring(request.getContextPath().length() + 1);// 去掉项目路径
+		return requestPath;
+	}
+
+
+
+
+
+
+
+
+	/**
+	 * 获取数据库类型
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	public static final String getJdbcUrl() {
+		return DBTypeUtil.getDBType().toLowerCase();
+	}
+
+
+	/**
+	 * 获取随机码的类型
+	 *
+	 * @return 随机码的类型
+	 */
+	public static String getRandCodeType() {
+		return bundle.getString("randCodeType");
+	}
+
+	/**
+	 * 获取商家的账号ID
+	 * 对应着微信公众账号
+	 * @return
+	 */
+	public static final String getOpenid(HttpServletRequest request) {
+		String openid = request.getParameter("openid");
+		if(openid!=null){
+			return openid;
+		}else{
+			return null;
+		}
 	}
 
 	public static void main(String[] args) {

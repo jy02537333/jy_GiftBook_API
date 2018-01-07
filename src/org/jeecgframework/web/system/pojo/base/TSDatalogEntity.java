@@ -36,16 +36,12 @@ public class TSDatalogEntity extends IdEntity implements java.io.Serializable {
 	/**所属公司*/
 	private java.lang.String sysCompanyCode;
 	/**表名*/
-	@Excel(name="表名")
 	private java.lang.String tableName;
 	/**数据ID*/
-	@Excel(name="数据ID")
 	private java.lang.String dataId;
 	/**数据内容*/
-	@Excel(name="数据内容")
 	private java.lang.String dataContent;
 	/**版本号*/
-	@Excel(name="版本号")
 	private java.lang.Integer versionNumber;
 
 	/**

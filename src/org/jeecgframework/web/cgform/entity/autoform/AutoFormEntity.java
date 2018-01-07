@@ -35,16 +35,12 @@ public class AutoFormEntity implements java.io.Serializable {
 	/**主键*/
 	private java.lang.String id;
 	/**表单名称*/
-	@Excel(name="表单名称")
 	private java.lang.String formName;
 	/**表单描述*/
-	@Excel(name="表单描述")
 	private java.lang.String formDesc;
 	/**模板样式*/
-	@Excel(name="模板样式")
 	private java.lang.String formStyleId;
 	/**表单编辑器文本*/
-	@Excel(name="表单内容")
 	private java.lang.String formContent;
 	/**创建人名称*/
 	private java.lang.String createName;
@@ -59,10 +55,8 @@ public class AutoFormEntity implements java.io.Serializable {
 	/**更新日期*/
 	private java.util.Date updateDate;
 	/**所属部门*/
-	@Excel(name="所属部门")
 	private java.lang.String sysOrgCode;
 	/**所属公司*/
-	@Excel(name="所属公司")
 	private java.lang.String sysCompanyCode;
 	
 	private java.lang.String formParse;

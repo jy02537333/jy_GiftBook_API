@@ -23,37 +23,26 @@ public class GifttypeEntity implements java.io.Serializable {
 	/**Id*/
 	private java.lang.String id;
 	/**类型id，逻辑id*/
-	@Excel(name="类型id，逻辑id")
 	private java.lang.String dtid;
 	/**是否默认使用*/
-	@Excel(name="是否默认使用")
 	private java.lang.Integer isDefault;
 	/**类型所属用户*/
-	@Excel(name="类型所属用户")
 	private java.lang.String userid;
 	/**类型名称*/
-	@Excel(name="类型名称")
 	private java.lang.String typename;
 	/**父级id*/
-	@Excel(name="父级id")
 	private java.lang.String parentid;
 	/**创建时间*/
-	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private java.util.Date createDate;
 	/**创建人编号*/
-	@Excel(name="创建人编号")
 	private java.lang.String createBy;
 	/**创建人姓名*/
-	@Excel(name="创建人姓名")
 	private java.lang.String createName;
 	/**更新时间*/
-	@Excel(name="更新时间",format = "yyyy-MM-dd")
 	private java.util.Date updateDate;
 	/**更新人编号*/
-	@Excel(name="更新人编号")
 	private java.lang.String updateBy;
 	/**更新人姓名*/
-	@Excel(name="更新人姓名")
 	private java.lang.String updateName;
 	
 	

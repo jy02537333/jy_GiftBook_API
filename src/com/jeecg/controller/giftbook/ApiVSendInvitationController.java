@@ -23,20 +23,10 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.tag.core.easyui.TagUtil;
-import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.service.SystemService;
 
-import java.io.OutputStream;
-
-import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.TemplateExportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
-import org.jeecgframework.poi.excel.entity.vo.TemplateExcelConstants;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.io.IOException;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,9 +38,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -279,15 +266,7 @@ public class ApiVSendInvitationController extends BaseController {
 	@RequestMapping(params = "exportXls")
 	public String exportXls(VSendInvitationEntity vSendInvitation,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		CriteriaQuery cq = new CriteriaQuery(VSendInvitationEntity.class, dataGrid);
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, vSendInvitation, request.getParameterMap());
-		List<VSendInvitationEntity> vSendInvitations = this.vSendInvitationService.getListByCriteriaQuery(cq,false);
-		modelMap.put(NormalExcelConstants.FILE_NAME,"v_send_invitation");
-		modelMap.put(NormalExcelConstants.CLASS,VSendInvitationEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("v_send_invitation列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-			"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,vSendInvitations);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return "";
 	}
 	/**
 	 * 导出excel 使模板
@@ -298,12 +277,7 @@ public class ApiVSendInvitationController extends BaseController {
 	@RequestMapping(params = "exportXlsByT")
 	public String exportXlsByT(VSendInvitationEntity vSendInvitation,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-    	modelMap.put(NormalExcelConstants.FILE_NAME,"v_send_invitation");
-    	modelMap.put(NormalExcelConstants.CLASS,VSendInvitationEntity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("v_send_invitation列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-    	"导出信息"));
-    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
-    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return "";
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -318,10 +292,10 @@ public class ApiVSendInvitationController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(2);
-			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
-				List<VSendInvitationEntity> listVSendInvitationEntitys = ExcelImportUtil.importExcel(file.getInputStream(),VSendInvitationEntity.class,params);
+				List<VSendInvitationEntity> listVSendInvitationEntitys =(List<VSendInvitationEntity>)
+				ExcelImportUtil.importExcelByIs(file.getInputStream(),VSendInvitationEntity.class,params);
 				for (VSendInvitationEntity vSendInvitation : listVSendInvitationEntitys) {
 					vSendInvitationService.save(vSendInvitation);
 				}

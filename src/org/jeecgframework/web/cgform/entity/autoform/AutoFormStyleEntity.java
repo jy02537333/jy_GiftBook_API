@@ -33,10 +33,8 @@ public class AutoFormStyleEntity implements java.io.Serializable {
 	/**主键*/
 	private java.lang.String id;
 	/**表单描述*/
-	@Excel(name="表单描述")
 	private java.lang.String styleDesc;
 	/**样式内容*/
-	@Excel(name="样式内容")
 	private java.lang.String styleContent;
 	/**创建人名称*/
 	private java.lang.String createName;

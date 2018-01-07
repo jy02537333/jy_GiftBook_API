@@ -25,9 +25,7 @@ import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.web.system.service.SystemService;
 
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 
 import java.io.IOException;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -276,15 +274,7 @@ public class ApiReceivingGiftsMoneyController extends BaseController {
 	@RequestMapping(params = "exportXls")
 	public String exportXls(ReceivingGiftsMoneyEntity receivingGiftsMoney,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		CriteriaQuery cq = new CriteriaQuery(ReceivingGiftsMoneyEntity.class, dataGrid);
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, receivingGiftsMoney, request.getParameterMap());
-		List<ReceivingGiftsMoneyEntity> receivingGiftsMoneys = this.receivingGiftsMoneyService.getListByCriteriaQuery(cq,false);
-		modelMap.put(NormalExcelConstants.FILE_NAME,"receiving_gifts_money");
-		modelMap.put(NormalExcelConstants.CLASS,ReceivingGiftsMoneyEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("receiving_gifts_money列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-			"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,receivingGiftsMoneys);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return "";
 	}
 	/**
 	 * 导出excel 使模板
@@ -295,12 +285,7 @@ public class ApiReceivingGiftsMoneyController extends BaseController {
 	@RequestMapping(params = "exportXlsByT")
 	public String exportXlsByT(ReceivingGiftsMoneyEntity receivingGiftsMoney,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-    	modelMap.put(NormalExcelConstants.FILE_NAME,"receiving_gifts_money");
-    	modelMap.put(NormalExcelConstants.CLASS,ReceivingGiftsMoneyEntity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("receiving_gifts_money列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-    	"导出信息"));
-    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
-    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return "";
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -315,10 +300,10 @@ public class ApiReceivingGiftsMoneyController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(2);
-			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
-				List<ReceivingGiftsMoneyEntity> listReceivingGiftsMoneyEntitys = ExcelImportUtil.importExcel(file.getInputStream(),ReceivingGiftsMoneyEntity.class,params);
+				List<ReceivingGiftsMoneyEntity> listReceivingGiftsMoneyEntitys =(List<ReceivingGiftsMoneyEntity>)
+				ExcelImportUtil.importExcelByIs(file.getInputStream(),ReceivingGiftsMoneyEntity.class,params);
 				for (ReceivingGiftsMoneyEntity receivingGiftsMoney : listReceivingGiftsMoneyEntitys) {
 					receivingGiftsMoneyService.save(receivingGiftsMoney);
 				}

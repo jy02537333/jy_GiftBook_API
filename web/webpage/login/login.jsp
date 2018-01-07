@@ -104,11 +104,11 @@
                 </div>
                 <div class="toolbar clearfix">
                   <div style="float: right">
-                    <a href="#"  class="forgot-password-link">
-                    	  语言
-                      <i class="ace-icon fa fa-arrow-right"></i>
-                      <t:dictSelect id="langCode" field="langCode" typeGroupCode="lang" hasLabel="false" extendJson="{style:'padding:2px; width:80px;'}" defaultVal="zh-cn"></t:dictSelect>
-                    </a>
+                    <%--<a href="#"  class="forgot-password-link">--%>
+                    	  <%--语言--%>
+                      <%--<i class="ace-icon fa fa-arrow-right"></i>--%>
+                      <%--<t:dictSelect id="langCode" field="langCode" typeGroupCode="lang" hasLabel="false" extendJson="{style:'padding:2px; width:80px;'}" defaultVal="zh-cn"></t:dictSelect>--%>
+                    <%--</a>--%>
                   </div>
                 </div>
                 </form>

@@ -157,4 +157,41 @@ public class CgAutoListConstant {
 	public static final String CODE_JSP_MODE_03 = "03";
 	/** 自定义模板 */
 	public static final String CODE_JSP_MODE_04 = "04";
+	/** 修改日期 */
+	public static final String MODIFY_DATE = "update_date";
+	/** 修改日期时间 */
+	public static final String MODIFY_DATETIME = "update_datetime";
+	/** 修改者ID */
+	public static final String MODIFYIER_ID = "update_by";
+	/** 修改KEY */
+	public static final String MODIFYIER_KEY = "update_key";
+	/** 修改者名称 */
+	public static final String MODIFYIER_NAME = "update_name";
+	/** 修改者真实名称 */
+	public static final String MODIFYIER_REALNAME = "update_realname";
+	/** 修改者部门ID */
+	public static final String MODIFYIER_DEPARTMENTID = "update_depid";
+	/** 修改者部门名称 */
+	public static final String MODIFYIER_DEPARTMENTNAME = "update_depname";
+
+	/**
+	 * ===============系统变量约定字段=================
+	 */
+	/** 创建日期 */
+	public static final String CREATE_DATE = "create_date";
+	/** 创建日期时间 */
+	public static final String CREATE_DATETIME = "create_datetime";
+	/** 创建者ID */
+	public static final String CREATOR_ID = "create_by";
+	/** 创建者KEY */
+	public static final String CREATOR_KEY = "create_key";
+	/** 创建者名称 */
+	public static final String CREATOR_NAME = "create_name";
+	/** 创建者真实名称 */
+	public static final String CREATOR_REALNAME = "create_realname";
+	/** 创建者部门ID */
+	public static final String CREATOR_DEPARTMENTID = "create_depid";
+	/** 创建者部门名称 */
+	public static final String CREATOR_DEPARTMENTNAME = "create_depname";
+
 }

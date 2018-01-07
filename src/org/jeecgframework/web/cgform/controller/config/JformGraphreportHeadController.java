@@ -1,27 +1,28 @@
 package org.jeecgframework.web.cgform.controller.config;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.BrowserUtils;
 import org.jeecgframework.core.util.ExceptionUtil;
+import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
+import org.jeecgframework.poi.excel.entity.ExcelTitle;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.cgform.entity.config.JformGraphreportHeadEntity;
 import org.jeecgframework.web.cgform.entity.config.JformGraphreportHeadPage;
 import org.jeecgframework.web.cgform.entity.config.JformGraphreportItemEntity;
 import org.jeecgframework.web.cgform.service.config.JformGraphreportHeadServiceI;
-import org.jeecgframework.web.demo.entity.test.CourseEntity;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,10 +31,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import com.jeecg.entity.cms.WeixinCmsSiteEntity;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -246,7 +249,7 @@ public class JformGraphreportHeadController extends BaseController {
 	}
 
 	@RequestMapping(params = "exportXls")
-	public String  exportXls(JformGraphreportHeadEntity jformGraphreportHead,HttpServletRequest request,HttpServletResponse response
+	public void  exportXls(JformGraphreportHeadEntity jformGraphreportHead,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap map) {
 		CriteriaQuery cq = new CriteriaQuery(JformGraphreportHeadEntity.class, dataGrid);
 		//查询条件组装器
@@ -261,12 +264,47 @@ public class JformGraphreportHeadController extends BaseController {
 				pageList.add(new JformGraphreportHeadPage(itemEntities,headEntity));
 			}
 		}
+		response.setContentType("application/vnd.ms-excel");
+		String codedFileName = null;
+		OutputStream fOut = null;
+		try {
+			codedFileName = "图表配置";
+			// 根据浏览器进行转码，使其支持中文文件名
+			if (BrowserUtils.isIE(request)) {
+				response.setHeader(
+						"content-disposition",
+						"attachment;filename="
+								+ java.net.URLEncoder.encode(codedFileName,
+								"UTF-8") + ".xls");
+			} else {
+				String newtitle = new String(codedFileName.getBytes("UTF-8"),
+						"ISO8859-1");
+				response.setHeader("content-disposition",
+						"attachment;filename=" + newtitle + ".xls");
+			}
+			// 产生工作簿对象
+			HSSFWorkbook workbook = null;
+			org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil
+					.installHql(cq, jformGraphreportHead, request.getParameterMap());
 
-		map.put(NormalExcelConstants.FILE_NAME,"图表配置");
-		map.put(NormalExcelConstants.CLASS,JformGraphreportHeadPage.class);
-		map.put(NormalExcelConstants.PARAMS,new ExportParams("图表配置","导出信息"));
-		map.put(NormalExcelConstants.DATA_LIST, pageList);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+			List<WeixinCmsSiteEntity> weixinCmsSites = this.jformGraphreportHeadService
+					.getListByCriteriaQuery(cq, false);
+			workbook = ExcelExportUtil.exportExcel(new ExcelTitle("图表配置",
+					"导出人:" + ResourceUtil.getSessionUserName().getRealName(),
+					"导出信息"), WeixinCmsSiteEntity.class, weixinCmsSites);
+			fOut = response.getOutputStream();
+			workbook.write(fOut);
+		} catch (Exception e) {
+		} finally {
+			try {
+				fOut.flush();
+				fOut.close();
+			} catch (IOException e) {
+
+			}
+		}
+
+
 	}
 	@RequestMapping(params = "goImportExcel")
 	public String goImportExcel(){
@@ -283,11 +321,12 @@ public class JformGraphreportHeadController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(1);
-			params.setHeadRows(1);
+//			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
 
-				List<JformGraphreportHeadPage> listCourses =  ExcelImportUtil.importExcel(file.getInputStream(), JformGraphreportHeadPage.class, params);
+				List<JformGraphreportHeadPage> listCourses =(List<JformGraphreportHeadPage>)
+						ExcelImportUtil.importExcelByIs(file.getInputStream(), JformGraphreportHeadPage.class, params);
 
 				for(JformGraphreportHeadPage page:listCourses){
 					JformGraphreportHeadEntity headEntity=page.getJformGraphreportHeadEntity();

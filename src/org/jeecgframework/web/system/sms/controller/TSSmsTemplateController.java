@@ -56,7 +56,7 @@ public class TSSmsTemplateController extends BaseController {
 	 */
 	@RequestMapping(params = "tSSmsTemplate")
 	public ModelAndView tSSmsTemplate(HttpServletRequest request) {
-		return new ModelAndView("system/sms/tSSmsTemplateList");
+		return new ModelAndView("system/cms/tSSmsTemplateList");
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class TSSmsTemplateController extends BaseController {
 			tSSmsTemplate = tSSmsTemplateService.getEntity(TSSmsTemplateEntity.class, tSSmsTemplate.getId());
 			req.setAttribute("tSSmsTemplatePage", tSSmsTemplate);
 		}
-		return new ModelAndView("system/sms/tSSmsTemplate-add");
+		return new ModelAndView("system/cms/tSSmsTemplate-add");
 	}
 	/**
 	 * 消息模本表编辑页面跳转
@@ -211,7 +211,7 @@ public class TSSmsTemplateController extends BaseController {
 			tSSmsTemplate = tSSmsTemplateService.getEntity(TSSmsTemplateEntity.class, tSSmsTemplate.getId());
 			req.setAttribute("tSSmsTemplatePage", tSSmsTemplate);
 		}
-		return new ModelAndView("system/sms/tSSmsTemplate-update");
+		return new ModelAndView("system/cms/tSSmsTemplate-update");
 	}
 	
 	/**
@@ -221,7 +221,7 @@ public class TSSmsTemplateController extends BaseController {
 	 */
 	@RequestMapping(params = "upload")
 	public ModelAndView upload(HttpServletRequest req) {
-		return new ModelAndView("system/sms/tSSmsTemplateUpload");
+		return new ModelAndView("system/cms/tSSmsTemplateUpload");
 	}
 	
 	/**

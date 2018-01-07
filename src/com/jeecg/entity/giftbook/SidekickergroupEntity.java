@@ -26,37 +26,26 @@ public class SidekickergroupEntity implements java.io.Serializable {
 	/**Id*/
 	private java.lang.String id;
 	/**用户id*/
-	@Excel(name="用户id")
 	private java.lang.String userid;
 	/**是否默认使用*/
-	@Excel(name="是否默认使用")
 	private java.lang.Integer isDefault;
 	/**人员数量*/
-	@Excel(name="人员数量")
 	private java.lang.Integer groupmembersnum;
 	/**组名称*/
-	@Excel(name="组名称")
 	private java.lang.String groupname;
 	/**状态(0=删除，1正常)*/
-	@Excel(name="状态(0=删除，1正常)")
 	private java.lang.Integer state;
 	/**创建时间*/
-	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private java.util.Date createDate;
 	/**创建人编号*/
-	@Excel(name="创建人编号")
 	private java.lang.String createBy;
 	/**创建人姓名*/
-	@Excel(name="创建人姓名")
 	private java.lang.String createName;
 	/**更新时间*/
-	@Excel(name="更新时间",format = "yyyy-MM-dd")
 	private java.util.Date updateDate;
 	/**更新人编号*/
-	@Excel(name="更新人编号")
 	private java.lang.String updateBy;
 	/**更信任姓名*/
-	@Excel(name="更信任姓名")
 	private java.lang.String updateName;
 	
 	/**

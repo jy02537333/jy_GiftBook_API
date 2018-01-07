@@ -3,7 +3,6 @@ package org.jeecgframework.web.demo.entity.test;
 import java.util.List;
 
 import org.jeecgframework.core.util.PropertiesUtil;
-import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 
 public class QueryCondition {
 	String field;

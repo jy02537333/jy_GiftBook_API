@@ -55,13 +55,10 @@ public class CgFormIndexEntity implements java.io.Serializable {
 	/**更新日期*/
 	private java.util.Date updateDate;
 	/**索引名称*/
-	@Excel(name="索引名称")
 	private java.lang.String indexName;
 	/**索引栏位*/
-	@Excel(name="索引栏位")
 	private java.lang.String indexField;
 	/**索引类型*/
-	@Excel(name="索引类型")
 	private java.lang.String indexType;
 	/**关联的表*/
 	private CgFormHeadEntity table;

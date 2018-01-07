@@ -42,6 +42,19 @@ public class AuthInterceptor implements HandlerInterceptor {
 	private static final Logger logger = Logger.getLogger(AuthInterceptor.class);
 	private SystemService systemService;
 	private List<String> excludeUrls;
+
+	/**
+	 * 包含匹配（请求链接包含该配置链接，就进行过滤处理）
+	 */
+	private List<String> excludeContainUrls;
+
+	public List<String> getExcludeContainUrls() {
+		return excludeContainUrls;
+	}
+
+	public void setExcludeContainUrls(List<String> excludeContainUrls) {
+		this.excludeContainUrls = excludeContainUrls;
+	}
 	private static List<TSFunction> functionList;
 
 

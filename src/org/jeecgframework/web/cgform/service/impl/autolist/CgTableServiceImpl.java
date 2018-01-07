@@ -77,18 +77,15 @@ public class CgTableServiceImpl extends CommonServiceImpl implements CgTableServ
 			Map<String,Object> data  = dataBaseService.findOneForJdbc(table, id.toString());
 			if(data!=null){
 				//打印测试
-			    Iterator it=data.entrySet().iterator();
-			    while(it.hasNext()){
-			    	Map.Entry entry=(Map.Entry)it.next();
-			        Object ok=entry.getKey();
-			        Object ov=entry.getValue()==null?"":entry.getValue();
-			        //org.jeecgframework.core.util.LogUtil.info("name:"+ok.toString()+";value:"+ov.toString());
-			    }
+				Iterator it=data.entrySet().iterator();
+				while(it.hasNext()){
+					Map.Entry entry=(Map.Entry)it.next();
+					Object ok=entry.getKey();
+					Object ov=entry.getValue()==null?"":entry.getValue();
+					org.jeecgframework.core.util.LogUtil.info("name:"+ok.toString()+";value:"+ov.toString());
+				}
 				data = CommUtils.mapConvert(data);
 				dataBaseService.executeSqlExtend(head.getId(), "delete", data);
-
-				dataBaseService.executeJavaExtend(head.getId(), "delete", data);
-
 			}
 			//step.1 删除表
 			StringBuilder deleteSql = new StringBuilder();
@@ -116,16 +113,7 @@ public class CgTableServiceImpl extends CommonServiceImpl implements CgTableServ
 					this.executeSql(dsql,id);
 				}
 			}
-//--------longjb-start--20150526 ----for:add step.3 判断是否有附件字段,进行连带删除附件及附件表---------------
-			List<CgUploadEntity> uploadBeans = cgFormFieldService.findByProperty(CgUploadEntity.class, "cgformId", id);
-			if(uploadBeans!=null){
-				for(CgUploadEntity b:uploadBeans){
-					String path = ResourceUtil.getSysPath()+File.separator+b.getRealpath();//附件路径
-					FileUtils.delete(path);					
-					cgFormFieldService.deleteEntityById(CgUploadEntity.class, b.getId());
-				}
-			}
-//--------longjb-end--20150526 ----for:add step.3 判断是否有附件字段,进行连带删除附件及附件表---------------
+
 		}catch (Exception e) {
 			e.printStackTrace();
 			return false;

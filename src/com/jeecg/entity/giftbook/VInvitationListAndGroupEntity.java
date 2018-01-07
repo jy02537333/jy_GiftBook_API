@@ -33,22 +33,16 @@ public class VInvitationListAndGroupEntity implements java.io.Serializable {
 	/**Id*/
 	private java.lang.String id;
 	/**被邀请人*/
-	@Excel(name="被邀请人")
 	private String inviteeid;
 	/**被邀请人*/
-	@Excel(name="被邀请人")
 	private String inviteename;
 	/**被邀请人电话*/
-	@Excel(name="被邀请人电话")
 	private String inviteephone;
 	/**组名称*/
-	@Excel(name="组名称")
 	private String groupname;
 	/**组id*/
-	@Excel(name="组id")
 	private String gourpid;
 	/**请帖编号*/
-	@Excel(name="请帖编号")
 	private String invitationid;
 
 

@@ -42,121 +42,82 @@ public class GoodsEntity implements java.io.Serializable {
 	/**流程状态*/
 	private java.lang.String bpmStatus;
 	/**商品名称*/
-	@Excel(name="商品名称")
 	private java.lang.String name;
 	/**商品代码*/
-	@Excel(name="商品代码")
 	private java.lang.String code;
 	/**商品全称*/
-	@Excel(name="商品全称")
 	private java.lang.String fullName;
 	/**外部编码*/
-	@Excel(name="外部编码")
 	private java.lang.String outsideCode;
 	/**厂家货号*/
-	@Excel(name="厂家货号")
 	private java.lang.String manufacturersNo;
 	/**供应商*/
-	@Excel(name="供应商")
 	private java.lang.String supplier;
 	/**单位*/
-	@Excel(name="单位")
 	private java.lang.String productUnit;
 	/**货主*/
-	@Excel(name="货主")
 	private java.lang.String productOwner;
 	/**品牌*/
-	@Excel(name="品牌")
 	private java.lang.String brand;
 	/**年度*/
-	@Excel(name="年度")
 	private java.lang.String annual;
 	/**季节*/
-	@Excel(name="季节")
 	private java.lang.String season;
 	/**商品分类*/
-	@Excel(name="商品分类")
 	private java.lang.String productType;
 	/**系列名称*/
-	@Excel(name="系列名称")
 	private java.lang.String seriesName;
 	/**长度*/
-	@Excel(name="长度")
 	private java.lang.Double sizeLength;
 	/**宽度*/
-	@Excel(name="宽度")
 	private java.lang.Double sizeWidth;
 	/**高度*/
-	@Excel(name="高度")
 	private java.lang.Double sizeHeight;
 	/**体积*/
-	@Excel(name="体积")
 	private java.lang.Double sizeVolume;
 	/**上市时间*/
-	@Excel(name="上市时间",format = "yyyy-MM-dd")
 	private java.util.Date timeToMarket;
 	/**成本价*/
-	@Excel(name="成本价")
 	private java.lang.Double priceCost;
 	/**吊牌价*/
-	@Excel(name="吊牌价")
 	private java.lang.Double priceDrop;
 	/**标准售价*/
-	@Excel(name="标准售价")
 	private java.lang.Double priceStandardSell;
 	/**标准进价*/
-	@Excel(name="标准进价")
 	private java.lang.Double priceStandardBid;
 	/**批发价*/
-	@Excel(name="批发价")
 	private java.lang.Double priceTrade;
 	/**代理价*/
-	@Excel(name="代理价")
 	private java.lang.Double priceProxy;
 	/**平台价*/
-	@Excel(name="平台价")
 	private java.lang.Double pricePlatform;
 	/**赠品*/
-	@Excel(name="赠品")
 	private java.lang.String gift;
 	/**虚拟商品*/
-	@Excel(name="虚拟商品")
 	private java.lang.String productVirtual;
 	/**费用商品*/
-	@Excel(name="费用商品")
 	private java.lang.String productCost;
 	/**打包点数*/
-	@Excel(name="打包点数")
 	private java.lang.String pointPack;
 	/**销售点数*/
-	@Excel(name="销售点数")
 	private java.lang.String pointSell;
 	/**唯一码商品*/
-	@Excel(name="唯一码商品")
 	private java.lang.String productUniquenessCode;
 	/**批次管理*/
-	@Excel(name="批次管理")
 	private java.lang.String batchManage;
 	/**单码商品*/
-	@Excel(name="单码商品")
 	private java.lang.String productSingleCode;
 	/**保质期*/
-	@Excel(name="保质期")
 	private java.lang.String expirationDate;
 	/**供货周期*/
-	@Excel(name="供货周期")
 	private java.lang.String supplyOfMaterialRound;
 	/**安全库存*/
-	@Excel(name="安全库存")
 	private java.lang.String safetyInventory;
 	/**国际码*/
-	@Excel(name="国际码")
 	private java.lang.String internationalCode;
 	/**备注*/
-	@Excel(name="备注")
 	private java.lang.String remark;
 	/**商品状态*/
-	@Excel(name="商品状态")
 	private java.lang.String productState;
 	
 	/**

@@ -33,31 +33,22 @@ public class ReceivesInvitationEntity implements java.io.Serializable {
 	/**Id*/
 	private String id;
 	/**收礼类型*/
-	@Excel(name="收礼类型")
 	private Integer receivestype;
 	/**标题*/
-	@Excel(name="标题")
 	private String title;
 	/**状态(0=删除，1正常)*/
-	@Excel(name="状态(0=删除，1正常)")
 	private Integer state;
 	/**创建时间*/
-	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private Date createDate;
 	/**创建人编号*/
-	@Excel(name="创建人编号")
 	private String createBy;
 	/**创建人姓名*/
-	@Excel(name="创建人姓名")
 	private String createName;
 	/**更新时间*/
-	@Excel(name="更新时间",format = "yyyy-MM-dd")
 	private Date updateDate;
 	/**更新人编号*/
-	@Excel(name="更新人编号")
 	private String updateBy;
 	/**更信任姓名*/
-	@Excel(name="更信任姓名")
 	private String updateName;
 	
 	/**

@@ -16,9 +16,7 @@ import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.*;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
@@ -27,7 +25,6 @@ import org.jeecgframework.web.system.pojo.base.*;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -514,12 +511,13 @@ public class DepartController extends BaseController {
 				}
 			}
 		}*/
-		modelMap.put(NormalExcelConstants.FILE_NAME,"组织机构表");
-		modelMap.put(NormalExcelConstants.CLASS,TSDepart.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("组织机构表列表", "导出人:"+ ResourceUtil.getSessionUserName().getRealName(),
-				"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,tsDeparts);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+//		modelMap.put(NormalExcelConstants.FILE_NAME,"组织机构表");
+//		modelMap.put(NormalExcelConstants.CLASS,TSDepart.class);
+//		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("组织机构表列表", "导出人:"+ ResourceUtil.getSessionUserName().getRealName(),
+//				"导出信息"));
+//		modelMap.put(NormalExcelConstants.DATA_LIST,tsDeparts);
+//		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return null;
 	}
 	/**
 	 * 导出excel 使模板
@@ -530,12 +528,13 @@ public class DepartController extends BaseController {
 	@RequestMapping(params = "exportXlsByT")
 	public String exportXlsByT(TSDepart tsDepart,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		modelMap.put(NormalExcelConstants.FILE_NAME,"组织机构表");
-		modelMap.put(NormalExcelConstants.CLASS,TSDepart.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("组织机构表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-				"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+//		modelMap.put(NormalExcelConstants.FILE_NAME,"组织机构表");
+//		modelMap.put(NormalExcelConstants.CLASS,TSDepart.class);
+//		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("组织机构表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+//				"导出信息"));
+//		modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
+//		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -550,10 +549,11 @@ public class DepartController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(2);
-			params.setHeadRows(1);
+//			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
-				List<TSDepart> tsDeparts = ExcelImportUtil.importExcel(file.getInputStream(),TSDepart.class,params);
+				List<TSDepart> tsDeparts = (List<TSDepart>)
+				ExcelImportUtil.importExcelByIs(file.getInputStream(),TSDepart.class,params);
 				for (TSDepart tsDepart : tsDeparts) {
 					String orgCode = tsDepart.getOrgCode();
 					List<TSDepart> departs = systemService.findByProperty(TSDepart.class,"orgCode",orgCode);

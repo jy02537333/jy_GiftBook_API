@@ -23,25 +23,21 @@ import org.jeecgframework.codegenerate.pojo.CreateFileProperty;
 import org.jeecgframework.codegenerate.pojo.onetomany.CodeParamEntity;
 import org.jeecgframework.codegenerate.pojo.onetomany.SubTableEntity;
 import org.jeecgframework.codegenerate.util.CodeResourceUtil;
-import org.jeecgframework.codegenerate.util.CodeStringUtils;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.model.json.AjaxJson;
-import org.jeecgframework.core.enums.OnlineGenerateEnum;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.web.cgform.entity.button.CgformButtonEntity;
 import org.jeecgframework.web.cgform.entity.button.CgformButtonSqlEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
-import org.jeecgframework.web.cgform.entity.enhance.CgformEnhanceJavaEntity;
 import org.jeecgframework.web.cgform.entity.enhance.CgformEnhanceJsEntity;
 import org.jeecgframework.web.cgform.entity.generate.GenerateEntity;
 import org.jeecgframework.web.cgform.entity.generate.GenerateSubListEntity;
-import org.jeecgframework.web.cgform.service.build.DataBaseService;
 import org.jeecgframework.web.cgform.service.button.CgformButtonServiceI;
 import org.jeecgframework.web.cgform.service.button.CgformButtonSqlServiceI;
 import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.service.enhance.CgformEnhanceJsServiceI;
-import org.jeecgframework.web.cgform.service.impl.generate.TempletContextWord;
+import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,7 +48,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * 
+ *
  * @Title:CgGenerateController
  * @description:智能表单代码生成器[根据智能表单配置+代码生成设置->生成代码]
  * @author 赵俊夫
@@ -65,8 +61,10 @@ public class GenerateController extends BaseController {
 	/**
 	 * Logger for this class
 	 */
-	private static final Logger logger = Logger.getLogger(GenerateController.class);
-	
+	private static final Logger logger = Logger
+			.getLogger(GenerateController.class);
+	@Autowired
+	private  SystemService systemService;
 	@Autowired
 	private CgFormFieldServiceI cgFormFieldService;
 	@Autowired
@@ -75,10 +73,7 @@ public class GenerateController extends BaseController {
 	private CgformButtonSqlServiceI cgformButtonSqlService;
 	@Autowired
 	private CgformEnhanceJsServiceI cgformEnhanceJsService;
-	@Autowired
-	private TempletContextWord templetContextWord;
-	@Autowired
-	private DataBaseService dataBaseService;
+
 	/**
 	 * 代码生成配置页面
 	 * @param request
@@ -96,7 +91,6 @@ public class GenerateController extends BaseController {
 		Map<String,String> entityNameMap = new HashMap<String,String>(0);
 		if(cgFormHead.getJformType()==1 || cgFormHead.getJformType()==3){
 			//如果是单表或者附表，则进入单表模型
-			request.setAttribute("jspModeList", getOnlineGenerateEnum("single"));// 表单风格
 			returnModelAndView = "jeecg/cgform/generate/single";
 		}else{
 			//如果是主表，则进入一对多模型
@@ -109,27 +103,26 @@ public class GenerateController extends BaseController {
 					entityNameMap.put(subHead.getTableName(), JeecgReadTable.formatFieldCapital(subHead.getTableName()));
 				}
 			}
-			request.setAttribute("jspModeList", getOnlineGenerateEnum("onetomany"));// 表单风格
 			request.setAttribute("subTableList", subTableList);
 			returnModelAndView = "jeecg/cgform/generate/one2many";
 		}
 		String projectPath = CodeResourceUtil.getProject_path();
 		try{
-		    Cookie[] cookies=request.getCookies();
-		    if(cookies!=null){
-		    for(int i=0;i<cookies.length;i++){
-		        if(cookies[i].getName().equals("cookie_projectPath")){
-		        String value =  cookies[i].getValue();
-		        if(value!=null&&!"".equals(value)){
-		        	projectPath=cookies[i].getValue();
-		        	projectPath= URLDecoder.decode(projectPath, "UTF-8"); 
-		            }
-		         }
-		        request.setAttribute("projectPath",projectPath);
-		    }
-		    }
+			Cookie[] cookies=request.getCookies();
+			if(cookies!=null){
+				for(int i=0;i<cookies.length;i++){
+					if(cookies[i].getName().equals("cookie_projectPath")){
+						String value =  cookies[i].getValue();
+						if(value!=null&&!"".equals(value)){
+							projectPath=cookies[i].getValue();
+							projectPath= URLDecoder.decode(projectPath, "UTF-8");
+						}
+					}
+					request.setAttribute("projectPath",projectPath);
+				}
+			}
 		}catch(Exception e){
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
 		String entityName = JeecgReadTable.formatFieldCapital(cgFormHead.getTableName());
 		entityNameMap.put(cgFormHead.getTableName(), entityName);
@@ -137,26 +130,16 @@ public class GenerateController extends BaseController {
 		request.setAttribute("entityNames",entityNameMap );
 		return new ModelAndView(returnModelAndView);
 	}
-	
-	private List<OnlineGenerateEnum> getOnlineGenerateEnum(String type){
-		List<OnlineGenerateEnum> list = new ArrayList<OnlineGenerateEnum>();
-		for(OnlineGenerateEnum item : OnlineGenerateEnum.values()) {
-			if(item.getFormType().equals(type)) {
-				list.add(item);
-			}
-		}
-		return list;
-	}
 	/**
 	 * 代码生成执行-单表
 	 * @param generateEntity
 	 * @param request
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@RequestMapping(params = "dogenerate")
 	public void dogenerate(CgFormHeadEntity cgFormHead,GenerateEntity generateEntity,CreateFileProperty createFileProperty,
-			HttpServletRequest request,HttpServletResponse response) throws Exception {
+						   HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//step.1 准备好智能表单的配置
 		if (StringUtil.isNotEmpty(cgFormHead.getId())) {
 			cgFormHead = cgFormFieldService.getEntity(
@@ -172,33 +155,13 @@ public class GenerateController extends BaseController {
 			//step.2 判断表是否存在
 			boolean tableexist = new JeecgReadTable().checkTableExist(tableName);
 			if(tableexist){
-
-				OnlineGenerateEnum modeEnum = OnlineGenerateEnum.toEnum(createFileProperty.getJspMode());
-				if(modeEnum!=null){
-					if("system".equals(modeEnum.getVersion())){
-
-						//step.3 判断是不是用用户自定义界面
-						CgformCodeGenerate generate = new CgformCodeGenerate(createFileProperty,generateEntity);
-						if(createFileProperty.getJspMode().equals("04")){
-							String formhtml = templetContextWord.autoFormGenerateHtml(tableName, null, null);
-							generate.setCgformJspHtml(formhtml);
-						}
-
-						//step.4 调用代码生成器
-						generate.generateToFile();
-					}else if("ext".equals(modeEnum.getVersion())){
-						CgformCodeGenerate generate = new CgformCodeGenerate(createFileProperty,generateEntity);
-						generate.generateToFileUserDefined();
-					}
-					j.setMsg(ftlDescription+"：功能生成成功，请刷新项目重启，菜单访问路径："+CodeStringUtils.getInitialSmall(generateEntity.getEntityName())+"Controller.do?list");
-				}else{
-					j.setMsg("代码生成器不支持该页面风格");
-				}
-
+				//step.3 调用代码生成器
+				new CgformCodeGenerate(createFileProperty,generateEntity).generateToFile();
+				j.setMsg("成功生成增删改查->功能："+ftlDescription);
 			}else{
 				j.setMsg("表["+tableName+"] 在数据库中，不存在");
 			}
-			
+
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			j.setMsg(e1.getMessage());
@@ -206,33 +169,23 @@ public class GenerateController extends BaseController {
 		}
 		try {
 			String projectPath = URLEncoder.encode(generateEntity.getProjectPath(), "UTF-8");
-			Cookie cookie = new Cookie("cookie_projectPath",projectPath );				
+			Cookie cookie = new Cookie("cookie_projectPath",projectPath );
 			cookie.setMaxAge(60*60*24*30); //cookie 保存30天
 			response.addCookie(cookie);
 			response.getWriter().print(j.getJsonStr());
 			response.getWriter().flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				response.getWriter().close();
-			} catch (Exception e2) {
-			}
 		}
 	}
-	
-	
-	
-	
 	/**
 	 * 代码生成执行-一对多
-	 * @param generateEntity
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(params = "dogenerateOne2Many")
 	@ResponseBody
-	public void dogenerateOne2Many(CodeParamEntity codeParamEntityIn,GenerateSubListEntity subTableListEntity,String jspMode,HttpServletRequest request,HttpServletResponse response){
+	public void dogenerateOne2Many(CodeParamEntity codeParamEntityIn,GenerateSubListEntity subTableListEntity,HttpServletRequest request,HttpServletResponse response){
 		AjaxJson j =  new AjaxJson();
 		//step.1 设置主表
 		//从前台获取：codeParamEntityIn
@@ -269,27 +222,9 @@ public class GenerateController extends BaseController {
 				subsG.put(sTableName, subG);
 			}
 			codeParamEntityIn.setSubTabParam(subTabParamIn);
-
-			OnlineGenerateEnum modeEnum = OnlineGenerateEnum.toEnum(jspMode);
-			if(modeEnum!=null){
-				if("system".equals(modeEnum.getVersion())){
-					//step.5 一对多(父子表)数据模型,代码生成
-
-					if("06".equals(jspMode)){
-						CgformCodeGenerateOneToMany.oneToManyCreateBootstap(subTabParamIn, codeParamEntityIn,mainG,subsG);
-					}else{
-						CgformCodeGenerateOneToMany.oneToManyCreate(subTabParamIn, codeParamEntityIn,mainG,subsG);
-					}
-
-					//j.setMsg("成功生成增删改查->功能："+codeParamEntityIn.getFtlDescription());
-				}else if("ext".equals(modeEnum.getVersion())){
-					CgformCodeGenerateOneToMany.oneToManyCreateUserDefined(jspMode,subTabParamIn, codeParamEntityIn,mainG,subsG);
-				}
-				j.setMsg(codeParamEntityIn.getFtlDescription()+"：功能生成成功，请刷新项目重启，菜单访问路径："+CodeStringUtils.getInitialSmall(codeParamEntityIn.getEntityName())+"Controller.do?list");
-			}else{
-				j.setMsg("代码生成器不支持该页面风格");
-			}
-
+			//step.5 一对多(父子表)数据模型,代码生成
+			CgformCodeGenerateOneToMany.oneToManyCreate(subTabParamIn, codeParamEntityIn,mainG,subsG);
+			j.setMsg("成功生成增删改查->功能："+codeParamEntityIn.getFtlDescription());
 		}catch (Exception e) {
 			e.printStackTrace();
 			j.setMsg(e.getMessage());
@@ -297,18 +232,13 @@ public class GenerateController extends BaseController {
 		}
 		try {
 			String projectPath = URLEncoder.encode(subTableListEntity.getProjectPath(), "UTF-8");
-			Cookie cookie = new Cookie("cookie_projectPath",projectPath );						
+			Cookie cookie = new Cookie("cookie_projectPath",projectPath );
 			cookie.setMaxAge(60*60*24*30); //cookie 保存30天
 			response.addCookie(cookie);
 			response.getWriter().print(j.getJsonStr());
 			response.getWriter().flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				response.getWriter().close();
-			} catch (Exception e2) {
-			}
 		}
 	}
 	/**
@@ -330,10 +260,10 @@ public class GenerateController extends BaseController {
 	 * 获取智能表单的所有配置
 	 * @param cgFormHead
 	 * @param generateEntity
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	private void getCgformConfig(CgFormHeadEntity cgFormHead,
-			GenerateEntity generateEntity) throws Exception {
+								 GenerateEntity generateEntity) throws Exception {
 		int filedNums = cgFormHead.getColumns().size();
 		List<CgformButtonEntity> buttons = null;
 		Map<String, String[]> buttonSqlMap = new LinkedHashMap<String, String[]>();
@@ -353,17 +283,6 @@ public class GenerateController extends BaseController {
 		buttonSqlMap.put("update", cbsUpdate==null?new String[]{}:cbsUpdate.getCgbSqlStr().replaceAll("(\r\n|\r|\n|\n\r)", "").split(";"));
 		CgformButtonSqlEntity cbsDelete = cgformButtonSqlService.getCgformButtonSqlByCodeFormId("delete", cgFormHead.getId());
 		buttonSqlMap.put("delete", cbsDelete==null?new String[]{}:cbsDelete.getCgbSqlStr().replaceAll("(\r\n|\r|\n|\n\r)", "").split(";"));
-		//按钮java增强
-		Map<String, CgformEnhanceJavaEntity> buttonJavaMap = new LinkedHashMap<String, CgformEnhanceJavaEntity>();
-		List<CgformEnhanceJavaEntity> javaList = dataBaseService.getCgformEnhanceJavaEntityByFormId(cgFormHead.getId());
-		if(javaList!=null&&javaList.size()>0){
-			for(CgformEnhanceJavaEntity e:javaList){
-				if(StringUtil.isNotEmpty(e.getCgJavaValue())){
-					buttonJavaMap.put(e.getButtonCode(), e);
-				}
-			}
-		}
-		
 		//JS增强-列表
 		CgformEnhanceJsEntity listJs = 	cgformEnhanceJsService.getCgformEnhanceJsByTypeFormId("list", cgFormHead.getId());
 		CgformEnhanceJsEntity listJsCopy = null;
@@ -392,7 +311,6 @@ public class GenerateController extends BaseController {
 		}
 		generateEntity.setButtons(buttons);
 		generateEntity.setButtonSqlMap(buttonSqlMap);
-		generateEntity.setButtonJavaMap(buttonJavaMap);
 		generateEntity.setCgFormHead(cgFormHead);
 		generateEntity.setListJs(listJsCopy);
 		generateEntity.setFormJs(formJsCopy);
@@ -452,7 +370,7 @@ public class GenerateController extends BaseController {
 						}
 						fjson.add(item);
 					}else{
-						
+
 					}
 				}
 			}
@@ -465,10 +383,10 @@ public class GenerateController extends BaseController {
 	private boolean hasDirs(File dir){
 		try{
 			if(dir.listFiles().length==0){
-	//			item.put("state", "open");
+				//			item.put("state", "open");
 				return false;
 			}else{
-	//			item.put("state", "closed");
+				//			item.put("state", "closed");
 				return true;
 			}
 		}catch (Exception e) {

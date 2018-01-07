@@ -17,9 +17,7 @@ import org.jeecgframework.core.util.ExceptionUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.UUIDGenerator;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.demo.entity.test.JpPersonEntity;
 import org.jeecgframework.web.demo.service.test.JpPersonServiceI;
@@ -75,12 +73,13 @@ public class JpPersonController extends BaseController {
     @RequestMapping(params = "exportXls")
     public String exportXls(HttpServletRequest request, HttpServletResponse response
     ,ModelMap map) {
-        List<JpPersonEntity> jpPersons = this.jpPersonService.loadAll(JpPersonEntity.class);
-        map.put(NormalExcelConstants.FILE_NAME, "用户信息");
-        map.put(NormalExcelConstants.CLASS, JpPersonEntity.class);
-        map.put(NormalExcelConstants.PARAMS, new ExportParams(null, null, "导出信息"));
-        map.put(NormalExcelConstants.DATA_LIST, jpPersons);
-        return NormalExcelConstants.JEECG_EXCEL_VIEW;
+//        List<JpPersonEntity> jpPersons = this.jpPersonService.loadAll(JpPersonEntity.class);
+//        map.put(NormalExcelConstants.FILE_NAME, "用户信息");
+//        map.put(NormalExcelConstants.CLASS, JpPersonEntity.class);
+//        map.put(NormalExcelConstants.PARAMS, new ExportParams(null, null, "导出信息"));
+//        map.put(NormalExcelConstants.DATA_LIST, jpPersons);
+//        return NormalExcelConstants.JEECG_EXCEL_VIEW;
+        return null;
     }
 
     @RequestMapping(params = "goImplXls")
@@ -99,7 +98,7 @@ public class JpPersonController extends BaseController {
         try {
             boolean isSuccess = true;
 
-            listPersons =   ExcelImportUtil.importExcel(
+            listPersons =  (   List<JpPersonEntity> ) ExcelImportUtil.importExcelByIs(
                     file.getInputStream(), JpPersonEntity.class,new ImportParams());
 
             for (JpPersonEntity person : listPersons) {
@@ -136,7 +135,7 @@ public class JpPersonController extends BaseController {
             MultipartFile file = entity.getValue();// 获取上传文件对象
             List<JpPersonEntity> listPersons;
             try {
-                listPersons = ExcelImportUtil.importExcel(
+                listPersons =(   List<JpPersonEntity> ) ExcelImportUtil.importExcelByIs(
                         file.getInputStream(), JpPersonEntity.class,new ImportParams());
                 for (JpPersonEntity person : listPersons) {
                     if (person.getAge() != null) {
@@ -182,7 +181,6 @@ public class JpPersonController extends BaseController {
      * @param request
      * @param response
      * @param dataGrid
-     * @param user
      */
 
     @RequestMapping(params = "datagrid")
@@ -215,7 +213,6 @@ public class JpPersonController extends BaseController {
     /**
      * 添加Excel导出
      *
-     * @param ids
      * @return
      */
     @RequestMapping(params = "save")

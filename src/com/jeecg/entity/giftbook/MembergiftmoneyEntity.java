@@ -23,52 +23,36 @@ public class MembergiftmoneyEntity implements java.io.Serializable {
 	/**Id*/
 	private java.lang.String id;
 	/**组成员id*/
-	@Excel(name="组成员id")
 	private java.lang.String gourpmemberid;
 	/**组成员姓名*/
-	@Excel(name="组成员姓名")
 	private java.lang.String groupmember;
 	/**是否支出*/
-	@Excel(name="是否支出")
 	private java.lang.Integer isexpenditure;
 	/**金额*/
-	@Excel(name="金额")
 	private java.lang.String money;
 	/**支出类型编号*/
-	@Excel(name="支出类型编号")
 	private java.lang.String expendituretype;
 	/**支出类型名称*/
-	@Excel(name="支出类型名称")
 	private java.lang.String expendituretypename;
 	/**相关请帖*/
-	@Excel(name="相关请帖")
 	private java.lang.String correlativeinvitation;
 	/**支出时间*/
-	@Excel(name="支出时间")
 	private java.util.Date expendituredate;
 
 	/**状态(0=删除，1正常)*/
-	@Excel(name="状态(0=删除，1正常)")
 	private java.lang.Integer state;
-	@Excel(name="备注")
 	private java.lang.String remark;
 	/**创建时间*/
-	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private java.util.Date createDate;
 	/**创建人编号*/
-	@Excel(name="创建人编号")
 	private java.lang.String createBy;
 	/**创建人姓名*/
-	@Excel(name="创建人姓名")
 	private java.lang.String createName;
 	/**更新时间*/
-	@Excel(name="更新时间",format = "yyyy-MM-dd")
 	private java.util.Date updateDate;
 	/**更新人编号*/
-	@Excel(name="更新人编号")
 	private java.lang.String updateBy;
 	/**更信任姓名*/
-	@Excel(name="更信任姓名")
 	private java.lang.String updateName;
 	
 	/**

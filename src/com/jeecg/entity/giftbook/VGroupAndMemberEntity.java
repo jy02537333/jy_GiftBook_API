@@ -32,36 +32,26 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 public class VGroupAndMemberEntity implements java.io.Serializable {
 	private String userid;
 	/**Id*/
-	@Excel(name="Id")
 	private String groupid;
 	/**是否默认使用*/
-	@Excel(name="是否默认使用")
 	private String isdefault;
 	/**人员数量*/
-	@Excel(name="人员数量")
 	private Integer groupmembersnum;
 	/**组名称*/
-	@Excel(name="组名称")
 	private String groupname;
 	/**创建时间*/
-	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private Date createdate;
 	/**Id*/
 	private String id;
 	/**组成员姓名*/
-	@Excel(name="组成员姓名")
 	private String groupmember;
 	/**总金额*/
-	@Excel(name="总金额")
 	private String totalmoney;
 	/**memberphone*/
-	@Excel(name="memberphone")
 	private String memberphone;
 	/**affiliatedperson*/
-	@Excel(name="affiliatedperson")
 	private String affiliatedperson;
 	/**affiliatedpersonid*/
-	@Excel(name="affiliatedpersonid")
 	private String affiliatedpersonid;
 
 

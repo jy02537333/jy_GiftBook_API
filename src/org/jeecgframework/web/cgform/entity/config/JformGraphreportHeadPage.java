@@ -18,10 +18,8 @@ import java.util.List;
  * @version V1.0   
  *
  */
-@ExcelTarget("jformGraphreportHeadPage")
 public class JformGraphreportHeadPage implements java.io.Serializable {
 	/**保存-子表*/
-	@ExcelCollection(name="图表配置",orderNum="9")
 	private List<JformGraphreportItemEntity> jformGraphreportItemList = new ArrayList<JformGraphreportItemEntity>();
 	public List<JformGraphreportItemEntity> getJformGraphreportItemList() {
 		return jformGraphreportItemList;

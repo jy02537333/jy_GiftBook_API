@@ -44,22 +44,16 @@ public class CgformTemplateEntity implements java.io.Serializable {
 	/**所属公司*/
 	private String sysCompanyCode;
 	/**模板名称*/
-	@Excel(name="模板名称")
 	private String templateName;
 	/**模板编码*/
-	@Excel(name="模板编码")
 	private String templateCode;
 	/**模板类型*/
-	@Excel(name="模板类型")
 	private String templateType;
 	/**是否共享*/
-	@Excel(name="是否共享")
 	private String templateShare;
 	/**预览图*/
-	@Excel(name="预览图")
 	private String templatePic;
 	/**模板描述*/
-	@Excel(name="模板描述")
 	private String templateComment;
 
 	private String templateZipName;

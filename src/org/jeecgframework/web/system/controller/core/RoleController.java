@@ -37,9 +37,7 @@ import org.jeecgframework.core.util.SetListSort;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.tag.vo.easyui.TreeGridModel;
@@ -129,7 +127,6 @@ public class RoleController extends BaseController {
 	/**
 	 * 删除角色
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "delRole")
@@ -297,8 +294,6 @@ public class RoleController extends BaseController {
 	 * 
 	 * @param user
 	 * @param request
-	 * @param response
-	 * @param dataGrid
 	 * @return
 	 */
 	@RequestMapping(params = "getUserList")
@@ -843,7 +838,6 @@ public class RoleController extends BaseController {
     /**
      * 保存 角色-用户 关系信息
      * @param request request
-     * @param depart depart
      */
     private void saveRoleUserList(HttpServletRequest request, TSRole role) {
         String userIds = oConvertUtils.getString(request.getParameter("userIds"));
@@ -889,12 +883,13 @@ public class RoleController extends BaseController {
 		CriteriaQuery cq = new CriteriaQuery(TSRole.class, dataGrid);
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, tsRole, request.getParameterMap());
 		List<TSRole> tsRoles = systemService.getListByCriteriaQuery(cq,false);
-		modelMap.put(NormalExcelConstants.FILE_NAME,"角色表");
-		modelMap.put(NormalExcelConstants.CLASS,TSRole.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("角色表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-				"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,tsRoles);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+//		modelMap.put(NormalExcelConstants.FILE_NAME,"角色表");
+//		modelMap.put(NormalExcelConstants.CLASS,TSRole.class);
+//		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("角色表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+//				"导出信息"));
+//		modelMap.put(NormalExcelConstants.DATA_LIST,tsRoles);
+//		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return null;
 	}
 
 	/**
@@ -906,12 +901,13 @@ public class RoleController extends BaseController {
 	@RequestMapping(params = "exportXlsByT")
 	public String exportXlsByT(TSRole tsRole,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		modelMap.put(NormalExcelConstants.FILE_NAME,"用户表");
-		modelMap.put(NormalExcelConstants.CLASS,TSRole.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-				"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+//		modelMap.put(NormalExcelConstants.FILE_NAME,"用户表");
+//		modelMap.put(NormalExcelConstants.CLASS,TSRole.class);
+//		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+//				"导出信息"));
+//		modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
+//		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -926,10 +922,11 @@ public class RoleController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(2);
-			params.setHeadRows(1);
+//			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
-				List<TSRole> tsRoles = ExcelImportUtil.importExcel(file.getInputStream(),TSRole.class,params);
+				List<TSRole> tsRoles =(List<TSRole>)
+				ExcelImportUtil.importExcelByIs(file.getInputStream(),TSRole.class,params);
 				for (TSRole tsRole : tsRoles) {
 					String roleCode = tsRole.getRoleCode();
 					List<TSRole> roles = systemService.findByProperty(TSRole.class,"roleCode",roleCode);

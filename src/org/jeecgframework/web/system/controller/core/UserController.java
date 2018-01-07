@@ -35,9 +35,7 @@ import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.SysThemesUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.datatable.DataTableReturn;
 import org.jeecgframework.tag.vo.datatable.DataTables;
@@ -478,7 +476,6 @@ public class UserController extends BaseController {
 	/**
 	 * 检查用户名
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "checkUser")
@@ -631,9 +628,6 @@ public class UserController extends BaseController {
 	/**
 	 * easyuiAJAX请求数据： 用户选择角色列表
 	 * 
-	 * @param request
-	 * @param response
-	 * @param dataGrid
 	 * @param user
 	 */
 	@RequestMapping(params = "addorupdate")
@@ -818,8 +812,6 @@ public class UserController extends BaseController {
 	/**
 	 * 测试
 	 * 
-	 * @param user
-	 * @param req
 	 * @return
 	 */
 	@RequestMapping(params = "test")
@@ -882,7 +874,6 @@ public class UserController extends BaseController {
 	/**
 	 * 用户录入
 	 * 
-	 * @param user
 	 * @param req
 	 * @return
 	 */
@@ -1054,12 +1045,13 @@ public class UserController extends BaseController {
 			}
 			user.setDepartid(departCodes.substring(0,departCodes.length()-1));
 		}
-		modelMap.put(NormalExcelConstants.FILE_NAME,"用户表");
-		modelMap.put(NormalExcelConstants.CLASS,TSUser.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-				"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,tsUsers);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+//		modelMap.put(NormalExcelConstants.FILE_NAME,"用户表");
+//		modelMap.put(NormalExcelConstants.CLASS,TSUser.class);
+//		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+//				"导出信息"));
+//		modelMap.put(NormalExcelConstants.DATA_LIST,tsUsers);
+//		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return null;
 	}
 
 	/**
@@ -1071,12 +1063,13 @@ public class UserController extends BaseController {
 	@RequestMapping(params = "exportXlsByT")
 	public String exportXlsByT(TSUser tsUser,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		modelMap.put(NormalExcelConstants.FILE_NAME,"用户表");
-		modelMap.put(NormalExcelConstants.CLASS,TSUser.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-				"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+//		modelMap.put(NormalExcelConstants.FILE_NAME,"用户表");
+//		modelMap.put(NormalExcelConstants.CLASS,TSUser.class);
+//		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+//				"导出信息"));
+//		modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
+//		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -1091,10 +1084,11 @@ public class UserController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(2);
-			params.setHeadRows(1);
+//			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
-				List<TSUser> tsUsers = ExcelImportUtil.importExcel(file.getInputStream(),TSUser.class,params);
+				List<TSUser> tsUsers =(List<TSUser>)
+				ExcelImportUtil.importExcelByIs(file.getInputStream(),TSUser.class,params);
 				for (TSUser tsUser : tsUsers) {
 					tsUser.setStatus(new Short("1"));
 					String username = tsUser.getUserName();

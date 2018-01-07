@@ -45,10 +45,8 @@ public class TSSmsSqlEntity implements java.io.Serializable {
 	/**更新日期*/
 	private java.util.Date updateDate;
 	/**SQL名称*/
-	@Excel(name="SQL名称")
 	private java.lang.String sqlName;
 	/**SQL内容*/
-	@Excel(name="SQL内容")
 	private java.lang.String sqlContent;
 	
 	/**

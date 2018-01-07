@@ -37,13 +37,10 @@ public class StudentEntity implements java.io.Serializable {
 	/**id*/
 	private java.lang.String id;
 	/**学生姓名*/
-	@Excel(name="学生姓名")
 	private java.lang.String name;
 	/**学生性别*/
-	@Excel(name="学生性别",replace = {"女生_1","男生_0"})
 	private java.lang.String sex;
 	
-	@Excel(name="出生日期",exportFormat="yyyy-MM-dd HH:mm:ss",importFormat="yyyy-MM-dd HH:mm:ss")
 	private Date birthday;
 	/**课程主键*/
 	private CourseEntity course;

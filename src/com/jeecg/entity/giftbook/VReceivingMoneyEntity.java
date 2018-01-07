@@ -31,27 +31,20 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 @SuppressWarnings("serial")
 public class VReceivingMoneyEntity implements java.io.Serializable {
 	/**标题*/
-	@Excel(name="标题")
 	private String title;
 	/**创建时间*/
-	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private Date createdate;
 	/**创建人编号*/
-	@Excel(name="创建人编号")
 	private String createby;
 	/**Id*/
 	private String id;
 	/**收礼类型*/
-	@Excel(name="收礼类型")
 	private Integer typeid;
 	/**receivestype*/
-	@Excel(name="receivestype")
 	private String receivestype;
 	/**summoney*/
-	@Excel(name="summoney")
 	private String summoney;
 	/**num*/
-	@Excel(name="num")
 	private Integer num;
 	
 	/**

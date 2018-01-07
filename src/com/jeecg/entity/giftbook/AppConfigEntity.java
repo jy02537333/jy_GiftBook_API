@@ -33,25 +33,18 @@ public class AppConfigEntity implements java.io.Serializable {
 	/**id*/
 	private String id;
 	/**createName*/
-	@Excel(name="createName")
 	private String createName;
 	/**createBy*/
-	@Excel(name="createBy")
 	private String createBy;
 	/**createDate*/
-	@Excel(name="createDate",format = "yyyy-MM-dd")
 	private Date createDate;
 	/**updateBy*/
-	@Excel(name="updateBy")
 	private String updateBy;
 	/**updateDate*/
-	@Excel(name="updateDate",format = "yyyy-MM-dd")
 	private Date updateDate;
 	/**updateName*/
-	@Excel(name="updateName")
 	private String updateName;
 	/**是否显示app中间金融中心*/
-	@Excel(name="是否显示app中间金融中心")
 	private String isShowCenter;
 	
 	/**

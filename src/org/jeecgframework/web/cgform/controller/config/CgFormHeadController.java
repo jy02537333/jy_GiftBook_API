@@ -108,7 +108,6 @@ public class CgFormHeadController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
@@ -201,7 +200,6 @@ public class CgFormHeadController extends BaseController {
 	/**
 	 * 同步表单配置到数据库
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doDbSynch")
@@ -237,7 +235,6 @@ public class CgFormHeadController extends BaseController {
 	/**
 	 * 添加自动生成表属性
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "save")
@@ -614,7 +611,7 @@ public class CgFormHeadController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(0);
-			params.setHeadRows(1);
+//			params.setHeadRows(1);
 			params.setNeedSave(false);
 			try {
 				CgFormHeadEntity cgFormHead = systemService.getEntity(CgFormHeadEntity.class,headId);
@@ -622,7 +619,8 @@ public class CgFormHeadController extends BaseController {
 					j.setMsg("表数据异常！");
 					return j;
 				}
-				List<CgFormFieldVO> fieldList =  ExcelImportUtil.importExcel(file.getInputStream(),CgFormFieldVO.class,params);
+				List<CgFormFieldVO> fieldList =(List<CgFormFieldVO> )
+						ExcelImportUtil.importExcelByIs(file.getInputStream(),CgFormFieldVO.class,params);
 				//根据headid查询该表下的字段信息
 				String hql = "from CgFormFieldEntity where table.id = ? ";
 				List<CgFormFieldEntity> list = systemService.findHql(hql, headId);

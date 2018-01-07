@@ -33,18 +33,15 @@ import org.jeecgframework.poi.excel.annotation.ExcelTarget;
 @DynamicUpdate(true)
 @DynamicInsert(true)
 @SuppressWarnings("serial")
-@ExcelTarget("courseEntity")
 public class CourseEntity implements java.io.Serializable {
 	/**主键*/
 	private java.lang.String id;
 	/**课程名称*/
-	@Excel(name="课程名称",orderNum="1",needMerge=true)
 	private java.lang.String name;
 	/**老师主键*/
 	@ExcelEntity()
 	private TeacherEntity teacher;
 	
-	@ExcelCollection(name="选课学生",orderNum="4")
 	private List<StudentEntity> students;
 	
 	/**

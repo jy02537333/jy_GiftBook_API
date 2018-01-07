@@ -22,13 +22,10 @@ import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.service.SystemService;
 
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 
 import java.io.IOException;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -266,15 +263,16 @@ public class ApiVReceivingMoneyController extends BaseController {
 	@RequestMapping(params = "exportXls")
 	public String exportXls(VReceivingMoneyEntity vReceivingMoney,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		CriteriaQuery cq = new CriteriaQuery(VReceivingMoneyEntity.class, dataGrid);
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, vReceivingMoney, request.getParameterMap());
-		List<VReceivingMoneyEntity> vReceivingMoneys = this.vReceivingMoneyService.getListByCriteriaQuery(cq,false);
-		modelMap.put(NormalExcelConstants.FILE_NAME,"v_receiving_money");
-		modelMap.put(NormalExcelConstants.CLASS,VReceivingMoneyEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("v_receiving_money列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-			"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,vReceivingMoneys);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+//		CriteriaQuery cq = new CriteriaQuery(VReceivingMoneyEntity.class, dataGrid);
+//		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, vReceivingMoney, request.getParameterMap());
+//		List<VReceivingMoneyEntity> vReceivingMoneys = this.vReceivingMoneyService.getListByCriteriaQuery(cq,false);
+//		modelMap.put(NormalExcelConstants.FILE_NAME,"v_receiving_money");
+//		modelMap.put(NormalExcelConstants.CLASS,VReceivingMoneyEntity.class);
+//		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("v_receiving_money列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+//			"导出信息"));
+//		modelMap.put(NormalExcelConstants.DATA_LIST,vReceivingMoneys);
+//		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return null;
 	}
 	/**
 	 * 导出excel 使模板
@@ -285,12 +283,13 @@ public class ApiVReceivingMoneyController extends BaseController {
 	@RequestMapping(params = "exportXlsByT")
 	public String exportXlsByT(VReceivingMoneyEntity vReceivingMoney,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-    	modelMap.put(NormalExcelConstants.FILE_NAME,"v_receiving_money");
-    	modelMap.put(NormalExcelConstants.CLASS,VReceivingMoneyEntity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("v_receiving_money列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-    	"导出信息"));
-    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
-    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
+//    	modelMap.put(NormalExcelConstants.FILE_NAME,"v_receiving_money");
+//    	modelMap.put(NormalExcelConstants.CLASS,VReceivingMoneyEntity.class);
+//    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("v_receiving_money列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+//    	"导出信息"));
+//    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
+//    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return null;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -305,10 +304,11 @@ public class ApiVReceivingMoneyController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(2);
-			params.setHeadRows(1);
+//			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
-				List<VReceivingMoneyEntity> listVReceivingMoneyEntitys = ExcelImportUtil.importExcel(file.getInputStream(),VReceivingMoneyEntity.class,params);
+				List<VReceivingMoneyEntity> listVReceivingMoneyEntitys =(List<VReceivingMoneyEntity>)
+				ExcelImportUtil.importExcelByIs(file.getInputStream(),VReceivingMoneyEntity.class,params);
 				for (VReceivingMoneyEntity vReceivingMoney : listVReceivingMoneyEntitys) {
 					vReceivingMoneyService.save(vReceivingMoney);
 				}

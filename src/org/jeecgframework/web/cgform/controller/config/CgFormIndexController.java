@@ -24,9 +24,7 @@ import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.cgform.entity.config.CgFormIndexEntity;
 import org.jeecgframework.web.cgform.service.config.CgFormIndexServiceI;
@@ -164,7 +162,6 @@ public class CgFormIndexController extends BaseController {
 	/**
 	 * 添加索引表
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
@@ -188,7 +185,6 @@ public class CgFormIndexController extends BaseController {
 	/**
 	 * 更新索引表
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")
@@ -259,15 +255,16 @@ public class CgFormIndexController extends BaseController {
 	@RequestMapping(params = "exportXls")
 	public String exportXls(CgFormIndexEntity cgFormIndex,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		CriteriaQuery cq = new CriteriaQuery(CgFormIndexEntity.class, dataGrid);
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, cgFormIndex, request.getParameterMap());
-		List<CgFormIndexEntity> cgFormIndexs = this.cgFormIndexService.getListByCriteriaQuery(cq,false);
-		modelMap.put(NormalExcelConstants.FILE_NAME,"索引表");
-		modelMap.put(NormalExcelConstants.CLASS,CgFormIndexEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("索引表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-			"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,cgFormIndexs);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+//		CriteriaQuery cq = new CriteriaQuery(CgFormIndexEntity.class, dataGrid);
+//		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, cgFormIndex, request.getParameterMap());
+//		List<CgFormIndexEntity> cgFormIndexs = this.cgFormIndexService.getListByCriteriaQuery(cq,false);
+//		modelMap.put(NormalExcelConstants.FILE_NAME,"索引表");
+//		modelMap.put(NormalExcelConstants.CLASS,CgFormIndexEntity.class);
+//		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("索引表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+//			"导出信息"));
+//		modelMap.put(NormalExcelConstants.DATA_LIST,cgFormIndexs);
+//		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return null;
 	}
 	/**
 	 * 导出excel 使模板
@@ -278,12 +275,13 @@ public class CgFormIndexController extends BaseController {
 	@RequestMapping(params = "exportXlsByT")
 	public String exportXlsByT(CgFormIndexEntity cgFormIndex,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-    	modelMap.put(NormalExcelConstants.FILE_NAME,"索引表");
-    	modelMap.put(NormalExcelConstants.CLASS,CgFormIndexEntity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("索引表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-    	"导出信息"));
-    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
-    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
+//    	modelMap.put(NormalExcelConstants.FILE_NAME,"索引表");
+//    	modelMap.put(NormalExcelConstants.CLASS,CgFormIndexEntity.class);
+//    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("索引表列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+//    	"导出信息"));
+//    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
+//    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return null;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -298,10 +296,11 @@ public class CgFormIndexController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(2);
-			params.setHeadRows(1);
+//			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
-				List<CgFormIndexEntity> listCgFormIndexEntitys = ExcelImportUtil.importExcel(file.getInputStream(),CgFormIndexEntity.class,params);
+				List<CgFormIndexEntity> listCgFormIndexEntitys =(List<CgFormIndexEntity>)
+				ExcelImportUtil.importExcelByIs(file.getInputStream(),CgFormIndexEntity.class,params);
 				for (CgFormIndexEntity cgFormIndex : listCgFormIndexEntitys) {
 					cgFormIndexService.save(cgFormIndex);
 				}

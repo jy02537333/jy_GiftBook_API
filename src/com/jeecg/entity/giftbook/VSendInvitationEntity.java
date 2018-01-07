@@ -33,55 +33,38 @@ public class VSendInvitationEntity implements java.io.Serializable {
 	/**id*/
 	private String id;
 	/**男士姓名*/
-	@Excel(name="男士姓名")
 	private String manname;
 	/**女士姓名*/
-	@Excel(name="女士姓名")
 	private String womanname;
 	/**状态(0=删除，1正常)*/
-	@Excel(name="状态(0=删除，1正常)")
 	private Integer state;
 	/**创建时间*/
-	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private Date createdate;
 	/**创建人编号*/
-	@Excel(name="创建人编号")
 	private String createby;
 	/**创建人姓名*/
-	@Excel(name="创建人姓名")
 	private String createname;
 	/**更新时间*/
-	@Excel(name="更新时间",format = "yyyy-MM-dd")
 	private Date updatedate;
 	/**更新人编号*/
-	@Excel(name="更新人编号")
 	private String updateby;
 	/**更信任姓名*/
-	@Excel(name="更信任姓名")
 	private String updatename;
 	/**邀请人编号*/
-	@Excel(name="邀请人编号")
 	private String inviterid;
 	/**邀请人电话*/
-	@Excel(name="邀请人电话")
 	private String inviterphone;
 	/**宴席地址*/
-	@Excel(name="宴席地址")
 	private String feastaddress;
 	/**宴席时间*/
-	@Excel(name="宴席时间",format = "yyyy-MM-dd")
 	private Date feastdate;
 	/**封面图片*/
-	@Excel(name="封面图片")
 	private String coverimg;
 	/**相册图片*/
-	@Excel(name="相册图片")
 	private String photoalbum;
 	/**feasttype*/
-	@Excel(name="feasttype")
 	private String feasttype;
 	/**num*/
-	@Excel(name="num")
 	private Integer num;
 	
 	/**

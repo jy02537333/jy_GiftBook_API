@@ -8,11 +8,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.sql.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -350,7 +346,6 @@ public class oConvertUtils {
 	/**
 	 * SET转换MAP
 	 * 
-	 * @param str
 	 * @return
 	 */
 	public static Map<Object, Object> SetToMap(Set<Object> setobj) {
@@ -393,5 +388,37 @@ public class oConvertUtils {
 	private static boolean isInner(long userIp, long begin, long end) {
 		return (userIp >= begin) && (userIp <= end);
 	}
-
+	/**
+	 * 方法描述:  null或空的判断
+	 * 作    者： Administrator
+	 * 日    期： 2015年1月18日-下午7:30:16
+	 * @param obj
+	 * @return
+	 * 返回类型： boolean
+	 */
+	public static boolean isNullOrEmpty(Object obj) {
+		if (obj == null)
+			return true;
+		if (obj instanceof CharSequence)
+			return ((CharSequence) obj).length() == 0;
+		if (obj instanceof Collection)
+			return ((Collection) obj).isEmpty();
+		if (obj instanceof Map)
+			return ((Map) obj).isEmpty();
+		if (obj instanceof Object[]) {
+			Object[] object = (Object[]) obj;
+			if (object.length == 0) {
+				return true;
+			}
+			boolean empty = true;
+			for (int i = 0; i < object.length; i++) {
+				if (!isNullOrEmpty(object[i])) {
+					empty = false;
+					break;
+				}
+			}
+			return empty;
+		}
+		return false;
+	}
 }

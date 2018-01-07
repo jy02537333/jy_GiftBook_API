@@ -13,31 +13,23 @@ import org.jeecgframework.poi.excel.annotation.ExcelTarget;
  * @version V1.0   
  *
  */
-@ExcelTarget("cgFormFieldVO")
 public class CgFormFieldVO implements java.io.Serializable {
 	private static final long serialVersionUID = 8248068871232905945L;
 	/**id*/
 	private java.lang.String id;
 	/**字段名称*/
-	@Excel(name="字段名称",orderNum="1")
 	private java.lang.String fieldName;
 	/**功能注释*/
-	@Excel(name="字段备注",orderNum="2")
 	private java.lang.String content;
 	/**字段类型*/
-	@Excel(name="字段类型",orderNum="3")
 	private java.lang.String type;
 	/**字段长度*/
-	@Excel(name="字段长度",orderNum="4")
 	private java.lang.String length;
 	/**小数点长度*/
-	@Excel(name="小数点长度",orderNum="5")
 	private java.lang.String pointLength;
 	/**默认值*/
-	@Excel(name="默认值",orderNum="6")
 	private java.lang.String fieldDefault;
 	/**是否允许空值*/
-	@Excel(name="允许空值",orderNum="7")
 	private java.lang.String isNull;
 
 	public java.lang.String getId() {

@@ -28,73 +28,50 @@ public class ViewInvitationEntity implements java.io.Serializable {
 	/**Id*/
 	private String id;
 	/**请帖编号*/
-	@Excel(name="请帖编号")
 	private String invitationid;
 	/**邀请人信息*/
-	@Excel(name="邀请人信息")
 	private String invitationname;
 	/**被邀请人*/
-	@Excel(name="被邀请人")
 	private String inviteeid;
 	/**被邀请人*/
-	@Excel(name="被邀请人")
 	private String inviteename;
 	/**男士*/
-	@Excel(name="男士")
 	private java.lang.String manname;
 	/**女士*/
-	@Excel(name="女士")
 	private java.lang.String womanname;
 	/**被邀请人电话*/
-	@Excel(name="被邀请人电话")
 	private String inviteephone;
 	/**状态(0=删除，1正常)*/
-	@Excel(name="状态(0=删除，1正常)")
 	private Integer state;
 	/**创建时间*/
-	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private Date createDate;
 	/**创建人编号*/
-	@Excel(name="创建人编号")
 	private String createBy;
 	/**创建人姓名*/
-	@Excel(name="创建人姓名")
 	private String createName;
 	/**更新时间*/
-	@Excel(name="更新时间",format = "yyyy-MM-dd")
 	private Date updateDate;
 	/**更新人编号*/
-	@Excel(name="更新人编号")
 	private String updateBy;
 	/**更信任姓名*/
-	@Excel(name="更信任姓名")
 	private String updateName;
 	/**是否发送出去*/
-	@Excel(name="是否发送出去")
 	private String issend;
 	/**邀请人*/
-	@Excel(name="邀请人")
 	private String inviterid;
 	/**邀请人电话*/
-	@Excel(name="邀请人电话")
 	private String inviterphone;
 	/**宴席地址*/
-	@Excel(name="宴席地址")
 	private String feastaddress;
 	/**宴席时间*/
-	@Excel(name="宴席时间",format = "yyyy-MM-dd")
 	private Date feastdate;
 	/**封面图片*/
-	@Excel(name="封面图片")
 	private String coverimg;
 	/**相册图片*/
-	@Excel(name="相册图片")
 	private String photoalbum;
 	/**邀请人*/
-	@Excel(name="邀请人")
 	private String invitername;
 	/**feasttype*/
-	@Excel(name="feasttype")
 	private String feasttype;
 	
 	/**

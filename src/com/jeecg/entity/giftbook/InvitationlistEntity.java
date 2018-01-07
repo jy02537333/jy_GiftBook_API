@@ -23,49 +23,34 @@ public class InvitationlistEntity implements java.io.Serializable {
 	/**Id*/
 	private java.lang.String id;
 	/**请帖编号*/
-	@Excel(name="请帖编号")
 	private java.lang.String invitationid;
 	/**邀请人信息*/
-	@Excel(name="邀请人信息")
 	private java.lang.String invitationName;
 	/**被邀请人*/
-	@Excel(name="被邀请人")
 	private java.lang.String inviteeid;
 	/**被邀请人*/
-	@Excel(name="被邀请人")
 	private java.lang.String inviteename;
 	/**男士*/
-	@Excel(name="男士")
 	private java.lang.String manname;
 	/**女士*/
-	@Excel(name="女士")
 	private java.lang.String womanname;
 	/**被邀请人电话*/
-	@Excel(name="被邀请人电话")
 	private java.lang.String inviteephone;
 	/**状态(0=删除，1正常)*/
-	@Excel(name="状态(0=删除，1正常)")
 	private java.lang.Integer state;
 	/**创建时间*/
-	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private java.util.Date createDate;
 	/**创建人编号*/
-	@Excel(name="创建人编号")
 	private java.lang.String createBy;
 	/**创建人姓名*/
-	@Excel(name="创建人姓名")
 	private java.lang.String createName;
 	/**更新时间*/
-	@Excel(name="更新时间",format = "yyyy-MM-dd")
 	private java.util.Date updateDate;
 	/**更新人编号*/
-	@Excel(name="更新人编号")
 	private java.lang.String updateBy;
 	/**更信任姓名*/
-	@Excel(name="更信任姓名")
 	private java.lang.String updateName;
 	/**是否已经发送短信(0未发送，1已发送)*/
-	@Excel(name="是否已经发送短信(0未发送，1已发送)")
 	private java.lang.Integer issend;
 	/**
 	 *方法: 取得java.lang.String

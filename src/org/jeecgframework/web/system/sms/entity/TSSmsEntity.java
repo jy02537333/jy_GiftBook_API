@@ -45,28 +45,20 @@ public class TSSmsEntity implements java.io.Serializable {
 	/**更新日期*/
 	private java.util.Date updateDate;
 	/**消息标题*/
-	@Excel(name="消息标题")
 	private java.lang.String esTitle;
 	/**消息类型*/
-	@Excel(name="消息类型")
 	private java.lang.String esType;
 	/**发送人*/
-	@Excel(name="发送人")
 	private java.lang.String esSender;
 	/**接收人*/
-	@Excel(name="接收人")
 	private java.lang.String esReceiver;
 	/**内容*/
-	@Excel(name="内容")
 	private java.lang.String esContent;
 	/**发送时间*/
-	@Excel(name="发送时间")
 	private java.util.Date esSendtime;
 	/**发送状态*/
-	@Excel(name="发送状态")
 	private java.lang.String esStatus;
 	/**备注*/
-	@Excel(name="备注")
 	private java.lang.String remark;
 	
 	/**

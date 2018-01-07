@@ -1,7 +1,6 @@
 package org.jeecgframework.web.demo.controller.goods;
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,9 +23,7 @@ import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.demo.entity.goods.GoodsEntity;
 import org.jeecgframework.web.demo.service.goods.GoodsServiceI;
@@ -90,7 +87,6 @@ public class GoodsController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
@@ -164,7 +160,6 @@ public class GoodsController extends BaseController {
 	/**
 	 * 添加商品资料
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
@@ -188,7 +183,6 @@ public class GoodsController extends BaseController {
 	/**
 	 * 更新商品资料
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")
@@ -271,15 +265,7 @@ public class GoodsController extends BaseController {
 	@RequestMapping(params = "exportXls")
 	public String exportXls(GoodsEntity goods,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		CriteriaQuery cq = new CriteriaQuery(GoodsEntity.class, dataGrid);
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, goods, request.getParameterMap());
-		List<GoodsEntity> goodss = this.goodsService.getListByCriteriaQuery(cq,false);
-		modelMap.put(NormalExcelConstants.FILE_NAME,"商品资料");
-		modelMap.put(NormalExcelConstants.CLASS,GoodsEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("商品资料列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-			"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,goodss);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return  null;
 	}
 	/**
 	 * 导出excel 使模板
@@ -290,12 +276,7 @@ public class GoodsController extends BaseController {
 	@RequestMapping(params = "exportXlsByT")
 	public String exportXlsByT(GoodsEntity goods,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-    	modelMap.put(NormalExcelConstants.FILE_NAME,"商品资料");
-    	modelMap.put(NormalExcelConstants.CLASS,GoodsEntity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("商品资料列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-    	"导出信息"));
-    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
-    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return  null;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -310,10 +291,10 @@ public class GoodsController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(2);
-			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
-				List<GoodsEntity> listGoodsEntitys = ExcelImportUtil.importExcel(file.getInputStream(),GoodsEntity.class,params);
+				List<GoodsEntity> listGoodsEntitys =(List<GoodsEntity>)
+				ExcelImportUtil.importExcelByIs(file.getInputStream(),GoodsEntity.class,params);
 				for (GoodsEntity goods : listGoodsEntitys) {
 					goodsService.save(goods);
 				}

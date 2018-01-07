@@ -25,84 +25,58 @@ public class SysUserEntity implements java.io.Serializable {
 	/** 自动编号 */
 	private java.lang.String id;
 	/** 手机号码 */
-	@Excel(name = "手机号码")
-	private java.lang.String userphone;
 	/** 性别1=男，2=女，0=未知 */
-	@Excel(name = "性别1=男，2=女，0=未知")
 	private java.lang.Integer sex;
 	/** 用户头像 */
-	@Excel(name = "用户头像")
 	private java.lang.String portrait;
 	/** 用户头像 */
-	@Excel(name = "用户头像缩略图")
 	private java.lang.String portraitThumbnail;
 	/** 真实姓名 */
-	@Excel(name = "真实姓名")
 	private java.lang.String username;
 	/** 登录账号 */
-	@Excel(name = "登录账号")
 	private java.lang.String loginname;
 	/** 登录密码 */
-	@Excel(name = "登录密码")
 	private java.lang.String loginpassword;
 	private String oldPwd;
 	/** 电子邮箱 */
-	@Excel(name = "电子邮箱")
 	private java.lang.String useremail;
 	/** 所属省Id */
-	@Excel(name = "所属省Id")
 	private java.lang.Integer provinceid;
 	/** 所属省 */
-	@Excel(name = "所属省")
 	private java.lang.String province;
 	/** 所属市Id */
-	@Excel(name = "所属市Id")
 	private java.lang.Integer cityid;
 	/** 所属市 */
-	@Excel(name = "所属市")
 	private java.lang.String city;
 	/** 所属区/县Id */
-	@Excel(name = "所属区/县Id")
 	private java.lang.Integer districtid;
 	/** 所属区/县 */
-	@Excel(name = "所属区/县")
 	private java.lang.String district;
 	/** 详细地址 */
-	@Excel(name = "详细地址")
 	private java.lang.String detailaddress;
 	/** 使用状态(1启用2停用） */
-	@Excel(name = "使用状态(1启用2停用）")
 	private java.lang.Integer loginflag;
 	/** qqopenid */
-	@Excel(name = "qqopenid")
 	private java.lang.String qqopenid;
 	/** wxopenid */
-	@Excel(name = "wxopenid")
 	private java.lang.String wxopenid;
 	/** sinaopenid */
-	@Excel(name = "sinaopenid")
 	private java.lang.String sinaopenid;
 	/** 创建时间 */
-	@Excel(name = "创建时间", format = "yyyy-MM-dd")
 	private java.util.Date createDate;
 	/** 创建人编号 */
-	@Excel(name = "创建人编号")
 	private java.lang.String createBy;
 	/** 创建人姓名 */
-	@Excel(name = "创建人姓名")
 	private java.lang.String createName;
 	/** 更新时间 */
-	@Excel(name = "更新时间", format = "yyyy-MM-dd")
 	private java.util.Date updateDate;
 	/** 更新人编号 */
-	@Excel(name = "更新人编号")
 	private java.lang.String updateBy;
 	/** 更信任姓名 */
-	@Excel(name = "更信任姓名")
 	private java.lang.String updateName;
 	private String timestamp;
 	private String decvices;
-
+   private  String userphone;
 	@Transient
 	public String getTimestamp() {
 		return timestamp;

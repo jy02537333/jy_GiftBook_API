@@ -56,7 +56,7 @@ public class TSSmsSqlController extends BaseController {
 	 */
 	@RequestMapping(params = "tSSmsSql")
 	public ModelAndView tSSmsSql(HttpServletRequest request) {
-		return new ModelAndView("system/sms/tSSmsSqlList");
+		return new ModelAndView("system/cms/tSSmsSqlList");
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class TSSmsSqlController extends BaseController {
 			tSSmsSql = systemService.getEntity(TSSmsSqlEntity.class, tSSmsSql.getId());
 			req.setAttribute("tSSmsSqlPage", tSSmsSql);
 		}
-		return new ModelAndView("system/sms/tSSmsSql-add");
+		return new ModelAndView("system/cms/tSSmsSql-add");
 	}
 	/**
 	 * 业务SQL表编辑页面跳转
@@ -211,7 +211,7 @@ public class TSSmsSqlController extends BaseController {
 			tSSmsSql = systemService.getEntity(TSSmsSqlEntity.class, tSSmsSql.getId());
 			req.setAttribute("tSSmsSqlPage", tSSmsSql);
 		}
-		return new ModelAndView("system/sms/tSSmsSql-update");
+		return new ModelAndView("system/cms/tSSmsSql-update");
 	}
 	
 	/**
@@ -221,7 +221,7 @@ public class TSSmsSqlController extends BaseController {
 	 */
 	@RequestMapping(params = "upload")
 	public ModelAndView upload(HttpServletRequest req) {
-		return new ModelAndView("system/sms/tSSmsSqlUpload");
+		return new ModelAndView("system/cms/tSSmsSqlUpload");
 	}
 	
 	/**

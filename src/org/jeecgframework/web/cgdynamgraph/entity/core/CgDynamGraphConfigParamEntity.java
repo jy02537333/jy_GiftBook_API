@@ -40,19 +40,14 @@ public class CgDynamGraphConfigParamEntity implements java.io.Serializable {
 	/**所属公司*/
 	private java.lang.String sysCompanyCode;
 	/**参数名称*/
-	@Excel(name="参数名称")
 	private java.lang.String paramName;
 	/**参数说明*/
-	@Excel(name="参数说明")
 	private java.lang.String paramDesc;
 	/**数值*/
-	@Excel(name="数值")
 	private java.lang.String paramValue;
 	/**排序*/
-	@Excel(name="排序")
 	private java.lang.Integer seq;
 	/**数据源ID*/
-	@Excel(name="动态报表ID")
 	private java.lang.String cgrheadId;
 	
 	/**

@@ -24,9 +24,7 @@ import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.web.system.service.SystemService;
 
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 
 import java.io.IOException;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -277,15 +275,7 @@ public class ApiReceivesInvitationController extends BaseController {
 	@RequestMapping(params = "exportXls")
 	public String exportXls(ReceivesInvitationEntity receivesInvitation,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		CriteriaQuery cq = new CriteriaQuery(ReceivesInvitationEntity.class, dataGrid);
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, receivesInvitation, request.getParameterMap());
-		List<ReceivesInvitationEntity> receivesInvitations = this.receivesInvitationService.getListByCriteriaQuery(cq,false);
-		modelMap.put(NormalExcelConstants.FILE_NAME,"receives_invitation");
-		modelMap.put(NormalExcelConstants.CLASS,ReceivesInvitationEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("receives_invitation列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-			"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,receivesInvitations);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return "";
 	}
 	/**
 	 * 导出excel 使模板
@@ -296,12 +286,7 @@ public class ApiReceivesInvitationController extends BaseController {
 	@RequestMapping(params = "exportXlsByT")
 	public String exportXlsByT(ReceivesInvitationEntity receivesInvitation,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-    	modelMap.put(NormalExcelConstants.FILE_NAME,"receives_invitation");
-    	modelMap.put(NormalExcelConstants.CLASS,ReceivesInvitationEntity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("receives_invitation列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-    	"导出信息"));
-    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
-    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return "";
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -316,10 +301,10 @@ public class ApiReceivesInvitationController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(2);
-			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
-				List<ReceivesInvitationEntity> listReceivesInvitationEntitys = ExcelImportUtil.importExcel(file.getInputStream(),ReceivesInvitationEntity.class,params);
+				List<ReceivesInvitationEntity> listReceivesInvitationEntitys =(List<ReceivesInvitationEntity> )
+				ExcelImportUtil.importExcelByIs(file.getInputStream(),ReceivesInvitationEntity.class,params);
 				for (ReceivesInvitationEntity receivesInvitation : listReceivesInvitationEntitys) {
 					receivesInvitationService.save(receivesInvitation);
 				}

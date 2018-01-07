@@ -29,19 +29,14 @@ public class JpPersonEntity implements java.io.Serializable {
 	/**id*/
 	private java.lang.String id;
 	/**年龄*/
-	@Excel(name="年龄", width = 10)
 	private java.lang.Integer age;
 	/**生日*/
-	@Excel(name="生日", format = "yyyy-MM-dd", width = 30)
 	private java.util.Date birthday;
 	/**出生日期*/
-	@Excel(name="出生日期", format ="yyyy-MM-dd HH:mm:ss", width = 30)
 	private java.util.Date createdt;
 	/**用户名*/
-	@Excel(name="用户名", height = 20)
 	private java.lang.String name;
 	/**工资*/
-	@Excel(name="工资")
 	private BigDecimal salary;
 	/**
 	 *方法: 取得java.lang.String

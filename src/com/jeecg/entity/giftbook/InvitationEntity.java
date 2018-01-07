@@ -29,59 +29,43 @@ public class InvitationEntity implements java.io.Serializable {
 	/**Id*/
 	private java.lang.String id;
 	/**邀请人*/
-	@Excel(name="邀请人")
 	private java.lang.String inviterid;
 	/**邀请人电话*/
-	@Excel(name="邀请人电话")
 	private java.lang.String inviterphone;
 	/**宴席地址*/
-	@Excel(name="宴席地址")
 	private java.lang.String feastaddress;
 	/**宴席酒店*/
-	@Excel(name="宴席酒店")
 	private java.lang.String feasthotel;
 	/**宴席时间*/
-	@Excel(name="宴席时间",format = "yyyy-MM-dd")
 	private java.util.Date feastdate;
 	/**宴席类型*/
-	@Excel(name="宴席类型")
+	@Excel(name="22222")
 	private java.lang.String feasttype;
 	/**男士*/
-	@Excel(name="男士")
+	@Column(name = "ID", nullable = true, length = 32)
 	private java.lang.String manname;
 	/**女士*/
-	@Excel(name="女士")
 	private java.lang.String womanname;
 	/**封面图片*/
-	@Excel(name="封面图片")
 	private java.lang.String coverimg;
 	/**相册图片*/
-	@Excel(name="相册图片")
 	private java.lang.String photoalbum;
 	/**状态(0=删除，1正常)*/
-	@Excel(name="状态(0=删除，1正常)")
 	private java.lang.Integer state;
 	/**创建时间*/
-	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private java.util.Date createDate;
 	/**创建人编号*/
-	@Excel(name="创建人编号")
 	private java.lang.String createBy;
 	/**创建人姓名*/
-	@Excel(name="创建人姓名")
 	private java.lang.String createName;
 	/**更新时间*/
-	@Excel(name="更新时间",format = "yyyy-MM-dd")
 	private java.util.Date updateDate;
 	/**更新人编号*/
-	@Excel(name="更新人编号")
 	private java.lang.String updateBy;
 	/**更信任姓名*/
-	@Excel(name="更新任姓名")
 	private java.lang.String updateName;
 
 	/**收礼名称*/
-	@Excel(name="收礼名称")
 	private java.lang.String receivinggiftsname;
 
 	private List<InvitationlistEntity> invitationlistEntityList;

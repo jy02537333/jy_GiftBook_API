@@ -26,9 +26,7 @@ import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.core.util.MyBeanUtils;
 
 import org.jeecgframework.poi.excel.ExcelImportUtil;
-import org.jeecgframework.poi.excel.entity.ExportParams;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.poi.excel.entity.vo.NormalExcelConstants;
 import org.jeecgframework.core.util.ResourceUtil;
 import java.io.IOException;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -92,7 +90,6 @@ public class SysUserController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
@@ -259,15 +256,16 @@ public class SysUserController extends BaseController {
 	@RequestMapping(params = "exportXls")
 	public String exportXls(SysUserEntity sysUser,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-		CriteriaQuery cq = new CriteriaQuery(SysUserEntity.class, dataGrid);
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, sysUser, request.getParameterMap());
-		List<SysUserEntity> sysUsers = this.sysUserService.getListByCriteriaQuery(cq,false);
-		modelMap.put(NormalExcelConstants.FILE_NAME,"用户");
-		modelMap.put(NormalExcelConstants.CLASS,SysUserEntity.class);
-		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-			"导出信息"));
-		modelMap.put(NormalExcelConstants.DATA_LIST,sysUsers);
-		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+//		CriteriaQuery cq = new CriteriaQuery(SysUserEntity.class, dataGrid);
+//		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, sysUser, request.getParameterMap());
+//		List<SysUserEntity> sysUsers = this.sysUserService.getListByCriteriaQuery(cq,false);
+//		modelMap.put(NormalExcelConstants.FILE_NAME,"用户");
+//		modelMap.put(NormalExcelConstants.CLASS,SysUserEntity.class);
+//		modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+//			"导出信息"));
+//		modelMap.put(NormalExcelConstants.DATA_LIST,sysUsers);
+//		return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return null;
 	}
 	/**
 	 * 导出excel 使模板
@@ -278,12 +276,13 @@ public class SysUserController extends BaseController {
 	@RequestMapping(params = "exportXlsByT")
 	public String exportXlsByT(SysUserEntity sysUser,HttpServletRequest request,HttpServletResponse response
 			, DataGrid dataGrid,ModelMap modelMap) {
-    	modelMap.put(NormalExcelConstants.FILE_NAME,"用户");
-    	modelMap.put(NormalExcelConstants.CLASS,SysUserEntity.class);
-    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
-    	"导出信息"));
-    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
-    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
+//    	modelMap.put(NormalExcelConstants.FILE_NAME,"用户");
+//    	modelMap.put(NormalExcelConstants.CLASS,SysUserEntity.class);
+//    	modelMap.put(NormalExcelConstants.PARAMS,new ExportParams("用户列表", "导出人:"+ResourceUtil.getSessionUserName().getRealName(),
+//    	"导出信息"));
+//    	modelMap.put(NormalExcelConstants.DATA_LIST,new ArrayList());
+//    	return NormalExcelConstants.JEECG_EXCEL_VIEW;
+		return null;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -298,10 +297,11 @@ public class SysUserController extends BaseController {
 			MultipartFile file = entity.getValue();// 获取上传文件对象
 			ImportParams params = new ImportParams();
 			params.setTitleRows(2);
-			params.setHeadRows(1);
+//			params.setHeadRows(1);
 			params.setNeedSave(true);
 			try {
-				List<SysUserEntity> listSysUserEntitys = ExcelImportUtil.importExcel(file.getInputStream(),SysUserEntity.class,params);
+				List<SysUserEntity> listSysUserEntitys = (List<SysUserEntity> )
+				ExcelImportUtil.importExcelByIs(file.getInputStream(),SysUserEntity.class,params);
 				for (SysUserEntity sysUser : listSysUserEntitys) {
 					sysUserService.save(sysUser);
 				}

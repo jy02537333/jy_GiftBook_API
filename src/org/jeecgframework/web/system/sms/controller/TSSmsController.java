@@ -66,7 +66,7 @@ public class TSSmsController extends BaseController {
 	 */
 	@RequestMapping(params = "tSSms")
 	public ModelAndView tSSms(HttpServletRequest request) {
-		return new ModelAndView("system/sms/tSSmsList");
+		return new ModelAndView("system/cms/tSSmsList");
 	}
 
 	/**
@@ -208,7 +208,7 @@ public class TSSmsController extends BaseController {
 			tSSms = tSSmsService.getEntity(TSSmsEntity.class, tSSms.getId());
 			req.setAttribute("tSSmsPage", tSSms);
 		}
-		return new ModelAndView("system/sms/tSSms-add");
+		return new ModelAndView("system/cms/tSSms-add");
 	}
 	/**
 	 * 消息发送记录表编辑页面跳转
@@ -221,7 +221,7 @@ public class TSSmsController extends BaseController {
 			tSSms = tSSmsService.getEntity(TSSmsEntity.class, tSSms.getId());
 			req.setAttribute("tSSmsPage", tSSms);
 		}
-		return new ModelAndView("system/sms/tSSms-update");
+		return new ModelAndView("system/cms/tSSms-update");
 	}
 	
 	/**
@@ -231,7 +231,7 @@ public class TSSmsController extends BaseController {
 	 */
 	@RequestMapping(params = "upload")
 	public ModelAndView upload(HttpServletRequest req) {
-		return new ModelAndView("system/sms/tSSmsUpload");
+		return new ModelAndView("system/cms/tSSmsUpload");
 	}
 	
 	/**
@@ -437,7 +437,7 @@ public class TSSmsController extends BaseController {
 		List<TSSmsEntity> list = this.tSSmsService.getMsgsList(curUser,curDate);
 		request.setAttribute("smsList", list);
 		
-		return new ModelAndView("system/sms/tSSmsDetailList");
+		return new ModelAndView("system/cms/tSSmsDetailList");
 	}
 	//add-end--Author:jg_renjie  Date:20150611 for：今天需要提醒的【系统信息】的详细信息
 	

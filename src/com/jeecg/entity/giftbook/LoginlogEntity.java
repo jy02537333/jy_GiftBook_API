@@ -23,37 +23,26 @@ public class LoginlogEntity implements java.io.Serializable {
 	/**Id*/
 	private java.lang.String id;
 	/**用户id*/
-	@Excel(name="用户id")
 	private java.lang.String userid;
 	/**登录时间*/
-	@Excel(name="登录时间",format = "yyyy-MM-dd")
 	private java.util.Date logindate;
 	/**上次登录时间*/
-	@Excel(name="上次登录时间",format = "yyyy-MM-dd")
 	private java.util.Date lastlogindate;
 	/**登录token*/
-	@Excel(name="登录token")
 	private java.lang.String logintoken;
 	/**设备编号*/
-	@Excel(name="设备编号")
 	private java.lang.String device;
 	/**创建时间*/
-	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private java.util.Date createDate;
 	/**创建人编号*/
-	@Excel(name="创建人编号")
 	private java.lang.String createBy;
 	/**创建人姓名*/
-	@Excel(name="创建人姓名")
 	private java.lang.String createName;
 	/**更新时间*/
-	@Excel(name="更新时间",format = "yyyy-MM-dd")
 	private java.util.Date updateDate;
 	/**更新人编号*/
-	@Excel(name="更新人编号")
 	private java.lang.String updateBy;
 	/**更信任姓名*/
-	@Excel(name="更信任姓名")
 	private java.lang.String updateName;
 	
 	/**

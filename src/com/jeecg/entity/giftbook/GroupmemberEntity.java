@@ -28,48 +28,35 @@ public class GroupmemberEntity implements java.io.Serializable {
 	/**Id*/
 	private java.lang.String id;
 	/**组id*/
-	@Excel(name="组id")
 	private java.lang.String gourpid;
 	/**组名称*/
 	private java.lang.String gourpName;
 	/**组成员姓名*/
-	@Excel(name="组成员姓名")
 	private java.lang.String groupmember;
 	/**总金额*/
-	@Excel(name="总金额")
 	private java.lang.String totalmoney;
 	/**成员电话*/
-	@Excel(name="成员电话")
 	private String memberphone;
 	/**关联人,与该成员相关的人*/
-	@Excel(name="关联人,与该成员相关的人")
 	private String affiliatedperson;
 	/**关联人id*/
-	@Excel(name="关联人,与该成员相关的人")
 	private String affiliatedpersonid;
 	
 	private List<GroupmemberEntity>  affiliatedpersonList;
 	/**状态(0=删除，1正常)*/
-	@Excel(name="状态(0=删除，1正常)")
 	private java.lang.Integer state;
 
 	/**创建时间*/
-	@Excel(name="创建时间",format = "yyyy-MM-dd")
 	private java.util.Date createDate;
 	/**创建人编号*/
-	@Excel(name="创建人编号")
 	private java.lang.String createBy;
 	/**创建人姓名*/
-	@Excel(name="创建人姓名")
 	private java.lang.String createName;
 	/**更新时间*/
-	@Excel(name="更新时间",format = "yyyy-MM-dd")
 	private java.util.Date updateDate;
 	/**更新人编号*/
-	@Excel(name="更新人编号")
 	private java.lang.String updateBy;
 	/**更信任姓名*/
-	@Excel(name="更信任姓名")
 	private java.lang.String updateName;
 	
 	/**
