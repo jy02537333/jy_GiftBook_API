@@ -1,0 +1,31 @@
+<ion-header-bar align-title="left" class="bar-dark">
+    <div class="h1 title">找拖车</div>
+    <div class="buttons">
+        <!--<button class="button no-animation button-icon icon ion-android-search" >-->
+        <!--</button>-->
+        <button class="button no-animation button-icon icon ion-android-add" ng-click="truckAdd($event)">
+        </button>
+    </div>
+</ion-header-bar>
+<ion-view>
+    <ion-content  >
+        <ion-infinite-scroll ng-if="hasmore" on-infinite="loadMore()" distance="5%" ></ion-infinite-scroll>
+        <ion-list >
+            <ion-item  ng-repeat="item in $parent.items">
+                <div >
+                    客户位置 <span style="color:red;">&nbsp;{{item.addr}}&nbsp;{{item.latLng}}</span>
+                </div>
+                <div >
+                    货物信息 <span style="color:red;">{{item.info}}&nbsp;</span>
+                </div>
+                <div >
+                    目标  &nbsp;{{item.startAddr}}&nbsp;到&nbsp;{{item.endAddr}}
+                </div>
+                <div style="margin-top: 5px;">
+                    联系电话：{{item.phone}}
+                </div>
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
+</ion-view>

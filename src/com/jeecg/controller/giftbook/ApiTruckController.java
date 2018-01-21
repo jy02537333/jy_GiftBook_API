@@ -1,21 +1,28 @@
 package com.jeecg.controller.giftbook;
 
 import com.jeecg.entity.giftbook.TruckEntity;
+import com.jeecg.entity.giftbook.TruckLocationEntity;
+import com.jeecg.service.giftbook.TruckLocationServiceI;
 import com.jeecg.service.giftbook.TruckServiceI;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.hibernate.Criteria;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Conjunction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
-import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.entity.AjaxJson;
 import org.jeecgframework.core.util.*;
 import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
 import org.jeecgframework.poi.excel.entity.ExcelTitle;
 import org.jeecgframework.poi.excel.entity.ImportParams;
-import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +37,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +62,8 @@ public class ApiTruckController extends BaseController {
 
 	@Autowired
 	private TruckServiceI truckService;
+	@Autowired
+	private TruckLocationServiceI truckLocationService;
 	@Autowired
 	private SystemService systemService;
 	private String message;
@@ -81,21 +93,37 @@ public class ApiTruckController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
+	@ResponseBody
 	public Object datagrid(TruckEntity truck,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		dataGrid.setField("id,userid,vehicleType,licensePlate,describes,phone");
 		CriteriaQuery cq = new CriteriaQuery(TruckEntity.class, dataGrid);
 		//查询条件组装器
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, truck, request.getParameterMap());
+//		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, truck, request.getParameterMap());
 		try{
+			if(truck.getVehicleType().equals("1"))
+				cq.eq("vehicleType","拖车");
+			else
+			{
+				cq.notEq("vehicleType","拖车");
+			}
+			truck.setVehicleType(null);
 		//自定义追加查询条件
 		}catch (Exception e) {
 			throw new BusinessException(e.getMessage());
 		}
 		cq.add();
 		this.truckService.getDataGridReturn(cq, true);
+		List<TruckEntity> trucks= dataGrid.getResults();
+		for (TruckEntity item:trucks) {
+//			String hql="from TruckLocation where truckId='"+item.getId()+"' and createDate=max(createDate) ";
+			String hql="from TruckLocationEntity where TRUCK_ID='"+item.getId()+"'   and createDate=(select  max(e.createDate) from  TruckLocationEntity e where  truckId='"+item.getId()+"') ";
+			TruckLocationEntity entity= truckLocationService.singleResult(hql);
+			if(entity!=null)
+				item.setTruckLocation(entity);
+		}
 //		TagUtil.datagrid(response, dataGrid);
 		return AjaxReturnTool.retJsonp(
 				AjaxReturnTool.hanlderPage(dataGrid), request,response);
@@ -155,20 +183,35 @@ public class ApiTruckController extends BaseController {
 	/**
 	 * 添加truck
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
-	public AjaxJson doAdd(TruckEntity truck, HttpServletRequest request) {
+	public AjaxJson doAdd(TruckEntity truck,TruckLocationEntity entity, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
+		truck.setCreateDate(new Date());
 		message = "truck添加成功";
 		try{
-			truckService.save(truck);
+			Serializable id=	truckService.save(truck);
+			if(id!=null)
+			{
+				truck.setId((String)id);
+				j.setResult(1);
+				j.setObj(truck);
+//				TruckLocationEntity entity=new TruckLocationEntity();
+				if(entity!=null&&entity.getDtid()!=null)
+				{
+					entity.setCreateDate(new Date());
+					entity.setTruckId((String)id);
+					truckLocationService.save(entity);
+				}
+			}else
+				j.setResult(0);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			e.printStackTrace();
 			message = "truck添加失败";
+			j.setResult(0);
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
@@ -178,7 +221,6 @@ public class ApiTruckController extends BaseController {
 	/**
 	 * 更新truck
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")

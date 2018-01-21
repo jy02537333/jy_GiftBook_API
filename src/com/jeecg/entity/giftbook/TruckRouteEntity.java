@@ -35,6 +35,13 @@ public class TruckRouteEntity implements java.io.Serializable {
 	/**逻辑id*/
 	@Excel(exportName="逻辑id")
 	private String dtid;
+	private int type;
+	private String info;
+	private String licensePlate;
+	private String phone;
+	private String addr;
+	private String latLng;
+
 	/**出发点*/
 	@Excel(exportName="出发点")
 	private String startAddr;
@@ -222,5 +229,55 @@ public class TruckRouteEntity implements java.io.Serializable {
 	 */
 	public void setUpdateName(String updateName){
 		this.updateName = updateName;
+	}
+
+	@Column(name ="INFO",nullable=true,length=200)
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
+	}
+	@Column(name ="LICENSE_PLATE",nullable=true,length=60)
+	public String getLicensePlate() {
+		return licensePlate;
+	}
+
+	public void setLicensePlate(String licensePlate) {
+		this.licensePlate = licensePlate;
+	}
+	@Column(name ="PHONE",nullable=true,length=20)
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	@Column(name ="ADDR",nullable=true,length=100)
+	public String getAddr() {
+		return addr;
+	}
+
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+
+	public String getLatLng() {
+		return latLng;
+	}
+	@Column(name ="LATLNG",nullable=true,length=20)
+	public void setLatLng(String latLng) {
+		this.latLng = latLng;
+	}
+
+	@Column(name ="TYPE",nullable=true,length=20)
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
 	}
 }

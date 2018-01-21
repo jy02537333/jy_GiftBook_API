@@ -1,0 +1,44 @@
+?<ion-header-bar align-title="left" class="bar-dark">
+    <div class="h1 title">车辆信息发布</div>
+    <div class="buttons">
+        <button class="button no-animation button-icon icon ion-android-add">
+        </button>
+    </div>
+</ion-header-bar>
+<ion-view>
+    <ion-content>
+
+        <div class="content has-header">
+            <div class="list">
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">所在位置</span>
+                    <input type="text" placeholder="所在位置"  id="location" ng-model="$parent.location">
+                    <input type="hidden" id="lngLat" ng-model="$parent.lngLat"/>
+                </label>
+                <label class="item item-input item-select " data-tap-disabled="true">
+                    <span class="input-label" style=" ">车型</span>
+                    <select  data-tap-disabled="true" id="type"  ng-model="$parent.type"  ng-change="selectChange()"  placeholder="车型"
+                             ng-options="item.id as item.name for item in  $parent.typeData">
+
+                        <!--<option ng-repeat="item in $parent.typeData" value="{{item.id}}">{{item.name}}</option>-->
+
+                        <!--<option value="拖车" selected="selected" ng-selected="1" >拖车</option><option value="小货车">小货车</option>-->
+                        <!--<option value="大货车">大货车</option></select>-->
+                    </select>
+                </label>
+                <label class="item item-input item-stacked-label " data-tap-disabled="true">
+                    <span class="input-label" style=" ">车牌号</span>
+                    <input type="text" id="license_plate" ng-model="$parent.licensePlate" placeholder="车牌号"/>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">联系电话</span>
+                    <input type="number" placeholder="联系电话" ng-model="$parent.phone"  id="phone">
+                </label>
+            </div>
+            <div class="padding">  
+                <button class="button button-block button-positive" ng-click="save()">发布</button>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

@@ -23,10 +23,10 @@ ${invitationEntity.invitername }
 ${invitationEntity.feastaddress }
 ${invitationEntity.feastdate }
 </div>
-<script src="http://192.168.6.149:8080/jeecg/plug-in-ui/hplus/js/jquery.min.js?v=2.1.4"></script>
+<script src="plug-in-ui/hplus/js/jquery.min.js?v=2.1.4"></script>
 <script>
 
-var url1="http://192.168.6.149:8080/jeecg/apiFinancialSupermarketController.do?datagrid&curPage="+1;
+var url1="apiFinancialSupermarketController.do?datagrid&curPage="+1;
  function getData(){
     $.ajax({
         type : "GET",

@@ -6,16 +6,11 @@ import java.lang.String;
 import java.lang.Double;
 import java.lang.Integer;
 import java.math.BigDecimal;
+import javax.persistence.*;
 import javax.xml.soap.Text;
 import java.sql.Blob;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.SequenceGenerator;
 import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**   
@@ -68,7 +63,16 @@ public class TruckEntity implements java.io.Serializable {
 	/**更新人姓名*/
 	@Excel(exportName="更新人姓名")
 	private String updateName;
-	
+	private TruckLocationEntity truckLocation;
+	@Transient
+	public TruckLocationEntity getTruckLocation(){
+		return this.truckLocation;
+	}
+	public void setTruckLocation(TruckLocationEntity truckLocation){
+		this.truckLocation = truckLocation;
+	}
+
+
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  Id

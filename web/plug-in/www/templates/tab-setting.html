@@ -1,0 +1,105 @@
+<ion-header-bar align-title="left" class="bar-dark">
+	    <div class="h1 title">微信(16)</div>
+	    <div class="buttons">
+	        <button class="button no-animation button-icon icon ion-android-search">
+	        </button>
+	        <button class="button no-animation button-icon icon ion-android-add">
+	        </button>
+	    </div>
+	</ion-header-bar>
+<ion-view>
+    <ion-content on-swipe-right="onSwipeRight()">
+        <h1>设置页面</h1>
+    </ion-content>
+</ion-view>
+
+<script type="text/javascript">
+	angular.module('starter', ['ionic'])
+			.run(function($ionicPlatform) {
+				$ionicPlatform.ready(function() {
+					if(window.cordova && window.cordova.plugins.Keyboard) {
+						cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+					}
+					if(window.StatusBar) {
+						StatusBar.styleDefault();
+					}
+				});
+			})
+			.config(function($stateProvider, $urlRouterProvider) {
+				$stateProvider
+						.state('app', {
+							url: "/app",
+							abstract: true,
+							templateUrl: "menu.html",
+							controller: 'AppCtrl'
+						})
+						.state('app.playlists', {
+							url: "/playlists",
+							views: {
+								'menuContent' :{
+									templateUrl: "playlists.html",
+									controller: 'PlaylistsCtrl'
+								}
+							}
+						})
+				// if none of the above states are matched, use this as the fallback
+				$urlRouterProvider.otherwise('/app/playlists');
+			})
+
+			.controller('AppCtrl', function($scope) {
+			})
+
+			.controller('PlaylistsCtrl', function($scope) {
+				console.log("PlaylistsCtrl");
+				$scope.playlists = [
+					{ title: 'Reggae', id: 1 },
+					{ title: 'Chill', id: 2 },
+					{ title: 'Dubstep', id: 3 },
+					{ title: 'Indie', id: 4 },
+					{ title: 'Rap', id: 5 },
+					{ title: 'Cowbell', id: 6 }
+				];
+			})
+
+</script>
+<script id="menu.html" type="text/ng-template">
+
+	<ion-side-menus>
+
+		<ion-pane ion-side-menu-content>
+			<ion-nav-bar class="bar-stable nav-title-slide-ios7">
+				<ion-nav-back-button class="button-clear"><i class="icon ion-chevron-left"></i> Back</ion-nav-back-button>
+			</ion-nav-bar>
+			<ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
+		</ion-pane>
+
+		<ion-side-menu side="left">
+			<header class="bar bar-header bar-stable">
+				<h1 class="title">Left</h1>
+			</header>
+			<ion-content class="has-header">
+				<ion-list>
+					<ion-item nav-clear menu-close href="#/app/search">
+						Search
+					</ion-item>
+					<ion-item nav-clear menu-close href="#/app/browse">
+						Browse
+					</ion-item>
+					<ion-item nav-clear menu-close href="#/app/playlists">
+						Playlists
+					</ion-item>
+				</ion-list>
+			</ion-content>
+		</ion-side-menu>
+	</ion-side-menus>
+
+</script>
+
+<script id="playlists.html" type="text/ng-template">
+	<ion-view title="Playlists111">
+		<ion-nav-buttons side="left">
+			<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+		</ion-nav-buttons>
+
+	</ion-view>
+</script>

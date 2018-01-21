@@ -1,0 +1,38 @@
+?<ion-header-bar align-title="left" class="bar-dark">
+    <div class="h1 title">找货车发布</div>
+    <div class="buttons">
+        <button class="button no-animation button-icon icon ion-android-add">
+        </button>
+    </div>
+</ion-header-bar>
+<ion-view>
+    <ion-content>
+
+        <div class="content has-header">
+            <div class="list">
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">我的位置</span>
+                    <input type="text" placeholder="我的位置"  id="location" ng-model="$parent.location">
+                    <input type="hidden" id="lngLat" ng-model="$parent.lngLat"/>
+                </label>
+                <label class="item item-input item-stacked-label " data-tap-disabled="true">
+                    <span class="input-label" style=" ">货物信息</span>
+                    <input type="text" id="Info" ng-model="$parent.Info" placeholder="货物信息"/>
+                </label>
+                <label class="item item-input item-stacked-label " data-tap-disabled="true">
+                    <span class="input-label" style=" ">目的地</span>
+                    <input type="text" id="StartAddr" ng-model="$parent.StartAddr" placeholder="起始地"/>到
+                    <input type="text" id="EndAddr" ng-model="$parent.EndAddr" placeholder="目的地"/>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">联系电话</span>
+                    <input type="number" placeholder="联系电话" ng-model="$parent.phone"  id="phone">
+                </label>
+            </div>
+            <div class="padding">  
+                <button class="button button-block button-positive" ng-click="save()">发布</button>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

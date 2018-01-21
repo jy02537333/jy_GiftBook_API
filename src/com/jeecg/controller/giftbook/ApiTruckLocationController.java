@@ -7,9 +7,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
-import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.entity.AjaxJson;
 import org.jeecgframework.core.util.*;
 import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -85,7 +86,9 @@ public class ApiTruckLocationController extends BaseController {
 	 */
 
 	@RequestMapping(params = "datagrid")
+	@ResponseBody
 	public Object datagrid(TruckLocationEntity truckLocation,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		dataGrid.setField("id,userid,latlng,dtid");
 		CriteriaQuery cq = new CriteriaQuery(TruckLocationEntity.class, dataGrid);
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, truckLocation, request.getParameterMap());
@@ -155,20 +158,27 @@ public class ApiTruckLocationController extends BaseController {
 	/**
 	 * 添加truck_location
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
 	public AjaxJson doAdd(TruckLocationEntity truckLocation, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		message = "truck_location添加成功";
+		message = "添加成功";
 		try{
-			truckLocationService.save(truckLocation);
+			Serializable id= truckLocationService.save(truckLocation);
+			if(id!=null)
+			{
+				truckLocation.setId((String)id);
+				j.setObj(truckLocation);
+				j.setResult(1);
+			}else
+				j.setResult(0);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
+			j.setResult(0);
 			e.printStackTrace();
-			message = "truck_location添加失败";
+			message = "添加失败";
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);

@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+    <link href="css/ionic.app.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <link href="lib/ionic-toast/src/ionic-toast.css" rel="stylesheet">
+    <script src="lib/ionic-toast/dist/ionic-toast.bundle.min.js"></script>
+    <!-- cordova script (this will be a 404 during development) -->
+    <!--<script src="cordova.js"></script>-->
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/routes.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/directives.js"></script>
+    <script src="js/elastic.js"></script>
+
+</head>
+
+<body ng-app="wechat">
+    <ion-nav-view animation="slide-left-right">
+    </ion-nav-view>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=feWi74IrdWEo2cXwnaFb6M6xOGlsEGqq"></script>
+<script type="application/javascript">
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(116.331398,39.897445);
+    map.centerAndZoom(point,12);
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function(r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            var mk = new BMap.Marker(r.point);
+            map.addOverlay(mk);
+            map.panTo(r.point);
+            alert('您的位置：'+r.point.lng+','+r.point.lat);
+        }
+        else {
+            alert('failed'+this.getStatus());
+        }
+    });
+</script>
+</body>
+
+</html>

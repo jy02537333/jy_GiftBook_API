@@ -7,9 +7,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
-import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.entity.AjaxJson;
 import org.jeecgframework.core.util.*;
 import org.jeecgframework.poi.excel.ExcelExportUtil;
 import org.jeecgframework.poi.excel.ExcelImportUtil;
@@ -30,6 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -81,15 +83,17 @@ public class ApiTruckRouteController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
+	@ResponseBody
 	public Object datagrid(TruckRouteEntity truckRoute,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
+		dataGrid.setField("id,startAddr,endAddr,info,licensePlate,phone,addr,latLng");
 		CriteriaQuery cq = new CriteriaQuery(TruckRouteEntity.class, dataGrid);
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, truckRoute, request.getParameterMap());
 		try{
+				cq.eq("type",truckRoute.getType());
 		//自定义追加查询条件
 		}catch (Exception e) {
 			throw new BusinessException(e.getMessage());
@@ -155,20 +159,28 @@ public class ApiTruckRouteController extends BaseController {
 	/**
 	 * 添加truck_route
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
 	@ResponseBody
 	public AjaxJson doAdd(TruckRouteEntity truckRoute, HttpServletRequest request) {
 		AjaxJson j = new AjaxJson();
-		message = "truck_route添加成功";
+		message = "添加成功";
 		try{
-			truckRouteService.save(truckRoute);
+			truckRoute.setCreateDate(new Date());
+			Serializable id= truckRouteService.save(truckRoute);
+			if(id!=null)
+			{
+				truckRoute.setId((String)id);
+				j.setObj(truckRoute);
+				j.setResult(1);
+			}else
+				j.setResult(0);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}catch(Exception e){
 			e.printStackTrace();
-			message = "truck_route添加失败";
+			message = "添加失败";
+			j.setResult(0);
 			throw new BusinessException(e.getMessage());
 		}
 		j.setMsg(message);
@@ -178,7 +190,6 @@ public class ApiTruckRouteController extends BaseController {
 	/**
 	 * 更新truck_route
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")

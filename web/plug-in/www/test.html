@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+<script type="text/javascript"  src="js/jquery.min.js?v=1.8"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=NZyfpqnDBNM1IzC6j4ZhdyKbp7ac0hdc"></script>
+<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
+<script type="text/javascript">
+
+    var urlAddr = 'http://api.map.baidu.com/geoconv/v1/?coords=114.21892734521,29.575429778924;114.21892734521,29.575429778924&from=1&to=5&ak=NZyfpqnDBNM1IzC6j4ZhdyKbp7ac0hdc&callback=?';
+    $.getJSON(urlAddr, function (res) {
+        alert(res.result.addressComponent.city);
+    });
+
+//
+//    $.ajax({
+//    url: urlAddr,
+//    dataType:'json',
+//    success: function(data,status,xhr) {
+//    alert(status);
+//    alert(data.status);
+//    }
+//    });
+</script>
+<body>
+faewfawefaewf
+</body>
+</html>
