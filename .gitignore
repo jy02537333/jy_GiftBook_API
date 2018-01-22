@@ -14,7 +14,8 @@
 .idea/dynamic.xml
 .idea/uiDesigner.xml
 .idea/*
-
+*/*.bak
+*.bak
 # Gradle:
 .idea/gradle.xml
 .idea/libraries
