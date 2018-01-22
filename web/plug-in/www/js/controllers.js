@@ -45,8 +45,33 @@ angular.module('wechat.controllers', [])
     })
 
     .controller('truckAddCtrl', function($ionicHistory,$scope, $state,$http,ionicToast,$stateParams) {
-        $scope.typeData=[{"id":"拖车","name":"拖车"},{"id":"小货车","name":"小货车"},{"id":"大货车","name":"大货车"}]
         var chengeitem="拖车";
+        $scope.$on('$ionicView.beforeEnter', function() {
+            function locationCellback(res)
+            {
+                if(res!=null&&res.result!=undefined&&res.result.cityCode!=undefined&&res.result.cityCode>0){
+                    $scope.location=res.result.formatted_address+"  " +res.result.sematic_description;
+                    $scope.lngLat=res.result.location.lng+"," +res.result.location.lat;
+                    $scope.locationVal=res.result.formatted_address+"  " +res.result.sematic_description;
+                    $scope.lngLatVal=res.result.location.lng+"," +res.result.location.lat;
+                }
+            }
+            getBMapLocation(locationCellback);
+            chengeitem="拖车";
+            $scope.type="拖车";
+            if($stateParams.typeId!=1)
+            {
+                chengeitem="小货车";
+                $scope.type="小货车";
+            }
+            $scope.location="";
+            $scope.phone="";
+            $scope.licensePlate="";
+            $scope.lngLat="";
+        });
+
+        $scope.typeData=[{"id":"拖车","name":"拖车"},{"id":"小货车","name":"小货车"},{"id":"大货车","name":"大货车"}];
+        chengeitem="拖车";
         $scope.type="拖车";
         if($stateParams.typeId!=1)
         {
@@ -54,14 +79,13 @@ angular.module('wechat.controllers', [])
             $scope.type="小货车";
         }
         $scope.location="";
-             $scope.phone="";
-            $scope.licensePlate="";
-             $scope.lngLat="";
+        $scope.phone="";
+        $scope.licensePlate="";
+        $scope.lngLat="";
         $scope.selectChange = function(){
             //获取被选中的值
              chengeitem = $scope.type;
-        }
-
+        };
         $scope.save = function(e){
             // var aaa=new GB2312UTF8().Gb2312ToUtf8($scope.licensePlate);
             var data = {dtid: $scope.location,
@@ -94,14 +118,23 @@ angular.module('wechat.controllers', [])
 
     })
     .controller('transporterAddCtrl', function($ionicHistory,$scope, $state,$http,ionicToast,$stateParams) {
-        $scope.Addr="";
-        $scope.phone="";
-        $scope.licensePlate="";
-        $scope.lngLat="";
-        $scope.StartAddr="";
-        $scope.EndAddr="";
-        $scope.EndAddr="";
-        $scope.Info="";
+        $scope.$on('$ionicView.beforeEnter', function() {
+            function locationCellback(res)
+            {
+                if(res!=null&&res.result!=undefined&&res.result.cityCode!=undefined&&res.result.cityCode>0){
+                    $scope.location=res.result.formatted_address+"  " +res.result.sematic_description;
+                    $scope.lngLat=res.result.location.lng+"," +res.result.location.lat;
+                    $scope.locationVal=res.result.formatted_address+"  " +res.result.sematic_description;
+                    $scope.lngLatVal=res.result.location.lng+"," +res.result.location.lat;
+                }
+            }
+            getBMapLocation(locationCellback);
+            $scope.locationVal="";
+            $scope.lngLatVal="";
+        });
+
+        $scope.locationVal="";
+        $scope.lngLatVal="";
         $scope.save = function(e){
             var data = {
                 type:$stateParams.typeId,
@@ -211,7 +244,7 @@ function findTruck($scope, $state,$http,ionicToast,type){
         });
     }
     $scope.truckAdd = function(e){
-        $state.go("truckAdd",{typeId:type});
+        $state.go("truckAdd",{typeId:type,isCache:false});
         //$state.go("messageDetail");
     };
     $scope.$on('$ionicView.beforeEnter', function() {
@@ -276,6 +309,46 @@ function findTransporter($scope, $state,$http,ionicToast,type){
 }
 
 
+
+function getBMapLocation(callback) {
+    // 百度地图API功能
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(0,0);
+    map.centerAndZoom(point,12);
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function(r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            var mk = new BMap.Marker(r.point);
+//                map.addOverlay(mk);
+//                map.panTo(r.point);
+//                aaa(r);
+            showPosition(r,callback);
+        }
+        else {
+//                    alert('failed'+this.getStatus());
+        }
+    },{enableHighAccuracy: true})
+}
+//百度地图WebAPI 坐标转地址
+function showPosition(r,callback) {
+    // ak = appkey 访问次数流量有限制
+//            var urlAddr = 'http://api.map.baidu.com/geocoder/v2/?ak=NZyfpqnDBNM1IzC6j4ZhdyKbp7ac0hdc&callback=?&location=' + r.result[0].y + ',' + r.result[0].x + '&output=json&pois=1';
+    var urlAddr = 'http://api.map.baidu.com/geocoder/v2/?ak=NZyfpqnDBNM1IzC6j4ZhdyKbp7ac0hdc&callback=?&location=' + r.latitude + ',' + r.longitude + '&output=json&pois=1';
+    $.getJSON(urlAddr, function (res) {
+        callback(res);
+//                alert(res.result.addressComponent.city+"  " +res.result.business);
+    });
+}
+function  aaa(r)
+{
+    //http://api.map.baidu.com/geoconv/v1/?coords=114.21892734521,29.575429778924;114.21892734521,29.575429778924&from=1&to=5&ak=NZyfpqnDBNM1IzC6j4ZhdyKbp7ac0hdc
+    //http://api.map.baidu.com/geoconv/v1/?coords=114.21892734521,29.575429778924;114.21892734521,29.575429778924&from=1&to=5&ak=NZyfpqnDBNM1IzC6j4ZhdyKbp7ac0hdc
+    var urlAddr = 'http://api.map.baidu.com/geoconv/v1/?coords=' + r.point.lng + ',' + r.point.lat + '&from=1&to=5&ak=NZyfpqnDBNM1IzC6j4ZhdyKbp7ac0hdc&callback=?';
+    $.getJSON(urlAddr, function (res) {
+        showPosition(res);
+//                alert(res.result.addressComponent.city);
+    });
+}
 
 
 function GB2312UTF8(){
