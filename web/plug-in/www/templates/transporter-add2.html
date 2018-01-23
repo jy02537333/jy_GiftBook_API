@@ -12,7 +12,10 @@
             <div class="list">
                 <label class="item item-input item-stacked-label">
                     <span class="input-label">我的位置</span>
-                    <input type="text" placeholder="我的位置"  id="location" ng-model="$parent.location">
+                    <button style="height: 30px;min-height:30px;line-height:30px;"
+                            ng-click="getLocation($event)"
+                            class="button no-animation  button-positive ">更新位置</button>
+                    <input type="text" readonly="readonly" placeholder="我的位置"  id="location" ng-model="$parent.location">
                     <input type="hidden" id="lngLat" ng-model="$parent.lngLat"/>
                 </label>
                 <label class="item item-input item-stacked-label " data-tap-disabled="true">

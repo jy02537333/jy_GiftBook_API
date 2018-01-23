@@ -103,7 +103,7 @@ public class ApiTruckController extends BaseController {
 		//查询条件组装器
 //		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, truck, request.getParameterMap());
 		try{
-			if(truck.getVehicleType().equals("1"))
+			if(truck.getVehicleType()!=null&&truck.getVehicleType().equals("1"))
 				cq.eq("vehicleType","拖车");
 			else
 			{

@@ -46,6 +46,14 @@ angular.module('wechat.controllers', [])
 
     .controller('truckAddCtrl', function($ionicHistory,$scope, $state,$http,ionicToast,$stateParams) {
         var chengeitem="拖车";
+        var isGeting=false;
+        $scope.getLocation=function (e)
+        {
+            if(isGeting)
+                return ;
+             isGeting=true;
+            getBMapLocation(locationCellback);
+        }
         $scope.$on('$ionicView.beforeEnter', function() {
             function locationCellback(res)
             {
@@ -55,6 +63,7 @@ angular.module('wechat.controllers', [])
                     $scope.locationVal=res.result.formatted_address+"  " +res.result.sematic_description;
                     $scope.lngLatVal=res.result.location.lng+"," +res.result.location.lat;
                 }
+                isGeting=false;
             }
             getBMapLocation(locationCellback);
             chengeitem="拖车";
@@ -118,6 +127,14 @@ angular.module('wechat.controllers', [])
 
     })
     .controller('transporterAddCtrl', function($ionicHistory,$scope, $state,$http,ionicToast,$stateParams) {
+        var isGeting=false;
+        $scope.getLocation=function (e)
+        {
+            if(isGeting)
+                return ;
+            isGeting=true;
+            getBMapLocation(locationCellback);
+        }
         $scope.$on('$ionicView.beforeEnter', function() {
             function locationCellback(res)
             {
@@ -127,6 +144,7 @@ angular.module('wechat.controllers', [])
                     $scope.locationVal=res.result.formatted_address+"  " +res.result.sematic_description;
                     $scope.lngLatVal=res.result.location.lng+"," +res.result.location.lat;
                 }
+                isGeting=false;
             }
             getBMapLocation(locationCellback);
             $scope.locationVal="";
