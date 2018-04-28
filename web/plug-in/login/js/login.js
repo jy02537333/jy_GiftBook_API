@@ -1,26 +1,12 @@
 $(document).ready(function() {
-	
-	//author:scott---date:20160426---for:判断浏览器跳转兼容风格
-	var navigatorName = "Microsoft Internet Explorer"; 
-	if( navigator.appName == navigatorName ){ 
-		alert("IE浏览器采用传统首页风格，更佳体验建议使用Chrome浏览器!") 
-		setCookie("JEECGINDEXSTYLE","shortcut");
-	}else{
-	}
-	
-	$("#userName").attr("nullmsg",pleaseinutusername);
-	$("#userName").attr("title",username);
-	
-	$("#password").attr("nullmsg",pleaseinutpassword);
-	$("#password").attr("title",password);
-	
-	$("#randCode").attr("nullmsg",pleaseinputvalidatecode);
-	$("#randCode").attr("title",validatecode);
-	
-	
+	if (window.applicationCache) {
+        //alert("你的浏览器支持HTML5");
+    } else {
+        alert("你的浏览器不支持HTML5,将采用传统首页风格，更佳体验建议使用Chrome浏览器!");
+        $.cookie('JEECGINDEXSTYLE', 'shortcut');
+    }
 	getCookie();
 	onfocus();
-	
 	$(".on_off_checkbox").iphoneStyle();
 	$('.tip a ').tipsy({
 		gravity : 'sw'
@@ -45,6 +31,7 @@ $(document).ready(function() {
 			}, 200).hide();
 		});
 	});
+
 });
 $('.userload').click(function(e) {
 	$('.formLogin').animate({
@@ -99,22 +86,14 @@ function submit()
 	});
 	if (submit) {
 		hideTop();
-		try {
-			loading(checking, 1);
-		} catch (e) {
-			// TODO: handle exception
-		}
+		loading('核实中..', 1);
 		setTimeout("unloading()", 1000);
 		setTimeout("Login()", 1000);
 	}
 
 }
-function zhanggm(orgId) {
-
-    alert("zhanggm test in login.js: orgId= " +orgId);
-}
 //登录处理函数
-function Login(orgId) {
+function Login() {
 	setCookie();
 	var actionurl=$('form').attr('action');//提交路径
 	var checkurl=$('form').attr('check');//验证路径
@@ -122,9 +101,6 @@ function Login(orgId) {
 	var data=$(":input").each(function() {
 		 formData[this.name] =$("#"+this.name ).val();
 	});
-    formData['orgId'] = orgId ? orgId : "";
-	formData['langCode']=$("#langCode").val();
-	formData['langCode'] = $("#langCode option:selected").val();
 	$.ajax({
 		async : false,
 		cache : false,
@@ -137,43 +113,7 @@ function Login(orgId) {
 			var d = $.parseJSON(data);
 			if (d.success) {
 				loginsuccess();
-                // todo zhanggm 没有处理多语言，暂时这样判断下吧
-                var title, okButton;
-                if($("#langCode").val() == 'en') {
-                    title = "Please select Org";
-                    okButton = "Ok";
-                } else {
-                    title = "请选择组织机构";
-                    okButton = "确定";
-                }
-                if (d.attributes.orgNum > 1) {
-                    $.dialog({
-                        id: 'LHG1976D',
-                        title: title,
-                        max: false,
-                        min: false,
-                        drag: false,
-                        resize: false,
-                        content: 'url:userController.do?userOrgSelect&userId=' + d.attributes.user.id,
-                        lock:true,
-                        button : [ {
-                            name : okButton,
-                            focus : true,
-                            callback : function() {
-                                iframe = this.iframe.contentWindow;
-                                var orgId = $('#orgId', iframe.document).val();
-                                Login(orgId);
-                                this.close();
-                                return false;
-                            }
-                        }],
-                        close: function(){
-                            window.location.href = actionurl;
-                        }
-                    });
-                } else {
-                    setTimeout("window.location.href='"+actionurl+"'", 1000);
-                }
+				setTimeout("window.location.href='"+actionurl+"'", 1000);
 			} else {
 				if(d.msg == "a"){
 					$.dialog.confirm("数据库无数据,是否初始化数据?", function(){
@@ -315,12 +255,4 @@ function jrumble() {
 	});
 	$('.inner').trigger('startRumble');
 	setTimeout('$(".inner").trigger("stopRumble")', 500);
-}
-
-function setCookie(name,value)
-{
-var Days = 30;
-var exp = new Date();
-exp.setTime(exp.getTime() + Days*24*60*60*1000);
-document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
 }

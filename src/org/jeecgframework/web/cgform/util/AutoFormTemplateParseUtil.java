@@ -55,7 +55,6 @@ public class AutoFormTemplateParseUtil {
 	
 	/**
 	 * 预览模式解析html
-	 * @param ontent
 	 * @param paras
 	 * @return
 	 */
@@ -460,7 +459,8 @@ public class AutoFormTemplateParseUtil {
 						CgreportConfigHeadEntity cgreportConfigHeadEntity = getCgreportConfigHeadEntity(dict);
 						if(cgreportConfigHeadEntity!=null){
 							StringBuffer radioBuff = new StringBuffer();
-								radioBuff.append("<td><input id=\"{0}\" name=\"{0}\" type=\"text\"  class=\"input-medium\" style=\"background: url(plug-in/easyui/themes/default/images/searchbox_button.png) 100% 50% no-repeat rgb(255, 255, 255);\" onClick='inputClick(this,\""+cgreportConfigHeadEntity.getReturnValField()+"\",\""+dict+"\");'  value=\"{1}\"></td>");
+								radioBuff.append("<td><input id=\"{0}\" name=\"{0}\" type=\"text\"  class=\"input-medium\" style=\"background: url(plug-in/easyui/themes/default/images/searchbox_button.png) 100% 50% no-repeat rgb(255, 255, 255);\" onClick='inputClick(this,\""+
+										cgreportConfigHeadEntity.getReturnValField()+"\",\""+dict+"\");'  value=\"{1}\"></td>");
 							tr += MessageFormat
 							.format(radioBuff.toString(),tdname,tdValue);
 						}
@@ -1091,7 +1091,7 @@ public class AutoFormTemplateParseUtil {
 		} else if("sys_realname".equals(orgtype)){
 			orgName = user.getRealName();
 		} else if("sys_dept".equals(orgtype)){
-			orgName = user.getCurrentDepart().getDepartname();
+			orgName = user.getTSDepart().getDepartname();
 		}
 		return orgName;
 	}
@@ -1138,7 +1138,6 @@ public class AutoFormTemplateParseUtil {
 	 * 获取input type="text"的value【多条数据时获取第一条数据对应的值】
 	 * @param autofield
 	 * @param paras
-	 * @param type
 	 * @return
 	 */
 	private static Object getSingleValue(String autofield,Map<String, List<Map<String, Object>>> paras){

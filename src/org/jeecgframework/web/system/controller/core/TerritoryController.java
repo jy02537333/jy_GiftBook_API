@@ -1,5 +1,10 @@
 package org.jeecgframework.web.system.controller.core;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import org.jeecgframework.web.system.pojo.base.TSTerritory;
+import org.jeecgframework.web.system.service.SystemService;
 import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -7,14 +12,10 @@ import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.ComboTree;
 import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.tag.vo.easyui.TreeGridModel;
-import org.jeecgframework.web.system.pojo.base.TSTerritory;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
-import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -22,19 +23,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-
 
 /**
  * 地域处理类
  * @author wushu
  */
-//@Scope("prototype")
+@Scope("prototype")
 @Controller
 @RequestMapping("/territoryController")
 public class TerritoryController extends BaseController {
+	
+	private String message = null;
 	
 	@Autowired
 	private SystemService systemService;
@@ -115,7 +114,7 @@ public class TerritoryController extends BaseController {
 		List<TSTerritory> territoryList = systemService.getListByCriteriaQuery(cq, false);
 		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
 		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "territoryName", "TSTerritorys");
-		comboTrees = systemService.ComboTree(territoryList, comboTreeModel, null, false);
+		comboTrees = systemService.ComboTree(territoryList, comboTreeModel, null);
 		return comboTrees;
 	}
 	/**
@@ -124,7 +123,6 @@ public class TerritoryController extends BaseController {
 	@RequestMapping(params = "saveTerritory")
 	@ResponseBody
 	public AjaxJson saveTerritory(TSTerritory territory, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		String functionOrder = territory.getTerritorySort();
 		if(StringUtils.isEmpty(functionOrder)){
@@ -140,18 +138,13 @@ public class TerritoryController extends BaseController {
 			message = "地域: " + territory.getTerritoryName() + "被更新成功";
 			systemService.saveOrUpdate(territory);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
-
-            message = MutiLangUtil.paramUpdSuccess("common.area");
 		} else {
 			territory.setTerritorySort(territory.getTerritorySort());
 			message = "地域: " + territory.getTerritoryName() + "被添加成功";
 			systemService.save(territory);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 
-            message = MutiLangUtil.paramAddSuccess("common.area");
-        }
-
-        j.setMsg(message);
+		}
 		
 		return j;
 	}
@@ -165,15 +158,11 @@ public class TerritoryController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(TSTerritory territory, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		territory = systemService.getEntity(TSTerritory.class, territory.getId());
 		message = "地域: " + territory.getTerritoryName() + "被删除成功";
 		systemService.delete(territory);
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
-
-        message = MutiLangUtil.paramDelSuccess("common.area");
-        j.setMsg(message);
 		return j;
 	}
 

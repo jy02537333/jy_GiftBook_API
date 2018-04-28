@@ -8,7 +8,6 @@ import java.util.Map;
 import org.apache.commons.beanutils.DynaBean;
 import org.apache.commons.beanutils.DynaProperty;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.beanutils.PropertyUtilsBean;
 
 /**
  * <p>Title: </p>
@@ -18,7 +17,7 @@ import org.apache.commons.beanutils.PropertyUtilsBean;
  */
 
 public class MyBeanUtils
-    extends PropertyUtilsBean {
+    extends org.apache.commons.beanutils.BeanUtils {
 
   private static void convert(Object dest, Object orig) throws
       IllegalAccessException, InvocationTargetException {
@@ -41,7 +40,7 @@ public class MyBeanUtils
               if (PropertyUtils.isWriteable(dest, name)) {
                   Object value = ( (DynaBean) orig).get(name);
                   try {
-                	  getInstance().setSimpleProperty(dest, name, value);
+                      copyProperty(dest, name, value);
                   }
                   catch (Exception e) {
                       ; // Should not happen
@@ -57,7 +56,7 @@ public class MyBeanUtils
               if (PropertyUtils.isWriteable(dest, name)) {
                   Object value = ( (Map) orig).get(name);
                   try {
-                	  getInstance().setSimpleProperty(dest, name, value);
+                      copyProperty(dest, name, value);
                   }
                   catch (Exception e) {
                       ; // Should not happen
@@ -81,9 +80,9 @@ public class MyBeanUtils
                   PropertyUtils.isWriteable(dest, name)) {
                   try {
                       Object value = PropertyUtils.getSimpleProperty(orig, name);
-                      getInstance().setSimpleProperty(dest, name, value);
+                      copyProperty(dest, name, value);
                   }
-                  catch (java.lang.IllegalArgumentException ie) {
+                  catch (IllegalArgumentException ie) {
                       ; // Should not happen
                   }
                   catch (Exception e) {
@@ -119,10 +118,10 @@ public class MyBeanUtils
               try {
                   Object value = PropertyUtils.getSimpleProperty(databean, name);
                   if(value!=null){
-                	  getInstance().setSimpleProperty(tobean, name, value);
+                	    copyProperty(tobean, name, value);
                   }
               }
-              catch (java.lang.IllegalArgumentException ie) {
+              catch (IllegalArgumentException ie) {
                   ; // Should not happen
               }
               catch (Exception e) {
@@ -197,7 +196,7 @@ public class MyBeanUtils
                       continue;
                   }
               }
-              getInstance().setSimpleProperty(bean, name, value);
+              setProperty(bean, name, value);
           }
           catch (NoSuchMethodException e) {
               continue;
@@ -249,7 +248,7 @@ public class MyBeanUtils
 //                      continue;
 //                  }
 //              }
-              getInstance().setSimpleProperty(bean, name, value);
+              setProperty(bean, name, value);
           }
           catch (NoSuchMethodException e) {
               continue;
@@ -297,7 +296,7 @@ public class MyBeanUtils
                       value = defaultValue;
                   }
               }
-              getInstance().setSimpleProperty(bean, name, value);
+              setProperty(bean, name, value);
           }
           catch (NoSuchMethodException e) {
               continue;

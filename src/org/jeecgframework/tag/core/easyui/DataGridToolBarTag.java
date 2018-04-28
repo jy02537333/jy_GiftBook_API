@@ -4,8 +4,6 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.jeecgframework.core.util.MutiLangUtil;
-
 /**
  *  @author 张代浩
  * 类描述：列表工具条标签
@@ -20,21 +18,15 @@ public class DataGridToolBarTag extends TagSupport {
 	private String width;
 	private String height;
 	private String operationCode;//按钮的操作Code
-	private String langArg;//按钮的操作Code
-	
-	
 	public int doStartTag() throws JspTagException {
 		return EVAL_PAGE;
 	}
 	public int doEndTag() throws JspTagException {
-		title = MutiLangUtil.doMutiLang(title, langArg);
-		
 		Tag t = findAncestorWithClass(this, DataGridTag.class);
 		DataGridTag parent = (DataGridTag) t;
 		parent.setToolbar(url, title, icon, exp,onclick, funname,operationCode,width,height);
 		return EVAL_PAGE;
 	}
-	
 	public void setFunname(String funname) {
 		this.funname = funname;
 	}
@@ -68,7 +60,6 @@ public class DataGridToolBarTag extends TagSupport {
 	public void setHeight(String height) {
 		this.height = height;
 	}
-	public void setLangArg(String langArg) {
-		this.langArg = langArg;
-	}
+	
+	
 }

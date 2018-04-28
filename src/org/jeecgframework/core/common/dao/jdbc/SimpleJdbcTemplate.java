@@ -7,10 +7,8 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.util.Assert;
 /**
@@ -22,18 +20,14 @@ import org.springframework.util.Assert;
 public class SimpleJdbcTemplate {
 	
 	protected final Log logger = LogFactory.getLog(getClass());
-
-	protected JdbcTemplate  jdbcTemplate;
-	protected NamedParameterJdbcTemplate  namedJdbcTemplate;
 	
+	protected org.springframework.jdbc.core.simple.SimpleJdbcTemplate jdbcTemplate;
 	protected SimpleJdbcInsert simpleJdbcInsert;
 	public SimpleJdbcTemplate(DataSource dataSource){
-		jdbcTemplate=new JdbcTemplate(dataSource);
-		namedJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		jdbcTemplate=new org.springframework.jdbc.core.simple.SimpleJdbcTemplate(dataSource);
 		simpleJdbcInsert=new SimpleJdbcInsert(dataSource);
 	}
-
-
+	
 	/**
 	 * 根据sql语句，返回对象集合
 	 * @param sql语句(参数用冒号加参数名，例如select * from tb where id=:id)
@@ -69,10 +63,7 @@ public class SimpleJdbcTemplate {
 			if(parameters!=null){
 				return jdbcTemplate.queryForObject(sql, resultBeanMapper(clazz), parameters);
 			}else{
-
-				return jdbcTemplate.queryForObject(sql, resultBeanMapper(clazz),Long.class);
-
-
+				return jdbcTemplate.queryForLong(sql, resultBeanMapper(clazz));
 			}
 		}catch (Exception e) {
 			return null;
@@ -88,13 +79,11 @@ public class SimpleJdbcTemplate {
 	public long findForLong(final String sql,Map parameters){
 		try{
 			Assert.hasText(sql,"sql语句不正确!");
-
 			if(parameters!=null){
-				return namedJdbcTemplate.queryForObject(sql, parameters,Long.class);
+				return jdbcTemplate.queryForLong(sql, parameters);
 			}else{
-				return jdbcTemplate.queryForObject(sql,Long.class);
+				return jdbcTemplate.queryForLong(sql);
 			}
-
 		}catch (Exception e) {
 			return 0;
 		}
@@ -189,12 +178,12 @@ public class SimpleJdbcTemplate {
         int[] updateCounts = jdbcTemplate.batchUpdate(sql,batch);
         return updateCounts;
 	}
-
-	protected BeanPropertyRowMapper resultBeanMapper(Class clazz) {
-		return BeanPropertyRowMapper.newInstance(clazz);
+	
+	
+	protected ParameterizedBeanPropertyRowMapper resultBeanMapper(Class clazz) {
+		return ParameterizedBeanPropertyRowMapper.newInstance(clazz);
 	}
-
-
+	
 	protected BeanPropertySqlParameterSource paramBeanMapper(Object object) {
 		return new BeanPropertySqlParameterSource(object);
 	}

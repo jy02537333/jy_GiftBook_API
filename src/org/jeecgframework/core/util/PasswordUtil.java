@@ -187,21 +187,18 @@ public class PasswordUtil {
 			}
 		}
 		System.out.print(-1%2==0);
-		String str = "root";
-		String password = "root";
+		String str = "admin";
+		String password = "123456";
 
-		org.jeecgframework.core.util.LogUtil.info("明文:" + str);
-		org.jeecgframework.core.util.LogUtil.info("密码:" + password);
+		LogUtil.info("明文:" + str);
+		LogUtil.info("密码:" + password);
 
 		try {
 			byte[] salt = PasswordUtil.getStaticSalt();
 			String ciphertext = PasswordUtil.encrypt(str, password, salt);
-			org.jeecgframework.core.util.LogUtil.info("密文:" + ciphertext);
+			LogUtil.info("密文:" + ciphertext);
 			String plaintext = PasswordUtil.decrypt(ciphertext, password, salt);
-			org.jeecgframework.core.util.LogUtil.info("明文:" + plaintext);
-			
-			String result = PasswordUtil.decrypt("ea3d519525358e00", "root", salt);
-			org.jeecgframework.core.util.LogUtil.info("明文:" + result);
+			LogUtil.info("明文:" + plaintext);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

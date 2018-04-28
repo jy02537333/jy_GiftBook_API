@@ -23,35 +23,35 @@ import org.hibernate.annotations.GenericGenerator;
 @SuppressWarnings("serial")
 public class JeecgOrderProductEntity implements java.io.Serializable {
 	/**id*/
-	private java.lang.String id;
+	private String id;
 	/**团购订单号*/
-	private java.lang.String goOrderCode;
+	private String goOrderCode;
 	/**服务项目类型*/
-	private java.lang.String gopProductType;
+	private String gopProductType;
 	/**产品名称*/
-	private java.lang.String gopProductName;
+	private String gopProductName;
 	/**个数*/
-	private java.lang.Integer gopCount;
+	private Integer gopCount;
 	/**单价*/
 	private BigDecimal gopOnePrice;
 	/**小计*/
 	private BigDecimal gopSumPrice;
 	/**备注*/
-	private java.lang.String gopContent;
+	private String gopContent;
 	/**创建人*/
-	private java.lang.String crtuser;
+	private String crtuser;
 	/**创建人名字*/
-	private java.lang.String crtuserName;
+	private String crtuserName;
 	/**创建时间*/
 	private java.util.Date createDt;
 	/**修改人*/
-	private java.lang.String modifier;
+	private String modifier;
 	/**修改人名字*/
-	private java.lang.String modifierName;
+	private String modifierName;
 	/**修改时间*/
 	private java.util.Date modifyDt;
 	/**删除标记*/
-	private java.lang.Integer delflag;
+	private Integer delflag;
 	/**删除时间*/
 	private java.util.Date delDt;
 	
@@ -64,7 +64,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -72,7 +72,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -80,7 +80,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *@return: java.lang.String  团购订单号
 	 */
 	@Column(name ="GO_ORDER_CODE",nullable=false,length=12)
-	public java.lang.String getGoOrderCode(){
+	public String getGoOrderCode(){
 		return this.goOrderCode;
 	}
 
@@ -88,7 +88,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  团购订单号
 	 */
-	public void setGoOrderCode(java.lang.String goOrderCode){
+	public void setGoOrderCode(String goOrderCode){
 		this.goOrderCode = goOrderCode;
 	}
 	/**
@@ -96,7 +96,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *@return: java.lang.String  服务项目类型
 	 */
 	@Column(name ="GOP_PRODUCT_TYPE",nullable=false,length=1)
-	public java.lang.String getGopProductType(){
+	public String getGopProductType(){
 		return this.gopProductType;
 	}
 
@@ -104,7 +104,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  服务项目类型
 	 */
-	public void setGopProductType(java.lang.String gopProductType){
+	public void setGopProductType(String gopProductType){
 		this.gopProductType = gopProductType;
 	}
 	/**
@@ -112,7 +112,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *@return: java.lang.String  产品名称
 	 */
 	@Column(name ="GOP_PRODUCT_NAME",nullable=true,length=33)
-	public java.lang.String getGopProductName(){
+	public String getGopProductName(){
 		return this.gopProductName;
 	}
 
@@ -120,7 +120,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  产品名称
 	 */
-	public void setGopProductName(java.lang.String gopProductName){
+	public void setGopProductName(String gopProductName){
 		this.gopProductName = gopProductName;
 	}
 	/**
@@ -128,7 +128,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  个数
 	 */
 	@Column(name ="GOP_COUNT",nullable=true,precision=10,scale=0)
-	public java.lang.Integer getGopCount(){
+	public Integer getGopCount(){
 		return this.gopCount;
 	}
 
@@ -136,7 +136,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  个数
 	 */
-	public void setGopCount(java.lang.Integer gopCount){
+	public void setGopCount(Integer gopCount){
 		this.gopCount = gopCount;
 	}
 	/**
@@ -176,7 +176,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *@return: java.lang.String  备注
 	 */
 	@Column(name ="GOP_CONTENT",nullable=true,length=66)
-	public java.lang.String getGopContent(){
+	public String getGopContent(){
 		return this.gopContent;
 	}
 
@@ -184,7 +184,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  备注
 	 */
-	public void setGopContent(java.lang.String gopContent){
+	public void setGopContent(String gopContent){
 		this.gopContent = gopContent;
 	}
 	/**
@@ -192,7 +192,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *@return: java.lang.String  创建人
 	 */
 	@Column(name ="CRTUSER",nullable=true,length=12)
-	public java.lang.String getCrtuser(){
+	public String getCrtuser(){
 		return this.crtuser;
 	}
 
@@ -200,7 +200,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人
 	 */
-	public void setCrtuser(java.lang.String crtuser){
+	public void setCrtuser(String crtuser){
 		this.crtuser = crtuser;
 	}
 	/**
@@ -208,7 +208,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *@return: java.lang.String  创建人名字
 	 */
 	@Column(name ="CRTUSER_NAME",nullable=true,length=10)
-	public java.lang.String getCrtuserName(){
+	public String getCrtuserName(){
 		return this.crtuserName;
 	}
 
@@ -216,7 +216,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人名字
 	 */
-	public void setCrtuserName(java.lang.String crtuserName){
+	public void setCrtuserName(String crtuserName){
 		this.crtuserName = crtuserName;
 	}
 	/**
@@ -240,7 +240,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *@return: java.lang.String  修改人
 	 */
 	@Column(name ="MODIFIER",nullable=true,length=12)
-	public java.lang.String getModifier(){
+	public String getModifier(){
 		return this.modifier;
 	}
 
@@ -248,7 +248,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  修改人
 	 */
-	public void setModifier(java.lang.String modifier){
+	public void setModifier(String modifier){
 		this.modifier = modifier;
 	}
 	/**
@@ -256,7 +256,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *@return: java.lang.String  修改人名字
 	 */
 	@Column(name ="MODIFIER_NAME",nullable=true,length=10)
-	public java.lang.String getModifierName(){
+	public String getModifierName(){
 		return this.modifierName;
 	}
 
@@ -264,7 +264,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  修改人名字
 	 */
-	public void setModifierName(java.lang.String modifierName){
+	public void setModifierName(String modifierName){
 		this.modifierName = modifierName;
 	}
 	/**
@@ -288,7 +288,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  删除标记
 	 */
 	@Column(name ="DELFLAG",nullable=true,precision=10,scale=0)
-	public java.lang.Integer getDelflag(){
+	public Integer getDelflag(){
 		return this.delflag;
 	}
 
@@ -296,7 +296,7 @@ public class JeecgOrderProductEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  删除标记
 	 */
-	public void setDelflag(java.lang.Integer delflag){
+	public void setDelflag(Integer delflag){
 		this.delflag = delflag;
 	}
 	/**

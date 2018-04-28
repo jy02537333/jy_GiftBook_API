@@ -11,7 +11,6 @@ import org.jeecgframework.web.system.pojo.base.TSFunction;
 import org.jeecgframework.web.system.pojo.base.TSIcon;
 import org.jeecgframework.web.system.pojo.base.TSOperation;
 import org.jeecgframework.web.system.service.MenuInitService;
-import org.jeecgframework.web.system.util.PackagesToScanUtil;
 
 import org.jeecgframework.core.annotation.config.AutoMenu;
 import org.jeecgframework.core.annotation.config.AutoMenuOperation;
@@ -68,7 +67,7 @@ public class MenuInitServiceImpl extends CommonServiceImpl implements
 		}
 		
 		//扫描Src目录下
-		Set<Class<?>> classSet = PackagesToScanUtil.getClasses(".*");
+		Set<Class<?>> classSet = null;//PackagesToScanUtil.getClasses(".*");
 		for (Class<?> clazz : classSet) {
 			//判断当前类是否设置了菜单注解
 			//未设置菜单注解就算在该类的方法上设置了菜单操作按钮注解也不进行菜单操作按钮的匹配

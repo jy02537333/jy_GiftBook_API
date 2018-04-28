@@ -1,10 +1,9 @@
-package org.jeecgframework.web.cgform.service.impl.config;
+package com.jeecg.service.impl.config;
 
 import org.apache.commons.lang.StringUtils;
 
-import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.cgform.exception.DBException;
-import org.jeecgframework.web.cgform.service.config.DbTableHandleI;
+import com.jeecg.service.config.DbTableHandleI;
 import org.jeecgframework.web.cgform.service.impl.config.util.ColumnMeta;
 
 

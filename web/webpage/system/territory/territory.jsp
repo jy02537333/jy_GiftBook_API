@@ -48,34 +48,20 @@
 <t:formvalid formid="formobj" layout="div" dialog="true" refresh="true" action="territoryController.do?saveTerritory">
 	<input name="id" type="hidden" value="${territory.id}">
 	<fieldset class="step">
-        <div class="form">
-            <label class="Validform_label"> <t:mutiLang langKey="area.name"/>: </label>
-            <input name="territoryName" class="inputxt" value="${territory.territoryName}" datatype="s2-15">
-            <span class="Validform_checktip"><t:mutiLang langKey="areaname.rang2to15"/></span>
-        </div>
-        <div class="form">
-            <label class="Validform_label"> <t:mutiLang langKey="area.level"/>: </label>
-            <select name="territoryLevel" id="territoryLevel" datatype="*">
-                <option value="0" <c:if test="${territory.territoryLevel eq 0}">selected="selected"</c:if>><t:mutiLang langKey="main.area"/></option>
-                <option value="1" <c:if test="${territory.territoryLevel>0}"> selected="selected"</c:if>><t:mutiLang langKey="sub.area"/></option>
-            </select>
-            <span class="Validform_checktip"></span>
-        </div>
-        <div class="form" id="pfun">
-            <label class="Validform_label"> <t:mutiLang langKey="parent.area"/>: </label>
-            <input id="cc"
-                <c:if test="${territory.TSTerritory.territoryLevel eq 0}"> value="${territory.TSTerritory.id}"</c:if>
-                <c:if test="${territory.TSTerritory.territoryLevel > 0}"> value="${territory.TSTerritory.territoryName}"</c:if>>
-            <input id="territoryId" name="TSTerritory.id" style="display: none;" value="${territory.TSTerritory.id}">
-        </div>
-        <div class="form" id="funorder">
-            <label class="Validform_label"> <t:mutiLang langKey="area.code"/>: </label>
-            <input name="territoryCode" class="inputxt" value="${territory.territoryCode}" datatype="*6-16">
-        </div>
-        <div class="form" id="funorder">
-            <label class="Validform_label"> <t:mutiLang langKey="display.order"/>: </label>
-            <input name="territorySort" class="inputxt" value="${territory.territorySort}" datatype="n1-3">
-        </div>
+	<div class="form"><label class="Validform_label"> 地域名称: </label> <input name="territoryName" class="inputxt" value="${territory.territoryName}" datatype="s2-15"> <span
+		class="Validform_checktip">地域名称范围2~15位字符,且不为空</span></div>
+	<div class="form"><label class="Validform_label"> 地域等级: </label> <select name="territoryLevel" id="territoryLevel" datatype="*">
+		<option value="0" <c:if test="${territory.territoryLevel eq 0}">selected="selected"</c:if>>一级地域</option>
+		<option value="1" <c:if test="${territory.territoryLevel>0}"> selected="selected"</c:if>>下级地域</option>
+	</select> <span class="Validform_checktip"></span></div>
+	<div class="form" id="pfun"><label class="Validform_label"> 父地域: </label> <input id="cc"
+		<c:if test="${territory.TSTerritory.territoryLevel eq 0}">
+					value="${territory.TSTerritory.id}"</c:if>
+		<c:if test="${territory.TSTerritory.territoryLevel > 0}">
+					value="${territory.TSTerritory.territoryName}"</c:if>> <input id="territoryId" name="TSTerritory.id" style="display: none;"
+		value="${territory.TSTerritory.id}"></div>
+	<div class="form" id="funorder"><label class="Validform_label"> 区域码: </label> <input name="territoryCode" class="inputxt" value="${territory.territoryCode}" datatype="*6-16"></div>
+	<div class="form" id="funorder"><label class="Validform_label"> 显示顺序: </label> <input name="territorySort" class="inputxt" value="${territory.territorySort}" datatype="n1-3"></div>
 	</fieldset>
 </t:formvalid>
 </body>

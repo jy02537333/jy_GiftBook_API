@@ -1,12 +1,12 @@
 package org.jeecgframework.tag.core.easyui;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.UUIDGenerator;
 
@@ -34,18 +34,14 @@ public class ChooseTag extends TagSupport {
 	protected Boolean isclear = false;
 	protected String fun;//自定义函数
 	protected String inputTextname;
-	protected String langArg;
-	protected Boolean isInit = false;//是否初始化
 
 	public int doStartTag() throws JspTagException {
 		return EVAL_PAGE;
 	}
 
 	public int doEndTag() throws JspTagException {
-		JspWriter out = null;
 		try {
-			title = MutiLangUtil.doMutiLang(title, langArg);
-			out = this.pageContext.getOut();
+			JspWriter out = this.pageContext.getOut();
 			out.print(end().toString());
 			out.flush();
 		} catch (IOException e) {
@@ -55,27 +51,19 @@ public class ChooseTag extends TagSupport {
 	}
 
 	public StringBuffer end() {
-		String confirm = MutiLangUtil.getMutiLangInstance().getLang("common.confirm");
-		String cancel = MutiLangUtil.getMutiLangInstance().getLang("common.cancel");
 		String methodname = UUIDGenerator.generate().replaceAll("-", "");
 		StringBuffer sb = new StringBuffer();
-		sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\"" + icon + "\" onClick=\"choose_"+methodname+ StringUtil.replace("()\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.select", langArg)));
+		sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\"" + icon + "\" onClick=\"choose_"+methodname+"()\">选择</a>");
 		if (isclear&&StringUtil.isNotEmpty(textname)) {
-			sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\"icon-redo\" onClick=\"clearAll_"+methodname+ StringUtil.replace("();\">{0}</a>", "{0}", MutiLangUtil.getMutiLangInstance().getLang("common.clear", langArg)));
+			sb.append("<a href=\"#\" class=\"easyui-linkbutton\" plain=\"true\" icon=\"icon-redo\" onClick=\"clearAll_"+methodname+"();\">清空</a>");
 		}
 		sb.append("<script type=\"text/javascript\">");
 		sb.append("var windowapi = frameElement.api, W = windowapi.opener;");
 		sb.append("function choose_"+methodname+"(){");
-		 //--author：zhoujf-----start----date:20150531--------for: 编辑用户，选择角色,弹出的角色列表页面，默认没选中 标签扩展
-		sb.append("var url = ").append("'").append(url).append("';");
-		if(isInit){
-			sb.append("var initValue = ").append("$(\'#" + hiddenName + "\').val();");
-			sb.append("url += ").append("'&ids='+initValue;"); 
-		}
 		sb.append("if(typeof(windowapi) == 'undefined'){");
 			sb.append("$.dialog({");
-			sb.append("content: \'url:\'+url,");
-			sb.append("zIndex: 2100,");
+			sb.append("content: \'url:"+url+"\',");
+			sb.append("zIndex: getzIndex(false),");
 			if (title != null) {
 				sb.append("title: \'" + title + "\',");
 			}
@@ -102,19 +90,19 @@ public class ChooseTag extends TagSupport {
 			}
 			sb.append("opacity : 0.4,");
 			sb.append("button : [ {");
-			sb.append(StringUtil.replace("name : \'{0}\',", "{0}", confirm));
+			sb.append("name : \'确认\',");
 			sb.append("callback : clickcallback_"+methodname+",");
 			sb.append("focus : true");
 			sb.append("}, {");
-			sb.append(StringUtil.replace("name : \'{0}\',","{0}", cancel));
+			sb.append("name : \'取消\',");
 			sb.append("callback : function() {");
 			sb.append("}");
 			sb.append("} ]");
 			sb.append("});");
 		sb.append("}else{");
 			sb.append("$.dialog({");
-			sb.append("content: \'url:\'+url,");
-			sb.append("zIndex: 2100,");
+			sb.append("content: \'url:"+url+"\',");
+			sb.append("zIndex: getzIndex(false),");
 			if (title != null) {
 				sb.append("title: \'" + title + "\',");
 			}
@@ -142,11 +130,11 @@ public class ChooseTag extends TagSupport {
 			}
 			sb.append("opacity : 0.4,");
 			sb.append("button : [ {");
-			sb.append(StringUtil.replace("name : \'{0}\',", "{0}", confirm));
+			sb.append("name : \'确认\',");
 			sb.append("callback : clickcallback_"+methodname+",");
 			sb.append("focus : true");
 			sb.append("}, {");
-			sb.append(StringUtil.replace("name : \'{0}\',","{0}", cancel));
+			sb.append("name : \'取消\',");
 			sb.append("callback : function() {");
 			sb.append("}");
 			sb.append("} ]");
@@ -165,11 +153,7 @@ public class ChooseTag extends TagSupport {
 	private void clearAll(StringBuffer sb,String methodname) {
 		String[] textnames=null;
 		String[] inputTextnames=null;
-
-		if (!StringUtil.isEmpty(this.textname)) {
-			textnames = textname.split(",");
-		}
-
+		textnames = textname.split(",");
 		if(StringUtil.isNotEmpty(inputTextname)){
 			inputTextnames = inputTextname.split(",");
 		}else{
@@ -234,7 +218,6 @@ public class ChooseTag extends TagSupport {
 		}
 		sb.append("}");
 	}
-	
 
 	public void setHiddenName(String hiddenName) {
 		this.hiddenName = hiddenName;
@@ -295,16 +278,4 @@ public class ChooseTag extends TagSupport {
 		this.inputTextname = inputTextname;
 	}
 
-	public String getLangArg() {
-		return langArg;
-	}
-
-	public void setLangArg(String langArg) {
-		this.langArg = langArg;
-	}
-	
-	public void setIsInit(Boolean isInit) {
-		this.isInit = isInit;
-	}
-	
 }

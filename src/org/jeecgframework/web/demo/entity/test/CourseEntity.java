@@ -33,15 +33,18 @@ import org.jeecgframework.poi.excel.annotation.ExcelTarget;
 @DynamicUpdate(true)
 @DynamicInsert(true)
 @SuppressWarnings("serial")
+@ExcelTarget(id="courseEntity")
 public class CourseEntity implements java.io.Serializable {
 	/**主键*/
-	private java.lang.String id;
+	private String id;
 	/**课程名称*/
-	private java.lang.String name;
+	@Excel(exportName="课程名称",orderNum="1",needMerge=true)
+	private String name;
 	/**老师主键*/
 	@ExcelEntity()
 	private TeacherEntity teacher;
 	
+	@ExcelCollection(exportName="选课学生",orderNum="4")
 	private List<StudentEntity> students;
 	
 	/**
@@ -53,7 +56,7 @@ public class CourseEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -61,7 +64,7 @@ public class CourseEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  主键
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -69,7 +72,7 @@ public class CourseEntity implements java.io.Serializable {
 	 *@return: java.lang.String  课程名称
 	 */
 	@Column(name ="NAME",nullable=true,length=25)
-	public java.lang.String getName(){
+	public String getName(){
 		return this.name;
 	}
 
@@ -77,7 +80,7 @@ public class CourseEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  课程名称
 	 */
-	public void setName(java.lang.String name){
+	public void setName(String name){
 		this.name = name;
 	}
 	/**

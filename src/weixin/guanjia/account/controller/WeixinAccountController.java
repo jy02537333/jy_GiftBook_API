@@ -82,6 +82,7 @@ public class WeixinAccountController extends BaseController {
 	public void datagrid(WeixinAccountEntity weixinAccount,
 			HttpServletRequest request, HttpServletResponse response,
 			DataGrid dataGrid) {
+		dataGrid.setField("id,accountname,accounttoken,accountnumber,weixin_accountid,accounttype,accountemail,accountdesc,accountappid,accountappsecret,accountaccesstoken,addtoekntime,userName,apiticket,apiticketttime,jsapiticket");
 		CriteriaQuery cq = new CriteriaQuery(WeixinAccountEntity.class,
 				dataGrid);
 		// 查询条件组装器

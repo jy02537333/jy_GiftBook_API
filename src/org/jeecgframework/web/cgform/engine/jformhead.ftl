@@ -1,4 +1,3 @@
-			<#--update-start--Author:luobaoli  Date:20150614 for：表单（主表/单表）属性中增加了扩展参数 ${po.extend_json?if_exists}-->
 			<input type="hidden" name="tableName" value="${tableName?if_exists?html}" >
 			<input type="hidden" name="id" value="${id?if_exists?html}" >
 			<#list columnhidden as po>
@@ -16,7 +15,7 @@
 					</td>
 					<td class="value">
 						<#if po.show_type=='text'>
-							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
+							<input id="${po.field_name}" name="${po.field_name}" type="text"
 							       style="width: 150px" class="inputxt" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 					               <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
@@ -30,7 +29,7 @@
 					               </#if></#if>>
 						
 						<#elseif po.show_type=='password'>
-							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}"  type="password"
+							<input id="${po.field_name}" name="${po.field_name}"  type="password"
 							       style="width: 150px" class="inputxt" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 					               <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
@@ -41,8 +40,7 @@
 						<#elseif po.show_type=='radio'>
 					        <@DictData name="${po.dict_field?if_exists?html}" text="${po.dict_text?if_exists?html}" tablename="${po.dict_table?if_exists?html}" var="dataList">
 								<#list dataList as dictdata> 
-								<input value="${dictdata.typecode?if_exists?html}" ${po.extend_json?if_exists} name="${po.field_name}" type="radio"
-								<#if dictdata_index==0&&po.is_null != 'Y'>datatype="*"</#if>
+								<input value="${dictdata.typecode?if_exists?html}" name="${po.field_name}" type="radio"
 								<#if dictdata.typecode?if_exists?html=="${data['${tableName}']['${po.field_name}']?if_exists?html}"> checked="true" </#if>>
 									${dictdata.typename?if_exists?html}
 								</#list> 
@@ -53,8 +51,7 @@
 							<#assign checkboxlist=checkboxstr?split(",")>
 							<@DictData name="${po.dict_field?if_exists?html}" text="${po.dict_text?if_exists?html}" tablename="${po.dict_table?if_exists?html}" var="dataList">
 								<#list dataList as dictdata> 
-								<input value="${dictdata.typecode?if_exists?html}" ${po.extend_json?if_exists} name="${po.field_name}" type="checkbox"
-								<#if dictdata_index==0&&po.is_null != 'Y'>datatype="*"</#if>
+								<input value="${dictdata.typecode?if_exists?html}" name="${po.field_name}" type="checkbox"
 								<#list checkboxlist as x >
 								<#if dictdata.typecode?if_exists?html=="${x?if_exists?html}"> checked="true" </#if></#list>>
 									${dictdata.typename?if_exists?html}
@@ -63,7 +60,7 @@
 					               
 						<#elseif po.show_type=='list'>
 							<@DictData name="${po.dict_field?if_exists?html}" text="${po.dict_text?if_exists?html}" tablename="${po.dict_table?if_exists?html}" var="dataList">
-								<select id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" <#if po.is_null != 'Y'>datatype="*"</#if>>
+								<select id="${po.field_name}" name="${po.field_name}" >
 									<#list dataList as dictdata> 
 									<option value="${dictdata.typecode?if_exists?html}" 
 									<#if dictdata.typecode?if_exists?html=="${data['${tableName}']['${po.field_name}']?if_exists?html}"> selected="selected" </#if>>
@@ -74,7 +71,7 @@
 							</@DictData>
 							
 						<#elseif po.show_type=='date'>
-							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
+							<input id="${po.field_name}" name="${po.field_name}" type="text"
 							       style="width: 150px"  value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 							       class="Wdate" onClick="WdatePicker()" 
 					               <#if po.field_valid_type?if_exists?html != ''>
@@ -84,7 +81,7 @@
 					               </#if>>
 						
 						<#elseif po.show_type=='datetime'>
-							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
+							<input id="${po.field_name}" name="${po.field_name}" type="text"
 							       style="width: 150px"  value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 							       class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
 					               <#if po.field_valid_type?if_exists?html != ''>
@@ -94,7 +91,7 @@
 					               </#if>>
 						
 						<#elseif po.show_type=='popup'>
-							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}"  type="text"
+							<input id="${po.field_name}" name="${po.field_name}"  type="text"
 							       style="width: 150px" class="searchbox-inputtext" 
 							       onClick="inputClick(this,'${po.dict_text?if_exists?html}','${po.dict_table?if_exists?html}');" 
 							       value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
@@ -148,7 +145,7 @@
 								</div>
 								<div class="form" id="filediv_${po.field_name}"> </div>
 						<#else>
-							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
+							<input id="${po.field_name}" name="${po.field_name}" type="text"
 							       style="width: 150px" class="inputxt" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 					               <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
@@ -185,7 +182,7 @@
 						</label>
 					</td>
 					<td class="value" colspan="3">
-						<textarea id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" 
+						<textarea id="${po.field_name}" name="${po.field_name}" 
 						       style="width: 600px" class="inputxt" rows="6"
 				               <#if po.field_valid_type?if_exists?html != ''>
 				               datatype="${po.field_valid_type?if_exists?html}"
@@ -198,4 +195,3 @@
 				</tr>
 			  </#list>
 			</table>
-			<#--update-end--Author:luobaoli  Date:20150614 for：表单（主表/单表）属性中增加了扩展参数 ${po.extend_json?if_exists}-->

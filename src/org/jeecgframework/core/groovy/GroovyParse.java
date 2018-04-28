@@ -29,8 +29,8 @@ public class GroovyParse {
 		map.put("b", 10);
 		GroovyScriptEngine groovyScriptEngine = new GroovyScriptEngine();
 		Object value = groovyScriptEngine.executeObject(formula, map);
-		System.out.println(value);
-		System.out.println(groovyScriptEngine.binding.getVariable("po"));
+		org.jeecgframework.core.util.LogUtil.info(value);
+		org.jeecgframework.core.util.LogUtil.info(groovyScriptEngine.binding.getVariable("po"));
 	}
 
 }

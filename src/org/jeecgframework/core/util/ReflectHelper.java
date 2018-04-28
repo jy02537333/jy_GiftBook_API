@@ -80,7 +80,7 @@ public class ReflectHelper {
 				m.invoke(obj, object);
 				return true;
 			} catch (Exception ex) {
-				org.jeecgframework.core.util.LogUtil.info("invoke getter on " + property + " error: " + ex.toString());
+				LogUtil.info("invoke getter on " + property + " error: " + ex.toString());
 				return false;
 			}
 		}
@@ -102,7 +102,7 @@ public class ReflectHelper {
 				value=m.invoke(obj, new Object[] {});
 				
 			} catch (Exception ex) {
-				org.jeecgframework.core.util.LogUtil.info("invoke getter on " + property + " error: " + ex.toString());
+				LogUtil.info("invoke getter on " + property + " error: " + ex.toString());
 			}
 		}
 		return value;

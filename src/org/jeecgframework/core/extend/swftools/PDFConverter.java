@@ -6,7 +6,7 @@ package org.jeecgframework.core.extend.swftools;
  *
  */
 public interface PDFConverter {
-	public void convert2PDF(String inputFile,String pdfFile,String extend);
-	public void convert2PDF(String inputFile,String extend);
+	public void convert2PDF(String inputFile, String pdfFile, String extend);
+	public void convert2PDF(String inputFile, String extend);
 
 }

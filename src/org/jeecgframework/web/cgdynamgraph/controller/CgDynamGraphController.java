@@ -223,9 +223,7 @@ public class CgDynamGraphController extends BaseController {
 	/**
 	 * 动态报表数据查询
 	 * @param configId 配置id-code
-	 * @param page 分页页面
-	 * @param rows 分页大小
-	 * @param request 
+	 * @param request
 	 * @param response
 	 */
 	@SuppressWarnings("unchecked")
@@ -400,7 +398,6 @@ public class CgDynamGraphController extends BaseController {
 	/**
 	 * 装载数据字典
 	 * @param m	要放入freemarker的数据
-	 * @param bean 读取出来的动态配置数据
 	 */
 	@SuppressWarnings("unchecked")
 	private void loadDic(Map m, Map<String, Object> cgDynamGraphMap) {

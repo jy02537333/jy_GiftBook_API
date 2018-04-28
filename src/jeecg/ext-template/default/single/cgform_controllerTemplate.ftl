@@ -81,7 +81,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 <#if fileFlag==true>
 import org.jeecgframework.web.cgform.entity.upload.CgUploadEntity;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import com.jeecg.service.config.CgFormFieldServiceI;
 import java.util.HashMap;
 </#if>
 <#-- 列为文件类型的文件代码生成 -->

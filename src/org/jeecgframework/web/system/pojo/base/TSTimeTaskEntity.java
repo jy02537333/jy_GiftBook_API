@@ -25,29 +25,29 @@ import org.hibernate.annotations.GenericGenerator;
 @SuppressWarnings("serial")
 public class TSTimeTaskEntity implements java.io.Serializable {
 	/**id*/
-	private java.lang.String id;
+	private String id;
 	/**任务ID*/
-	private java.lang.String taskId;
+	private String taskId;
 	/**任务描述*/
-	private java.lang.String taskDescribe;
+	private String taskDescribe;
 	/**cron表达式*/
-	private java.lang.String cronExpression;
+	private String cronExpression;
 	/**是否生效了0未生效,1生效了*/
-	private java.lang.String isEffect;
+	private String isEffect;
 	/**是否运行0停止,1运行*/
-	private java.lang.String isStart;
+	private String isStart;
 	/**创建时间*/
 	private java.util.Date createDate;
 	/**创建人ID*/
-	private java.lang.String createBy;
+	private String createBy;
 	/**创建人名称*/
-	private java.lang.String createName;
+	private String createName;
 	/**修改时间*/
 	private java.util.Date updateDate;
 	/**修改人ID*/
-	private java.lang.String updateBy;
+	private String updateBy;
 	/**修改人名称*/
-	private java.lang.String updateName;
+	private String updateName;
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -58,7 +58,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -66,7 +66,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -74,7 +74,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *@return: java.lang.String  任务ID
 	 */
 	@Column(name ="TASK_ID",nullable=false,length=100)
-	public java.lang.String getTaskId(){
+	public String getTaskId(){
 		return this.taskId;
 	}
 
@@ -82,7 +82,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  任务ID
 	 */
-	public void setTaskId(java.lang.String taskId){
+	public void setTaskId(String taskId){
 		this.taskId = taskId;
 	}
 	/**
@@ -90,7 +90,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *@return: java.lang.String  任务描述
 	 */
 	@Column(name ="TASK_DESCRIBE",nullable=false,length=50)
-	public java.lang.String getTaskDescribe(){
+	public String getTaskDescribe(){
 		return this.taskDescribe;
 	}
 
@@ -98,7 +98,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  任务描述
 	 */
-	public void setTaskDescribe(java.lang.String taskDescribe){
+	public void setTaskDescribe(String taskDescribe){
 		this.taskDescribe = taskDescribe;
 	}
 	/**
@@ -106,7 +106,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *@return: java.lang.String  cron表达式
 	 */
 	@Column(name ="CRON_EXPRESSION",nullable=false,length=100)
-	public java.lang.String getCronExpression(){
+	public String getCronExpression(){
 		return this.cronExpression;
 	}
 
@@ -114,7 +114,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  cron表达式
 	 */
-	public void setCronExpression(java.lang.String cronExpression){
+	public void setCronExpression(String cronExpression){
 		this.cronExpression = cronExpression;
 	}
 	/**
@@ -122,7 +122,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *@return: java.lang.String  是否生效了0未生效,1生效了
 	 */
 	@Column(name ="IS_EFFECT",nullable=false,length=1)
-	public java.lang.String getIsEffect(){
+	public String getIsEffect(){
 		return this.isEffect;
 	}
 
@@ -130,7 +130,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  是否生效了0未生效,1生效了
 	 */
-	public void setIsEffect(java.lang.String isEffect){
+	public void setIsEffect(String isEffect){
 		this.isEffect = isEffect;
 	}
 	/**
@@ -138,7 +138,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *@return: java.lang.String 是否运行0停止,1运行
 	 */
 	@Column(name ="IS_START",nullable=false,length=1)
-	public java.lang.String getIsStart(){
+	public String getIsStart(){
 		return this.isStart;
 	}
 	
@@ -146,7 +146,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  是否运行0停止,1运行
 	 */
-	public void setIsStart(java.lang.String isStart){
+	public void setIsStart(String isStart){
 		this.isStart = isStart;
 	}
 	/**
@@ -170,7 +170,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *@return: java.lang.String  创建人ID
 	 */
 	@Column(name ="CREATE_BY",nullable=true,length=32)
-	public java.lang.String getCreateBy(){
+	public String getCreateBy(){
 		return this.createBy;
 	}
 
@@ -178,7 +178,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人ID
 	 */
-	public void setCreateBy(java.lang.String createBy){
+	public void setCreateBy(String createBy){
 		this.createBy = createBy;
 	}
 	/**
@@ -186,7 +186,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *@return: java.lang.String  创建人名称
 	 */
 	@Column(name ="CREATE_NAME",nullable=true,length=32)
-	public java.lang.String getCreateName(){
+	public String getCreateName(){
 		return this.createName;
 	}
 
@@ -194,7 +194,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人名称
 	 */
-	public void setCreateName(java.lang.String createName){
+	public void setCreateName(String createName){
 		this.createName = createName;
 	}
 	/**
@@ -218,7 +218,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *@return: java.lang.String  修改人ID
 	 */
 	@Column(name ="UPDATE_BY",nullable=true,length=32)
-	public java.lang.String getUpdateBy(){
+	public String getUpdateBy(){
 		return this.updateBy;
 	}
 
@@ -226,7 +226,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  修改人ID
 	 */
-	public void setUpdateBy(java.lang.String updateBy){
+	public void setUpdateBy(String updateBy){
 		this.updateBy = updateBy;
 	}
 	/**
@@ -234,7 +234,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *@return: java.lang.String  修改人名称
 	 */
 	@Column(name ="UPDATE_NAME",nullable=true,length=32)
-	public java.lang.String getUpdateName(){
+	public String getUpdateName(){
 		return this.updateName;
 	}
 
@@ -242,7 +242,7 @@ public class TSTimeTaskEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  修改人名称
 	 */
-	public void setUpdateName(java.lang.String updateName){
+	public void setUpdateName(String updateName){
 		this.updateName = updateName;
 	}
 }

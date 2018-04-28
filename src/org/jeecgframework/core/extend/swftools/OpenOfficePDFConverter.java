@@ -24,25 +24,23 @@ public class OpenOfficePDFConverter implements PDFConverter {
 
 	public void convert2PDF(String inputFile, String pdfFile, String extend) {
 
-//		if (extend.equals("txt")) {
-//
-//			String odtFile = FileUtils.getFilePrefix(inputFile) + ".odt";
-//			if (new File(odtFile).exists()) {
-//				org.jeecgframework.core.util.LogUtil.info("odt文件已存在！");
-//				inputFile = odtFile;
-//			} else {
-//				try {
-//					FileUtils.copyFile(inputFile, odtFile);
-//					inputFile = odtFile;
-//				} catch (FileNotFoundException e) {
-//					org.jeecgframework.core.util.LogUtil.info("Odt文档不存在！");
-//					e.printStackTrace();
-//				}
-//			}
-//
-//		}
+		if (extend.equals("txt")) {
 
-		
+			String odtFile = FileUtils.getFilePrefix(inputFile) + ".odt";
+			if (new File(odtFile).exists()) {
+				org.jeecgframework.core.util.LogUtil.info("odt文件已存在！");
+				inputFile = odtFile;
+			} else {
+				try {
+					FileUtils.copyFile(inputFile, odtFile);
+					inputFile = odtFile;
+				} catch (FileNotFoundException e) {
+					org.jeecgframework.core.util.LogUtil.info("Odt文档不存在！");
+					e.printStackTrace();
+				}
+			}
+
+		}
 		startService();
 		//pdfFile = pdfFile.replaceAll(" ", "").replaceAll("　", "");
 		 org.jeecgframework.core.util.LogUtil.info("进行文档转换转换:" + inputFile + " --> " + pdfFile);

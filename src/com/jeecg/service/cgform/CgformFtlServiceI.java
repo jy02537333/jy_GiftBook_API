@@ -1,4 +1,4 @@
-package com.jeecg.service.impl.cgform;
+package com.jeecg.service.cgform;
 
 import java.util.Map;
 

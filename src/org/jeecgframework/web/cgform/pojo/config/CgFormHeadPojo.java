@@ -12,41 +12,41 @@ package org.jeecgframework.web.cgform.pojo.config;
 @SuppressWarnings("serial")
 public class CgFormHeadPojo implements java.io.Serializable {
 	/**id*/
-	private java.lang.String id;
+	private String id;
 	/**表格名称*/
-	private java.lang.String tableName;
+	private String tableName;
 	/**dategrid是否为树形*/
-	private java.lang.String isTree;
+	private String isTree;
 	/**datagrid是否分页*/
-	private java.lang.String isPagination;
+	private String isPagination;
 	/**是否同步了数据库*/
-	private java.lang.String isDbsynch;
+	private String isDbsynch;
 	/**datagrid是否显示复选框*/
-	private java.lang.String isCheckbox;
+	private String isCheckbox;
 	/**查询模式：single(单条件查询：默认),group(组合查询)*/
-	private java.lang.String querymode;
+	private String querymode;
 	/**功能注释*/
-	private java.lang.String content;
+	private String content;
 	/**创建时间*/
 	private java.util.Date createDate;
 	/**创建人ID*/
-	private java.lang.String createBy;
+	private String createBy;
 	/**创建人名称*/
-	private java.lang.String createName;
+	private String createName;
 	/**修改时间*/
 	private java.util.Date updateDate;
 	/**修改人*/
-	private java.lang.String updateBy;
+	private String updateBy;
 	/**修改人名称*/
-	private java.lang.String updateName;
+	private String updateName;
 	/**表单版本*/
-	private java.lang.String jformVersion;
+	private String jformVersion;
 	/**表单类型*/
 	private Integer jformType;
 	/**表单主键策略*/
-	private java.lang.String jformPkType;
+	private String jformPkType;
 	/**表单主键策略-序列(针对oracle等数据库)*/
-	private java.lang.String jformPkSequence;
+	private String jformPkSequence;
 	/**附表关联类型*/
 	private Integer relationType;
 	/**附表清单*/
@@ -58,7 +58,7 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  id
 	 */
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -66,28 +66,28 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  表格名称
 	 */
-	public java.lang.String getTableName(){
+	public String getTableName(){
 		return this.tableName;
 	}
 	/**
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  表格名称
 	 */
-	public void setTableName(java.lang.String tableName){
+	public void setTableName(String tableName){
 		this.tableName = tableName;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  dategrid是否为树形
 	 */
-	public java.lang.String getIsTree(){
+	public String getIsTree(){
 		return this.isTree;
 	}
 
@@ -95,14 +95,14 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  dategrid是否为树形
 	 */
-	public void setIsTree(java.lang.String isTree){
+	public void setIsTree(String isTree){
 		this.isTree = isTree;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  datagrid是否分页
 	 */
-	public java.lang.String getIsPagination(){
+	public String getIsPagination(){
 		return this.isPagination;
 	}
 
@@ -110,14 +110,14 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  datagrid是否分页
 	 */
-	public void setIsPagination(java.lang.String isPagination){
+	public void setIsPagination(String isPagination){
 		this.isPagination = isPagination;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  是否同步了数据库
 	 */
-	public java.lang.String getIsDbsynch(){
+	public String getIsDbsynch(){
 		return this.isDbsynch;
 	}
 
@@ -125,14 +125,14 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  是否同步了数据库
 	 */
-	public void setIsDbsynch(java.lang.String isDbsynch){
+	public void setIsDbsynch(String isDbsynch){
 		this.isDbsynch = isDbsynch;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  datagrid是否显示复选框
 	 */
-	public java.lang.String getIsCheckbox(){
+	public String getIsCheckbox(){
 		return this.isCheckbox;
 	}
 
@@ -140,14 +140,14 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  datagrid是否显示复选框
 	 */
-	public void setIsCheckbox(java.lang.String isCheckbox){
+	public void setIsCheckbox(String isCheckbox){
 		this.isCheckbox = isCheckbox;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  查询模式：single(单条件查询：默认),group(组合查询)
 	 */
-	public java.lang.String getQuerymode(){
+	public String getQuerymode(){
 		return this.querymode;
 	}
 
@@ -155,14 +155,14 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  查询模式：single(单条件查询：默认),group(组合查询)
 	 */
-	public void setQuerymode(java.lang.String querymode){
+	public void setQuerymode(String querymode){
 		this.querymode = querymode;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  功能注释
 	 */
-	public java.lang.String getContent(){
+	public String getContent(){
 		return this.content;
 	}
 
@@ -170,7 +170,7 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  功能注释
 	 */
-	public void setContent(java.lang.String content){
+	public void setContent(String content){
 		this.content = content;
 	}
 	/**
@@ -192,7 +192,7 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  创建人ID
 	 */
-	public java.lang.String getCreateBy(){
+	public String getCreateBy(){
 		return this.createBy;
 	}
 
@@ -200,14 +200,14 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人ID
 	 */
-	public void setCreateBy(java.lang.String createBy){
+	public void setCreateBy(String createBy){
 		this.createBy = createBy;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  创建人名称
 	 */
-	public java.lang.String getCreateName(){
+	public String getCreateName(){
 		return this.createName;
 	}
 
@@ -215,7 +215,7 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人名称
 	 */
-	public void setCreateName(java.lang.String createName){
+	public void setCreateName(String createName){
 		this.createName = createName;
 	}
 	/**
@@ -237,7 +237,7 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  修改人ID
 	 */
-	public java.lang.String getUpdateBy(){
+	public String getUpdateBy(){
 		return this.updateBy;
 	}
 
@@ -245,14 +245,14 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  修改人ID
 	 */
-	public void setUpdateBy(java.lang.String updateBy){
+	public void setUpdateBy(String updateBy){
 		this.updateBy = updateBy;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  修改人名称
 	 */
-	public java.lang.String getUpdateName(){
+	public String getUpdateName(){
 		return this.updateName;
 	}
 
@@ -260,7 +260,7 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  修改人名称
 	 */
-	public void setUpdateName(java.lang.String updateName){
+	public void setUpdateName(String updateName){
 		this.updateName = updateName;
 	}
 
@@ -268,11 +268,11 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  表单版本号
 	 */
-	public java.lang.String getJformVersion() {
+	public String getJformVersion() {
 		return jformVersion;
 	}
 
-	public void setJformVersion(java.lang.String jformVersion) {
+	public void setJformVersion(String jformVersion) {
 		this.jformVersion = jformVersion;
 	}
 	/**
@@ -292,11 +292,11 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  主键策略
 	 */
-	public java.lang.String getJformPkType() {
+	public String getJformPkType() {
 		return jformPkType;
 	}
 
-	public void setJformPkType(java.lang.String jformPkType) {
+	public void setJformPkType(String jformPkType) {
 		this.jformPkType = jformPkType;
 	}
 	
@@ -304,11 +304,11 @@ public class CgFormHeadPojo implements java.io.Serializable {
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  主键策略-序列
 	 */
-	public java.lang.String getJformPkSequence() {
+	public String getJformPkSequence() {
 		return jformPkSequence;
 	}
 
-	public void setJformPkSequence(java.lang.String jformPkSequence) {
+	public void setJformPkSequence(String jformPkSequence) {
 		this.jformPkSequence = jformPkSequence;
 	}
 

@@ -1,20 +1,22 @@
 package org.jeecgframework.web.cgform.util;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import org.jeecgframework.core.util.DBTypeUtil;
-import org.jeecgframework.core.util.ResourceUtil;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.web.cgform.common.CgAutoListConstant;
-import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.jeecgframework.core.util.DBTypeUtil;
+import org.jeecgframework.core.util.StringUtil;
+
+import org.jeecgframework.web.cgform.common.CgAutoListConstant;
+import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 
 /**
  * 
@@ -25,7 +27,6 @@ import java.util.Map;
  * @version V1.0
  */
 public class QueryParamUtil {
-
 	/**
 	 * 组装查询参数
 	 * @param request 请求(查询值从此处取)
@@ -34,12 +35,6 @@ public class QueryParamUtil {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void loadQueryParams(HttpServletRequest request, CgFormFieldEntity b, Map params) {
-		//--add-begin--Author:钟世云  Date:20150614 for：online支持树配置
-		if(CgAutoListConstant.BOOL_FALSE.equalsIgnoreCase(b.getIsQuery())) {
-			return;
-		}
-		//--add-end--Author:钟世云  Date:20150614 for：online支持树配置
-		
 		if("single".equals(b.getQueryMode())){
 			//单条件组装方式
 			String value = request.getParameter(b.getFieldName());
@@ -97,11 +92,6 @@ public class QueryParamUtil {
 		if(!StringUtil.isEmpty(value)){
 			String result = "";
 			if(CgAutoListConstant.TYPE_STRING.equalsIgnoreCase(fieldType)){
-
-				//if(ResourceUtil.fuzzySearch&&(!value.contains("*"))){
-				//	value="*"+value+"*";
-				//}
-
 				result = "'" +value+ "'";
 			}else if(CgAutoListConstant.TYPE_DATE.equalsIgnoreCase(fieldType)){
 				result = getDateFunction(value, "yyyy-MM-dd");
@@ -207,33 +197,6 @@ public class QueryParamUtil {
 		main.put("rows", rows);
 		return main.toString();
 	}
-	
-	/**
-	 * 将结果集转化为列表json格式(不含分页信息)
-	 * @param result 结果集
-	 * @param size 总大小
-	 * @return 处理好的json格式
-	 */
-	@SuppressWarnings("unchecked")
-	public static String getJson(List<Map<String, Object>> result){
-		JSONArray rows = new JSONArray();
-		for(Map m:result){
-			JSONObject item = new JSONObject();
-			Iterator  it =m.keySet().iterator();
-			while(it.hasNext()){
-				String key = (String) it.next();
-				String value =String.valueOf(m.get(key));
-				key = key.toLowerCase();
-				if(key.contains("time")||key.contains("date")){
-					value = datatimeFormat(value);
-				}
-				item.put(key,value );
-			}
-			rows.add(item);
-		}
-		return rows.toString();
-	}
-	
 	/**
 	 * 将毫秒数去掉
 	 * @param datetime

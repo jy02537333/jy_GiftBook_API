@@ -27,17 +27,54 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 @SuppressWarnings("serial")
 public class JpPersonEntity implements java.io.Serializable {
 	/**id*/
-	private java.lang.String id;
+	private String id;
 	/**年龄*/
-	private java.lang.Integer age;
+	@Excel(exportName="年龄", exportConvertSign = 0, exportFieldWidth = 10, importConvertSign = 0)
+	private Integer age;
 	/**生日*/
+	@Excel(exportName="生日", exportConvertSign = 1, exportFieldWidth = 30, importConvertSign = 0)
 	private java.util.Date birthday;
 	/**出生日期*/
+	@Excel(exportName="出生日期", exportConvertSign = 1, exportFieldWidth = 30, importConvertSign = 0)
 	private java.util.Date createdt;
 	/**用户名*/
-	private java.lang.String name;
+	@Excel(exportName="用户名", exportConvertSign = 0, exportFieldWidth = 20, importConvertSign = 0)
+	private String name;
 	/**工资*/
+	@Excel(exportName="工资", exportConvertSign = 0, exportFieldWidth = 10, importConvertSign = 0)
 	private BigDecimal salary;
+	static DateFormat dateFormaterCreatedt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	static DateFormat dateFormaterBirthday = new SimpleDateFormat("yyyy-MM-dd");
+	public String convertGetCreatedt() {
+		if (this.createdt != null) {
+			return dateFormaterCreatedt.format(getCreatedt());
+		} else
+			return "";
+	}
+	public void convertSetCreatedt(String createdt) {
+		if (createdt != null) {
+			try {
+				this.createdt = dateFormaterCreatedt.parse(createdt);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public String convertGetBirthday() {
+		if (this.birthday != null) {
+			return dateFormaterBirthday.format(getCreatedt());
+		} else
+			return "";
+	}
+	public void convertSetBirthday(String birthday) {
+		if (birthday != null) {
+			try {
+				this.birthday = dateFormaterBirthday.parse(birthday);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  id
@@ -47,7 +84,7 @@ public class JpPersonEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -55,7 +92,7 @@ public class JpPersonEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -63,7 +100,7 @@ public class JpPersonEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  年龄
 	 */
 	@Column(name ="AGE",nullable=false,precision=10,scale=0)
-	public java.lang.Integer getAge(){
+	public Integer getAge(){
 		return this.age;
 	}
 
@@ -71,7 +108,7 @@ public class JpPersonEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  年龄
 	 */
-	public void setAge(java.lang.Integer age){
+	public void setAge(Integer age){
 		this.age = age;
 	}
 	/**
@@ -111,7 +148,7 @@ public class JpPersonEntity implements java.io.Serializable {
 	 *@return: java.lang.String  用户名
 	 */
 	@Column(name ="NAME",nullable=true,length=255)
-	public java.lang.String getName(){
+	public String getName(){
 		return this.name;
 	}
 
@@ -119,7 +156,7 @@ public class JpPersonEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  用户名
 	 */
-	public void setName(java.lang.String name){
+	public void setName(String name){
 		this.name = name;
 	}
 	/**

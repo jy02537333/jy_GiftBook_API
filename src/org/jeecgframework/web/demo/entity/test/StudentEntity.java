@@ -35,12 +35,15 @@ import javax.persistence.SequenceGenerator;
 @SuppressWarnings("serial")
 public class StudentEntity implements java.io.Serializable {
 	/**id*/
-	private java.lang.String id;
+	private String id;
 	/**学生姓名*/
-	private java.lang.String name;
+	@Excel(exportName="学生姓名")
+	private String name;
 	/**学生性别*/
-	private java.lang.String sex;
+	@Excel(exportName="学生性别",imExConvert=1)
+	private String sex;
 	
+	@Excel(exportName="出生日期",exportFormat="yyyy-MM-dd HH:mm:ss",importFormat="yyyy-MM-dd HH:mm:ss")
 	private Date birthday;
 	/**课程主键*/
 	private CourseEntity course;
@@ -54,7 +57,7 @@ public class StudentEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -62,7 +65,7 @@ public class StudentEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -70,7 +73,7 @@ public class StudentEntity implements java.io.Serializable {
 	 *@return: java.lang.String  学生姓名
 	 */
 	@Column(name ="NAME",nullable=true,length=32)
-	public java.lang.String getName(){
+	public String getName(){
 		return this.name;
 	}
 
@@ -78,7 +81,7 @@ public class StudentEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  学生姓名
 	 */
-	public void setName(java.lang.String name){
+	public void setName(String name){
 		this.name = name;
 	}
 	/**
@@ -86,7 +89,7 @@ public class StudentEntity implements java.io.Serializable {
 	 *@return: java.lang.String  学生性别
 	 */
 	@Column(name ="SEX",nullable=true,length=1)
-	public java.lang.String getSex(){
+	public String getSex(){
 		return this.sex;
 	}
 
@@ -94,7 +97,7 @@ public class StudentEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  学生性别
 	 */
-	public void setSex(java.lang.String sex){
+	public void setSex(String sex){
 		this.sex = sex;
 	}
 
@@ -108,6 +111,12 @@ public class StudentEntity implements java.io.Serializable {
 		this.course = course;
 	}
 	
+	public String convertGetSex(){
+		return this.sex.equals("0")?"男生":"女生";
+	}
+	public void convertSetSex(String sex ){
+		this.sex = sex.equals("男生")?"0":"1";
+	}
 	@Column(name ="BIRTHDAY",nullable=true)
 	public Date getBirthday() {
 		return birthday;

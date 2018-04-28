@@ -19,7 +19,7 @@ import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.entity.template.CgformTemplateEntity;
 import org.jeecgframework.web.cgform.service.autolist.CgTableServiceI;
 import org.jeecgframework.web.cgform.service.autolist.ConfigServiceI;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import com.jeecg.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.service.template.CgformTemplateServiceI;
 import org.jeecgframework.web.cgform.util.TemplateUtil;
 import org.jeecgframework.web.system.pojo.base.DictEntity;
@@ -124,7 +124,6 @@ public class CgAutoListRestController extends BaseController{
 	/**
 	 * 删除动态表-批量
 	 * @param configId 配置id
-	 * @param id 主键
 	 * @param request
 	 * @return
 	 */

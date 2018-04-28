@@ -11,7 +11,7 @@
   <script type="text/javascript" src="plug-in/datatables/js/jquery.dataTables.js"></script>
   <script type="text/javascript" src="plug-in/artDiglog/jquery.artDialog.js?skin=blue"></script>
   <script type="text/javascript" src="plug-in/artDiglog/plugins/iframeTools.js"></script>
-  <script type="text/javascript" src="plug-in/tools/curdtools_zh-cn.js"></script>
+  <script type="text/javascript" src="plug-in/tools/curdtools.js"></script>
  </head>
  <body>
   <div class="row-fluid">
@@ -24,7 +24,7 @@
      </div>
      <div class="content noPad clearfix">
       <t:dategrid name="userList" title="用户管理" actionUrl="userController.do?datagrid" style="dynamicTable display table table-bordered" idField="id">
-       <t:dgCol title="ID" field="id" hidden="true"></t:dgCol>
+       <t:dgCol title="ID" field="id" hidden="false"></t:dgCol>
        <t:dgCol title="用户名" field="userName"></t:dgCol>
        <t:dgCol title="手机" field="mobilePhone" query="true"></t:dgCol>
        <t:dgCol title="部门" field="TSDepart_departname" sortable="false"></t:dgCol>

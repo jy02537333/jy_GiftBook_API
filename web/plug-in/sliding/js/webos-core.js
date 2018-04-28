@@ -11,7 +11,6 @@ var menujson=null;
 var datajson=null;
 var iconjson=null;
 var totalnum =null;
-var DATA=new Object();
 var iconCookieKey = "iconCookieKey";
 var iconCookieKeyForSlider = "iconCookieKeyForSlider";
 var cookieParam = {expires: 30};
@@ -47,6 +46,7 @@ function dataFlush(){
 		}
     });
 }
+
 /**
  * 转换用户的桌面
  */
@@ -105,6 +105,31 @@ function calcuIconJson() {
     }
 }
 
+$(function() {
+
+	Body.init();
+//	dataFlush();
+	Desktop.init();
+	//替换icon的数组内容
+//	Deskpanel.init(iconjson).refresh();
+	Deskpanel.init(iconjson, true);
+	Sidebar.init({
+		location:'left',//初始化sidebar的位置为左侧
+        Icon:defaultIconForSlider
+		/*Icon:[
+			'appmarket',
+			'zone',
+			'weibo',
+			'mail',
+			'internet',
+			'qq'
+		]*/
+	});
+	Navbar.init();//初始化导航条	
+	BottomBar.init();//初始化下部栏
+	appManagerPanel.init();//初始化全局桌面
+	
+});
 
 //工具类
 Util = {
@@ -1505,9 +1530,9 @@ appIcon_amg1 = appIcon_amg.extend({
 		});
 		appIcon.append($("<img>",{
 			alt:this.app.name ,
-            /*update-begin--Author:zhangguoming  Date:20140509 for：云桌面图标管理*/
 //			src:'plug-in/sliding/icon/'+this.app.icon,
 			src:this.app.icon,
+            /*update-end--Author:zhangguoming  Date:20140509 for：云桌面图标管理*/
 			"class":"appButton_appIconImg",
 			id:'icon_app_'+this.app.appid+'_'+this.app.asc+'_img'
 		
@@ -1585,9 +1610,9 @@ appIcon_t1 = appIcon_t0.extend({
 		});
 		appIcon.append($("<img>",{
 			alt:this.app.name ,
-            /*update-begin--Author:zhangguoming  Date:20140509 for：云桌面图标管理*/
 //			src:'plug-in/sliding/icon/'+this.app.icon,
 			src:this.app.icon,
+            /*update-end--Author:zhangguoming  Date:20140509 for：云桌面图标管理*/
 			"class":"appButton_appIconImg",
 			id:'icon_app_'+this.app.appid+'_'+this.app.asc+'_img'
 		
@@ -1692,32 +1717,6 @@ appIcon_t2 = appIcon_t0.extend({
 		});
 	}
 });
-
-$(function() {
-
-	Body.init();
-//	dataFlush();
-	Desktop.init();
-	//替换icon的数组内容
-//	Deskpanel.init(iconjson).refresh();
-	Deskpanel.init(iconjson, true);
-	Sidebar.init({
-		location:'left',//初始化sidebar的位置为左侧
-        Icon:defaultIconForSlider
-		/*Icon:[
-			'appmarket',
-			'zone',
-			'weibo',
-			'mail',
-			'internet',
-			'qq'
-		]*/
-	});
-	Navbar.init();//初始化导航条	
-	BottomBar.init();//初始化下部栏
-	appManagerPanel.init();//初始化全局桌面
-	
-});
 $(function(){
 	$(".fsb_resultList").live("click",function(){
 		
@@ -1739,5 +1738,5 @@ $(function(){
 			 $.cookie("myskin",mychangeskin,cookieParam);//1为关掉浏览器不消失效果，0为消失
 		 }
 	
-});
+})
 

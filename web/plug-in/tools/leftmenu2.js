@@ -86,7 +86,7 @@ function getIcon(menuid) {
 
 function addTab(subtitle, url, icon) {
 	$.messager.progress({
-		text : loading,
+		text : '页面加载中....',
 		interval : 1000
 	});
 	if (!$('#maintabs').tabs('exists', subtitle)) {
@@ -108,7 +108,7 @@ function addTab(subtitle, url, icon) {
 var title_now;
 function addOneTab(subtitle, url, icon) {
 	$.messager.progress({
-		text : loading,
+		text : '页面加载中....',
 		interval : 1000
 	});
 	if ($('#maintabs').tabs('exists', title_now)) {

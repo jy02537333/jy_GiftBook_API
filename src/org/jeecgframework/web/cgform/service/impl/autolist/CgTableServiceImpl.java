@@ -1,31 +1,24 @@
 package org.jeecgframework.web.cgform.service.impl.autolist;
 
-import java.util.HashMap;
-import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.common.CommUtils;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
-import org.jeecgframework.web.cgform.entity.upload.CgUploadEntity;
 import org.jeecgframework.web.cgform.service.autolist.CgTableServiceI;
 import org.jeecgframework.web.cgform.service.build.DataBaseService;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import com.jeecg.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.util.QueryParamUtil;
+
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.service.CommonService;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
-import org.jeecgframework.core.util.FileUtils;
-import org.jeecgframework.core.util.JeecgDataAutorUtils;
-import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 /**
  * 
  * @Title:CgTableServiceImpl
@@ -68,7 +61,7 @@ public class CgTableServiceImpl extends CommonServiceImpl implements CgTableServ
 				.toString(), page, rows);
 		return result;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	
 	public boolean delete(String table, Object id) {
@@ -77,13 +70,13 @@ public class CgTableServiceImpl extends CommonServiceImpl implements CgTableServ
 			Map<String,Object> data  = dataBaseService.findOneForJdbc(table, id.toString());
 			if(data!=null){
 				//打印测试
-				Iterator it=data.entrySet().iterator();
-				while(it.hasNext()){
-					Map.Entry entry=(Map.Entry)it.next();
-					Object ok=entry.getKey();
-					Object ov=entry.getValue()==null?"":entry.getValue();
-					org.jeecgframework.core.util.LogUtil.info("name:"+ok.toString()+";value:"+ov.toString());
-				}
+			    Iterator it=data.entrySet().iterator();
+			    while(it.hasNext()){
+			    	Map.Entry entry=(Map.Entry)it.next();
+			        Object ok=entry.getKey();
+			        Object ov=entry.getValue()==null?"":entry.getValue();
+			        org.jeecgframework.core.util.LogUtil.info("name:"+ok.toString()+";value:"+ov.toString());
+			    }
 				data = CommUtils.mapConvert(data);
 				dataBaseService.executeSqlExtend(head.getId(), "delete", data);
 			}
@@ -113,7 +106,7 @@ public class CgTableServiceImpl extends CommonServiceImpl implements CgTableServ
 					this.executeSql(dsql,id);
 				}
 			}
-
+			
 		}catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -135,21 +128,12 @@ public class CgTableServiceImpl extends CommonServiceImpl implements CgTableServ
 			while (it.hasNext()) {
 				String key = String.valueOf(it.next());
 				String value = String.valueOf(params.get(key));
-				if (!StringUtil.isEmpty(value) && !"null".equalsIgnoreCase(value)) {
+				if (!StringUtil.isEmpty(value) && !"null".equals(value)) {
 						sqlB.append(" AND ");
 						sqlB.append(" " + key +  value );
 				}
 			}
 		}
-
-		Object dataRuleSql = JeecgDataAutorUtils.loadDataSearchConditonSQLString();//ContextHolderUtils.getRequest().getAttribute(Globals.MENU_DATA_AUTHOR_RULE_SQL);
-		if(dataRuleSql != null && !dataRuleSql.equals("")){
-			if(params.size() == 0) {
-				sqlB.append(" WHERE 1=1 ");
-			}
-			sqlB.append(dataRuleSql);
-		}
-
 	}
 
 
@@ -177,34 +161,6 @@ public class CgTableServiceImpl extends CommonServiceImpl implements CgTableServ
 		return true;
 	}
 
-	@Override
-	public void treeFromResultHandle(String table, String parentIdFieldName,
-			String parentIdFieldType, List<Map<String, Object>> result) {
-		if(result != null && result.size() > 0) {
-			String parentIds = "";
-			for (int i = 0; i < result.size(); i++) {
-				Map<String, Object> resultMap = result.get(i);
-				if(parentIdFieldType.equalsIgnoreCase(CgAutoListConstant.TYPE_STRING)) {
-					parentIds += ",'" + resultMap.get("id") + "'";
-				}else {
-					parentIds += "," + resultMap.get("id");
-				}
-			}
-			parentIds = parentIds.substring(1);
-			String subSQL = "select `" + parentIdFieldName + "`, count(*) ct from " + table + " a where a.`" + parentIdFieldName + "` in" + "(" + parentIds + ") group by a.`" + parentIdFieldName + "`";
-			List<Map<String, Object>> subCountResult =  this.findForJdbc(subSQL);
-			Map<String, Object> subCountMap = new HashMap<String, Object>();
-			for (Map<String, Object> map : subCountResult) {
-				subCountMap.put(map.get(parentIdFieldName).toString(), map.get("ct"));
-			}
-			for(Map<String, Object> resultMap:result){
-				String state = "closed";
-				if(subCountMap.get(resultMap.get("id").toString()) == null) {
-					state = "open";
-				}
-				resultMap.put("state", state);
-			}
-		}
-	}
+
 	
 }

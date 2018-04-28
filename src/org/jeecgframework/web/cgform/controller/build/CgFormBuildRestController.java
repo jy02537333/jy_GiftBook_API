@@ -18,7 +18,7 @@ import org.jeecgframework.web.cgform.engine.TempletContext;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.entity.upload.CgUploadEntity;
 import org.jeecgframework.web.cgform.service.build.DataBaseService;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import com.jeecg.service.config.CgFormFieldServiceI;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
@@ -28,7 +28,6 @@ import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.SysThemesUtil;
 import org.jeecgframework.web.cgform.util.TemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -85,8 +84,8 @@ public class CgFormBuildRestController extends BaseController {
 			}
 
 			String ftlVersion =request.getParameter("ftlVersion");
-			Template template = templetContext.getTemplate(templateName, ftlVersion);
-
+//			Template template = templetContext.getTemplate(templateName, ftlVersion);
+			Template template = templetContext.getTemplate(templateName);
 			StringWriter stringWriter = new StringWriter();
 			BufferedWriter writer = new BufferedWriter(stringWriter);
 	        Map<String, Object> data = new HashMap<String, Object>();

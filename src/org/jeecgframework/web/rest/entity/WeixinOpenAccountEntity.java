@@ -27,11 +27,11 @@ import org.hibernate.annotations.GenericGenerator;
 @SuppressWarnings("serial")
 public class WeixinOpenAccountEntity implements java.io.Serializable {
 	/**主键*/
-	private java.lang.String id;
+	private String id;
 	/**appid*/
-	private java.lang.String appid;
+	private String appid;
 	/**第三方平台推送 : ticket*/
-	private java.lang.String ticket;
+	private String ticket;
 	private Date getTicketTime;
 	
 	@Column(name ="get_ticket_time")
@@ -52,7 +52,7 @@ public class WeixinOpenAccountEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=36)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -60,7 +60,7 @@ public class WeixinOpenAccountEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  主键
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -68,7 +68,7 @@ public class WeixinOpenAccountEntity implements java.io.Serializable {
 	 *@return: java.lang.String  appid
 	 */
 	@Column(name ="APPID",nullable=true,length=200)
-	public java.lang.String getAppid(){
+	public String getAppid(){
 		return this.appid;
 	}
 
@@ -76,7 +76,7 @@ public class WeixinOpenAccountEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  appid
 	 */
-	public void setAppid(java.lang.String appid){
+	public void setAppid(String appid){
 		this.appid = appid;
 	}
 	/**
@@ -84,7 +84,7 @@ public class WeixinOpenAccountEntity implements java.io.Serializable {
 	 *@return: java.lang.String  第三方平台推送 : ticket
 	 */
 	@Column(name ="TICKET",nullable=true,length=200)
-	public java.lang.String getTicket(){
+	public String getTicket(){
 		return this.ticket;
 	}
 
@@ -92,7 +92,7 @@ public class WeixinOpenAccountEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  第三方平台推送 : ticket
 	 */
-	public void setTicket(java.lang.String ticket){
+	public void setTicket(String ticket){
 		this.ticket = ticket;
 	}
 }

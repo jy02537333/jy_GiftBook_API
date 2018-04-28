@@ -98,7 +98,7 @@ public class PropertiesUtil {
 	public static void main(String[] args) {
 		PropertiesUtil p = new PropertiesUtil("sysConfig.properties");
 		p.writeProperty("namess", "wang");
-		org.jeecgframework.core.util.LogUtil.info(p.readProperty("namess"));
+		LogUtil.info(p.readProperty("namess"));
 	}
 
 }

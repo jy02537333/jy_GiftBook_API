@@ -18,7 +18,7 @@
 							plotShadow : false
 						},
 						title : {
-							text : "<t:mutiLang langKey="user.browser.analysis"/>"
+							text : '用户浏览器比例分析'
 						},
 						xAxis : {
 							categories : [ 'IE9', 'MSIE 7.0', 'MSIE 8.0', 'MSIE 7.0', 'Firefox', 'Chrome' ]

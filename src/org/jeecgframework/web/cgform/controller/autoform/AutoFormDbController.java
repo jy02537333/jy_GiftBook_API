@@ -99,7 +99,6 @@ public class AutoFormDbController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
@@ -170,7 +169,6 @@ public class AutoFormDbController extends BaseController {
 	/**
 	 * 添加表单数据源
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doAdd")
@@ -194,7 +192,6 @@ public class AutoFormDbController extends BaseController {
 	/**
 	 * 更新表单数据源
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "doUpdate")
@@ -408,7 +405,6 @@ public class AutoFormDbController extends BaseController {
 	//add-begin--Author:luobaoli  Date:20150621 for：获取数据源类型对应数据库的所有表
 	/**
 	 * 根据数据源获取所有表
-	 * @param db_key
 	 * @return
 	 */
 	@RequestMapping(params="getAllTableNames")
@@ -442,7 +438,6 @@ public class AutoFormDbController extends BaseController {
 	//add-begin--Author:luobaoli  Date:20150621 for：获取指定表的所有列
 	/**
 	 * 根据数据源和表获取所有属性
-	 * @param sql
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")

@@ -23,31 +23,31 @@ import org.hibernate.annotations.GenericGenerator;
 @SuppressWarnings("serial")
 public class JeecgBlobDataEntity implements java.io.Serializable {
 	/**主键ID*/
-	private java.lang.String id;
+	private String id;
 	/**用户ID*/
-	private java.lang.String userid;
+	private String userid;
 	/**businesskey*/
-	private java.lang.String businesskey;
+	private String businesskey;
 	/**类型ID*/
-	private java.lang.String infotypeid;
+	private String infotypeid;
 	/**attachmenttitle*/
-	private java.lang.String attachmenttitle;
+	private String attachmenttitle;
 	/**附件路径*/
-	private java.lang.String realpath;
+	private String realpath;
 	/**subclassname*/
-	private java.lang.String subclassname;
+	private String subclassname;
 	/**createdate*/
 	private java.util.Date createdate;
 	/**附件内容*/
 	private Blob attachmentcontent;
 	/**flash路径*/
-	private java.lang.String swfpath;
+	private String swfpath;
 	/**note*/
-	private java.lang.String note;
+	private String note;
 	/**extend*/
-	private java.lang.String extend;
+	private String extend;
 	/**busentityname*/
-	private java.lang.String busentityname;
+	private String busentityname;
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -58,7 +58,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -66,7 +66,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  主键ID
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -74,7 +74,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *@return: java.lang.String  用户ID
 	 */
 	@Column(name ="USERID",nullable=true,length=32)
-	public java.lang.String getUserid(){
+	public String getUserid(){
 		return this.userid;
 	}
 
@@ -82,7 +82,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  用户ID
 	 */
-	public void setUserid(java.lang.String userid){
+	public void setUserid(String userid){
 		this.userid = userid;
 	}
 	/**
@@ -90,7 +90,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *@return: java.lang.String  businesskey
 	 */
 	@Column(name ="BUSINESSKEY",nullable=true,length=32)
-	public java.lang.String getBusinesskey(){
+	public String getBusinesskey(){
 		return this.businesskey;
 	}
 
@@ -98,7 +98,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  businesskey
 	 */
-	public void setBusinesskey(java.lang.String businesskey){
+	public void setBusinesskey(String businesskey){
 		this.businesskey = businesskey;
 	}
 	/**
@@ -106,7 +106,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *@return: java.lang.String  类型ID
 	 */
 	@Column(name ="INFOTYPEID",nullable=true,length=32)
-	public java.lang.String getInfotypeid(){
+	public String getInfotypeid(){
 		return this.infotypeid;
 	}
 
@@ -114,7 +114,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  类型ID
 	 */
-	public void setInfotypeid(java.lang.String infotypeid){
+	public void setInfotypeid(String infotypeid){
 		this.infotypeid = infotypeid;
 	}
 	/**
@@ -122,7 +122,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *@return: java.lang.String  attachmenttitle
 	 */
 	@Column(name ="ATTACHMENTTITLE",nullable=true,length=100)
-	public java.lang.String getAttachmenttitle(){
+	public String getAttachmenttitle(){
 		return this.attachmenttitle;
 	}
 
@@ -130,7 +130,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  attachmenttitle
 	 */
-	public void setAttachmenttitle(java.lang.String attachmenttitle){
+	public void setAttachmenttitle(String attachmenttitle){
 		this.attachmenttitle = attachmenttitle;
 	}
 	/**
@@ -138,7 +138,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *@return: java.lang.String  附件路径
 	 */
 	@Column(name ="REALPATH",nullable=true,length=100)
-	public java.lang.String getRealpath(){
+	public String getRealpath(){
 		return this.realpath;
 	}
 
@@ -146,7 +146,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  附件路径
 	 */
-	public void setRealpath(java.lang.String realpath){
+	public void setRealpath(String realpath){
 		this.realpath = realpath;
 	}
 	/**
@@ -154,7 +154,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *@return: java.lang.Object  subclassname
 	 */
 	@Column(name ="SUBCLASSNAME",nullable=true,length=65535)
-	public java.lang.String getSubclassname(){
+	public String getSubclassname(){
 		return this.subclassname;
 	}
 
@@ -162,7 +162,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Object
 	 *@param: java.lang.Object  subclassname
 	 */
-	public void setSubclassname(java.lang.String subclassname){
+	public void setSubclassname(String subclassname){
 		this.subclassname = subclassname;
 	}
 	/**
@@ -202,7 +202,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *@return: java.lang.Object  flash路径
 	 */
 	@Column(name ="SWFPATH",nullable=true,length=65535)
-	public java.lang.String getSwfpath(){
+	public String getSwfpath(){
 		return this.swfpath;
 	}
 
@@ -210,7 +210,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Object
 	 *@param: java.lang.Object  flash路径
 	 */
-	public void setSwfpath(java.lang.String swfpath){
+	public void setSwfpath(String swfpath){
 		this.swfpath = swfpath;
 	}
 	/**
@@ -218,7 +218,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *@return: java.lang.Object  note
 	 */
 	@Column(name ="NOTE",nullable=true,length=65535)
-	public java.lang.String getNote(){
+	public String getNote(){
 		return this.note;
 	}
 
@@ -226,7 +226,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Object
 	 *@param: java.lang.Object  note
 	 */
-	public void setNote(java.lang.String note){
+	public void setNote(String note){
 		this.note = note;
 	}
 	/**
@@ -234,7 +234,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *@return: java.lang.String  extend
 	 */
 	@Column(name ="EXTEND",nullable=true,length=32)
-	public java.lang.String getExtend(){
+	public String getExtend(){
 		return this.extend;
 	}
 
@@ -242,7 +242,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  extend
 	 */
-	public void setExtend(java.lang.String extend){
+	public void setExtend(String extend){
 		this.extend = extend;
 	}
 	/**
@@ -250,7 +250,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *@return: java.lang.String  busentityname
 	 */
 	@Column(name ="BUSENTITYNAME",nullable=true,length=100)
-	public java.lang.String getBusentityname(){
+	public String getBusentityname(){
 		return this.busentityname;
 	}
 
@@ -258,7 +258,7 @@ public class JeecgBlobDataEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  busentityname
 	 */
-	public void setBusentityname(java.lang.String busentityname){
+	public void setBusentityname(String busentityname){
 		this.busentityname = busentityname;
 	}
 }

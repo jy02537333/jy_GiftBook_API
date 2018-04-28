@@ -1,4 +1,4 @@
-${config_iframe}
+<script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script><script type="text/javascript" src="plug-in/tools/dataformat.js"></script><link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/default/easyui.css" type="text/css"></link><link rel="stylesheet" href="plug-in/easyui/themes/icon.css" type="text/css"></link><link rel="stylesheet" type="text/css" href="plug-in/accordion/css/accordion.css"><script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script><script type="text/javascript" src="plug-in/easyui/locale/easyui-lang-zh_CN.js"></script><script type="text/javascript" src="plug-in/tools/syUtil.js"></script><script type="text/javascript" src="plug-in/lhgDialog/lhgdialog.min.js"></script><script type="text/javascript" src="plug-in/tools/curdtools.js"></script><script type="text/javascript" src="plug-in/tools/easyuiextend.js"></script>
 <script type="text/javascript">
 $(function(){$('#${config_id}List').datagrid(
 	{
@@ -10,7 +10,7 @@ $(function(){$('#${config_id}List').datagrid(
 	pageSize: 10,
 	pagination:true,
 	pageList:[10,30,50,100],
-	singleSelect:<#if (main.pop_retype=='2')>false<#else>true</#if>,
+	singleSelect:false,
 	sortOrder:'asc',
 	rownumbers:true,
 	showFooter:true,
@@ -51,28 +51,7 @@ $(function(){$('#${config_id}List').datagrid(
 	function ${config_id}Listsearchbox(value,name){var queryParams=$('#${config_id}List').datagrid('options').queryParams;queryParams[name]=value;queryParams.searchfield=name;$('#${config_id}List').datagrid('reload');}$('#${config_id}Listsearchbox').searchbox({searcher:function(value,name){${config_id}Listsearchbox(value,name);},menu:'#${config_id}Listmm',prompt:'请输入查询关键字'});
 	function searchReset_${config_id}(name){ $("#"+name+"tb").find(":input").val("");${config_id}Listsearch();}
 	function getSelectRows(){
-
-		//return $('#${config_id}List').datagrid('getSelections');
-
-		
-		/**
-		 * 解决popup功能多选只能返回一个值的错误
-		 * add by suyh
-		 */
-		var allRowDataArr = $('#${config_id}List').datagrid('getData');
-		var allSelectedRowDataArr = new Array();
-		
-		var selectedRowIndexArr = new Array();
-		var selectedRows = $('.datagrid-view2 .datagrid-row-selected');
-		if(selectedRows.size()>0){ //有被选中的行
-			for(var i=0; i<selectedRows.size(); i++){
-				var selectedRowIndex = $('.datagrid-view2 .datagrid-row-selected:eq(' + i + ')').attr('datagrid-row-index');
-				selectedRowIndexArr.push(Number(selectedRowIndex));
-				allSelectedRowDataArr.push(allRowDataArr.rows[Number(selectedRowIndex)]);
-			}
-		}
-		
-		return allSelectedRowDataArr;
+		return $('#${config_id}List').datagrid('getChecked');
 	}
 </script>
 <table width="100%"   id="${config_id}List" toolbar="#${config_id}Listtb"></table>

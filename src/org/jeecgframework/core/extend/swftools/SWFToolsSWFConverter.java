@@ -28,7 +28,6 @@ public class SWFToolsSWFConverter implements SWFConverter {
 
 				+ "\" -o " +" \""+ swfFile +" \""+ " -s languagedir=D:\\xpdf-chinese-simplified -T 9 -f";
 //				+ "\" -o " + swfFile + " -s languagedir=D:\\xpdf-chinese-simplified -T 9 -f";
-
 		try {
 			// 开始转换文档
 			Process process = Runtime.getRuntime().exec(command);

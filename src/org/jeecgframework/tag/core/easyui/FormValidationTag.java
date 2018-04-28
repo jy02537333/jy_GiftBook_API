@@ -2,14 +2,14 @@ package org.jeecgframework.tag.core.easyui;
 
 import java.io.IOException;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.jeecgframework.core.enums.SysThemesEnum;
+import org.apache.commons.lang.StringUtils;
 import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.SysThemesUtil;
 
 /**
  * 
@@ -17,7 +17,6 @@ import org.jeecgframework.core.util.SysThemesUtil;
  *
  */
 public class FormValidationTag extends TagSupport {
-	private static final long serialVersionUID = 8360534826228271024L;
 	protected String formid = "formobj";// 表单FORM ID
 	protected Boolean refresh = true;
 	protected String callback;// 回调函数
@@ -30,26 +29,6 @@ public class FormValidationTag extends TagSupport {
 	protected String action;// 表单提交路径
 	protected String tabtitle;// 表单选项卡
 	protected String tiptype = "4";//校验方式
-
-	protected String styleClass ;//table 样式
-
-	protected String cssTheme;//主题样式目录默认为空
-	
-	public String getCssTheme() {
-		return cssTheme;
-	}
-
-	public void setCssTheme(String cssTheme) {
-		this.cssTheme = cssTheme;
-	}
-
-	public String getStyleClass() {
-		return styleClass;
-	}
-
-	public void setStyleClass(String styleClass) {
-		this.styleClass = styleClass;
-	}
 
 	public void setTabtitle(String tabtitle) {
 		this.tabtitle = tabtitle;
@@ -81,35 +60,15 @@ public class FormValidationTag extends TagSupport {
 
 	
 	public int doStartTag() throws JspException {
-		JspWriter out = null;
-		StringBuffer sb = new StringBuffer();
 		try {
-			out = this.pageContext.getOut();
-/*//			if(cssTheme==null){//手工设置值优先
-				Cookie[] cookies = ((HttpServletRequest) super.pageContext
-						.getRequest()).getCookies();
-				for (Cookie cookie : cookies) {
-					if (cookie == null || StringUtils.isEmpty(cookie.getName())) {
-						continue;
-					}
-					if (cookie.getName().equalsIgnoreCase("JEECGCSSTHEME")) {
-						cssTheme = cookie.getValue();
-					}
-				}
-//			}
-			if(cssTheme==null||"default".equals(cssTheme))cssTheme="";*/
+			JspWriter out = this.pageContext.getOut();
+			StringBuffer sb = new StringBuffer();
 			if ("div".equals(layout)) {
 				sb.append("<div id=\"content\">");
 				sb.append("<div id=\"wrapper\">");
 				sb.append("<div id=\"steps\">");
 			}
-			sb.append("<form id=\"" + formid + "\" " );
-
-			if(this.getStyleClass()!=null){
-				sb.append("class=\""+this.getStyleClass()+"\" ");
-			}
-
-					sb.append(" action=\"" + action + "\" name=\"" + formid + "\" method=\"post\">");
+			sb.append("<form id=\"" + formid + "\" action=\"" + action + "\" name=\"" + formid + "\" method=\"post\">");
 			if ("btn_sub".equals(btnsub) && dialog)
 				sb.append("<input type=\"hidden\" id=\"" + btnsub + "\" class=\"" + btnsub + "\"/>");
 			out.print(sb.toString());
@@ -122,45 +81,36 @@ public class FormValidationTag extends TagSupport {
 
 	
 	public int doEndTag() throws JspException {
-		StringBuffer sb = new StringBuffer();
-		JspWriter out = null;
 		try {
-			String lang = (String)((HttpServletRequest) this.pageContext.getRequest()).getSession().getAttribute("lang");
-			SysThemesEnum sysThemesEnum = null;
-			if(StringUtil.isEmpty(cssTheme)||"null".equals(cssTheme)){
-				sysThemesEnum = SysThemesUtil.getSysTheme((HttpServletRequest) super.pageContext.getRequest());
-			}else{
-				sysThemesEnum = SysThemesEnum.toEnum(cssTheme);
+			// 默认风格
+			String indexStyle = "shortcut";
+			HttpServletRequest request = (HttpServletRequest) super.pageContext.getRequest();
+			Cookie[] cookies = request.getCookies();
+			for (Cookie cookie : cookies) {
+				if (cookie == null || StringUtils.isEmpty(cookie.getName())) {
+					continue;
+				}
+				if (cookie.getName().equalsIgnoreCase("JEECGINDEXSTYLE")) {
+					indexStyle = cookie.getValue();
+				}
 			}
-			out = this.pageContext.getOut();
+			JspWriter out = this.pageContext.getOut();
+			StringBuffer sb = new StringBuffer();
 			if (layout.equals("div")) {
-
-//				if("metro".equals(cssTheme)){
-//					sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/"+cssTheme+"/divfrom.css\" type=\"text/css\"/>");
-//				}else{
-//					sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/divfrom.css\" type=\"text/css\"/>");
-//				}
-				//divfrom.css
-				sb.append(SysThemesUtil.getValidformDivfromTheme(sysThemesEnum));
+				sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/divfrom.css\" type=\"text/css\"/>");
 				if (tabtitle != null)
 					sb.append("<script type=\"text/javascript\" src=\"plug-in/Validform/js/form.js\"></script>");
 			}
-//			if("metro".equals(cssTheme)){
-//				sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/"+cssTheme+"/style.css\" type=\"text/css\"/>");
-//				sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/"+cssTheme+"/tablefrom.css\" type=\"text/css\"/>");
-//			}else{
-//				sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/style.css\" type=\"text/css\"/>");
-//				sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/tablefrom.css\" type=\"text/css\"/>");
-//			}
-			//style.css
-			sb.append(SysThemesUtil.getValidformStyleTheme(sysThemesEnum));
-			//tablefrom.css
-			sb.append(SysThemesUtil.getValidformTablefrom(sysThemesEnum));
-
-			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_v5.3.1_min_{0}.js\"></script>", "{0}", lang));
-			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_Datatype_{0}.js\"></script>", "{0}", lang));
-			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/Validform/js/datatype_{0}.js\"></script>", "{0}", lang));
-			
+			if("hplus".equals(indexStyle)){
+				sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/hplus/style.css\" type=\"text/css\"/>");
+				sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/hplus/tablefrom.css\" type=\"text/css\"/>");
+			}else{
+				sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/style.css\" type=\"text/css\"/>");
+				sb.append("<link rel=\"stylesheet\" href=\"plug-in/Validform/css/tablefrom.css\" type=\"text/css\"/>");
+			}
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_v5.3.1_min.js\"></script>");
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/Validform/js/Validform_Datatype.js\"></script>");
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/Validform/js/datatype.js\"></script>");
 			if (usePlugin != null) {
 				if (usePlugin.indexOf("jqtransform") >= 0) {
 					sb.append("<SCRIPT type=\"text/javascript\" src=\"plug-in/Validform/plugin/jqtransform/jquery.jqtransform.js\"></SCRIPT>");
@@ -232,11 +182,6 @@ public class FormValidationTag extends TagSupport {
 					passsb.append("}");// trigger结尾
 					passsb.append("}");// passwordstrength结尾
 				}
-
-				sb.append("usePlugin:{");
-				if (usePlugin.indexOf("password") >= 0) {
-					sb.append(passsb);
-				}
 				StringBuffer jqsb = new StringBuffer();
 				if (usePlugin.indexOf("jqtransform") >= 0) {
 					if (usePlugin.indexOf("password") >= 0) {
@@ -244,7 +189,10 @@ public class FormValidationTag extends TagSupport {
 					}
 					jqsb.append("jqtransform :{selector:\"select\"}");
 				}
-
+				sb.append("usePlugin:{");
+				if (usePlugin.indexOf("password") >= 0) {
+					sb.append(passsb);
+				}
 				if (usePlugin.indexOf("jqtransform") >= 0) {
 					sb.append(jqsb);
 				}
@@ -295,14 +243,6 @@ public class FormValidationTag extends TagSupport {
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-
-				sb.setLength(0);
-
-				out.clearBuffer();
-			} catch (Exception e2) {
-			}
 		}
 		return EVAL_PAGE;
 	}

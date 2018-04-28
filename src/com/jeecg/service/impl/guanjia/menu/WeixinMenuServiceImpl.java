@@ -1,4 +1,4 @@
-package weixin.guanjia.menu.service.impl;
+package com.jeecg.service.impl.guanjia.menu;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jeecg.service.guanjia.WeixinAccountServiceI;
 import weixin.guanjia.menu.entity.MenuEntity;
-import weixin.guanjia.menu.service.WeixinMenuServiceI;
+import com.jeecg.service.guanjia.menu.WeixinMenuServiceI;
 
 @Service("weixinMenuService")
 @Transactional

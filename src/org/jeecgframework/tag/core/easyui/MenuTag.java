@@ -42,52 +42,30 @@ public class MenuTag extends TagSupport {
 	}
 
 	public int doEndTag() throws JspTagException {
-		JspWriter out = null;
 		try {
-
-			out = this.pageContext.getOut();
+			JspWriter out = this.pageContext.getOut();
 			out.print(end().toString());
-			out.flush();
-//			String menu = (String) this.pageContext.getSession().getAttribute("leftMenuCache"+style);
-//			if(menu!=null){
-//				out.print(menu);
-//				out.flush();
-//			}else{
-//				menu=end().toString();
-//				this.pageContext.getSession().setAttribute("leftMenuCache"+style,menu);
-//				out.print(menu);
-//				out.flush();
-//			}
-
+			
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				out.clearBuffer();
-			} catch (Exception e2) {
-			}
 		}
 		return EVAL_PAGE;
 	}
 
 	public StringBuffer end() {	
 		StringBuffer sb = new StringBuffer();
-
         if (style.equals("easyui")) {
             sb.append("<ul id=\"nav\" class=\"easyui-tree tree-lines\" fit=\"true\" border=\"false\">");
             sb.append(ListtoMenu.getEasyuiMultistageTree(menuFun, style));
             sb.append("</ul>");
         }
 		if(style.equals("shortcut"))
-
 //		{	sb.append("<div id=\"nav\" style=\"display:none;\" class=\"easyui-accordion\" fit=\"true\" border=\"false\">");
 		{
             sb.append("<div id=\"nav\" style=\"display:block;\" class=\"easyui-accordion\" fit=\"true\" border=\"false\">");
-
 			sb.append(ListtoMenu.getEasyuiMultistageTree(menuFun, style));
 			sb.append("</div>");
 		}
-
 		if(style.equals("bootstrap"))
 		{
 			sb.append(ListtoMenu.getBootMenu(parentFun, childFun));
@@ -101,14 +79,6 @@ public class MenuTag extends TagSupport {
 		if(style.equals("june_bootstrap"))
 		{
 			sb.append(ListtoMenu.getBootstrapMenu(menuFun));
-		}
-		if(style.equals("ace"))
-		{
-			sb.append(ListtoMenu.getAceMultistageTree(menuFun));
-		}
-		if(style.equals("diy"))
-		{
-			sb.append(ListtoMenu.getDIYMultistageTree(menuFun));
 		}
 		if(style.equals("hplus")){
 			sb.append(ListtoMenu.getHplusMultistageTree(menuFun));

@@ -1,4 +1,4 @@
-package org.jeecgframework.web.cgform.service.impl.config;
+package com.jeecg.service.impl.config;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
@@ -7,7 +7,7 @@ import org.hibernate.HibernateException;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormIndexEntity;
-import org.jeecgframework.web.cgform.service.config.CgFormIndexServiceI;
+import com.jeecg.service.config.CgFormIndexServiceI;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

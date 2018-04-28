@@ -43,7 +43,7 @@ import weixin.guanjia.core.entity.common.Menu;
 import weixin.guanjia.core.entity.common.ViewButton;
 import weixin.guanjia.core.util.WeixinUtil;
 import weixin.guanjia.menu.entity.MenuEntity;
-import weixin.guanjia.menu.service.WeixinMenuServiceI;
+import com.jeecg.service.guanjia.menu.WeixinMenuServiceI;
 import weixin.guanjia.message.entity.NewsTemplate;
 import weixin.guanjia.message.entity.TextTemplate;
 

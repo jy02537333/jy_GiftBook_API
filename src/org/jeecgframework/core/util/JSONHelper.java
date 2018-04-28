@@ -51,6 +51,24 @@ public final class JSONHelper {
 		JSONObject jsonObject = JSONObject.fromObject(object);
 		return jsonObject.toString();
 	}
+	/**
+	 * 将json格式的字符串解析成Map对象 <li>
+	 * json格式：{"name":"admin","retries":"3fff","testname":"ddd","testretries":"fffffffff"}
+	 */
+	public static Map<String, Object> json2Map(String jsonStr)  {
+		Map<String, Object> data = new HashMap<String, Object>();
+		// 将json字符串转换成jsonObject
+		JSONObject jsonObject = JSONObject.fromObject(jsonStr);
+		Iterator it = jsonObject.keys();
+		// 遍历jsonObject数据，添加到Map对象
+		while (it.hasNext())
+		{
+			String key = String.valueOf(it.next());
+			Object value = jsonObject.get(key);
+			data.put(key, value);
+		}
+		return data;
+	}
 
 	// 将JSON转换成Map,其中valueClz为Map中value的Class,keyArray为Map的key
 	public static Map json2Map(Object[] keyArray, String json, Class valueClz) {
@@ -235,46 +253,6 @@ public final class JSONHelper {
 
 		return data;
 	}
-	
-	  /** 
-	    * 将json格式的字符串解析成Map对象 <li> 
-	    * json格式：{"name":"admin","retries":"3fff","testname":"ddd","testretries":"fffffffff"} 
-	    */  
-	   public static Map<String, Object> json2Map(String jsonStr)  {  
-	       Map<String, Object> data = new HashMap<String, Object>();  
-	       // 将json字符串转换成jsonObject  
-	       JSONObject jsonObject = JSONObject.fromObject(jsonStr);  
-	       Iterator it = jsonObject.keys();  
-	       // 遍历jsonObject数据，添加到Map对象  
-	       while (it.hasNext())  
-	       {  
-	           String key = String.valueOf(it.next());  
-	           Object value = jsonObject.get(key);  
-	           data.put(key, value);  
-	       }  
-	       return data;  
-	   }  
-	   
-	   
-	   /** 
-	    * 将json格式的字符串解析成Map对象 <li> 
-	    * json格式：{"name":"admin","retries":"3fff","testname":"ddd","testretries":"fffffffff"} 
-	    */  
-	   public static Map<String, List<Map<String, Object>>> json2MapList(String jsonStr)  {  
-	       Map<String, List<Map<String, Object>>> data = new HashMap<String, List<Map<String, Object>>>();  
-	       // 将json字符串转换成jsonObject  
-	       JSONObject jsonObject = JSONObject.fromObject(jsonStr);  
-	       Iterator it = jsonObject.keys();  
-	       // 遍历jsonObject数据，添加到Map对象  
-	       while (it.hasNext())  
-	       {  
-	           String key = String.valueOf(it.next());  
-	           Object value = jsonObject.get(key);  
-	           List<Map<String, Object>> list = toList(value);
-	           data.put(key, list);  
-	       }  
-	       return data;  
-	   }  
 
 	/***
 	 * 将对象转换为List<Map<String,Object>>
@@ -286,23 +264,6 @@ public final class JSONHelper {
 	public static List<Map<String, Object>> toList(Object object) {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		JSONArray jsonArray = JSONArray.fromObject(object);
-		for (Object obj : jsonArray) {
-			JSONObject jsonObject = (JSONObject) obj;
-			Map<String, Object> map = new HashMap<String, Object>();
-			Iterator it = jsonObject.keys();
-			while (it.hasNext()) {
-				String key = (String) it.next();
-				Object value = jsonObject.get(key);
-				map.put((String) key, value);
-			}
-			list.add(map);
-		}
-		return list;
-	}
-	
-	// 返回非实体类型(Map<String,Object>)的List
-	public static List<Map<String, Object>> toList(JSONArray jsonArray) {
-		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		for (Object obj : jsonArray) {
 			JSONObject jsonObject = (JSONObject) obj;
 			Map<String, Object> map = new HashMap<String, Object>();
@@ -520,7 +481,27 @@ public final class JSONHelper {
 		}
 		return mainEntity;
 	}
-	
+	/**
+	 * 将json格式的字符串解析成Map对象 <li>
+	 * json格式：{"name":"admin","retries":"3fff","testname":"ddd","testretries":"fffffffff"}
+	 */
+	public static Map<String, List<Map<String, Object>>> json2MapList(String jsonStr)  {
+		Map<String, List<Map<String, Object>>> data = new HashMap<String, List<Map<String, Object>>>();
+		// 将json字符串转换成jsonObject
+		JSONObject jsonObject = JSONObject.fromObject(jsonStr);
+		Iterator it = jsonObject.keys();
+		// 遍历jsonObject数据，添加到Map对象
+		while (it.hasNext())
+		{
+			String key = String.valueOf(it.next());
+			Object value = jsonObject.get(key);
+			List<Map<String, Object>> list = toList(value);
+			data.put(key, list);
+		}
+		return data;
+	}
+
+
 	public static String listtojson(String[] fields, int total, List list) throws Exception {
 		Object[] values = new Object[fields.length];
 		String jsonTemp = "{\"total\":" + total + ",\"rows\":[";

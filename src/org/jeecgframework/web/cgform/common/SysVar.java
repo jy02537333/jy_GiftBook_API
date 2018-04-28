@@ -1,11 +1,12 @@
 package org.jeecgframework.web.cgform.common;
 
-import org.jeecgframework.core.util.ResourceUtil;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.web.system.pojo.base.TSUser;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.jeecgframework.web.system.pojo.base.TSUser;
+
+import org.jeecgframework.core.util.ResourceUtil;
+import org.jeecgframework.core.util.StringUtil;
 
 /**
  * 

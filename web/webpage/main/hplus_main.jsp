@@ -14,10 +14,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
 
-    <title><t:mutiLang langKey="jeect.platform"/></title>
+    <title>礼薄管家系统</title>
 
-    <meta name="keywords" content="libugj">
-    <meta name="description" content="libugj 礼簿">
+    <meta name="keywords" content="礼薄管家">
+    <meta name="description" content="礼薄管家">
 
     <link rel="shortcut icon" href="images/favicon.ico">
     <link href="plug-in-ui/hplus/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
@@ -40,31 +40,36 @@
         </div>
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
-                <li class="nav-header">
+                <li class="nav-header" style="padding: 14px 25px;">
                     <div class="dropdown profile-element">
-                        <span><img alt="image" width="62" height="62" class="img-circle" src="plug-in/login/images/jeecg-aceplus.png" /></span>
+                        <span><img alt="image" width="50"
+                                   src="images/logo.png"
+                        /></span>
+                        <%--//update-start--Author: chenj Date:20160726 for: TASK #1207 [改造]h+风格下，去掉logo下面的内容，迁移位置到右上角，主题位置 
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
-                               <span class="block m-t-xs"><strong class="font-bold">${userName }</strong></span>
+                                <span class="block m-t-xs"><strong class="font-bold">${userName }</strong></span>
                                 <span class="text-muted text-xs block">${roleName }<b class="caret"></b></span>
                                 </span>
-                        </a>
+                        </a> 
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             <li>
-                                <a href="javascript:add('<t:mutiLang langKey="common.change.password"/>','userController.do?changepassword','',550,200)">
-                                    <t:mutiLang langKey="common.change.password"/>
+                                <a href="javascript:add('修改密码','userController.do?changepassword','',550,200)">
+                                                                                                                修改密码
                                 </a>
                             </li>
-                            <li><a href="javascript:openwindow('<t:mutiLang langKey="common.profile"/>','userController.do?userinfo')"><t:mutiLang langKey="common.profile"/></a></li>
-                            <li><a href="javascript:openwindow('<t:mutiLang langKey="common.ssms.getSysInfos"/>','tSSmsController.do?getSysInfos')"><t:mutiLang langKey="common.ssms.getSysInfos"/></a></li>
-                            <li><a href="javascript:add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle','',550,250)"><t:mutiLang langKey="common.my.style"/></a></li>
-                            <li><a href="javascript:clearLocalstorage()"><t:mutiLang langKey="common.clear.localstorage"/></a></li>
+                            <li><a href="javascript:openwindow('个人信息','userController.do?userinfo')">个人信息</a></li>
+                            <li><a href="javascript:openwindow('系统信息','tSSmsController.do?getSysInfos')">系统信息</a></li>
+                            <li><a href="javascript:add('风格切换','userController.do?changestyle','',550,250)">风格切换</a></li>
+                            <li><a href="javascript:clearLocalstorage()">清理缓存</a></li>
                             <li><a href="http://yun.jeecg.org" target="_blank">云应用中心</li>
                             <li class="divider"></li>
                             <li><a href="javascript:logout()">注销</a></li>
                         </ul>
+                         //update-end--Author: chenj Date:20160726 for: TASK #1207 [改造]h+风格下，去掉logo下面的内容，迁移位置到右上角，主题位置 --%>
+                         
                     </div>
-                    <div class="logo-element">礼簿
+                    <div class="logo-element">捷微
                     </div>
                 </li>
 
@@ -78,15 +83,18 @@
     <div id="page-wrapper" class="gray-bg dashbard-1">
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header" style="height: 60px;"><a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                <div class="navbar-header" style="width: 40%;height: 60px;"><a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                     <form role="search" class="navbar-form-custom" method="post" action="search_results.html">
-                        <div class="form-group">
-                            <input type="text" placeholder="礼簿管理平台" class="form-control" name="top-search" id="top-search">
+                        <div class="form-group" >
+                            <input type="text" placeholder="礼薄" class="form-control" name="top-search" id="top-search">
                         </div>
                     </form>
                 </div>
+                
+                
                 <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown">
+                <!-- update-start--Author: chenj Date:20160812 for: TASK #1269 【ace h+】风格无用的右上角功能隐藏，暂时注释掉 -->
+                   <%--  <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                             <i class="fa fa-envelope"></i> <span class="label label-warning">0</span>
                         </a>
@@ -95,7 +103,7 @@
                                 <a>
                                     <div>
                                         <i class="fa fa-envelope fa-fw"></i> 您有0条未读消息
-                                        <%--<span class="pull-right text-muted small">4分钟前</span>--%>
+                                        <span class="pull-right text-muted small">4分钟前</span>
                                     </div>
                                 </a>
                             </li>
@@ -118,7 +126,7 @@
                                 <a>
                                     <div>
                                         <i class="fa fa-envelope fa-fw"></i> 您有0条未读消息
-                                        <%--<span class="pull-right text-muted small">4分钟前</span>--%>
+                                        <span class="pull-right text-muted small">4分钟前</span>
                                     </div>
                                 </a>
                             </li>
@@ -132,12 +140,52 @@
                                 </div>
                             </li>
                         </ul>
+                    </li> --%>
+                    <!-- update-end--Author: chenj Date:20160812 for: TASK #1269 【ace h+】风格无用的右上角功能隐藏，暂时注释掉 -->
+                    
+                    <!-- //update-start--Author: chenj Date:20160726 for: TASK #1207 [改造]h+风格下，去掉logo下面的内容，迁移位置到右上角，主题位置 -->
+                    <li class="dropdown">
+                    	<a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                    	<i class="fa fa-user" style="color:green"></i> 
+                                <span ><strong class="font-bold">${userName }</strong></span>
+                                <span title="${roleName }"><c:if test="${fn:length(roleName) gt 6}">
+				                    ${fn:substring(roleName,0,6)}...
+				                  </c:if>
+				                  <c:if test="${fn:length(roleName) le 6}">
+				                    ${roleName }
+				                  </c:if>
+				                  <b class="caret"></b></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-alerts">
+                            <li><a href="javascript:openwindow('个人信息','userController.do?userinfo')">个人信息</a></li>
+                            <li>
+                                <a href="javascript:add('修改密码','userController.do?changepassword','',550,200)">
+                                    	修改密码
+                                </a>
+                            </li>
+                            <li><a href="javascript:add('风格切换','userController.do?changestyle','',550,250)">首页风格</a></li>
+                            <li><a href="javascript:window.open('http://yun.jeecg.org')">云插件中心</a></li>
+                        </ul>
                     </li>
-                    <li class="dropdown hidden-xs">
+                    <!-- //update-end--Author: chenj Date:20160726 for: TASK #1207 [改造]h+风格下，去掉logo下面的内容，迁移位置到右上角，主题位置 -->
+                    
+                     
+                   <!--  <li class="dropdown hidden-xs">
                         <a class="right-sidebar-toggle" aria-expanded="false">
                             <i class="fa fa-tasks"></i> 主题
                         </a>
+                    </li> -->
+                    
+                      <li class="dropdown hidden-xs">
+                        <a class="" aria-expanded="false" href="javascript:logout()">
+                            <i class="fa fa fa-sign-out"></i> 退出
+                        </a>
                     </li>
+                   <!-- //update-begin--Author: chenj Date:20160729 for: TASK #1207 [改造]h+风格下，修改 退出 按钮的位置 -->
+                      <!--  <li class="dropdown">
+                     <a href="javascript:logout()" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+                     </li>  --> 
+                     <!-- //update-end--Author: chenj Date:20160729 for: TASK #1207 [改造]h+风格下，修改 退出 按钮的位置 -->
                 </ul>
             </nav>
         </div>
@@ -146,7 +194,7 @@
             </button>
             <nav class="page-tabs J_menuTabs">
                 <div class="page-tabs-content">
-                    <a href="javascript:;" class="active J_menuTab" data-id="loginController.do?hplushome">首页</a>
+                    <a href="javascript:;" class="active J_menuTab" data-id="loginController.do?home">首页</a>
                 </div>
             <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i>
             </button>
@@ -164,13 +212,17 @@
                     </li>
                 </ul>
             </div>
+            
+            <!-- 
             <a href="javascript:logout()" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> 退出</a>
+             -->
         </div>
         <div class="row J_mainContent" id="content-main">
-            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="loginController.do?hplushome" frameborder="0" data-id="loginController.do?hplushome" seamless></iframe>
+            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="loginController.do?home" frameborder="0" data-id="loginController.do?home" seamless></iframe>
         </div>
         <div class="footer">
-          
+            <%--<div class="pull-right">&copy; 版权所有 <span class="tip"><a href="http://www.jeewx.com" target="_blank" title="捷微JeeWx：免费开源微信公众账号开发平台">捷微JeeWx</a> (推荐谷歌浏览器，获得更快响应速度) 技术支持:<a href="http://www.jeecg.org" target="_blank" title="JEECG开源社区">JEECG 开源社区</a> </span>--%>
+            <%--</div>--%>
         </div>
     </div>
     <!--右侧部分结束-->
@@ -185,14 +237,16 @@
                         <i class="fa fa-gear"></i> 主题
                     </a>
                 </li>
-                <li class=""><a data-toggle="tab" href="#tab-2">
+                <!-- update-start--Author: chenj Date:20160812 for: TASK #1269 【ace h+】风格无用的右上角功能隐藏，暂时注释掉 -->
+               <!--  <li class=""><a data-toggle="tab" href="#tab-2">
                     通知
                 </a>
                 </li>
                 <li><a data-toggle="tab" href="#tab-3">
                     项目进度
                 </a>
-                </li>
+                </li> -->
+                <!-- update-end--Author: chenj Date:20160812 for: TASK #1269 【ace h+】风格无用的右上角功能隐藏，暂时注释掉 -->
             </ul>
 
             <div class="tab-content">
@@ -603,9 +657,10 @@
 <script src="plug-in/jquery-plugs/storage/jquery.storageapi.min.js"></script>
 <!-- 弹出TAB -->
 <script type="text/javascript" src="plug-in/hplus/hplus-tab.js"></script>
+<%@include file="/context/layui.jsp"%>
 <script>
     function logout(){
-        /*bootbox.confirm("<t:mutiLang langKey="common.exit.confirm"/>", function(result) {
+        /*bootbox.confirm("", function(result) {
             if(result)
                 location.href="loginController.do?logout";
         });*/
@@ -653,6 +708,10 @@
         var addurl = "tSSmsController.do?getSysInfos";
         createdetailwindow("消息", addurl, 800, 400);
     }
+    function toJeecgYun(){
+    	window.open("http://yun.jeecg.org","_blank");
+    }
+    
 </script>
 </body>
 

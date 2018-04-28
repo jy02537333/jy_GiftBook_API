@@ -1,6 +1,9 @@
 package org.jeecgframework.web.cgform.entity.enhance;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,11 +27,11 @@ import org.hibernate.annotations.GenericGenerator;
 @SuppressWarnings("serial")
 public class CgformEnhanceJsEntity implements java.io.Serializable {
 	/**id*/
-	private java.lang.String id;
+	private String id;
 	/**formId*/
-	private java.lang.String formId;
+	private String formId;
 	/**js增强类型（form/list）*/
-	private java.lang.String cgJsType;
+	private String cgJsType;
 	/**增强js*/
 	private byte[] cgJs;
 	
@@ -36,7 +39,7 @@ public class CgformEnhanceJsEntity implements java.io.Serializable {
 	private String cgJsStr;
 	
 	/**描述*/
-	private java.lang.String content;
+	private String content;
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -47,7 +50,7 @@ public class CgformEnhanceJsEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -55,7 +58,7 @@ public class CgformEnhanceJsEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -63,7 +66,7 @@ public class CgformEnhanceJsEntity implements java.io.Serializable {
 	 *@return: java.lang.String  formId
 	 */
 	@Column(name ="FORM_ID",nullable=true,length=32)
-	public java.lang.String getFormId(){
+	public String getFormId(){
 		return this.formId;
 	}
 
@@ -71,7 +74,7 @@ public class CgformEnhanceJsEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  formId
 	 */
-	public void setFormId(java.lang.String formId){
+	public void setFormId(String formId){
 		this.formId = formId;
 	}
 	/**
@@ -79,7 +82,7 @@ public class CgformEnhanceJsEntity implements java.io.Serializable {
 	 *@return: java.lang.String  js增强类型（form/list）
 	 */
 	@Column(name ="CG_JS_TYPE",nullable=true,length=20)
-	public java.lang.String getCgJsType(){
+	public String getCgJsType(){
 		return this.cgJsType;
 	}
 
@@ -87,7 +90,7 @@ public class CgformEnhanceJsEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  js增强类型（form/list）
 	 */
-	public void setCgJsType(java.lang.String cgJsType){
+	public void setCgJsType(String cgJsType){
 		this.cgJsType = cgJsType;
 	}
 	/**
@@ -111,7 +114,7 @@ public class CgformEnhanceJsEntity implements java.io.Serializable {
 	 *@return: java.lang.String  描述
 	 */
 	@Column(name ="CONTENT",nullable=true,length=1000)
-	public java.lang.String getContent(){
+	public String getContent(){
 		return this.content;
 	}
 
@@ -119,17 +122,14 @@ public class CgformEnhanceJsEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  描述
 	 */
-	public void setContent(java.lang.String content){
+	public void setContent(String content){
 		this.content = content;
 	}
 
 	@Transient
 	public String getCgJsStr() {
 		if(cgJs!=null){
-			try{
-				cgJsStr = new String(cgJs,"utf-8");
-			}catch (Exception e){
-			}
+			cgJsStr = new String(cgJs);
 		}
 		return cgJsStr;
 	}
@@ -137,11 +137,7 @@ public class CgformEnhanceJsEntity implements java.io.Serializable {
 	public void setCgJsStr(String cgJsStr) {
 		this.cgJsStr = cgJsStr;
 		if(cgJsStr!=null){
-			try {
-				this.cgJs = cgJsStr.getBytes("utf-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
+		this.cgJs = cgJsStr.getBytes();
 		}
 	}
 	

@@ -1,4 +1,4 @@
-var filedTypes = ['check', 'database', 'key', 'page','index'];
+var filedTypes = ['check', 'database', 'key', 'page'];
 var headerTr = "template_header_";
 var bodytr = "add_column_table_template_";
 var iframeId = "iframe_";
@@ -7,20 +7,16 @@ var iframeLoadNumber = 0; // 当前加载的Iframe的数量
 var rownumber = 0 ;//标识当前序号
 var toDelete = [];  //保存表单待删除属性字段id
 $(document).ready(iframeLoaded());
-//$("#iframe_check").load(iframeLoaded());
-//$("#iframe_database").load(iframeLoaded());
-//$("#iframe_key").load(iframeLoaded());
-//$("#iframe_page").load(iframeLoaded());
-//add-start author： wangkun  date:20160611 for: TASK #1090 【online】online表单缺少索引配置 代码修改痕迹
-//$("#iframe_index").load(iframeLoaded());
-//add-end author： wangkun  date:20160611 for: TASK #1090 【online】online表单缺少索引配置 代码修改痕迹
+$("#iframe_check").load(iframeLoaded());
+$("#iframe_database").load(iframeLoaded());
+$("#iframe_key").load(iframeLoaded());
+$("#iframe_page").load(iframeLoaded());
 
 function iframeLoaded() {
 	iframeLoadNumber++;
-	if (iframeLoadNumber == 6) {
+	if (iframeLoadNumber == 5) {
 		$(".datagrid-toolbar").parent().css("width", "auto");
-//		setTimeout(initData, 500);
-		initData();
+		setTimeout(initData, 500);
 	}
 }
 var fixHelper = function(e, ui) {
@@ -62,12 +58,6 @@ function initData() {
 	addTableHead();
 	$.get("cgFormHeadController.do?getColumnList&id=" + $("#id").val(),
 			getDataHanlder);
-	$.get("cgFormIndexController.do?getIndexList&id=" + $("#id").val(),
-			getDataHanlderIndex);
-	$('.t_table').height($(window).height()-300);
-	$(window).resize(function(){
-		$('.t_table').height($(window).height()-300);
-	});
 	
 }
 
@@ -84,21 +74,17 @@ function addTableHead() {
 // 兼容不同浏览器获取iframe 内容
 //主要情况是ie11下的版本是火狐的标识倒是出差错
 function getIframeDocument(id){
-	try {
-		if (window.frames["iframe_" + id].contentDocument) {
-			return window.frames["iframe_" + id].contentDocument;
-		}
-		return window.frames["iframe_" + id].document;
-	} catch (e) {
+	if(window.frames["iframe_" + id].contentDocument){
+		return window.frames["iframe_" + id].contentDocument;
 	}
-	return document.getElementById("iframe_" + id).contentDocument;
+	return window.frames["iframe_" + id].document;
 }
 
 /**
  * 获取数据的回调
  * 
  * @param {}
- * data
+ *            data
  */
 function getDataHanlder(data) {
 	data = eval("(" + data + ")");
@@ -106,26 +92,10 @@ function getDataHanlder(data) {
 	var orderMin = data[0].orderNum == 0;
 	$.each(data, function(idx, item) {
 		rownumber = idx;//存储当前序号
-		for (var i = 0; i < filedTypes.length; i++) {
-			//add-start author： wangkun  date:20160611 for: TASK #1090 【online】online表单缺少索引配置 代码修改痕迹
-			if(i!=4){
-				initTrData(item, filedTypes[i], orderMin);
-			}
-			//add-end author： wangkun  date:20160611 for: TASK #1090 【online】online表单缺少索引配置 代码修改痕迹
-		}
-	});
-	jformTypeChange();
-	fixTab();
-	
-}
-function getDataHanlderIndex(data) {
-	data = eval("(" + data + ")");
-	// 兼容之前order最小为0的问题
-	var orderMin = data[0].orderNum == 0;
-	$.each(data, function(idx, item) {
-		rownumber = idx;//存储当前序号
-		initTrDataIndex(item, 'index', orderMin);
-	});
+				for (var i = 0; i < filedTypes.length; i++) {
+					initTrData(item, filedTypes[i], orderMin);
+				}
+			});
 	jformTypeChange();
 	fixTab();
 	
@@ -155,9 +125,7 @@ function initTrData(item, filedType, orderMin) {
 			$this.attr("name", name.replace('#index#',rownumber));
 			
 			if (item[fieldName] != "Y" && item[fieldName] != "N") {
-				//--author: zhoujf -----start----date:20160331 -------for:online开发创建表单时 表属性设置增加一列checkbox设置传不了值的问题
-				$this.attr('type')=='checkbox'? $this.attr("checked", false):$this.val(item[fieldName]);
-				//--author: zhoujf -----end----date:20160331 -------for:online开发创建表单时 表属性设置增加一列checkbox设置传不了值的问题
+				$this.val(item[fieldName]);
 			} else {
 				item[fieldName] == "Y" ? $this.attr("checked", true) : $this
 						.attr("checked", false);
@@ -174,44 +142,6 @@ function initTrData(item, filedType, orderMin) {
 	});
 	$("#tab_div_" + filedType).append(tr);
 }
-//add-start author： wangkun  date:20160611 for: TASK #1090 【online】online表单缺少索引配置 代码修改痕迹
-function initTrDataIndex(item, filedType, orderMin) {
-	var tr = $(getIframeDocument(filedType)).find("#" + bodytr
-			+ filedType + " tr").clone();
- 	var isId = item.fieldName == "id";
-	$(':input, select,a', $(tr)).each(function() {
-		var $this = $(this), name = $this.attr('name'), val = $this.val();
-		if(isId){setAttrForThis($this);}
-		//自定义一个序号<a> 按名字进行获取对象，并进行序号指定
-		if(name.indexOf("#rindex#") > 0){
-			$this.attr("name", name.replace('#rindex#',rownumber));
-			$this.html(rownumber+1);
-		}
-		if (name.indexOf("#index#") > 0) {
-			var fieldName = name.replace("indexes[#index#].", "");
-			$this.attr("name", name.replace('#index#',rownumber));
-			
-			if (item[fieldName] != "Y" && item[fieldName] != "N") {
-				//--author: zhoujf -----start----date:20160331 -------for:online开发创建表单时 表属性设置增加一列checkbox设置传不了值的问题
-				$this.attr('type')=='checkbox'? $this.attr("checked", false):$this.val(item[fieldName]);
-				//--author: zhoujf -----end----date:20160331 -------for:online开发创建表单时 表属性设置增加一列checkbox设置传不了值的问题
-			} else {
-				item[fieldName] == "Y" ? $this.attr("checked", true) : $this
-						.attr("checked", false);
-			}
-		} else if (name != "ck") {
-			$this.attr("name", name.replace('_index',rownumber));
-			$this.val(name.indexOf("columnsfieldName") != -1
-					? item.fieldName
-					: item.content);
-		}
-		else{
-			$this.val(item.id);
-		}
-	});
-	$("#tab_div_" + filedType).append(tr);
-}
-//add-end author： wangkun  date:20160611 for: TASK #1090 【online】online表单缺少索引配置 代码修改痕迹
 
 function setAttrForThis($this){
 	if($this.is('select')){
@@ -228,12 +158,9 @@ function setAttrForThis($this){
  * 添加行
  */
 function addColumnBtnClick() {
-	for (var i = 0; i < filedTypes.length-1; i++) {
+	for (var i = 0; i < filedTypes.length; i++) {
 		addTrToTable(filedTypes[i]);
 	}
-}
-function addIndexBtnClick(){
-	addTrToTable('index');
 }
 function addTrToTable(filedType) {
 	var tr = $(getIframeDocument(filedType)).find("#" + bodytr
@@ -266,13 +193,6 @@ function delColumnBtnClick() {
 	for (var i = 0; i < filedTypes.length; i++) {
 		resetTrNum("#tab_div_" + filedTypes[i]);
 	}
-}
-function delIndexBtnClick() {
-	$("#tab_div_index").find("input[name='ck']:checked").parent().parent("tr").each(function(index, ele){
-		//toDelete.push($(this).find("input[name='ck']:checked").val());
-		var selectIndex = ele.rowIndex;
-		$("#tab_div_index").find("tr").eq(selectIndex).remove();
-	})
 }
 /**
  * 重设table的order
@@ -435,7 +355,6 @@ function fixTab(){
 	        else if(title=="页面属性"){fix("page");}
 	        else if(title=="校验字典"){fix("check");}
 	        else if(title=="外键"){fix("key");}
-	        else if(title=="索引"){fix("index");}
 	        $('#tabs .panel-body').css('width','auto');
 	    }
 	});
@@ -450,9 +369,6 @@ function fixTab(){
 	});
 	$('#t_table_key').scroll(function(){
  		 $('#tab_div_key_title').css('margin-left',-($('#t_table_key').scrollLeft()));
-	});
-	$('#t_table_index').scroll(function(){
-		 $('#tab_div_index_title').css('margin-left',-($('#t_table_index').scrollLeft()));
 	});
 }
 

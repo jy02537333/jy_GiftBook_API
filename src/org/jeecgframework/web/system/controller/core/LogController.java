@@ -14,6 +14,10 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jeecgframework.core.util.DataUtils;
+import org.jeecgframework.web.system.pojo.base.TSLog;
+import org.jeecgframework.web.system.service.SystemService;
+
 import org.apache.batik.transcoder.Transcoder;
 import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
@@ -26,15 +30,8 @@ import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.Highchart;
-import org.jeecgframework.core.util.DateUtils;
-import org.jeecgframework.core.util.MutiLangUtil;
-import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.tag.core.easyui.TagUtil;
-import org.jeecgframework.tag.vo.datatable.SortDirection;
-import org.jeecgframework.web.system.pojo.base.TSLog;
-import org.jeecgframework.web.system.service.LogService;
-import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,21 +52,11 @@ public class LogController extends BaseController {
 	 * Logger for this class
 	 */
 	private static final Logger logger = Logger.getLogger(LogController.class);
-
-    //用户浏览器统计分析的国际化KEY
-    private static final String USER_BROWSER_ANALYSIS = "user.browser.analysis";
 	private SystemService systemService;
-	
-	private LogService logService;
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
 		this.systemService = systemService;
-	}
-	
-	@Autowired
-	public void setLogService(LogService logService) {
-		this.logService = logService;
 	}
 
 	/**
@@ -103,7 +90,7 @@ public class LogController extends BaseController {
         if(operatetime_begin != null) {
             Timestamp beginValue = null;
             try {
-                beginValue = DateUtils.parseTimestamp(operatetime_begin, "yyyy-MM-dd");
+                beginValue = DataUtils.parseTimestamp(operatetime_begin, "yyyy-MM-dd");
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -116,7 +103,7 @@ public class LogController extends BaseController {
             }
             Timestamp endValue = null;
             try {
-                endValue = DateUtils.parseTimestamp(operatetime_end, "yyyy-MM-dd hh:mm:ss");
+                endValue = DataUtils.parseTimestamp(operatetime_end, "yyyy-MM-dd hh:mm:ss");
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -127,37 +114,6 @@ public class LogController extends BaseController {
         this.systemService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
-	
-	/**
-	 * 获取日志详情
-	 * @param tsLog
-	 * @param request
-	 * @return
-	 * @Author fangwenrong
-	 * @Date 2015-05-10
-	 */
-	@RequestMapping(params = "logDetail")
-	public ModelAndView logDetail(TSLog tsLog,HttpServletRequest request){
-		if (StringUtil.isNotEmpty(tsLog.getId())) {
-			tsLog = logService.getEntity(TSLog.class, tsLog.getId());
-			request.setAttribute("tsLog", tsLog);
-		}
-		return new ModelAndView("system/log/logDetail");
-		
-	}
-	
-	/**
-	 * @RequestMapping(params = "addorupdate")
-	public ModelAndView addorupdate(TSTimeTaskEntity timeTask, HttpServletRequest req) {
-		if (StringUtil.isNotEmpty(timeTask.getId())) {
-			timeTask = timeTaskService.getEntity(TSTimeTaskEntity.class, timeTask.getId());
-			req.setAttribute("timeTaskPage", timeTask);
-		}
-		return new ModelAndView("system/timetask/timeTask");
-	}
-	 */
-	
-	
 	/**
 	 * 统计集合页面
 	 * 
@@ -199,9 +155,7 @@ public class LogController extends BaseController {
 		Long count = systemService.getCountForJdbc("SELECT COUNT(1) FROM T_S_Log WHERE 1=1");
 		List lt = new ArrayList();
 		hc = new Highchart();
-
-		hc.setName(MutiLangUtil.getMutiLangInstance().getLang(USER_BROWSER_ANALYSIS));
-
+		hc.setName("用户浏览器统计分析");
 		hc.setType(reportType);
 		Map<String, Object> map;
 		if (userBroswerList.size() > 0) {

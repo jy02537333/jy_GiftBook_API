@@ -16,7 +16,7 @@
 			</tr>
 			<tr>
 				<td align="right"><span class="filedzt">签名文件:</span></td>
-				<td class="value"><t:upload name="jfcl" buttonText="选择签名" queueID="test" multi="false" uploader="userController.do?savesign" extend="pic" id="file_upload" formData="formobj"></t:upload></td>
+				<td class="value"><t:upload name="jfcl" buttonText="选择签名" queueID="test" multi="false" uploader="userController.do?savesign" extend="pic" id="file_upload" formData="id"></t:upload></td>
 			</tr>
 		</tbody>
 	</table>

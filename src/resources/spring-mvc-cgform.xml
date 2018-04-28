@@ -9,20 +9,20 @@
          http://www.springframework.org/schema/mvc
 		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 	<!-- FreeMarker -->
-	<bean id="freemarker" class="freemarker.template.Configuration">
-		<property name="templateLoader" ref="templetLoader" />
-		<property name="defaultEncoding" value="UTF-8"></property>
-		<property name="numberFormat" value="0"></property>
-	</bean>
+	<!--<bean id="freemarker" class="freemarker.template.Configuration">-->
+		<!--<property name="templateLoader" ref="templetLoader" />-->
+		<!--<property name="defaultEncoding" value="UTF-8"></property>-->
+		<!--<property name="numberFormat" value="0"></property>-->
+	<!--</bean>-->
 
 	<!-- Template Context -->
-	<bean id="templetContext" class="org.jeecgframework.web.cgform.engine.TempletContext">
-		<property name="tags">
-			<map>
-				<entry key="DictData" value-ref="dictDataTag" />
-			</map>
-		</property>
-	</bean>
+	<!--<bean id="templetContext" class="org.jeecgframework.web.cgform.engine.TempletContext">-->
+		<!--<property name="tags">-->
+			<!--<map>-->
+				<!--<entry key="DictData" value-ref="dictDataTag" />-->
+			<!--</map>-->
+		<!--</property>-->
+	<!--</bean>-->
 
 	<!-- 拦截器 -->
 	<mvc:interceptors>

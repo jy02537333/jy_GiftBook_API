@@ -72,29 +72,14 @@ var createGridHeaderContextMenu = function(e, field) {
 	if (!headerContextMenu) {
 		var tmenu = $('<div style="width:100px;"></div>').appendTo('body');
 		var fields = grid.datagrid('getColumnFields');
-		console.log('id='+grid.attr('id'));
-		 storage=$.localStorage;if(!storage)storage=$.cookieStorage;
-		var cols = storage.get(grid.attr('id')+'hiddenColumns');
-		var init=true;
-		if(cols){
-			init=false;
-		}
 		for ( var i = 0; i < fields.length; i++) {
 			var fildOption = grid.datagrid('getColumnOption', fields[i]);
-			console.log(fields[i]+'='+fildOption.hidden);
-			if (!fildOption.hidden||fildOption.hidden==false) {
+			if (!fildOption.hidden) {
 				$('<div iconCls="icon-ok" field="' + fields[i] + '"/>').html(fildOption.title).appendTo(tmenu);
 			} else {
-				if(init==false){
-					for(var j=0;j<cols.length;j++){
-						if(cols[j].field==fields[i]&&cols[j].visible!=false){
-							//console.log(cols[j].field+'=='+cols[j].visible);
-							$('<div iconCls="icon-empty" field="' + fields[i] + '"/>').html(fildOption.title).appendTo(tmenu);
-						}
-					}
-				}
+				$('<div iconCls="icon-empty" field="' + fields[i] + '"/>').html(fildOption.title).appendTo(tmenu);
 			}
-		}saveHeader();//龙金波，修改bug 先存一个表头的hidden初始状态，避免隐藏字段第一次保存时就不对了
+		}
 		headerContextMenu = this.headerContextMenu = tmenu.menu({
 			onClick : function(item) {
 				var field = $(item.target).attr('field');
@@ -103,16 +88,13 @@ var createGridHeaderContextMenu = function(e, field) {
 					$(this).menu('setIcon', {
 						target : item.target,
 						iconCls : 'icon-empty'
-					});saveHeader(field,true);//龙金波添加保存表头
-				} else if (item.iconCls == 'icon-empty') {
+					});
+				} else {
 					grid.datagrid('showColumn', field);
 					$(this).menu('setIcon', {
 						target : item.target,
 						iconCls : 'icon-ok'
-					});saveHeader(field,false);//龙金波添加保存表头
-				}else{
-					//恢复表头
-					
+					});
 				}
 			}
 		});
@@ -122,7 +104,6 @@ var createGridHeaderContextMenu = function(e, field) {
 		top : e.pageY
 	});
 };
-
 $.fn.datagrid.defaults.onHeaderContextMenu = createGridHeaderContextMenu;
 $.fn.treegrid.defaults.onHeaderContextMenu = createGridHeaderContextMenu;
 
@@ -254,14 +235,9 @@ var easyuiPanelOnMove = function(left, top) {
 		top : t
 	});
 };
-try {
-	$.fn.dialog.defaults.onMove = easyuiPanelOnMove;
-	$.fn.window.defaults.onMove = easyuiPanelOnMove;
-	$.fn.panel.defaults.onMove = easyuiPanelOnMove;
-} catch (e) {
-	// TODO: handle exception
-}
-
+$.fn.dialog.defaults.onMove = easyuiPanelOnMove;
+$.fn.window.defaults.onMove = easyuiPanelOnMove;
+$.fn.panel.defaults.onMove = easyuiPanelOnMove;
 
 /**
  * @author 孙宇
@@ -363,16 +339,3 @@ $.ajaxSetup({
 		$.messager.alert('错误', XMLHttpRequest.responseText);
 	}
 });
-
-function clearLocalstorage(){
-	storage=$.localStorage; 
-	if(!storage)
-		storage=$.cookieStorage;
-	storage.removeAll();
-	$.messager.alert('信息', "浏览器缓存清除成功!");
-}
-//如果在最外层页面，创建tools对象
-if (window.top == window) {
-	var tools = {msg : "这是一个工具对象，可以把常用属性放到这个对象上。如：在任意页面用top.currDatagri可以获取当前的datagrid"};
-}
-//update-end--Author:钟世云  Date:20150610 for：online支持树配置----------------------

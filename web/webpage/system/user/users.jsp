@@ -7,20 +7,9 @@
 <t:base type="jquery,easyui,tools"></t:base>
 </head>
 <body style="overflow-y: hidden" scroll="no">
-<t:datagrid  pagination="false"  name="roleList" title="common.role.select"  actionUrl="userController.do?datagridRole" idField="id" checkbox="true" showRefresh="false"  fit="true"  queryMode="group" onLoadSuccess="initCheck">
-	<t:dgCol title="common.id" field="id" hidden="true"></t:dgCol>
-	<t:dgCol title="common.role.name" field="roleName" width="50" query="true" ></t:dgCol>
+<t:datagrid name="roleList" title="按角色选择" actionUrl="userController.do?datagridRole" idField="id" checkbox="true" showRefresh="false">
+	<t:dgCol title="编号" field="id" hidden="false"></t:dgCol>
+	<t:dgCol title="角色名称" field="roleName" width="50"></t:dgCol>
 </t:datagrid>
 </body>
 </html>
-<script type="text/javascript">
-function initCheck(data){
-	var ids = "${ids}";
-	var idArr = ids.split(",");
-	for(var i=0;i<idArr.length;i++){
-		if(idArr[i]!=""){
-			$("#roleList").datagrid("selectRecord",idArr[i]);
-		}
-	}
-}
-</script>

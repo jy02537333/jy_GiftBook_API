@@ -1,4 +1,4 @@
-package org.jeecgframework.web.cgform.service.config;
+package com.jeecg.service.config;
 import java.io.Serializable;
 
 import org.jeecgframework.core.common.service.CommonService;

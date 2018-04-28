@@ -1,4 +1,4 @@
-package org.jeecgframework.web.cgform.service.config;
+package com.jeecg.service.config;
 
 import org.jeecgframework.web.cgform.exception.DBException;
 import org.jeecgframework.web.cgform.service.impl.config.util.ColumnMeta;

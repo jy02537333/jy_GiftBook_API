@@ -8,7 +8,12 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.sql.Date;
-import java.util.*;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,6 +28,15 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  *
  */
 public class oConvertUtils {
+	/**
+	 * 判断字符串是否为空
+	 */
+	static Map<String, Object> map = new HashMap<String, Object>();
+
+	public static Map<String, Object> getMap() {
+		return map;
+	}
+
 	public static boolean isEmpty(Object object) {
 		if (object == null) {
 			return (true);
@@ -346,6 +360,7 @@ public class oConvertUtils {
 	/**
 	 * SET转换MAP
 	 * 
+	 * @param str
 	 * @return
 	 */
 	public static Map<Object, Object> SetToMap(Set<Object> setobj) {
@@ -388,14 +403,15 @@ public class oConvertUtils {
 	private static boolean isInner(long userIp, long begin, long end) {
 		return (userIp >= begin) && (userIp <= end);
 	}
-	/**
-	 * 方法描述:  null或空的判断
-	 * 作    者： Administrator
-	 * 日    期： 2015年1月18日-下午7:30:16
-	 * @param obj
-	 * @return
-	 * 返回类型： boolean
-	 */
+	
+	 /**
+     * 方法描述:  null或空的判断
+     * 作    者： Administrator
+     * 日    期： 2015年1月18日-下午7:30:16
+     * @param obj
+     * @return 
+     * 返回类型： boolean
+     */
 	public static boolean isNullOrEmpty(Object obj) {
 		if (obj == null)
 			return true;
@@ -420,5 +436,5 @@ public class oConvertUtils {
 			return empty;
 		}
 		return false;
-	}
+	}  
 }

@@ -11,73 +11,73 @@ package org.jeecgframework.web.cgform.pojo.config;
 @SuppressWarnings("serial")
 public class CgFormFieldPojo implements java.io.Serializable {
 	/**id*/
-	private java.lang.String id;
+	private String id;
 	/**字段名称*/
-	private java.lang.String fieldName;
+	private String fieldName;
 	/**关联的表*/
 	private String tableId;
 	/**字段长度*/
-	private java.lang.Integer length;
+	private Integer length;
 	/**小数点长度*/
-	private java.lang.Integer pointLength;
+	private Integer pointLength;
 	/**字段类型*/
-	private java.lang.String type;
+	private String type;
 	/**是否允许空值*/
-	private java.lang.String isNull;
+	private String isNull;
 	/**在表中的顺序*/
-	private java.lang.Integer orderNum;
+	private Integer orderNum;
 	/**是否主键*/
-	private java.lang.String isKey;
+	private String isKey;
 	/**是否显示*/
-	private java.lang.String isShow;
+	private String isShow;
 	/**是否在列表上显示*/
-	private java.lang.String isShowList;
+	private String isShowList;
 	/**显示类型*/
-	private java.lang.String showType;
+	private String showType;
 	/**是否生产查询字段*/
-	private java.lang.String isQuery;
+	private String isQuery;
 	/**控件长度*/
-	private java.lang.Integer fieldLength;
+	private Integer fieldLength;
 	/**字段Href*/
-	private java.lang.String fieldHref;
+	private String fieldHref;
 	/**控件校验*/
-	private java.lang.String fieldValidType;
+	private String fieldValidType;
 	/**查询类型single(默认：单字段查询),group(范围查询)*/
-	private java.lang.String queryMode;
+	private String queryMode;
 	/**功能注释*/
-	private java.lang.String content;
+	private String content;
 	/**创建时间*/
 	private java.util.Date createDate;
 	/**创建人ID*/
-	private java.lang.String createBy;
+	private String createBy;
 	/**创建人名称*/
-	private java.lang.String createName;
+	private String createName;
 	/**修改时间*/
 	private java.util.Date updateDate;
 	/**修改人ID*/
-	private java.lang.String updateBy;
+	private String updateBy;
 	/**修改人名称*/
-	private java.lang.String updateName;
+	private String updateName;
 	/**字典Code*/
-	private java.lang.String dictField;
+	private String dictField;
 	/**字典Table*/
-	private java.lang.String dictTable;
+	private String dictTable;
 	/**字典Text*/
-	private java.lang.String dictText;
+	private String dictText;
 	/**主表名*/
-	private java.lang.String mainTable;
+	private String mainTable;
 	/**主表字段*/
-	private java.lang.String mainField;
+	private String mainField;
 	/**旧的字段名称*/
-	private java.lang.String oldFieldName;
+	private String oldFieldName;
 	/**字段默认值*/
-	private java.lang.String fieldDefault;
+	private String fieldDefault;
 	
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  id
 	 */
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -85,14 +85,14 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  字段名称
 	 */
-	public java.lang.String getFieldName(){
+	public String getFieldName(){
 		return this.fieldName;
 	}
 
@@ -100,7 +100,7 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  字段名称
 	 */
-	 public void setFieldName(java.lang.String fieldName){
+	 public void setFieldName(String fieldName){
 		this.fieldName = fieldName;
 	}
 	/**
@@ -122,7 +122,7 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 取得java.lang.Integer
 	 *@return: java.lang.Integer  字段长度
 	 */
-	public java.lang.Integer getLength(){
+	public Integer getLength(){
 		return this.length;
 	}
 
@@ -130,14 +130,14 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  字段长度
 	 */
-	public void setLength(java.lang.Integer length){
+	public void setLength(Integer length){
 		this.length = length;
 	}
 	/**
 	 *方法: 取得java.lang.Integer
 	 *@return: java.lang.Integer  小数点长度
 	 */
-	public java.lang.Integer getPointLength(){
+	public Integer getPointLength(){
 		return this.pointLength;
 	}
 
@@ -145,14 +145,14 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  小数点长度
 	 */
-	public void setPointLength(java.lang.Integer pointLength){
+	public void setPointLength(Integer pointLength){
 		this.pointLength = pointLength;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  字段类型
 	 */
-	public java.lang.String getType(){
+	public String getType(){
 		return this.type;
 	}
 
@@ -160,14 +160,14 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  字段类型
 	 */
-	public void setType(java.lang.String type){
+	public void setType(String type){
 		this.type = type;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  是否允许空值
 	 */
-	public java.lang.String getIsNull(){
+	public String getIsNull(){
 		return this.isNull;
 	}
 
@@ -175,14 +175,14 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  是否允许空值
 	 */
-	public void setIsNull(java.lang.String isNull){
+	public void setIsNull(String isNull){
 		this.isNull = isNull;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  是否显示
 	 */
-	public java.lang.String getIsShow(){
+	public String getIsShow(){
 		return this.isShow;
 	}
 
@@ -190,14 +190,14 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  是否显示
 	 */
-	public void setIsShow(java.lang.String isShow){
+	public void setIsShow(String isShow){
 		this.isShow = isShow;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  显示类型
 	 */
-	public java.lang.String getShowType(){
+	public String getShowType(){
 		return this.showType;
 	}
 
@@ -205,14 +205,14 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  显示类型
 	 */
-	public void setShowType(java.lang.String showType){
+	public void setShowType(String showType){
 		this.showType = showType;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  是否生产查询字段
 	 */
-	public java.lang.String getIsQuery(){
+	public String getIsQuery(){
 		return this.isQuery;
 	}
 
@@ -220,14 +220,14 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  是否生产查询字段
 	 */
-	public void setIsQuery(java.lang.String isQuery){
+	public void setIsQuery(String isQuery){
 		this.isQuery = isQuery;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  查询类型single(默认：单字段查询),group(范围查询)
 	 */
-	public java.lang.String getQueryMode(){
+	public String getQueryMode(){
 		return this.queryMode;
 	}
 
@@ -235,14 +235,14 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  查询类型single(默认：单字段查询),group(范围查询)
 	 */
-	public void setQueryMode(java.lang.String queryMode){
+	public void setQueryMode(String queryMode){
 		this.queryMode = queryMode;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  功能注释
 	 */
-	public java.lang.String getContent(){
+	public String getContent(){
 		return this.content;
 	}
 
@@ -250,7 +250,7 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  功能注释
 	 */
-	public void setContent(java.lang.String content){
+	public void setContent(String content){
 		this.content = content;
 	}
 	/**
@@ -272,7 +272,7 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  创建人ID
 	 */
-	public java.lang.String getCreateBy(){
+	public String getCreateBy(){
 		return this.createBy;
 	}
 
@@ -280,14 +280,14 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人ID
 	 */
-	public void setCreateBy(java.lang.String createBy){
+	public void setCreateBy(String createBy){
 		this.createBy = createBy;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  创建人名称
 	 */
-	public java.lang.String getCreateName(){
+	public String getCreateName(){
 		return this.createName;
 	}
 
@@ -295,7 +295,7 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人名称
 	 */
-	public void setCreateName(java.lang.String createName){
+	public void setCreateName(String createName){
 		this.createName = createName;
 	}
 	/**
@@ -317,7 +317,7 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  修改人ID
 	 */
-	public java.lang.String getUpdateBy(){
+	public String getUpdateBy(){
 		return this.updateBy;
 	}
 
@@ -325,14 +325,14 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  修改人ID
 	 */
-	public void setUpdateBy(java.lang.String updateBy){
+	public void setUpdateBy(String updateBy){
 		this.updateBy = updateBy;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  修改人名称
 	 */
-	public java.lang.String getUpdateName(){
+	public String getUpdateName(){
 		return this.updateName;
 	}
 
@@ -340,106 +340,106 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  修改人名称
 	 */
-	public void setUpdateName(java.lang.String updateName){
+	public void setUpdateName(String updateName){
 		this.updateName = updateName;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  在表中的顺序
 	 */
-	public java.lang.Integer getOrderNum() {
+	public Integer getOrderNum() {
 		return orderNum;
 	}
 
-	public void setOrderNum(java.lang.Integer orderNum) {
+	public void setOrderNum(Integer orderNum) {
 		this.orderNum = orderNum;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  是否为主键
 	 */
-	public java.lang.String getIsKey() {
+	public String getIsKey() {
 		return isKey;
 	}
 
-	public void setIsKey(java.lang.String isKey) {
+	public void setIsKey(String isKey) {
 		this.isKey = isKey;
 	}
 	/**
 	 *方法: 取得java.lang.Integer
 	 *@return: java.lang.Integer  控件长度
 	 */
-	public java.lang.Integer getFieldLength() {
+	public Integer getFieldLength() {
 		return fieldLength;
 	}
 
-	public void setFieldLength(java.lang.Integer field_length) {
+	public void setFieldLength(Integer field_length) {
 		this.fieldLength = field_length;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  字段Href
 	 */
-	public java.lang.String getFieldHref() {
+	public String getFieldHref() {
 		return fieldHref;
 	}
 
-	public void setFieldHref(java.lang.String field_href) {
+	public void setFieldHref(String field_href) {
 		this.fieldHref = field_href;
 	}
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  控件校验
 	 */
-	public java.lang.String getFieldValidType() {
+	public String getFieldValidType() {
 		return fieldValidType;
 	}
 
-	public void setFieldValidType(java.lang.String field_valid_type) {
+	public void setFieldValidType(String field_valid_type) {
 		this.fieldValidType = field_valid_type;
 	}
 	/**
 	 * 方法: 取得 java.lang.String
 	 * @return  字典Code
 	 * */
-	public java.lang.String getDictField() {
+	public String getDictField() {
 		return dictField;
 	}
 
-	public void setDictField(java.lang.String dictField) {
+	public void setDictField(String dictField) {
 		this.dictField = dictField;
 	}
 	/**
 	 * 方法: 取得 java.lang.String
 	 * @return  字典Table
 	 * */
-	public java.lang.String getDictTable() {
+	public String getDictTable() {
 		return dictTable;
 	}
 
-	public void setDictTable(java.lang.String dictTable) {
+	public void setDictTable(String dictTable) {
 		this.dictTable = dictTable;
 	}
 	/**
 	 * 方法: 取得 java.lang.String
 	 * @return  主表名称
 	 * */
-	public java.lang.String getMainTable() {
+	public String getMainTable() {
 		return mainTable;
 	}
 
-	public void setMainTable(java.lang.String mainTable) {
+	public void setMainTable(String mainTable) {
 		this.mainTable = mainTable;
 	}
 	/**
 	 * 方法: 取得 java.lang.String
 	 * @return  主表名称
 	 * */
-	public java.lang.String getMainField() {
+	public String getMainField() {
 		return mainField;
 	}
 
-	public void setMainField(java.lang.String mainField) {
+	public void setMainField(String mainField) {
 		this.mainField = mainField;
 	}
 
@@ -447,44 +447,44 @@ public class CgFormFieldPojo implements java.io.Serializable {
 	 * 方法: 取得 java.lang.String
 	 * @return  主表名称
 	 * */
-	public java.lang.String getOldFieldName() {
+	public String getOldFieldName() {
 		return oldFieldName;
 	}
 
-	public void setOldFieldName(java.lang.String oldFieldName) {
+	public void setOldFieldName(String oldFieldName) {
 		this.oldFieldName = oldFieldName;
 	}
 	/**
 	 * 方法: 取得 java.lang.String
 	 * @return  是否在列表上显示
 	 * */
-	public java.lang.String getIsShowList() {
+	public String getIsShowList() {
 		return isShowList;
 	}
 
-	public void setIsShowList(java.lang.String isShowList) {
+	public void setIsShowList(String isShowList) {
 		this.isShowList = isShowList;
 	}
 	/**
 	 * 方法: 取得 java.lang.String
 	 * @return  字典文本
 	 * */
-	public java.lang.String getDictText() {
+	public String getDictText() {
 		return dictText;
 	}
 
-	public void setDictText(java.lang.String dictText) {
+	public void setDictText(String dictText) {
 		this.dictText = dictText;
 	}
 
-	public java.lang.String getFieldDefault() {
+	public String getFieldDefault() {
 		if (fieldDefault != null) {
 			fieldDefault = fieldDefault.trim();
 		}
 		return fieldDefault;
 	}
 
-	public void setFieldDefault(java.lang.String fieldDefault) {
+	public void setFieldDefault(String fieldDefault) {
 		this.fieldDefault = fieldDefault;
 	}
 	

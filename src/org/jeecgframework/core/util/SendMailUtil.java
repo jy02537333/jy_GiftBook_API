@@ -109,13 +109,13 @@ public class SendMailUtil
 		  template = freeMarkerConfig.getTemplate(getFileName(templatePath),new Locale("Zh_cn"), "UTF-8");
 			// 模板内容转换为string
 		  String htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
-		  org.jeecgframework.core.util.LogUtil.info(htmlText);
+		  LogUtil.info(htmlText);
 	      hemail.setMsg(htmlText);
 	      hemail.send();
-	      org.jeecgframework.core.util.LogUtil.info("email send true!");
+	      LogUtil.info("email send true!");
 	    } catch (Exception e) {
 	      e.printStackTrace();
-	      org.jeecgframework.core.util.LogUtil.info("email send error!");
+	      LogUtil.info("email send error!");
 	    }
    }
 
@@ -137,10 +137,10 @@ public class SendMailUtil
 			hemail.setSubject(subject);
 			hemail.setMsg(message);
 			hemail.send();
-			org.jeecgframework.core.util.LogUtil.info("email send true!");
+			LogUtil.info("email send true!");
 		} catch (Exception e) {
 		      e.printStackTrace();
-		      org.jeecgframework.core.util.LogUtil.info("email send error!");
+		      LogUtil.info("email send error!");
 		    }
 		
 	}
@@ -156,7 +156,7 @@ public class SendMailUtil
 			  template = freeMarkerConfig.getTemplate(getFileName(templatePath),new Locale("Zh_cn"), "UTF-8");
 				// 模板内容转换为string
 			  htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, map);
-			  org.jeecgframework.core.util.LogUtil.info(htmlText);
+			  LogUtil.info(htmlText);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -169,13 +169,13 @@ public class SendMailUtil
   		String path = getAppPath(SendMailUtil.class);
   		path = path + File.separator +"mailtemplate"+File.separator;
 		path = path.replace("\\", "/");
-		org.jeecgframework.core.util.LogUtil.info(path);
+		LogUtil.info(path);
 		return path;
 	}
 
 	private static String getFileName(String path) {
 		path = path.replace("\\", "/");
-		org.jeecgframework.core.util.LogUtil.info(path);
+		LogUtil.info(path);
 		return path.substring(path.lastIndexOf("/") + 1);
 	}
   
@@ -183,7 +183,7 @@ public class SendMailUtil
 	public static String getAppPath(Class cls) {
 		// 检查用户传入的参数是否为空
 		if (cls == null)
-			throw new java.lang.IllegalArgumentException("参数不能为空！");
+			throw new IllegalArgumentException("参数不能为空！");
 		ClassLoader loader = cls.getClassLoader();
 		// 获得类的全名，包括包名
 		String clsName = cls.getName() + ".class";
@@ -195,7 +195,7 @@ public class SendMailUtil
 			String packName = pack.getName();
 			// 此处简单判定是否是Java基础类库，防止用户传入JDK内置的类库
 			if (packName.startsWith("java.") || packName.startsWith("javax."))
-				throw new java.lang.IllegalArgumentException("不要传送系统类！");
+				throw new IllegalArgumentException("不要传送系统类！");
 			// 在类的名称中，去掉包名的部分，获得类的文件名
 			clsName = clsName.substring(packName.length() + 1);
 			// 判定包名是否是简单包名，如果是，则直接将包名转换为路径，
@@ -237,7 +237,7 @@ public class SendMailUtil
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		org.jeecgframework.core.util.LogUtil.info("realPath----->"+realPath);
+		LogUtil.info("realPath----->"+realPath);
 		return realPath;
 	}
 //	private static File getFile(String path){

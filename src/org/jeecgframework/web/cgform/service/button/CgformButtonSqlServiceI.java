@@ -22,5 +22,5 @@ public interface CgformButtonSqlServiceI extends CommonService{
 	 * @param formId
 	 * @return
 	 */
-	public CgformButtonSqlEntity getCgformButtonSqlByCodeFormId(String buttonCode,String formId);
+	public CgformButtonSqlEntity getCgformButtonSqlByCodeFormId(String buttonCode, String formId);
 }

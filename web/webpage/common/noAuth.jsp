@@ -13,7 +13,6 @@
    $.dialog.alert("提醒：用户权限不足，请联系管理员!");
    $('#maintabs').tabs('close', _sun_selectedTab_title); 
  </SCRIPT>
- 用户权限不足，请联系管理员
 </body>
 </html>
 

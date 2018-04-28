@@ -21,15 +21,15 @@ import org.hibernate.annotations.GenericGenerator;
 @SuppressWarnings("serial")
 public class CgreportConfigItemEntity implements java.io.Serializable {
 	/**主键*/
-	private java.lang.String id;
+	private String id;
 	/**字段名*/
-	private java.lang.String fieldName;
+	private String fieldName;
 	/**字段序号*/
-	private java.lang.Integer orderNum;
+	private Integer orderNum;
 	/**字段文本*/
-	private java.lang.String fieldTxt;
+	private String fieldTxt;
 	/**字段类型*/
-	private java.lang.String fieldType;
+	private String fieldType;
 	//update_begin by:Robin for:TASK #344 动态报表需要增加，字段是否显示，字段herf
 	/**字段href*/
 	private String fieldHref;
@@ -37,15 +37,15 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	private String isShow;
 	//update_begin by:Robin for:TASK #344 动态报表需要增加，字段是否显示，字段herf
 	/**查询模式*/
-	private java.lang.String sMode;
+	private String sMode;
 	/**取值表达式*/
-	private java.lang.String replaceVa;
+	private String replaceVa;
 	/**字典Code*/
-	private java.lang.String dictCode;
+	private String dictCode;
 	/**是否查询*/
-	private java.lang.String sFlag;
+	private String sFlag;
 	/**外键*/
-	private java.lang.String cgrheadId;
+	private String cgrheadId;
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -56,7 +56,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=36)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -64,7 +64,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  主键
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -72,7 +72,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *@return: java.lang.String  字段名
 	 */
 	@Column(name ="FIELD_NAME",nullable=true,length=36)
-	public java.lang.String getFieldName(){
+	public String getFieldName(){
 		return this.fieldName;
 	}
 
@@ -80,7 +80,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  字段名
 	 */
-	public void setFieldName(java.lang.String fieldName){
+	public void setFieldName(String fieldName){
 		this.fieldName = fieldName;
 	}
 	/**
@@ -88,7 +88,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  字段序号
 	 */
 	@Column(name ="ORDER_NUM",nullable=true,length=10)
-	public java.lang.Integer getOrderNum(){
+	public Integer getOrderNum(){
 		return this.orderNum;
 	}
 
@@ -96,7 +96,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  字段序号
 	 */
-	public void setOrderNum(java.lang.Integer orderNum){
+	public void setOrderNum(Integer orderNum){
 		this.orderNum = orderNum;
 	}
 	/**
@@ -104,7 +104,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *@return: java.lang.String  字段文本
 	 */
 	@Column(name ="FIELD_TXT",nullable=true,length=1000)
-	public java.lang.String getFieldTxt(){
+	public String getFieldTxt(){
 		return this.fieldTxt;
 	}
 
@@ -112,7 +112,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  字段文本
 	 */
-	public void setFieldTxt(java.lang.String fieldTxt){
+	public void setFieldTxt(String fieldTxt){
 		this.fieldTxt = fieldTxt;
 	}
 	
@@ -154,7 +154,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *@return: java.lang.String  字段类型
 	 */
 	@Column(name ="FIELD_TYPE",nullable=true,length=10)
-	public java.lang.String getFieldType(){
+	public String getFieldType(){
 		return this.fieldType;
 	}
 
@@ -162,7 +162,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  字段类型
 	 */
-	public void setFieldType(java.lang.String fieldType){
+	public void setFieldType(String fieldType){
 		this.fieldType = fieldType;
 	}
 	/**
@@ -170,7 +170,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *@return: java.lang.String  查询模式
 	 */
 	@Column(name ="S_MODE",nullable=true,length=10)
-	public java.lang.String getSMode(){
+	public String getSMode(){
 		return this.sMode;
 	}
 
@@ -178,7 +178,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  查询模式
 	 */
-	public void setSMode(java.lang.String sMode){
+	public void setSMode(String sMode){
 		this.sMode = sMode;
 	}
 	/**
@@ -186,7 +186,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *@return: java.lang.String  取值表达式
 	 */
 	@Column(name ="REPLACE_VA",nullable=true,length=36)
-	public java.lang.String getReplaceVa(){
+	public String getReplaceVa(){
 		return this.replaceVa;
 	}
 
@@ -194,7 +194,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  取值表达式
 	 */
-	public void setReplaceVa(java.lang.String replaceVa){
+	public void setReplaceVa(String replaceVa){
 		this.replaceVa = replaceVa;
 	}
 	/**
@@ -202,7 +202,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *@return: java.lang.String  字典Code
 	 */
 	@Column(name ="DICT_CODE",nullable=true,length=36)
-	public java.lang.String getDictCode(){
+	public String getDictCode(){
 		return this.dictCode;
 	}
 
@@ -210,7 +210,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  字典Code
 	 */
-	public void setDictCode(java.lang.String dictCode){
+	public void setDictCode(String dictCode){
 		this.dictCode = dictCode;
 	}
 	/**
@@ -218,7 +218,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *@return: java.lang.String  是否查询
 	 */
 	@Column(name ="S_FLAG",nullable=true,length=2)
-	public java.lang.String getSFlag(){
+	public String getSFlag(){
 		return this.sFlag;
 	}
 
@@ -226,7 +226,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  是否查询
 	 */
-	public void setSFlag(java.lang.String sFlag){
+	public void setSFlag(String sFlag){
 		this.sFlag = sFlag;
 	}
 	/**
@@ -234,7 +234,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *@return: java.lang.String  外键
 	 */
 	@Column(name ="CGRHEAD_ID",nullable=true,length=36)
-	public java.lang.String getCgrheadId(){
+	public String getCgrheadId(){
 		return this.cgrheadId;
 	}
 
@@ -242,7 +242,7 @@ public class CgreportConfigItemEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  外键
 	 */
-	public void setCgrheadId(java.lang.String cgrheadId){
+	public void setCgrheadId(String cgrheadId){
 		this.cgrheadId = cgrheadId;
 	}
 }

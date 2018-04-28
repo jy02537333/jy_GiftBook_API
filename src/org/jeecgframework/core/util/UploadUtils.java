@@ -116,11 +116,11 @@ public class UploadUtils {
 		File uploadDir = new File(savePath);
 		if (contentType == null || !contentType.startsWith("multipart")) {
 			// TODO
-			org.jeecgframework.core.util.LogUtil.info("请求不包含multipart/form-data流");
+			LogUtil.info("请求不包含multipart/form-data流");
 			errorInfo = "请求不包含multipart/form-data流";
 		} else if (maxSize < contentLength) {
 			// TODO
-			org.jeecgframework.core.util.LogUtil.info("上传文件大小超出文件最大大小");
+			LogUtil.info("上传文件大小超出文件最大大小");
 			errorInfo = "上传文件大小超出文件最大大小[" + maxSize + "]";
 		} else if (!ServletFileUpload.isMultipartContent(request)) {
 			// TODO
@@ -270,7 +270,7 @@ public class UploadUtils {
 				 */
 			} catch (IOException e) {
 				e.printStackTrace();
-				org.jeecgframework.core.util.LogUtil.info("上传失败了！！！");
+				LogUtil.info("上传失败了！！！");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

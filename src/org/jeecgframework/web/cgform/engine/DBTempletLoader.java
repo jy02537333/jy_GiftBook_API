@@ -1,28 +1,28 @@
 package org.jeecgframework.web.cgform.engine;
 
-import freemarker.cache.TemplateLoader;
-import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.core.util.LogUtil;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.common.FormHtmlUtil;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
-import org.jeecgframework.web.cgform.entity.template.CgformTemplateEntity;
-import org.jeecgframework.web.cgform.service.cgformftl.CgformFtlServiceI;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
-import org.jeecgframework.web.cgform.service.template.CgformTemplateServiceI;
-import org.jeecgframework.web.cgform.util.TemplateUtil;
+import com.jeecg.service.cgform.CgformFtlServiceI;
+import com.jeecg.service.config.CgFormFieldServiceI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import freemarker.cache.TemplateLoader;
 
 /**
  * @ClassName: DBTempletLoader
@@ -42,15 +42,14 @@ public class DBTempletLoader implements TemplateLoader {
 	
 	@Autowired
 	private CgFormFieldServiceI cgFormFieldService;
-	@Autowired
-	private CgformTemplateServiceI cgformTemplateService;
+	
 	
     public Object findTemplateSource(String name) throws IOException {
     	//update by Robin  postgreSQL 修正大小写的问题 2013-03-13
 		name = name.replace("_zh_cn", "").replace("_ZH_CN", "").replace("_zh_CN", "");
 		name = name.replace("_en_us", "").replace("_EN_US", "").replace("_en_US", "");
 		//update by Robin postgreSQL 修正大小写的问题 2013-03-13
-    	LogUtil.debug("table name----------->"+name);
+    	org.jeecgframework.core.util.LogUtil.info("table name----------->"+name);
         Object obj = getObject(name);
         return obj;
     }
@@ -73,63 +72,31 @@ public class DBTempletLoader implements TemplateLoader {
     }
     
     private Object getObject(String name) throws IOException {
-
-        String ftlVersion = "";
-        String ftlVersionParam = "&ftlVersion=";
-        if(name.contains(ftlVersionParam)) {
-            ftlVersion = name.substring(name.indexOf(ftlVersionParam) + ftlVersionParam.length());
-            name = name.substring(0, name.indexOf(ftlVersionParam));
-        }
-
-		TemplateUtil.TemplateType templateType= null;
-		if(name.lastIndexOf(".ftl")==-1&&name.lastIndexOf("_")!=-1){
-			templateType=TemplateUtil.TemplateType.getVal(name.substring(name.lastIndexOf("_")+1));
-			name=name.substring(0,name.lastIndexOf("_"));
-		}
-		if(templateType==null){
-			templateType= TemplateUtil.TemplateType.UPDATE;
-		}
-
-		
     	PathMatchingResourcePatternResolver patternResolver = new PathMatchingResourcePatternResolver();
     	if(name.lastIndexOf(".ftl")==-1){//判断是否为include的模板
 	    	//如果是主表直接走一对多模板
 	    	CgFormHeadEntity head = cgFormFieldService.getCgFormHeadByTableName(name);
 	    	if(head==null)return null;
-
-			CgformTemplateEntity entity=cgformTemplateService.findByCode(head.getFormTemplate());
-
 			if(head.getJformType()==CgAutoListConstant.JFORM_TYPE_MAIN_TALBE){
-
-				Resource[] resources = patternResolver.getResources(TemplateUtil.getTempletPath(entity, head.getJformType(), templateType));
-
+				Resource[] resources = patternResolver.getResources(TEMPLET_ONE_MANY);
 	    		InputStreamReader inputStreamReader =null;
-	    		if (resources != null && resources.length > 0) {
+	    		if (resources != null && resources.length > 0) {  
 	    			 inputStreamReader = new InputStreamReader(resources[0].getInputStream(),"UTF-8");
 	    		}
 	    		return inputStreamReader;
 			}
 	    	//1、根据table name 查询cgformftl 有则获取模板内容
 	    	//2、没有cgformftl 则查询cgformfield 根据cgformfield生成模板
-
-	    	Map<String,Object> cgformFtlEntity = new HashMap<String, Object>();
-            if (ftlVersion != null && ftlVersion.length() > 0) {
-                cgformFtlEntity = cgformFtlService.getCgformFtlByTableName(name, ftlVersion);
-            } else {
-                cgformFtlEntity = cgformFtlService.getCgformFtlByTableName(name);
-            }
-
-            if(cgformFtlEntity!=null){
+	    	Map<String,Object> cgformFtlEntity = cgformFtlService.getCgformFtlByTableName(name);
+	    	if(cgformFtlEntity!=null){
 	    		String content = (String) (cgformFtlEntity.get("ftl_content")==null?"":cgformFtlEntity.get("ftl_content"));
 	    		content = initFormHtml( content, name);
-//	    		org.jeecgframework.core.util.LogUtil.info(content);
+	    		org.jeecgframework.core.util.LogUtil.info(content);
 	    		return new StringBuilder(content);
 	    	}else{
-
-	    		Resource[] resources = patternResolver.getResources(TemplateUtil.getTempletPath(entity, head.getJformType(),templateType));
-
-				InputStreamReader inputStreamReader =null;
-	    		if (resources != null && resources.length > 0) {
+	    		Resource[] resources = patternResolver.getResources(TEMPLET);
+	    		InputStreamReader inputStreamReader =null;
+	    		if (resources != null && resources.length > 0) {  
 	    			 inputStreamReader = new InputStreamReader(resources[0].getInputStream(),"UTF-8");
 	    		}
 	    		return inputStreamReader;
@@ -137,7 +104,7 @@ public class DBTempletLoader implements TemplateLoader {
     	}else{
     		Resource[] resources = patternResolver.getResources(name);
     		InputStreamReader inputStreamReader =null;
-    		if (resources != null && resources.length > 0) {
+    		if (resources != null && resources.length > 0) {  
     			 inputStreamReader = new InputStreamReader(resources[0].getInputStream(),"UTF-8");
     		}
     		return inputStreamReader;
@@ -229,6 +196,5 @@ public class DBTempletLoader implements TemplateLoader {
     	}
     	return html.toString();
     }
-
 
 }

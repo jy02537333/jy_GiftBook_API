@@ -22,42 +22,32 @@ import org.hibernate.annotations.GenericGenerator;
 @SuppressWarnings("serial")
 public class CgformFtlEntity implements java.io.Serializable {
 	/**主键*/
-	private java.lang.String id;
+	private String id;
 	/**表单ID*/
-	private java.lang.String cgformId;
+	private String cgformId;
 	/**表单名称*/
-	private java.lang.String cgformName;
+	private String cgformName;
 	/**版本号*/
-	private java.lang.Integer ftlVersion;
+	private Integer ftlVersion;
 	/**表单模板内容*/
 	private String ftlContent;
 	/**激活状态*/
-	private java.lang.String ftlStatus;
+	private String ftlStatus;
 	/**word路径*/
-	private java.lang.String ftlWordUrl;
+	private String ftlWordUrl;
 	/**创建人ID*/
-	private java.lang.String createBy;
+	private String createBy;
 	/**创建人名称*/
-	private java.lang.String createName;
+	private String createName;
 	/**创建时间*/
 	private java.util.Date createDate;
 	/**修改人ID*/
-	private java.lang.String updateBy;
+	private String updateBy;
 	/**修改人名称*/
-	private java.lang.String updateName;
+	private String updateName;
 	/**修改时间*/
 	private java.util.Date updateDate;
-	/**模板类型 01 ckeditor 02 自定义 03 */
-	private java.lang.String editorType;
-	@Column(name ="EDITOR_TYPE",nullable=false,length=32)
-	public java.lang.String getEditorType() {
-		return editorType;
-	}
-
-	public void setEditorType(java.lang.String editorType) {
-		this.editorType = editorType;
-	}
-
+	
 	/**
 	 *方法: 取得java.lang.String
 	 *@return: java.lang.String  主键
@@ -67,7 +57,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -75,7 +65,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  主键
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -83,7 +73,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *@return: java.lang.String  表单ID
 	 */
 	@Column(name ="CGFORM_ID",nullable=false,length=36)
-	public java.lang.String getCgformId(){
+	public String getCgformId(){
 		return this.cgformId;
 	}
 
@@ -91,7 +81,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  表单ID
 	 */
-	public void setCgformId(java.lang.String cgformId){
+	public void setCgformId(String cgformId){
 		this.cgformId = cgformId;
 	}
 	/**
@@ -99,7 +89,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *@return: java.lang.String  表单名称
 	 */
 	@Column(name ="CGFORM_NAME",nullable=false,length=100)
-	public java.lang.String getCgformName(){
+	public String getCgformName(){
 		return this.cgformName;
 	}
 
@@ -107,7 +97,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  表单名称
 	 */
-	public void setCgformName(java.lang.String cgformName){
+	public void setCgformName(String cgformName){
 		this.cgformName = cgformName;
 	}
 	/**
@@ -115,7 +105,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *@return: java.lang.String  版本号
 	 */
 	@Column(name ="FTL_VERSION",nullable=false,length=10)
-	public java.lang.Integer getFtlVersion(){
+	public Integer getFtlVersion(){
 		return this.ftlVersion;
 	}
 
@@ -123,7 +113,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  版本号
 	 */
-	public void setFtlVersion(java.lang.Integer ftlVersion){
+	public void setFtlVersion(Integer ftlVersion){
 		this.ftlVersion = ftlVersion;
 	}
 	/**
@@ -148,7 +138,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *@return: java.lang.String  激活状态
 	 */
 	@Column(name ="FTL_STATUS",nullable=true,length=50)
-	public java.lang.String getFtlStatus(){
+	public String getFtlStatus(){
 		return this.ftlStatus;
 	}
 
@@ -156,7 +146,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  激活状态
 	 */
-	public void setFtlStatus(java.lang.String ftlStatus){
+	public void setFtlStatus(String ftlStatus){
 		this.ftlStatus = ftlStatus;
 	}
 	/**
@@ -164,7 +154,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *@return: java.lang.String  word路径
 	 */
 	@Column(name ="FTL_WORD_URL",nullable=true,length=200)
-	public java.lang.String getFtlWordUrl(){
+	public String getFtlWordUrl(){
 		return this.ftlWordUrl;
 	}
 
@@ -172,7 +162,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  word路径
 	 */
-	public void setFtlWordUrl(java.lang.String ftlWordUrl){
+	public void setFtlWordUrl(String ftlWordUrl){
 		this.ftlWordUrl = ftlWordUrl;
 	}
 	/**
@@ -180,7 +170,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *@return: java.lang.String  创建人ID
 	 */
 	@Column(name ="CREATE_BY",nullable=true,length=36)
-	public java.lang.String getCreateBy(){
+	public String getCreateBy(){
 		return this.createBy;
 	}
 
@@ -188,7 +178,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人ID
 	 */
-	public void setCreateBy(java.lang.String createBy){
+	public void setCreateBy(String createBy){
 		this.createBy = createBy;
 	}
 	/**
@@ -196,7 +186,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *@return: java.lang.String  创建人名称
 	 */
 	@Column(name ="CREATE_NAME",nullable=true,length=32)
-	public java.lang.String getCreateName(){
+	public String getCreateName(){
 		return this.createName;
 	}
 
@@ -204,7 +194,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人名称
 	 */
-	public void setCreateName(java.lang.String createName){
+	public void setCreateName(String createName){
 		this.createName = createName;
 	}
 	/**
@@ -228,7 +218,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *@return: java.lang.String  修改人ID
 	 */
 	@Column(name ="UPDATE_BY",nullable=true,length=36)
-	public java.lang.String getUpdateBy(){
+	public String getUpdateBy(){
 		return this.updateBy;
 	}
 
@@ -236,7 +226,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  修改人ID
 	 */
-	public void setUpdateBy(java.lang.String updateBy){
+	public void setUpdateBy(String updateBy){
 		this.updateBy = updateBy;
 	}
 	/**
@@ -244,7 +234,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *@return: java.lang.String  修改人名称
 	 */
 	@Column(name ="UPDATE_NAME",nullable=true,length=32)
-	public java.lang.String getUpdateName(){
+	public String getUpdateName(){
 		return this.updateName;
 	}
 
@@ -252,7 +242,7 @@ public class CgformFtlEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  修改人名称
 	 */
-	public void setUpdateName(java.lang.String updateName){
+	public void setUpdateName(String updateName){
 		this.updateName = updateName;
 	}
 	/**

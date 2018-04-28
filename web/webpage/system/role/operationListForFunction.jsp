@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/context/mytags.jsp"%>
 <c:forEach items="${operationList}" var="operation">
-	<c:if test="${fn:contains(operationcodes, operation.id)}">
+	<c:if test="${fn:contains(operationcodes, operation.operationcode)}">
 		<span class="icon ${operation.TSIcon.iconClas}">&nbsp;</span>
-		<input style="width: 20px;" type="checkbox" name="operationCheckbox" value="${operation.id}" checked="checked" />${operation.operationname}
+		<input style="width: 20px;" type="checkbox" name="operationCheckbox" value="${operation.operationcode}" checked="checked" />${operation.operationname}
 	 </c:if>
-	<c:if test="${!fn:contains(operationcodes, operation.id)}">
+	<c:if test="${!fn:contains(operationcodes, operation.operationcode)}">
 		<span class="icon group_add">&nbsp;</span>
-		<input style="width: 20px;" type="checkbox" name="operationCheckbox" value="${operation.id}" />${operation.operationname}
+		<input style="width: 20px;" type="checkbox" name="operationCheckbox" value="${operation.operationcode}" />${operation.operationname}
 	 </c:if>
 	<br>
 </c:forEach>

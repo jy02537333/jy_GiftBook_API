@@ -1,4 +1,4 @@
-package org.jeecgframework.web.cgform.service.impl.config;
+package com.jeecg.service.impl.config;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -20,8 +20,8 @@ import org.jeecgframework.web.cgform.entity.config.CgSubTableVO;
 import org.jeecgframework.web.cgform.entity.enhance.CgformEnhanceJsEntity;
 import org.jeecgframework.web.cgform.exception.BusinessException;
 import com.jeecg.service.cgform.CgformFtlServiceI;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
-import org.jeecgframework.web.cgform.service.config.DbTableHandleI;
+import com.jeecg.service.config.CgFormFieldServiceI;
+import com.jeecg.service.config.DbTableHandleI;
 import org.jeecgframework.web.cgform.service.enhance.CgformEnhanceJsServiceI;
 import org.jeecgframework.web.cgform.service.impl.config.util.DbTableProcess;
 import org.jeecgframework.web.cgform.service.impl.config.util.DbTableUtil;

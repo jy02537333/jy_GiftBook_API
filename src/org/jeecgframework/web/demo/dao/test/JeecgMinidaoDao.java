@@ -14,7 +14,6 @@ import org.jeecgframework.web.demo.entity.test.JeecgMinidaoEntity;
  * @author fancq
  * 
  */
-//@Repository("jeecgMinidaoDao")
 @MiniDao
 public interface JeecgMinidaoDao {
 	@Arguments({"jeecgMinidao", "page", "rows"})

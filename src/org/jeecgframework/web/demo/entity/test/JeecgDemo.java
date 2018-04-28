@@ -22,13 +22,13 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**手机号码*/
-	private java.lang.String mobilePhone;
+	private String mobilePhone;
 	/**办公电话*/
-	private java.lang.String officePhone;
+	private String officePhone;
 	/**电子邮箱*/
-	private java.lang.String email;
+	private String email;
 	/**age*/
-	private java.lang.Integer age;
+	private Integer age;
 	/**工资*/
 	private BigDecimal salary;
 	/**生日*/
@@ -36,22 +36,22 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	/**创建时间*/
 	private Date createDate;
 	/**性别*/
-	private java.lang.String sex;
+	private String sex;
 	/**部门ID*/
-	private java.lang.String depId;
+	private String depId;
 	/**用户名*/
-	private java.lang.String userName;
+	private String userName;
 	/**状态*/
-	private java.lang.String status;
+	private String status;
 	/**备注*/
-	private java.lang.String content;
+	private String content;
 	
 
-	public java.lang.String getStatus() {
+	public String getStatus() {
 		return status;
 	}
 	@Column(name ="status",nullable=true)
-	public void setStatus(java.lang.String status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -60,7 +60,7 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	 *@return: java.lang.String  手机号码
 	 */
 	@Column(name ="MOBILE_PHONE",nullable=true)
-	public java.lang.String getMobilePhone(){
+	public String getMobilePhone(){
 		return this.mobilePhone;
 	}
 
@@ -68,7 +68,7 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  手机号码
 	 */
-	public void setMobilePhone(java.lang.String mobilePhone){
+	public void setMobilePhone(String mobilePhone){
 		this.mobilePhone = mobilePhone;
 	}
 	/**
@@ -76,7 +76,7 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	 *@return: java.lang.String  办公电话
 	 */
 	@Column(name ="OFFICE_PHONE",nullable=true)
-	public java.lang.String getOfficePhone(){
+	public String getOfficePhone(){
 		return this.officePhone;
 	}
 
@@ -84,7 +84,7 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  办公电话
 	 */
-	public void setOfficePhone(java.lang.String officePhone){
+	public void setOfficePhone(String officePhone){
 		this.officePhone = officePhone;
 	}
 	/**
@@ -92,7 +92,7 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	 *@return: java.lang.String  电子邮箱
 	 */
 	@Column(name ="EMAIL",nullable=true)
-	public java.lang.String getEmail(){
+	public String getEmail(){
 		return this.email;
 	}
 
@@ -100,7 +100,7 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  电子邮箱
 	 */
-	public void setEmail(java.lang.String email){
+	public void setEmail(String email){
 		this.email = email;
 	}
 	/**
@@ -108,7 +108,7 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  age
 	 */
 	@Column(name ="AGE",nullable=true)
-	public java.lang.Integer getAge(){
+	public Integer getAge(){
 		return this.age;
 	}
 
@@ -116,7 +116,7 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  age
 	 */
-	public void setAge(java.lang.Integer age){
+	public void setAge(Integer age){
 		this.age = age;
 	}
 	/**
@@ -172,7 +172,7 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  性别
 	 */
 	@Column(name ="SEX",nullable=true)
-	public java.lang.String getSex(){
+	public String getSex(){
 		return this.sex;
 	}
 
@@ -180,7 +180,7 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  性别
 	 */
-	public void setSex(java.lang.String sex){
+	public void setSex(String sex){
 		this.sex = sex;
 	}
 	/**
@@ -188,7 +188,7 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	 *@return: java.lang.String  部门ID
 	 */
 	@Column(name ="DEP_ID",nullable=true)
-	public java.lang.String getDepId(){
+	public String getDepId(){
 		return this.depId;
 	}
 
@@ -196,7 +196,7 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  部门ID
 	 */
-	public void setDepId(java.lang.String depId){
+	public void setDepId(String depId){
 		this.depId = depId;
 	}
 	/**
@@ -204,7 +204,7 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	 *@return: java.lang.String  用户名
 	 */
 	@Column(name ="USER_NAME",nullable=false)
-	public java.lang.String getUserName(){
+	public String getUserName(){
 		return this.userName;
 	}
 
@@ -212,13 +212,13 @@ public class JeecgDemo extends IdEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  用户名
 	 */
-	public void setUserName(java.lang.String userName){
+	public void setUserName(String userName){
 		this.userName = userName;
 	}
-	public java.lang.String getContent() {
+	public String getContent() {
 		return content;
 	}
-	public void setContent(java.lang.String content) {
+	public void setContent(String content) {
 		this.content = content;
 	}
 

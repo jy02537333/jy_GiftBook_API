@@ -1,6 +1,5 @@
 package org.jeecgframework.web.system.pojo.base;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,19 +16,10 @@ public class Client implements java.io.Serializable {
 	private TSUser user;
 
 	private Map<String, TSFunction> functions;
-	private Map<Integer, List<TSFunction>> functionMap;
-	public Map<Integer, List<TSFunction>> getFunctionMap() {
-		return functionMap;
-	}
-
-	public void setFunctionMap(Map<Integer, List<TSFunction>> functionMap) {
-		this.functionMap = functionMap;
-	}
-
 	/**
 	 * 用户IP
 	 */
-	private java.lang.String ip;
+	private String ip;
 	/**
 	 *登录时间
 	 */
@@ -52,11 +42,11 @@ public class Client implements java.io.Serializable {
 		this.functions = functions;
 	}
 
-	public java.lang.String getIp() {
+	public String getIp() {
 		return ip;
 	}
 
-	public void setIp(java.lang.String ip) {
+	public void setIp(String ip) {
 		this.ip = ip;
 	}
 

@@ -25,15 +25,15 @@ import javax.persistence.SequenceGenerator;
 @SuppressWarnings("serial")
 public class JeecgNoteEntity implements java.io.Serializable {
 	/**id*/
-	private java.lang.String id;
+	private String id;
 	/**年龄*/
-	private java.lang.Integer age;
+	private Integer age;
 	/**生日*/
-	private java.util.Date birthday;
+	private Date birthday;
 	/**出生日期*/
-	private java.util.Date createdt;
+	private Date createdt;
 	/**用户名*/
-	private java.lang.String name;
+	private String name;
 	/**工资*/
 	private BigDecimal salary;
 	
@@ -46,7 +46,7 @@ public class JeecgNoteEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -54,7 +54,7 @@ public class JeecgNoteEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -62,7 +62,7 @@ public class JeecgNoteEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  年龄
 	 */
 	@Column(name ="AGE",nullable=true)
-	public java.lang.Integer getAge(){
+	public Integer getAge(){
 		return this.age;
 	}
 
@@ -70,7 +70,7 @@ public class JeecgNoteEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  年龄
 	 */
-	public void setAge(java.lang.Integer age){
+	public void setAge(Integer age){
 		this.age = age;
 	}
 	/**
@@ -78,7 +78,7 @@ public class JeecgNoteEntity implements java.io.Serializable {
 	 *@return: java.util.Date  生日
 	 */
 	@Column(name ="BIRTHDAY",nullable=true)
-	public java.util.Date getBirthday(){
+	public Date getBirthday(){
 		return this.birthday;
 	}
 
@@ -86,7 +86,7 @@ public class JeecgNoteEntity implements java.io.Serializable {
 	 *方法: 设置java.util.Date
 	 *@param: java.util.Date  生日
 	 */
-	public void setBirthday(java.util.Date birthday){
+	public void setBirthday(Date birthday){
 		this.birthday = birthday;
 	}
 	/**
@@ -94,7 +94,7 @@ public class JeecgNoteEntity implements java.io.Serializable {
 	 *@return: java.util.Date  出生日期
 	 */
 	@Column(name ="CREATEDT",nullable=true)
-	public java.util.Date getCreatedt(){
+	public Date getCreatedt(){
 		return this.createdt;
 	}
 
@@ -102,7 +102,7 @@ public class JeecgNoteEntity implements java.io.Serializable {
 	 *方法: 设置java.util.Date
 	 *@param: java.util.Date  出生日期
 	 */
-	public void setCreatedt(java.util.Date createdt){
+	public void setCreatedt(Date createdt){
 		this.createdt = createdt;
 	}
 	/**
@@ -110,7 +110,7 @@ public class JeecgNoteEntity implements java.io.Serializable {
 	 *@return: java.lang.String  用户名
 	 */
 	@Column(name ="NAME",nullable=false)
-	public java.lang.String getName(){
+	public String getName(){
 		return this.name;
 	}
 
@@ -118,7 +118,7 @@ public class JeecgNoteEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  用户名
 	 */
-	public void setName(java.lang.String name){
+	public void setName(String name){
 		this.name = name;
 	}
 	/**

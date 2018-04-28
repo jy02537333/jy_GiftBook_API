@@ -2,7 +2,6 @@ package org.jeecgframework.web.cgform.dao.upload;
 
 import org.jeecgframework.minidao.annotation.Arguments;
 import org.jeecgframework.minidao.annotation.MiniDao;
-import org.springframework.stereotype.Repository;
 
 /**
  * 
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Repository;
  * @version V1.0
  */
 
-@Repository("cgFormUploadDao")
+@MiniDao
 public interface CgFormUploadDao {
 	/**
 	 * 将文件上传的信息回填到业务表中
@@ -25,5 +24,5 @@ public interface CgFormUploadDao {
 	 * @return
 	 */
 	@Arguments({"cgFormId","cgFormName","cgFormField","fileId","fileUrl"})
-	public void updateBackFileInfo(String cgFormId,String cgFormName,String cgFormField,String fileId,String fileUrl);
+	public void updateBackFileInfo(String cgFormId, String cgFormName, String cgFormField, String fileId, String fileUrl);
 }

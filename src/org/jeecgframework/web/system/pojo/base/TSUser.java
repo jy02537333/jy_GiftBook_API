@@ -1,15 +1,15 @@
 package org.jeecgframework.web.system.pojo.base;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.jeecgframework.poi.excel.annotation.Excel;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import weixin.guanjia.account.entity.WeixinAccountEntity;
 
 /**
  * 系统用户表
@@ -24,19 +24,14 @@ public class TSUser extends TSBaseUser implements java.io.Serializable {
 	private String mobilePhone;// 手机
 	private String officePhone;// 办公电话
 	private String email;// 邮箱
-	private TSDepart TSDepart = new TSDepart();// 部门
-	/**创建时间*/
-	private java.util.Date createDate;
-	/**创建人ID*/
-	private java.lang.String createBy;
-	/**创建人名称*/
-	private java.lang.String createName;
-	/**修改时间*/
-	private java.util.Date updateDate;
-	/**修改人*/
-	private java.lang.String updateBy;
-	/**修改人名称*/
-	private java.lang.String updateName;
+	private String type; //用户类型  1：普通用户，2：商家用户，3:系统管理员
+	
+
+//	private WeixinAccountEntity account;//商铺ID
+	
+	
+	
+
 	@Column(name = "signatureFile", length = 100)
 	public String getSignatureFile() {
 		return this.signatureFile;
@@ -72,110 +67,24 @@ public class TSUser extends TSBaseUser implements java.io.Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	/**
-	 *方法: 取得java.util.Date
-	 *@return: java.util.Date  创建时间
-	 */
-	@Column(name ="create_date",nullable=true)
-	public java.util.Date getCreateDate(){
-		return this.createDate;
+	
+	
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "accountid")
+//	public WeixinAccountEntity getAccount() {
+//		return account;
+//	}
+//
+//	public void setAccount(WeixinAccountEntity account) {
+//		this.account = account;
+//	}
+	
+	@Column(name = "type", length = 2)
+	public String getType() {
+		return type;
 	}
 
-	/**
-	 *方法: 设置java.util.Date
-	 *@param: java.util.Date  创建时间
-	 */
-	public void setCreateDate(java.util.Date createDate){
-		this.createDate = createDate;
-	}
-	/**
-	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  创建人ID
-	 */
-	@Column(name ="create_by",nullable=true,length=32)
-	public java.lang.String getCreateBy(){
-		return this.createBy;
-	}
-
-	/**
-	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  创建人ID
-	 */
-	public void setCreateBy(java.lang.String createBy){
-		this.createBy = createBy;
-	}
-	/**
-	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  创建人名称
-	 */
-	@Column(name ="create_name",nullable=true,length=32)
-	public java.lang.String getCreateName(){
-		return this.createName;
-	}
-
-	/**
-	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  创建人名称
-	 */
-	public void setCreateName(java.lang.String createName){
-		this.createName = createName;
-	}
-	/**
-	 *方法: 取得java.util.Date
-	 *@return: java.util.Date  修改时间
-	 */
-	@Column(name ="update_date",nullable=true)
-	public java.util.Date getUpdateDate(){
-		return this.updateDate;
-	}
-
-	/**
-	 *方法: 设置java.util.Date
-	 *@param: java.util.Date  修改时间
-	 */
-	public void setUpdateDate(java.util.Date updateDate){
-		this.updateDate = updateDate;
-	}
-	/**
-	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  修改人ID
-	 */
-	@Column(name ="update_by",nullable=true,length=32)
-	public java.lang.String getUpdateBy(){
-		return this.updateBy;
-	}
-
-	/**
-	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  修改人ID
-	 */
-	public void setUpdateBy(java.lang.String updateBy){
-		this.updateBy = updateBy;
-	}
-	/**
-	 *方法: 取得java.lang.String
-	 *@return: java.lang.String  修改人名称
-	 */
-	@Column(name ="update_name",nullable=true,length=32)
-	public java.lang.String getUpdateName(){
-		return this.updateName;
-	}
-
-	/**
-	 *方法: 设置java.lang.String
-	 *@param: java.lang.String  修改人名称
-	 */
-	public void setUpdateName(java.lang.String updateName){
-		this.updateName = updateName;
-	}
-	@JsonIgnore    //getList查询转换为列表时处理json转换异常
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "departid")
-	public TSDepart getTSDepart() {
-		return this.TSDepart;
-	}
-
-	public void setTSDepart(TSDepart TSDepart) {
-		this.TSDepart = TSDepart;
+	public void setType(String type) {
+		this.type = type;
 	}
 }

@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.jeecgframework.web.cgform.entity.button.CgformButtonEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
-import org.jeecgframework.web.cgform.entity.enhance.CgformEnhanceJavaEntity;
 import org.jeecgframework.web.cgform.entity.enhance.CgformEnhanceJsEntity;
 
 /**
@@ -57,10 +56,6 @@ public class GenerateEntity implements java.io.Serializable{
 	 * 表单Js增强
 	 */
 	private CgformEnhanceJsEntity formJs;
-	/**
-	 * 表单java增强
-	 */
-	private Map<String,CgformEnhanceJavaEntity> buttonJavaMap;
 	
 	public String getEntityPackage() {
 		return entityPackage;
@@ -187,15 +182,7 @@ public class GenerateEntity implements java.io.Serializable{
 	public Object clone() throws CloneNotSupportedException {
 		return super.clone();
 	}
-
-	public Map<String, CgformEnhanceJavaEntity> getButtonJavaMap() {
-		return buttonJavaMap;
-	}
-
-	public void setButtonJavaMap(Map<String, CgformEnhanceJavaEntity> buttonJavaMap) {
-		this.buttonJavaMap = buttonJavaMap;
-	}
-
+	
 	/**
 	 * 深度复制
 	 * @return

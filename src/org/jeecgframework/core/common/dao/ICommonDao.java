@@ -24,7 +24,7 @@ public interface ICommonDao extends IGenericBaseCommonDao{
 	 * admin账户密码初始化
 	 * @param user
 	 */
-	public void pwdInit(TSUser user,String newPwd);
+	public void pwdInit(TSUser user, String newPwd);
 	/**
 	 * 检查用户是否存在
 	 * */
@@ -32,6 +32,7 @@ public interface ICommonDao extends IGenericBaseCommonDao{
 	public String getUserRole(TSUser user);
 	/**
 	 * 文件上传
+	 * @param request
 	 */
 	public <T> T  uploadFile(UploadFile uploadFile);
 	/**
@@ -44,6 +45,7 @@ public interface ICommonDao extends IGenericBaseCommonDao{
 	public Map<Object,Object> getDataSourceMap(Template template);
 	/**
 	 * 生成XML文件
+	 * @param fileName XML全路径
 	 */
 	public HttpServletResponse createXml(ImportFile importFile);
 	/**
@@ -51,19 +53,15 @@ public interface ICommonDao extends IGenericBaseCommonDao{
 	 * @param fileName XML全路径
 	 */
 	public void parserXml(String fileName);
-	public List<ComboTree> comTree(List<TSDepart> all,ComboTree comboTree);
-
+	public List<ComboTree> comTree(List<TSDepart> all, ComboTree comboTree);
 	/**
-     * 根据模型生成ComboTree JSON
-     *
-     * @param all 全部对象
-     * @param comboTreeModel 模型
-     * @param in 已拥有的对象
-     * @param recursive 是否递归加载所有子节点
-     * @return List<ComboTree>
-     */
-	public  List<ComboTree> ComboTree(List all, ComboTreeModel comboTreeModel, List in, boolean recursive);
-
-	public  List<TreeGrid> treegrid(List all,TreeGridModel treeGridModel);
+	 * 根据模型生成JSON
+	 * @param all 全部对象
+	 * @param in  已拥有的对象
+	 * @param comboBox 模型
+	 * @return
+	 */
+	public  List<ComboTree> ComboTree(List all, ComboTreeModel comboTreeModel, List in);
+	public  List<TreeGrid> treegrid(List all, TreeGridModel treeGridModel);
 }
 

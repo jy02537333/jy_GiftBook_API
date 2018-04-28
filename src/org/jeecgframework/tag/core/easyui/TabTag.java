@@ -4,10 +4,6 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.jeecgframework.core.util.ApplicationContextUtil;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
-import org.springframework.beans.factory.annotation.Autowired;
-
 /**
  * 
  * 类描述：选项卡选项标签
@@ -27,10 +23,6 @@ public class TabTag extends TagSupport {
 	private boolean cache;//是否打开缓冲如为TRUE则切换选项卡会再次发送请求
 	private String content;
 	private boolean closable=false;//是否带关闭按钮
-	private String langArg;
-	
-	@Autowired
-	private static MutiLangServiceI mutiLangService;
 	
 	public int doStartTag() throws JspTagException {
 		return EVAL_PAGE;
@@ -48,15 +40,7 @@ public class TabTag extends TagSupport {
 		this.id = id;
 	}
 	public void setTitle(String title) {
-		//add by Rocky, 处理多语言
-		if(mutiLangService == null)
-		{
-			mutiLangService = ApplicationContextUtil.getContext().getBean(MutiLangServiceI.class);	
-		}
-		
-		String lang_context = mutiLangService.getLang(title, langArg);
-		
-		this.title = lang_context;
+		this.title = title;
 	}
 	public void setIcon(String icon) {
 		this.icon = icon;

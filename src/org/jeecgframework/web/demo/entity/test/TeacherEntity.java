@@ -33,11 +33,14 @@ import javax.persistence.SequenceGenerator;
 @SuppressWarnings("serial")
 public class TeacherEntity implements java.io.Serializable {
 	/**id*/
-	private java.lang.String id;
+	private String id;
 	/**name*/
-	private java.lang.String name;
+	@Excel(exportName="老师姓名",orderNum="2",needMerge=true)
+	private String name;
 	
-	private java.lang.String pic;
+	@Excel(exportName="老师照片",orderNum="3",exportType=2,exportFieldHeight=15,
+			exportFieldWidth=20)
+	private String pic;
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -48,7 +51,7 @@ public class TeacherEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -56,7 +59,7 @@ public class TeacherEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -64,7 +67,7 @@ public class TeacherEntity implements java.io.Serializable {
 	 *@return: java.lang.String  name
 	 */
 	@Column(name ="NAME",nullable=true,length=12)
-	public java.lang.String getName(){
+	public String getName(){
 		return this.name;
 	}
 
@@ -72,18 +75,18 @@ public class TeacherEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  name
 	 */
-	public void setName(java.lang.String name){
+	public void setName(String name){
 		this.name = name;
 	}
 
-	public java.lang.String getPic() {
+	public String getPic() {
 //		if(StringUtils.isEmpty(pic)){
 //			pic = "plug-in/login/images/jeecg.png";
 //		}
 		return pic;
 	}
 
-	public void setPic(java.lang.String pic) {
+	public void setPic(String pic) {
 		this.pic = pic;
 	}
 }

@@ -25,11 +25,24 @@ import org.jeecgframework.web.demo.entity.test.StudentEntity;
 import org.jeecgframework.web.demo.entity.test.TSStudent;
 import org.jeecgframework.web.demo.entity.test.TeacherEntity;
 import org.jeecgframework.web.system.dao.repair.RepairDao;
-import org.jeecgframework.web.system.pojo.base.*;
+import org.jeecgframework.web.system.pojo.base.TSAttachment;
+import org.jeecgframework.web.system.pojo.base.TSDemo;
+import org.jeecgframework.web.system.pojo.base.TSDepart;
+import org.jeecgframework.web.system.pojo.base.TSFunction;
+import org.jeecgframework.web.system.pojo.base.TSIcon;
+import org.jeecgframework.web.system.pojo.base.TSLog;
+import org.jeecgframework.web.system.pojo.base.TSOperation;
+import org.jeecgframework.web.system.pojo.base.TSRole;
+import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
+import org.jeecgframework.web.system.pojo.base.TSRoleUser;
+import org.jeecgframework.web.system.pojo.base.TSTimeTaskEntity;
+import org.jeecgframework.web.system.pojo.base.TSType;
+import org.jeecgframework.web.system.pojo.base.TSTypegroup;
+import org.jeecgframework.web.system.pojo.base.TSUser;
 import org.jeecgframework.web.system.service.RepairService;
 
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
-import org.jeecgframework.core.util.DateUtils;
+import org.jeecgframework.core.util.DataUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -213,9 +226,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 	private void repairJdbcEntity(){
 		JeecgJdbcEntity entity = new JeecgJdbcEntity();
 		entity.setAge(12);
-
-		entity.setBirthday(DateUtils.str2Date("2014-02-14",new SimpleDateFormat("yyyy-MM-dd")));
-
+		entity.setBirthday(DataUtils.str2Date("2014-02-14",new SimpleDateFormat("yyyy-MM-dd")));
 		entity.setDepId("123");
 		entity.setEmail("demo@jeecg.com");
 		entity.setMobilePhone("13111111111");
@@ -2005,7 +2016,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log1.setBroswer("Chrome");
 			log1.setNote("169.254.200.136");
 			log1.setTSUser(admin);
-			log1.setOperatetime(DateUtils.parseTimestamp("2013-4-24 16:22:40",
+			log1.setOperatetime(DataUtils.parseTimestamp("2013-4-24 16:22:40",
 					"yyyy-MM-dd HH:mm"));
 			log1.setOperatetype((short) 1);
 			log1.setLoglevel((short) 1);
@@ -2016,7 +2027,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log2.setBroswer("Chrome");
 			log2.setNote("10.10.10.1");
 			log2.setTSUser(admin);
-			log2.setOperatetime(DateUtils.parseTimestamp("2013-4-24 17:12:22",
+			log2.setOperatetime(DataUtils.parseTimestamp("2013-4-24 17:12:22",
 					"yyyy-MM-dd HH:mm"));
 			log2.setOperatetype((short) 1);
 			log2.setLoglevel((short) 1);
@@ -2027,7 +2038,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log3.setBroswer("Chrome");
 			log3.setNote("169.254.218.201");
 			log3.setTSUser(admin);
-			log3.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:37:11",
+			log3.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:37:11",
 					"yyyy-MM-dd HH:mm"));
 			log3.setOperatetype((short) 1);
 			log3.setLoglevel((short) 1);
@@ -2038,7 +2049,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log4.setBroswer("Chrome");
 			log4.setNote("169.254.218.201");
 			log4.setTSUser(admin);
-			log4.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:38:33",
+			log4.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:38:33",
 					"yyyy-MM-dd HH:mm"));
 			log4.setOperatetype((short) 1);
 			log4.setLoglevel((short) 2);
@@ -2049,7 +2060,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log5.setBroswer("MSIE 9.0");
 			log5.setNote("169.254.218.201");
 			log5.setTSUser(admin);
-			log5.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:38:42",
+			log5.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:38:42",
 					"yyyy-MM-dd HH:mm"));
 			log5.setOperatetype((short) 1);
 			log5.setLoglevel((short) 1);
@@ -2060,7 +2071,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log6.setBroswer("MSIE 9.0");
 			log6.setNote("169.254.218.201");
 			log6.setTSUser(admin);
-			log6.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:39:00",
+			log6.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:39:00",
 					"yyyy-MM-dd HH:mm"));
 			log6.setOperatetype((short) 1);
 			log6.setLoglevel((short) 4);
@@ -2071,7 +2082,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log7.setBroswer("MSIE 9.0");
 			log7.setNote("169.254.218.201");
 			log7.setTSUser(admin);
-			log7.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:39:02",
+			log7.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:39:02",
 					"yyyy-MM-dd HH:mm"));
 			log7.setOperatetype((short) 1);
 			log7.setLoglevel((short) 4);
@@ -2082,7 +2093,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log8.setBroswer("Chrome");
 			log8.setNote("169.254.218.201");
 			log8.setTSUser(admin);
-			log8.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:39:04",
+			log8.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:39:04",
 					"yyyy-MM-dd HH:mm"));
 			log8.setOperatetype((short) 1);
 			log8.setLoglevel((short) 4);
@@ -2093,7 +2104,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log9.setBroswer("MSIE 9.0");
 			log9.setNote("169.254.218.201");
 			log9.setTSUser(admin);
-			log9.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:39:30",
+			log9.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:39:30",
 					"yyyy-MM-dd HH:mm"));
 			log9.setOperatetype((short) 1);
 			log9.setLoglevel((short) 5);
@@ -2104,7 +2115,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log10.setBroswer("Chrome");
 			log10.setNote("169.254.218.201");
 			log10.setTSUser(admin);
-			log10.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:39:38",
+			log10.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:39:38",
 					"yyyy-MM-dd HH:mm"));
 			log10.setOperatetype((short) 1);
 			log10.setLoglevel((short) 4);
@@ -2115,7 +2126,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log11.setBroswer("MSIE 9.0");
 			log11.setNote("169.254.218.201");
 			log11.setTSUser(admin);
-			log11.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:39:40",
+			log11.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:39:40",
 					"yyyy-MM-dd HH:mm"));
 			log11.setOperatetype((short) 1);
 			log11.setLoglevel((short) 4);
@@ -2126,7 +2137,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log12.setBroswer("Chrome");
 			log12.setNote("169.254.218.201");
 			log12.setTSUser(admin);
-			log12.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:39:41",
+			log12.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:39:41",
 					"yyyy-MM-dd HH:mm"));
 			log12.setOperatetype((short) 1);
 			log12.setLoglevel((short) 4);
@@ -2137,7 +2148,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log13.setBroswer("Firefox");
 			log13.setNote("169.254.218.201");
 			log13.setTSUser(admin);
-			log13.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:39:42",
+			log13.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:39:42",
 					"yyyy-MM-dd HH:mm"));
 			log13.setOperatetype((short) 1);
 			log13.setLoglevel((short) 4);
@@ -2148,7 +2159,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log14.setBroswer("Chrome");
 			log14.setNote("169.254.218.201");
 			log14.setTSUser(admin);
-			log14.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:40:00",
+			log14.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:40:00",
 					"yyyy-MM-dd HH:mm"));
 			log14.setOperatetype((short) 1);
 			log14.setLoglevel((short) 3);
@@ -2159,7 +2170,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log15.setBroswer("Chrome");
 			log15.setNote("169.254.218.201");
 			log15.setTSUser(admin);
-			log15.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:40:04",
+			log15.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:40:04",
 					"yyyy-MM-dd HH:mm"));
 			log15.setOperatetype((short) 1);
 			log15.setLoglevel((short) 5);
@@ -2170,7 +2181,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log16.setBroswer("Chrome");
 			log16.setNote("169.254.218.201");
 			log16.setTSUser(admin);
-			log16.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:40:44",
+			log16.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:40:44",
 					"yyyy-MM-dd HH:mm"));
 			log16.setOperatetype((short) 1);
 			log16.setLoglevel((short) 3);
@@ -2181,7 +2192,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log17.setBroswer("Chrome");
 			log17.setNote("169.254.218.201");
 			log17.setTSUser(admin);
-			log17.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:41:26",
+			log17.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:41:26",
 					"yyyy-MM-dd HH:mm"));
 			log17.setOperatetype((short) 1);
 			log17.setLoglevel((short) 5);
@@ -2192,7 +2203,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log18.setBroswer("Chrome");
 			log18.setNote("169.254.218.201");
 			log18.setTSUser(admin);
-			log18.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:41:38",
+			log18.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:41:38",
 					"yyyy-MM-dd HH:mm"));
 			log18.setOperatetype((short) 1);
 			log18.setLoglevel((short) 5);
@@ -2203,7 +2214,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log19.setBroswer("Chrome");
 			log19.setNote("169.254.218.201");
 			log19.setTSUser(admin);
-			log19.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:46:55",
+			log19.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:46:55",
 					"yyyy-MM-dd HH:mm"));
 			log19.setOperatetype((short) 1);
 			log19.setLoglevel((short) 5);
@@ -2214,7 +2225,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log20.setBroswer("Chrome");
 			log20.setNote("169.254.218.201");
 			log20.setTSUser(admin);
-			log20.setOperatetime(DateUtils.parseTimestamp("2013-3-10 15:48:47",
+			log20.setOperatetime(DataUtils.parseTimestamp("2013-3-10 15:48:47",
 					"yyyy-MM-dd HH:mm"));
 			log20.setOperatetype((short) 1);
 			log20.setLoglevel((short) 1);
@@ -2225,7 +2236,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log21.setBroswer("Firefox");
 			log21.setNote("169.254.218.201");
 			log21.setTSUser(admin);
-			log21.setOperatetime(DateUtils.parseTimestamp("2013-3-21 23:23:52",
+			log21.setOperatetime(DataUtils.parseTimestamp("2013-3-21 23:23:52",
 					"yyyy-MM-dd HH:mm"));
 			log21.setOperatetype((short) 1);
 			log21.setLoglevel((short) 1);
@@ -2236,7 +2247,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log22.setBroswer("Chrome");
 			log22.setNote("169.254.218.201");
 			log22.setTSUser(admin);
-			log22.setOperatetime(DateUtils.parseTimestamp("2013-3-21 23:26:22",
+			log22.setOperatetime(DataUtils.parseTimestamp("2013-3-21 23:26:22",
 					"yyyy-MM-dd HH:mm"));
 			log22.setOperatetype((short) 1);
 			log22.setLoglevel((short) 1);
@@ -2247,7 +2258,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log23.setBroswer("Chrome");
 			log23.setNote("169.254.218.201");
 			log23.setTSUser(admin);
-			log23.setOperatetime(DateUtils.parseTimestamp("2013-3-21 23:28:34",
+			log23.setOperatetime(DataUtils.parseTimestamp("2013-3-21 23:28:34",
 					"yyyy-MM-dd HH:mm"));
 			log23.setOperatetype((short) 1);
 			log23.setLoglevel((short) 3);
@@ -2258,7 +2269,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log24.setBroswer("Chrome");
 			log24.setNote("169.254.218.201");
 			log24.setTSUser(admin);
-			log24.setOperatetime(DateUtils.parseTimestamp("2013-3-22 8:25:07",
+			log24.setOperatetime(DataUtils.parseTimestamp("2013-3-22 8:25:07",
 					"yyyy-MM-dd HH:mm"));
 			log24.setOperatetype((short) 1);
 			log24.setLoglevel((short) 1);
@@ -2269,7 +2280,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log25.setBroswer("Firefox");
 			log25.setNote("169.254.218.201");
 			log25.setTSUser(admin);
-			log25.setOperatetime(DateUtils.parseTimestamp("2013-3-22 9:05:25",
+			log25.setOperatetime(DataUtils.parseTimestamp("2013-3-22 9:05:25",
 					"yyyy-MM-dd HH:mm"));
 			log25.setOperatetype((short) 1);
 			log25.setLoglevel((short) 1);
@@ -2280,7 +2291,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log26.setBroswer("Chrome");
 			log26.setNote("169.254.218.201");
 			log26.setTSUser(admin);
-			log26.setOperatetime(DateUtils.parseTimestamp("2013-3-22 9:09:05",
+			log26.setOperatetime(DataUtils.parseTimestamp("2013-3-22 9:09:05",
 					"yyyy-MM-dd HH:mm"));
 			log26.setOperatetype((short) 1);
 			log26.setLoglevel((short) 1);
@@ -2291,7 +2302,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log27.setBroswer("MSIE 8.0");
 			log27.setNote("169.254.218.201");
 			log27.setTSUser(admin);
-			log27.setOperatetime(DateUtils.parseTimestamp("2013-3-22 9:28:50",
+			log27.setOperatetime(DataUtils.parseTimestamp("2013-3-22 9:28:50",
 					"yyyy-MM-dd HH:mm"));
 			log27.setOperatetype((short) 1);
 			log27.setLoglevel((short) 1);
@@ -2302,7 +2313,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log28.setBroswer("Firefox");
 			log28.setNote("169.254.218.201");
 			log28.setTSUser(admin);
-			log28.setOperatetime(DateUtils.parseTimestamp("2013-3-22 10:32:59",
+			log28.setOperatetime(DataUtils.parseTimestamp("2013-3-22 10:32:59",
 					"yyyy-MM-dd HH:mm"));
 			log28.setOperatetype((short) 1);
 			log28.setLoglevel((short) 1);
@@ -2313,7 +2324,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log29.setBroswer("Chrome");
 			log29.setNote("169.254.218.201");
 			log29.setTSUser(admin);
-			log29.setOperatetime(DateUtils.parseTimestamp("2013-3-22 10:35:44",
+			log29.setOperatetime(DataUtils.parseTimestamp("2013-3-22 10:35:44",
 					"yyyy-MM-dd HH:mm"));
 			log29.setOperatetype((short) 1);
 			log29.setLoglevel((short) 3);
@@ -2324,7 +2335,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log30.setBroswer("Firefox");
 			log30.setNote("169.254.218.201");
 			log30.setTSUser(admin);
-			log30.setOperatetime(DateUtils.parseTimestamp("2013-3-22 10:41:46",
+			log30.setOperatetime(DataUtils.parseTimestamp("2013-3-22 10:41:46",
 					"yyyy-MM-dd HH:mm"));
 			log30.setOperatetype((short) 1);
 			log30.setLoglevel((short) 1);
@@ -2335,7 +2346,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log31.setBroswer("Firefox");
 			log31.setNote("169.254.218.201");
 			log31.setTSUser(admin);
-			log31.setOperatetime(DateUtils.parseTimestamp("2013-3-22 16:11:14",
+			log31.setOperatetime(DataUtils.parseTimestamp("2013-3-22 16:11:14",
 					"yyyy-MM-dd HH:mm"));
 			log31.setOperatetype((short) 1);
 			log31.setLoglevel((short) 1);
@@ -2346,7 +2357,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log32.setBroswer("Chrome");
 			log32.setNote("169.254.218.201");
 			log32.setTSUser(admin);
-			log32.setOperatetime(DateUtils.parseTimestamp("2013-3-22 21:49:43",
+			log32.setOperatetime(DataUtils.parseTimestamp("2013-3-22 21:49:43",
 					"yyyy-MM-dd HH:mm"));
 			log32.setOperatetype((short) 1);
 			log32.setLoglevel((short) 1);
@@ -2357,7 +2368,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log33.setBroswer("Chrome");
 			log33.setNote("169.254.218.201");
 			log33.setTSUser(admin);
-			log33.setOperatetime(DateUtils.parseTimestamp("2013-3-22 23:17:12",
+			log33.setOperatetime(DataUtils.parseTimestamp("2013-3-22 23:17:12",
 					"yyyy-MM-dd HH:mm"));
 			log33.setOperatetype((short) 1);
 			log33.setLoglevel((short) 1);
@@ -2368,7 +2379,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log34.setBroswer("Chrome");
 			log34.setNote("169.254.218.201");
 			log34.setTSUser(admin);
-			log34.setOperatetime(DateUtils.parseTimestamp("2013-3-22 23:27:22",
+			log34.setOperatetime(DataUtils.parseTimestamp("2013-3-22 23:27:22",
 					"yyyy-MM-dd HH:mm"));
 			log34.setOperatetype((short) 1);
 			log34.setLoglevel((short) 1);
@@ -2379,7 +2390,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log35.setBroswer("Chrome");
 			log35.setNote("169.254.218.201");
 			log35.setTSUser(admin);
-			log35.setOperatetime(DateUtils.parseTimestamp("2013-3-23 0:16:10",
+			log35.setOperatetime(DataUtils.parseTimestamp("2013-3-23 0:16:10",
 					"yyyy-MM-dd HH:mm"));
 			log35.setOperatetype((short) 1);
 			log35.setLoglevel((short) 1);
@@ -2390,7 +2401,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log36.setBroswer("Chrome");
 			log36.setNote("169.254.218.201");
 			log36.setTSUser(admin);
-			log36.setOperatetime(DateUtils.parseTimestamp("2013-3-23 0:22:46",
+			log36.setOperatetime(DataUtils.parseTimestamp("2013-3-23 0:22:46",
 					"yyyy-MM-dd HH:mm"));
 			log36.setOperatetype((short) 1);
 			log36.setLoglevel((short) 1);
@@ -2401,7 +2412,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log37.setBroswer("Firefox");
 			log37.setNote("169.254.218.201");
 			log37.setTSUser(admin);
-			log37.setOperatetime(DateUtils.parseTimestamp("2013-3-23 0:31:11",
+			log37.setOperatetime(DataUtils.parseTimestamp("2013-3-23 0:31:11",
 					"yyyy-MM-dd HH:mm"));
 			log37.setOperatetype((short) 1);
 			log37.setLoglevel((short) 1);
@@ -2412,7 +2423,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log38.setBroswer("Chrome");
 			log38.setNote("169.254.218.201");
 			log38.setTSUser(admin);
-			log38.setOperatetime(DateUtils.parseTimestamp("2013-3-23 14:23:36",
+			log38.setOperatetime(DataUtils.parseTimestamp("2013-3-23 14:23:36",
 					"yyyy-MM-dd HH:mm"));
 			log38.setOperatetype((short) 1);
 			log38.setLoglevel((short) 1);
@@ -2423,7 +2434,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log39.setBroswer("Chrome");
 			log39.setNote("169.254.218.201");
 			log39.setTSUser(admin);
-			log39.setOperatetime(DateUtils.parseTimestamp("2013-3-23 15:05:30",
+			log39.setOperatetime(DataUtils.parseTimestamp("2013-3-23 15:05:30",
 					"yyyy-MM-dd HH:mm"));
 			log39.setOperatetype((short) 1);
 			log39.setLoglevel((short) 3);
@@ -2434,7 +2445,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log40.setBroswer("Firefox");
 			log40.setNote("169.254.218.201");
 			log40.setTSUser(admin);
-			log40.setOperatetime(DateUtils.parseTimestamp("2013-3-23 15:05:42",
+			log40.setOperatetime(DataUtils.parseTimestamp("2013-3-23 15:05:42",
 					"yyyy-MM-dd HH:mm"));
 			log40.setOperatetype((short) 1);
 			log40.setLoglevel((short) 3);
@@ -2445,7 +2456,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log41.setBroswer("Chrome");
 			log41.setNote("169.254.218.201");
 			log41.setTSUser(admin);
-			log41.setOperatetime(DateUtils.parseTimestamp("2013-3-23 15:12:56",
+			log41.setOperatetime(DataUtils.parseTimestamp("2013-3-23 15:12:56",
 					"yyyy-MM-dd HH:mm"));
 			log41.setOperatetype((short) 1);
 			log41.setLoglevel((short) 3);
@@ -2456,7 +2467,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log42.setBroswer("Firefox");
 			log42.setNote("169.254.218.201");
 			log42.setTSUser(admin);
-			log42.setOperatetime(DateUtils.parseTimestamp("2013-3-23 15:13:23",
+			log42.setOperatetime(DataUtils.parseTimestamp("2013-3-23 15:13:23",
 					"yyyy-MM-dd HH:mm"));
 			log42.setOperatetype((short) 1);
 			log42.setLoglevel((short) 3);
@@ -2467,7 +2478,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log43.setBroswer("Chrome");
 			log43.setNote("10.10.10.1");
 			log43.setTSUser(admin);
-			log43.setOperatetime(DateUtils.parseTimestamp("2013-5-6 15:27:19",
+			log43.setOperatetime(DataUtils.parseTimestamp("2013-5-6 15:27:19",
 					"yyyy-MM-dd HH:mm"));
 			log43.setOperatetype((short) 1);
 			log43.setLoglevel((short) 1);
@@ -2478,7 +2489,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log44.setBroswer("MSIE 8.0");
 			log44.setNote("192.168.197.1");
 			log44.setTSUser(admin);
-			log44.setOperatetime(DateUtils.parseTimestamp("2013-7-7 15:16:05",
+			log44.setOperatetime(DataUtils.parseTimestamp("2013-7-7 15:16:05",
 					"yyyy-MM-dd HH:mm"));
 			log44.setOperatetype((short) 1);
 			log44.setLoglevel((short) 1);
@@ -2489,7 +2500,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log45.setBroswer("MSIE 8.0");
 			log45.setNote("192.168.197.1");
 			log45.setTSUser(admin);
-			log45.setOperatetime(DateUtils.parseTimestamp("2013-7-7 16:02:38",
+			log45.setOperatetime(DataUtils.parseTimestamp("2013-7-7 16:02:38",
 					"yyyy-MM-dd HH:mm"));
 			log45.setOperatetype((short) 1);
 			log45.setLoglevel((short) 1);
@@ -2500,7 +2511,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log46.setBroswer("MSIE 8.0");
 			log46.setNote("192.168.197.1");
 			log46.setTSUser(admin);
-			log46.setOperatetime(DateUtils.parseTimestamp("2013-7-7 16:07:49",
+			log46.setOperatetime(DataUtils.parseTimestamp("2013-7-7 16:07:49",
 					"yyyy-MM-dd HH:mm"));
 			log46.setOperatetype((short) 1);
 			log46.setLoglevel((short) 1);
@@ -2511,7 +2522,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log47.setBroswer("MSIE 8.0");
 			log47.setNote("192.168.197.1");
 			log47.setTSUser(admin);
-			log47.setOperatetime(DateUtils.parseTimestamp("2013-7-7 16:09:10",
+			log47.setOperatetime(DataUtils.parseTimestamp("2013-7-7 16:09:10",
 					"yyyy-MM-dd HH:mm"));
 			log47.setOperatetype((short) 1);
 			log47.setLoglevel((short) 1);
@@ -2522,7 +2533,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log48.setBroswer("MSIE 8.0");
 			log48.setNote("192.168.197.1");
 			log48.setTSUser(admin);
-			log48.setOperatetime(DateUtils.parseTimestamp("2013-7-7 16:11:49",
+			log48.setOperatetime(DataUtils.parseTimestamp("2013-7-7 16:11:49",
 					"yyyy-MM-dd HH:mm"));
 			log48.setOperatetype((short) 1);
 			log48.setLoglevel((short) 1);
@@ -2533,7 +2544,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log49.setBroswer("MSIE 8.0");
 			log49.setNote("192.168.197.1");
 			log49.setTSUser(admin);
-			log49.setOperatetime(DateUtils.parseTimestamp("2013-7-7 16:13:44",
+			log49.setOperatetime(DataUtils.parseTimestamp("2013-7-7 16:13:44",
 					"yyyy-MM-dd HH:mm"));
 			log49.setOperatetype((short) 1);
 			log49.setLoglevel((short) 1);
@@ -2544,7 +2555,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log50.setBroswer("MSIE 8.0");
 			log50.setNote("192.168.197.1");
 			log50.setTSUser(admin);
-			log50.setOperatetime(DateUtils.parseTimestamp("2013-7-7 16:16:52",
+			log50.setOperatetime(DataUtils.parseTimestamp("2013-7-7 16:16:52",
 					"yyyy-MM-dd HH:mm"));
 			log50.setOperatetype((short) 1);
 			log50.setLoglevel((short) 1);
@@ -2555,7 +2566,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log51.setBroswer("MSIE 8.0");
 			log51.setNote("192.168.197.1");
 			log51.setTSUser(admin);
-			log51.setOperatetime(DateUtils.parseTimestamp("2013-7-7 16:19:18",
+			log51.setOperatetime(DataUtils.parseTimestamp("2013-7-7 16:19:18",
 					"yyyy-MM-dd HH:mm"));
 			log51.setOperatetype((short) 1);
 			log51.setLoglevel((short) 1);
@@ -2566,7 +2577,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log52.setBroswer("MSIE 8.0");
 			log52.setNote("192.168.197.1");
 			log52.setTSUser(admin);
-			log52.setOperatetime(DateUtils.parseTimestamp("2013-7-7 16:27:05",
+			log52.setOperatetime(DataUtils.parseTimestamp("2013-7-7 16:27:05",
 					"yyyy-MM-dd HH:mm"));
 			log52.setOperatetype((short) 1);
 			log52.setLoglevel((short) 1);
@@ -2577,7 +2588,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log53.setBroswer("MSIE 8.0");
 			log53.setNote("192.168.197.1");
 			log53.setTSUser(admin);
-			log53.setOperatetime(DateUtils.parseTimestamp("2013-7-7 16:42:32",
+			log53.setOperatetime(DataUtils.parseTimestamp("2013-7-7 16:42:32",
 					"yyyy-MM-dd HH:mm"));
 			log53.setOperatetype((short) 1);
 			log53.setLoglevel((short) 1);
@@ -2588,7 +2599,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log54.setBroswer("MSIE 8.0");
 			log54.setNote("192.168.197.1");
 			log54.setTSUser(admin);
-			log54.setOperatetime(DateUtils.parseTimestamp("2013-7-7 16:44:38",
+			log54.setOperatetime(DataUtils.parseTimestamp("2013-7-7 16:44:38",
 					"yyyy-MM-dd HH:mm"));
 			log54.setOperatetype((short) 1);
 			log54.setLoglevel((short) 1);
@@ -2599,7 +2610,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log55.setBroswer("MSIE 8.0");
 			log55.setNote("192.168.197.1");
 			log55.setTSUser(admin);
-			log55.setOperatetime(DateUtils.parseTimestamp("2013-7-7 16:49:06",
+			log55.setOperatetime(DataUtils.parseTimestamp("2013-7-7 16:49:06",
 					"yyyy-MM-dd HH:mm"));
 			log55.setOperatetype((short) 1);
 			log55.setLoglevel((short) 1);
@@ -2610,7 +2621,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log56.setBroswer("MSIE 8.0");
 			log56.setNote("192.168.197.1");
 			log56.setTSUser(admin);
-			log56.setOperatetime(DateUtils.parseTimestamp("2013-7-7 16:50:51",
+			log56.setOperatetime(DataUtils.parseTimestamp("2013-7-7 16:50:51",
 					"yyyy-MM-dd HH:mm"));
 			log56.setOperatetype((short) 1);
 			log56.setLoglevel((short) 1);
@@ -2621,7 +2632,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log57.setBroswer("MSIE 8.0");
 			log57.setNote("192.168.197.1");
 			log57.setTSUser(admin);
-			log57.setOperatetime(DateUtils.parseTimestamp("2013-7-7 16:53:48",
+			log57.setOperatetime(DataUtils.parseTimestamp("2013-7-7 16:53:48",
 					"yyyy-MM-dd HH:mm"));
 			log57.setOperatetype((short) 1);
 			log57.setLoglevel((short) 1);
@@ -2632,7 +2643,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log58.setBroswer("MSIE 8.0");
 			log58.setNote("192.168.197.1");
 			log58.setTSUser(admin);
-			log58.setOperatetime(DateUtils.parseTimestamp("2013-7-7 16:56:45",
+			log58.setOperatetime(DataUtils.parseTimestamp("2013-7-7 16:56:45",
 					"yyyy-MM-dd HH:mm"));
 			log58.setOperatetype((short) 1);
 			log58.setLoglevel((short) 5);
@@ -2643,7 +2654,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log59.setBroswer("MSIE 8.0");
 			log59.setNote("192.168.197.1");
 			log59.setTSUser(admin);
-			log59.setOperatetime(DateUtils.parseTimestamp("2013-7-7 16:59:22",
+			log59.setOperatetime(DataUtils.parseTimestamp("2013-7-7 16:59:22",
 					"yyyy-MM-dd HH:mm"));
 			log59.setOperatetype((short) 1);
 			log59.setLoglevel((short) 1);
@@ -2654,7 +2665,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log60.setBroswer("MSIE 8.0");
 			log60.setNote("192.168.197.1");
 			log60.setTSUser(admin);
-			log60.setOperatetime(DateUtils.parseTimestamp("2013-7-7 17:22:42",
+			log60.setOperatetime(DataUtils.parseTimestamp("2013-7-7 17:22:42",
 					"yyyy-MM-dd HH:mm"));
 			log60.setOperatetype((short) 1);
 			log60.setLoglevel((short) 3);
@@ -2665,7 +2676,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log61.setBroswer("MSIE 8.0");
 			log61.setNote("192.168.197.1");
 			log61.setTSUser(admin);
-			log61.setOperatetime(DateUtils.parseTimestamp("2013-7-7 17:26:03",
+			log61.setOperatetime(DataUtils.parseTimestamp("2013-7-7 17:26:03",
 					"yyyy-MM-dd HH:mm"));
 			log61.setOperatetype((short) 1);
 			log61.setLoglevel((short) 5);
@@ -2676,7 +2687,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log62.setBroswer("MSIE 8.0");
 			log62.setNote("192.168.197.1");
 			log62.setTSUser(admin);
-			log62.setOperatetime(DateUtils.parseTimestamp("2013-7-7 17:31:00",
+			log62.setOperatetime(DataUtils.parseTimestamp("2013-7-7 17:31:00",
 					"yyyy-MM-dd HH:mm"));
 			log62.setOperatetype((short) 1);
 			log62.setLoglevel((short) 4);
@@ -2687,7 +2698,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log63.setBroswer("MSIE 8.0");
 			log63.setNote("192.168.197.1");
 			log63.setTSUser(admin);
-			log63.setOperatetime(DateUtils.parseTimestamp("2013-7-7 17:35:02",
+			log63.setOperatetime(DataUtils.parseTimestamp("2013-7-7 17:35:02",
 					"yyyy-MM-dd HH:mm"));
 			log63.setOperatetype((short) 1);
 			log63.setLoglevel((short) 5);
@@ -2698,7 +2709,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log64.setBroswer("MSIE 8.0");
 			log64.setNote("192.168.197.1");
 			log64.setTSUser(admin);
-			log64.setOperatetime(DateUtils.parseTimestamp("2013-7-7 17:46:39",
+			log64.setOperatetime(DataUtils.parseTimestamp("2013-7-7 17:46:39",
 					"yyyy-MM-dd HH:mm"));
 			log64.setOperatetype((short) 1);
 			log64.setLoglevel((short) 1);
@@ -2709,7 +2720,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log65.setBroswer("MSIE 8.0");
 			log65.setNote("192.168.197.1");
 			log65.setTSUser(admin);
-			log65.setOperatetime(DateUtils.parseTimestamp("2013-7-7 17:55:01",
+			log65.setOperatetime(DataUtils.parseTimestamp("2013-7-7 17:55:01",
 					"yyyy-MM-dd HH:mm"));
 			log65.setOperatetype((short) 1);
 			log65.setLoglevel((short) 1);
@@ -2720,7 +2731,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log66.setBroswer("MSIE 8.0");
 			log66.setNote("192.168.197.1");
 			log66.setTSUser(admin);
-			log66.setOperatetime(DateUtils.parseTimestamp("2013-7-7 18:08:56",
+			log66.setOperatetime(DataUtils.parseTimestamp("2013-7-7 18:08:56",
 					"yyyy-MM-dd HH:mm"));
 			log66.setOperatetype((short) 1);
 			log66.setLoglevel((short) 1);
@@ -2731,7 +2742,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log67.setBroswer("MSIE 8.0");
 			log67.setNote("192.168.197.1");
 			log67.setTSUser(admin);
-			log67.setOperatetime(DateUtils.parseTimestamp("2013-7-7 18:13:02",
+			log67.setOperatetime(DataUtils.parseTimestamp("2013-7-7 18:13:02",
 					"yyyy-MM-dd HH:mm"));
 			log67.setOperatetype((short) 1);
 			log67.setLoglevel((short) 1);
@@ -2742,7 +2753,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log68.setBroswer("MSIE 8.0");
 			log68.setNote("192.168.197.1");
 			log68.setTSUser(admin);
-			log68.setOperatetime(DateUtils.parseTimestamp("2013-7-7 18:15:50",
+			log68.setOperatetime(DataUtils.parseTimestamp("2013-7-7 18:15:50",
 					"yyyy-MM-dd HH:mm"));
 			log68.setOperatetype((short) 1);
 			log68.setLoglevel((short) 1);
@@ -2753,7 +2764,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log69.setBroswer("MSIE 8.0");
 			log69.setNote("192.168.197.1");
 			log69.setTSUser(admin);
-			log69.setOperatetime(DateUtils.parseTimestamp("2013-7-7 18:28:42",
+			log69.setOperatetime(DataUtils.parseTimestamp("2013-7-7 18:28:42",
 					"yyyy-MM-dd HH:mm"));
 			log69.setOperatetype((short) 1);
 			log69.setLoglevel((short) 5);
@@ -2764,7 +2775,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log70.setBroswer("MSIE 8.0");
 			log70.setNote("192.168.197.1");
 			log70.setTSUser(admin);
-			log70.setOperatetime(DateUtils.parseTimestamp("2013-7-7 18:29:12",
+			log70.setOperatetime(DataUtils.parseTimestamp("2013-7-7 18:29:12",
 					"yyyy-MM-dd HH:mm"));
 			log70.setOperatetype((short) 1);
 			log70.setLoglevel((short) 5);
@@ -2775,7 +2786,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log71.setBroswer("MSIE 8.0");
 			log71.setNote("192.168.197.1");
 			log71.setTSUser(admin);
-			log71.setOperatetime(DateUtils.parseTimestamp("2013-7-7 18:30:12",
+			log71.setOperatetime(DataUtils.parseTimestamp("2013-7-7 18:30:12",
 					"yyyy-MM-dd HH:mm"));
 			log71.setOperatetype((short) 1);
 			log71.setLoglevel((short) 5);
@@ -2786,7 +2797,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log72.setBroswer("MSIE 8.0");
 			log72.setNote("192.168.197.1");
 			log72.setTSUser(admin);
-			log72.setOperatetime(DateUtils.parseTimestamp("2013-7-7 18:31:00",
+			log72.setOperatetime(DataUtils.parseTimestamp("2013-7-7 18:31:00",
 					"yyyy-MM-dd HH:mm"));
 			log72.setOperatetype((short) 1);
 			log72.setLoglevel((short) 5);
@@ -2797,7 +2808,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log73.setBroswer("MSIE 8.0");
 			log73.setNote("192.168.197.1");
 			log73.setTSUser(admin);
-			log73.setOperatetime(DateUtils.parseTimestamp("2013-7-7 18:31:26",
+			log73.setOperatetime(DataUtils.parseTimestamp("2013-7-7 18:31:26",
 					"yyyy-MM-dd HH:mm"));
 			log73.setOperatetype((short) 1);
 			log73.setLoglevel((short) 5);
@@ -2808,7 +2819,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log74.setBroswer("MSIE 9.0");
 			log74.setNote("192.168.1.103");
 			log74.setTSUser(admin);
-			log74.setOperatetime(DateUtils.parseTimestamp("2013-3-20 23:03:06",
+			log74.setOperatetime(DataUtils.parseTimestamp("2013-3-20 23:03:06",
 					"yyyy-MM-dd HH:mm"));
 			log74.setOperatetype((short) 1);
 			log74.setLoglevel((short) 3);
@@ -2819,7 +2830,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log75.setBroswer("MSIE 9.0");
 			log75.setNote("192.168.1.103");
 			log75.setTSUser(admin);
-			log75.setOperatetime(DateUtils.parseTimestamp("2013-3-20 23:19:25",
+			log75.setOperatetime(DataUtils.parseTimestamp("2013-3-20 23:19:25",
 					"yyyy-MM-dd HH:mm"));
 			log75.setOperatetype((short) 1);
 			log75.setLoglevel((short) 1);
@@ -2830,7 +2841,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log76.setBroswer("MSIE 9.0");
 			log76.setNote("192.168.1.103");
 			log76.setTSUser(admin);
-			log76.setOperatetime(DateUtils.parseTimestamp("2013-3-21 20:09:02",
+			log76.setOperatetime(DataUtils.parseTimestamp("2013-3-21 20:09:02",
 					"yyyy-MM-dd HH:mm"));
 			log76.setOperatetype((short) 1);
 			log76.setLoglevel((short) 1);
@@ -2841,7 +2852,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log77.setBroswer("MSIE 9.0");
 			log77.setNote("192.168.1.103");
 			log77.setTSUser(admin);
-			log77.setOperatetime(DateUtils.parseTimestamp("2013-3-21 20:27:25",
+			log77.setOperatetime(DataUtils.parseTimestamp("2013-3-21 20:27:25",
 					"yyyy-MM-dd HH:mm"));
 			log77.setOperatetype((short) 1);
 			log77.setLoglevel((short) 1);
@@ -2852,7 +2863,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log78.setBroswer("MSIE 9.0");
 			log78.setNote("192.168.1.103");
 			log78.setTSUser(admin);
-			log78.setOperatetime(DateUtils.parseTimestamp("2013-3-21 20:44:40",
+			log78.setOperatetime(DataUtils.parseTimestamp("2013-3-21 20:44:40",
 					"yyyy-MM-dd HH:mm"));
 			log78.setOperatetype((short) 1);
 			log78.setLoglevel((short) 1);
@@ -2863,7 +2874,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log79.setBroswer("MSIE 9.0");
 			log79.setNote("192.168.1.103");
 			log79.setTSUser(admin);
-			log79.setOperatetime(DateUtils.parseTimestamp("2013-3-21 20:54:13",
+			log79.setOperatetime(DataUtils.parseTimestamp("2013-3-21 20:54:13",
 					"yyyy-MM-dd HH:mm"));
 			log79.setOperatetype((short) 1);
 			log79.setLoglevel((short) 1);
@@ -2874,7 +2885,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log80.setBroswer("MSIE 9.0");
 			log80.setNote("192.168.1.103");
 			log80.setTSUser(admin);
-			log80.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:01:54",
+			log80.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:01:54",
 					"yyyy-MM-dd HH:mm"));
 			log80.setOperatetype((short) 1);
 			log80.setLoglevel((short) 1);
@@ -2885,7 +2896,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log81.setBroswer("MSIE 9.0");
 			log81.setNote("192.168.1.103");
 			log81.setTSUser(admin);
-			log81.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:13:05",
+			log81.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:13:05",
 					"yyyy-MM-dd HH:mm"));
 			log81.setOperatetype((short) 1);
 			log81.setLoglevel((short) 1);
@@ -2896,7 +2907,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log82.setBroswer("MSIE 9.0");
 			log82.setNote("192.168.1.103");
 			log82.setTSUser(admin);
-			log82.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:15:07",
+			log82.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:15:07",
 					"yyyy-MM-dd HH:mm"));
 			log82.setOperatetype((short) 1);
 			log82.setLoglevel((short) 3);
@@ -2907,7 +2918,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log83.setBroswer("MSIE 9.0");
 			log83.setNote("192.168.1.103");
 			log83.setTSUser(admin);
-			log83.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:22:57",
+			log83.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:22:57",
 					"yyyy-MM-dd HH:mm"));
 			log83.setOperatetype((short) 1);
 			log83.setLoglevel((short) 1);
@@ -2918,7 +2929,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log84.setBroswer("MSIE 9.0");
 			log84.setNote("192.168.1.103");
 			log84.setTSUser(admin);
-			log84.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:23:12",
+			log84.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:23:12",
 					"yyyy-MM-dd HH:mm"));
 			log84.setOperatetype((short) 1);
 			log84.setLoglevel((short) 3);
@@ -2929,7 +2940,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log85.setBroswer("MSIE 9.0");
 			log85.setNote("192.168.1.103");
 			log85.setTSUser(admin);
-			log85.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:23:47",
+			log85.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:23:47",
 					"yyyy-MM-dd HH:mm"));
 			log85.setOperatetype((short) 1);
 			log85.setLoglevel((short) 3);
@@ -2940,7 +2951,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log86.setBroswer("MSIE 9.0");
 			log86.setNote("192.168.1.103");
 			log86.setTSUser(admin);
-			log86.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:25:09",
+			log86.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:25:09",
 					"yyyy-MM-dd HH:mm"));
 			log86.setOperatetype((short) 1);
 			log86.setLoglevel((short) 1);
@@ -2951,7 +2962,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log87.setBroswer("MSIE 9.0");
 			log87.setNote("192.168.1.103");
 			log87.setTSUser(admin);
-			log87.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:27:58",
+			log87.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:27:58",
 					"yyyy-MM-dd HH:mm"));
 			log87.setOperatetype((short) 1);
 			log87.setLoglevel((short) 1);
@@ -2962,7 +2973,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log88.setBroswer("MSIE 9.0");
 			log88.setNote("192.168.1.103");
 			log88.setTSUser(admin);
-			log88.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:29:04",
+			log88.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:29:04",
 					"yyyy-MM-dd HH:mm"));
 			log88.setOperatetype((short) 1);
 			log88.setLoglevel((short) 3);
@@ -2973,7 +2984,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log89.setBroswer("MSIE 9.0");
 			log89.setNote("192.168.1.103");
 			log89.setTSUser(admin);
-			log89.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:29:56",
+			log89.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:29:56",
 					"yyyy-MM-dd HH:mm"));
 			log89.setOperatetype((short) 1);
 			log89.setLoglevel((short) 5);
@@ -2984,7 +2995,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log90.setBroswer("MSIE 9.0");
 			log90.setNote("192.168.1.103");
 			log90.setTSUser(admin);
-			log90.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:30:08",
+			log90.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:30:08",
 					"yyyy-MM-dd HH:mm"));
 			log90.setOperatetype((short) 1);
 			log90.setLoglevel((short) 5);
@@ -2995,7 +3006,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log91.setBroswer("MSIE 9.0");
 			log91.setNote("192.168.1.103");
 			log91.setTSUser(admin);
-			log91.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:31:21",
+			log91.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:31:21",
 					"yyyy-MM-dd HH:mm"));
 			log91.setOperatetype((short) 1);
 			log91.setLoglevel((short) 5);
@@ -3006,7 +3017,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log92.setBroswer("MSIE 9.0");
 			log92.setNote("192.168.1.103");
 			log92.setTSUser(admin);
-			log92.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:36:03",
+			log92.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:36:03",
 					"yyyy-MM-dd HH:mm"));
 			log92.setOperatetype((short) 1);
 			log92.setLoglevel((short) 3);
@@ -3017,7 +3028,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log93.setBroswer("MSIE 9.0");
 			log93.setNote("192.168.1.103");
 			log93.setTSUser(admin);
-			log93.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:36:11",
+			log93.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:36:11",
 					"yyyy-MM-dd HH:mm"));
 			log93.setOperatetype((short) 1);
 			log93.setLoglevel((short) 5);
@@ -3028,7 +3039,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log94.setBroswer("MSIE 9.0");
 			log94.setNote("192.168.1.103");
 			log94.setTSUser(admin);
-			log94.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:37:16",
+			log94.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:37:16",
 					"yyyy-MM-dd HH:mm"));
 			log94.setOperatetype((short) 1);
 			log94.setLoglevel((short) 5);
@@ -3039,7 +3050,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log95.setBroswer("MSIE 9.0");
 			log95.setNote("192.168.1.103");
 			log95.setTSUser(admin);
-			log95.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:38:20",
+			log95.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:38:20",
 					"yyyy-MM-dd HH:mm"));
 			log95.setOperatetype((short) 1);
 			log95.setLoglevel((short) 4);
@@ -3050,7 +3061,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log96.setBroswer("MSIE 9.0");
 			log96.setNote("192.168.1.103");
 			log96.setTSUser(admin);
-			log96.setOperatetime(DateUtils.parseTimestamp("2013-3-21 21:43:51",
+			log96.setOperatetime(DataUtils.parseTimestamp("2013-3-21 21:43:51",
 					"yyyy-MM-dd HH:mm"));
 			log96.setOperatetype((short) 1);
 			log96.setLoglevel((short) 3);
@@ -3061,7 +3072,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log97.setBroswer("MSIE 9.0");
 			log97.setNote("192.168.1.105");
 			log97.setTSUser(admin);
-			log97.setOperatetime(DateUtils.parseTimestamp("2013-2-7 10:10:29",
+			log97.setOperatetime(DataUtils.parseTimestamp("2013-2-7 10:10:29",
 					"yyyy-MM-dd HH:mm"));
 			log97.setOperatetype((short) 1);
 			log97.setLoglevel((short) 1);
@@ -3072,7 +3083,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log98.setBroswer("MSIE 9.0");
 			log98.setNote("192.168.1.105");
 			log98.setTSUser(admin);
-			log98.setOperatetime(DateUtils.parseTimestamp("2013-2-7 11:07:26",
+			log98.setOperatetime(DataUtils.parseTimestamp("2013-2-7 11:07:26",
 					"yyyy-MM-dd HH:mm"));
 			log98.setOperatetype((short) 1);
 			log98.setLoglevel((short) 3);
@@ -3083,7 +3094,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log99.setBroswer("MSIE 9.0");
 			log99.setNote("192.168.1.105");
 			log99.setTSUser(admin);
-			log99.setOperatetime(DateUtils.parseTimestamp("2013-2-7 11:07:39",
+			log99.setOperatetime(DataUtils.parseTimestamp("2013-2-7 11:07:39",
 					"yyyy-MM-dd HH:mm"));
 			log99.setOperatetype((short) 1);
 			log99.setLoglevel((short) 4);
@@ -3094,7 +3105,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 			log100.setBroswer("MSIE 9.0");
 			log100.setNote("192.168.1.105");
 			log100.setTSUser(admin);
-			log100.setOperatetime(DateUtils.parseTimestamp("2013-2-7 11:07:54",
+			log100.setOperatetime(DataUtils.parseTimestamp("2013-2-7 11:07:54",
 					"yyyy-MM-dd HH:mm"));
 			log100.setOperatetype((short) 1);
 			log100.setLoglevel((short) 1);
@@ -3134,13 +3145,9 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		admin.setRealName("管理员");
 		admin.setUserName("admin");
 		admin.setPassword("c44b01947c9e6e3f");
-//		admin.setTSDepart(eiu);
+		admin.setTSDepart(eiu);
 		admin.setActivitiSync((short) 1);
 		commonDao.saveOrUpdate(admin);
-        TSUserOrg adminUserOrg = new TSUserOrg();
-        adminUserOrg.setTsUser(admin);
-        adminUserOrg.setTsDepart(eiu);
-        commonDao.save(adminUserOrg);
 
 		TSUser scott = new TSUser();
 		scott.setMobilePhone("13426432910");
@@ -3150,41 +3157,29 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		scott.setRealName("张代浩");
 		scott.setUserName("scott");
 		scott.setPassword("97c07a884bf272b5");
-//		scott.setTSDepart(RAndD);
+		scott.setTSDepart(RAndD);
 		scott.setActivitiSync((short) 0);
 		commonDao.saveOrUpdate(scott);
-        TSUserOrg scottUserOrg = new TSUserOrg();
-        scottUserOrg.setTsUser(scott);
-        scottUserOrg.setTsDepart(eiu);
-        commonDao.save(scottUserOrg);
 
 		TSUser buyer = new TSUser();
 		buyer.setStatus((short) 1);
 		buyer.setRealName("采购员");
 		buyer.setUserName("cgy");
 		buyer.setPassword("f2322ec2fb9f40d1");
-//		buyer.setTSDepart(eiu);
+		buyer.setTSDepart(eiu);
 		buyer.setActivitiSync((short) 0);
 		commonDao.saveOrUpdate(buyer);
-        TSUserOrg buyerUserOrg = new TSUserOrg();
-        buyerUserOrg.setTsUser(buyer);
-        buyerUserOrg.setTsDepart(eiu);
-        commonDao.save(buyerUserOrg);
 
 		TSUser approver = new TSUser();
 		approver.setStatus((short) 1);
 		approver.setRealName("采购审批员");
 		approver.setUserName("cgspy");
 		approver.setPassword("a324509dc1a3089a");
-//		approver.setTSDepart(eiu);
+		approver.setTSDepart(eiu);
 		approver.setActivitiSync((short) 1);
 		commonDao.saveOrUpdate(approver);
-        TSUserOrg approverUserOrg = new TSUserOrg();
-        approverUserOrg.setTsUser(approver);
-        approverUserOrg.setTsDepart(eiu);
-        commonDao.save(approverUserOrg);
 
-    }
+	}
 
 	/**
 	 * @Description 修复用户角色表
@@ -3749,7 +3744,6 @@ public class RepairServiceImpl extends CommonServiceImpl implements
         return deskIncon;
     }
 
-
 	/**
 	 * @Description 修复菜单权限
 	 * @author tanghan 2013-7-19
@@ -3991,7 +3985,7 @@ public class RepairServiceImpl extends CommonServiceImpl implements
 		commonDao.saveOrUpdate(uploadownload);
 		
 		TSFunction jqueryFileUpload = new TSFunction();
-		jqueryFileUpload.setFunctionName("JqueryFileUpload示例");
+		jqueryFileUpload.setFunctionName("JqueryFile示例");
 		jqueryFileUpload.setFunctionUrl("fileUploadController.do?fileUploadSample&isIframe");
 		jqueryFileUpload.setFunctionLevel((short) 1);
 		jqueryFileUpload.setFunctionOrder("6");

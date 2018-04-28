@@ -11,14 +11,14 @@
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
 	default-autowire="byName" default-lazy-init="false">
 	<!-- 自动扫描dao和service包(自动注入) -->
-	<context:component-scan base-package="org.jeecgframework.core.common.dao.*" />
+	<context:component-scan base-package="org.jeecgframework.core.common.dao.*," />
 	<context:component-scan base-package="org.jeecgframework.core.common.service.*" />
-	<context:component-scan base-package="com.jeecg.*">
-			<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
-	</context:component-scan>
+
+
 	<!-- 加载service,此时要排除要controller,因为controller已经spring-mvc中加载过了 -->
-	<context:component-scan base-package="org.jeecgframework.web.*">
-			<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	<context:component-scan base-package="org.jeecgframework.web.*,weixin.*,com.jeecg.*">
+		<context:exclude-filter type="annotation"
+								expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
 	<!-- 引入属性文件 -->
@@ -85,7 +85,7 @@
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="entityInterceptor" ref="hiberAspect" />
+		<!--<property name="entityInterceptor" ref="hiberAspect" />-->
 		<property name="hibernateProperties">
 			<props>
 				<!--<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop> -->
@@ -101,7 +101,7 @@
 			<list>
 				<value>org.jeecgframework.web.system.pojo.*</value>
 				<value>org.jeecgframework.web.demo.entity.*</value>
-				<value>org.jeecgframework.web.test.entity.*</value>
+				<!--<value>org.jeecgframework.web.test.entity.*</value>-->
 				<value>org.jeecgframework.web.cgform.entity.*</value>
 				<value>org.jeecgframework.web.cgreport.entity.*</value>
 				<value>org.jeecgframework.web.cgdynamgraph.entity.*</value>

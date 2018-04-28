@@ -13,7 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.jeecgframework.core.common.entity.IdEntity;
-import org.jeecgframework.poi.excel.annotation.Excel;
 
 /**
  * 部门机构表
@@ -25,11 +24,12 @@ public class TSDepart extends IdEntity implements java.io.Serializable {
 	private TSDepart TSPDepart;//上级部门
 	private String departname;//部门名称
 	private String description;//部门描述
-    private String orgCode;//机构编码
-    private String orgType;//机构编码
+	private String orgCode;//机构编码
+	private String orgType;//机构编码
 	private String mobile;//电话
 	private String fax;//传真
 	private String address;//地址
+
 	private List<TSDepart> TSDeparts = new ArrayList<TSDepart>();//下属部门
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -69,23 +69,23 @@ public class TSDepart extends IdEntity implements java.io.Serializable {
 		TSDeparts = tSDeparts;
 	}
 
-    @Column(name = "org_code", length = 64)
-    public String getOrgCode() {
-        return orgCode;
-    }
+	@Column(name = "org_code", length = 64)
+	public String getOrgCode() {
+		return orgCode;
+	}
 
-    public void setOrgCode(String orgCode) {
-        this.orgCode = orgCode;
-    }
+	public void setOrgCode(String orgCode) {
+		this.orgCode = orgCode;
+	}
 
-    @Column(name = "org_type", length = 1)
-    public String getOrgType() {
-        return orgType;
-    }
+	@Column(name = "org_type", length = 1)
+	public String getOrgType() {
+		return orgType;
+	}
 
-    public void setOrgType(String orgType) {
-        this.orgType = orgType;
-    }
+	public void setOrgType(String orgType) {
+		this.orgType = orgType;
+	}
 
 	@Column(name = "mobile", length = 32)
 	public String getMobile() {

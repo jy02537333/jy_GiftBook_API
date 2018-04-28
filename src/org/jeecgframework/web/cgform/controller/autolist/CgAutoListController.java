@@ -6,40 +6,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.jeecgframework.web.cgform.common.CgAutoListConstant;
+import org.jeecgframework.web.cgform.common.SysVar;
 import org.jeecgframework.web.cgform.engine.FreemarkerHelper;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
-import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
-import org.jeecgframework.web.cgform.entity.template.CgformTemplateEntity;
 import org.jeecgframework.web.cgform.service.autolist.CgTableServiceI;
 import org.jeecgframework.web.cgform.service.autolist.ConfigServiceI;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
-import org.jeecgframework.web.cgform.service.template.CgformTemplateServiceI;
+import com.jeecg.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.util.QueryParamUtil;
-import org.jeecgframework.web.cgform.util.TemplateUtil;
 import org.jeecgframework.web.system.pojo.base.DictEntity;
-import org.jeecgframework.web.system.pojo.base.TSOperation;
 import org.jeecgframework.web.system.service.SystemService;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.enums.SysThemesEnum;
-import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.core.util.JeecgDataAutorUtils;
-import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.SysThemesUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -65,8 +52,6 @@ public class CgAutoListController extends BaseController{
 	private SystemService systemService;
 	@Autowired
 	private CgFormFieldServiceI cgFormFieldService;
-	@Autowired
-	private CgformTemplateServiceI cgformTemplateService;
 	private static Logger log = Logger.getLogger(CgAutoListController.class);
 	/**
 	 * 动态列表展现入口
@@ -87,35 +72,15 @@ public class CgAutoListController extends BaseController{
 		//step.3 封装页面数据
 		loadVars(configs,paras,request);
 		//step.4 组合模板+数据参数，进行页面展现
-
-		String template=request.getParameter("olstylecode");
-		if(StringUtils.isBlank(template)){
-				CgFormHeadEntity head = cgFormFieldService.getCgFormHeadByTableName(id);
-
-				template=head.getFormTemplate();
-			paras.put("_olstylecode","");
-		}else{
-			paras.put("_olstylecode",template);
-		}
-        paras.put("this_olstylecode",template);
-		CgformTemplateEntity entity=cgformTemplateService.findByCode(template);
-		String html = viewEngine.parseTemplate(TemplateUtil.getTempletPath(entity,0, TemplateUtil.TemplateType.LIST), paras);
-
-		PrintWriter writer = null;
+		String html = viewEngine.parseTemplate("/org/jeecgframework/web/cgform/engine/autolist/autolist.ftl", paras);
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
-			writer = response.getWriter();
+			PrintWriter writer = response.getWriter();
 			writer.println(html);
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				writer.close();
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
 		}
 		long end = System.currentTimeMillis();
 		log.debug("动态列表生成耗时："+(end-start)+" ms");
@@ -134,7 +99,6 @@ public class CgAutoListController extends BaseController{
 	@RequestMapping(params = "datagrid")
 	public void datagrid(String configId,String page,String field,String rows,String sort,String order, HttpServletRequest request,
 			HttpServletResponse response, DataGrid dataGrid) {
-		Object dataRuleSql =JeecgDataAutorUtils.loadDataSearchConditonSQLString(); //request.getAttribute(Globals.MENU_DATA_AUTHOR_RULE_SQL);
 		long start = System.currentTimeMillis();
 		//step.1 获取动态配置
 		String jversion = cgFormFieldService.getCgFormVersionByTableName(configId);
@@ -143,60 +107,15 @@ public class CgAutoListController extends BaseController{
 		Map params =  new HashMap<String,Object>();
 		//step.2 获取查询条件以及值
 		List<CgFormFieldEntity> beans = (List<CgFormFieldEntity>) configs.get(CgAutoListConstant.FILEDS);
-		Map<String, String[]> fieldMap = new HashMap<String, String[]>();
 		for(CgFormFieldEntity b:beans){
-			QueryParamUtil.loadQueryParams(request,b,params);
-			fieldMap.put(b.getFieldName(), new String[]{b.getType(), b.getFieldDefault()});
+//			if(CgAutoListConstant.BOOL_TRUE.equals(b.getIsQuery())){
+				QueryParamUtil.loadQueryParams(request,b,params);
+//			}
 		}
-
-		//参数处理
-		boolean isTree = configs.get(CgAutoListConstant.CONFIG_ISTREE) == null ? false
-				: CgAutoListConstant.BOOL_TRUE.equalsIgnoreCase(configs.get(CgAutoListConstant.CONFIG_ISTREE).toString());
-		String treeId = request.getParameter("id");
-		String parentIdFieldName = null;
-		String parentIdDefault = null;
-		String parentIdFieldType = null;
-		if(isTree) {
-			parentIdFieldName = configs.get(CgAutoListConstant.TREE_PARENTID_FIELDNAME).toString();
-		    parentIdFieldType = fieldMap.get(parentIdFieldName)[0];
-			parentIdDefault = fieldMap.get(parentIdFieldName)[1];
-			if("null".equalsIgnoreCase(parentIdDefault)) {
-				parentIdDefault = null;
-			}
-			if(treeId == null) {
-				treeId = parentIdDefault;
-			}else {
-				if(parentIdFieldType.equalsIgnoreCase(CgAutoListConstant.TYPE_STRING)) {
-					treeId = "'" + treeId + "'";
-				}
-			}
-			if(oConvertUtils.isEmpty(treeId)) {
-				params.put(parentIdFieldName, " is null");
-			}else {
-				params.put(parentIdFieldName, "=" + treeId);
-			}
-		}
-
-		
 		int p = page==null?1:Integer.parseInt(page);
 		int r = rows==null?99999:Integer.parseInt(rows);
-		//step.3 进行查询返回结果，如果为tree的下级数据，则不需要分页
-
-		List<Map<String, Object>> result = null;
-		if(isTree && treeId !=null) {
-			//防止下级数据太大，最大只取500条
-			result=cgTableService.querySingle(table, field.toString(), params,sort,order, 1, 500);
-		}else {
-			result=cgTableService.querySingle(table, field.toString(), params,sort,order, p,r );
-		}
-		
-		//treeform 处理是否有下级菜单
-		if(isTree) {
-			cgTableService.treeFromResultHandle(table, parentIdFieldName, parentIdFieldType,
-					result);
-		}
-
-		
+		//step.3 进行查询返回结果
+		List<Map<String, Object>> result=cgTableService.querySingle(table, field.toString(), params,sort,order, p,r );
 		//处理页面中若存在checkbox只能显示code值而不能显示text值问题
 		Map<String, Object> dicMap = new HashMap<String, Object>();
 		for(CgFormFieldEntity b:beans){
@@ -228,30 +147,17 @@ public class CgAutoListController extends BaseController{
 		dealDic(result,beans);
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "no-store");
-		PrintWriter writer = null;
+		PrintWriter writer;
 		try {
 			writer = response.getWriter();
-
-			if(isTree && treeId !=null) {
-				//下级列表
-				writer.println(QueryParamUtil.getJson(result));
-			}else {
-				writer.println(QueryParamUtil.getJson(result,size));
-			}
-
+			writer.println(QueryParamUtil.getJson(result,size));
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				writer.close();
-			} catch (Exception e2) {
-			}
 		}
 		long end = System.currentTimeMillis();
 		log.debug("动态列表查询耗时："+(end-start)+" ms");
 	}
-	
 	/**
 	 * 处理数据字典
 	 * @param result 查询的结果集
@@ -281,9 +187,7 @@ public class CgAutoListController extends BaseController{
 //						}
 						for(DictEntity dictEntity:dicDataList){
 							if(value.equalsIgnoreCase(dictEntity.getTypecode())){
-
-								r.put(bean.getFieldName(),MutiLangUtil.getMutiLangInstance().getLang(dictEntity.getTypename()));
-
+								r.put(bean.getFieldName(),dictEntity.getTypename());
 							}
 						}
 					}
@@ -354,23 +258,7 @@ public class CgAutoListController extends BaseController{
 		List<Map> queryList = new ArrayList<Map>();
 		StringBuilder fileds = new StringBuilder();
 		StringBuilder initQuery = new StringBuilder();
-
-		Set<String> operationCodes = (Set<String>) request.getAttribute(Globals.OPERATIONCODES);
-		Map<String,TSOperation> operationCodesMap = new HashMap<String, TSOperation>();
-		if(operationCodes != null){
-			TSOperation tsOperation;
-			for (String id : operationCodes) {
-				tsOperation = systemService.getEntity(TSOperation.class, id);
-				if(tsOperation != null && tsOperation.getOperationType() == 0 && tsOperation.getStatus() == 0){
-					operationCodesMap.put(tsOperation.getOperationcode(), tsOperation);
-				}
-			}
-		}
 		for (CgFormFieldEntity bean : (List<CgFormFieldEntity>) configs.get(CgAutoListConstant.FILEDS)) {
-			if(operationCodesMap.containsKey(bean.getFieldName())) {
-				continue;
-			}
-
 			Map fm = new HashMap<String, Object>();
 			fm.put(CgAutoListConstant.FILED_ID, bean.getFieldName());
 			fm.put(CgAutoListConstant.FIELD_TITLE, bean.getContent());
@@ -423,49 +311,23 @@ public class CgAutoListController extends BaseController{
 	 */
 	private void loadIframeConfig(Map<String, Object> paras,
 			HttpServletRequest request) {
-		HttpSession session = ContextHolderUtils.getSession();
-		String lang = (String)session.getAttribute("lang");
-		
 		//如果列表以iframe形式的话，需要加入样式文件
 		StringBuilder sb= new StringBuilder("");
 		if(!request.getQueryString().contains("isHref")){
-//			String cssTheme ="default";
-//			Cookie[] cookies = request.getCookies();
-//			for (Cookie cookie : cookies) {
-//				if (cookie == null || StringUtils.isEmpty(cookie.getName())) {
-//					continue;
-//				}
-//				if (cookie.getName().equalsIgnoreCase("JEECGCSSTHEME")) {
-//					cssTheme = cookie.getValue();
-//				}
-//			}
-//			if(StringUtil.isEmpty(cssTheme)){
-//				cssTheme ="default";
-//			}
-			SysThemesEnum sysThemesEnum = SysThemesUtil.getSysTheme(request);
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/jquery/jquery-1.8.3.js\"></script>");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/dataformat.js\"></script>");
+			sb.append("<link id=\"easyuiTheme\" rel=\"stylesheet\" href=\"plug-in/easyui/themes/default/easyui.css\" type=\"text/css\"></link>");
+			sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/icon.css\" type=\"text/css\"></link>");
 			sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/accordion.css\">");
-//			sb.append("<link id=\"easyuiTheme\" rel=\"stylesheet\" href=\"plug-in/easyui/themes/"+cssTheme+"/easyui.css\" type=\"text/css\"></link>");
-			sb.append(SysThemesUtil.getEasyUiTheme(sysThemesEnum));
-			sb.append(SysThemesUtil.getEasyUiIconTheme(sysThemesEnum));
-//			sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/icon.css\" type=\"text/css\"></link>");
 			sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/icons.css\">");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/jquery.easyui.min.1.3.2.js\"></script>");
-			sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/zh-cn.js\"></script>");
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/easyui-lang-zh_CN.js\"></script>");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/syUtil.js\"></script>");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/My97DatePicker/WdatePicker.js\"></script>");
-//			sb.append("<link rel=\"stylesheet\" href=\"plug-in/tools/css/common.css\" type=\"text/css\"></link>");
-			sb.append(SysThemesUtil.getCommonTheme(sysThemesEnum));
-//			sb.append("<script type=\"text/javascript\" src=\"plug-in/lhgDialog/lhgdialog.min.js\"></script>");
-			sb.append(SysThemesUtil.getLhgdialogTheme(sysThemesEnum));
-			sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/tools/curdtools_{0}.js\"></script>", "{0}", lang));
-			
+			sb.append("<link rel=\"stylesheet\" href=\"plug-in/tools/css/common.css\" type=\"text/css\"></link>");
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/lhgDialog/lhgdialog.min.js\"></script>");
+			sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/curdtools.js\"></script>");
 			sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/easyuiextend.js\"></script>");
-//			if("metro".equals(cssTheme)){
-//				sb.append("<link id=\"easyuiTheme\" rel=\"stylesheet\" href=\"plug-in/easyui/themes/"+cssTheme+"/main.css\" type=\"text/css\"></link>");
-//			}
-			sb.append(SysThemesUtil.getEasyUiMainTheme(sysThemesEnum));
 		}else{
 		}
 		paras.put(CgAutoListConstant.CONFIG_IFRAME, sb.toString());
@@ -476,20 +338,18 @@ public class CgAutoListController extends BaseController{
 	 * @param request
 	 */
 	private void loadAuth(Map<String, Object> paras, HttpServletRequest request) {
-		List<TSOperation>  nolist = (List<TSOperation>) request.getAttribute(Globals.NOAUTO_OPERATIONCODES);
+		List<String> nolist = (List<String>) request.getAttribute("noauto_operationCodes");
 		if(ResourceUtil.getSessionUserName().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
 			nolist = null;
 		}
-		List<String> list = new ArrayList<String>();
 		String nolistStr = "";
 		if(nolist!=null){
-			for(TSOperation operation:nolist){
-				nolistStr+=operation.getOperationcode();
+			for(String no:nolist){
+				nolistStr+=no;
 				nolistStr+=",";
-				list.add(operation.getOperationcode());
 			}
 		}
-		paras.put(CgAutoListConstant.CONFIG_NOLIST, list);
+		paras.put(CgAutoListConstant.CONFIG_NOLIST, nolist==null?new ArrayList<String>(0):nolist);
 		paras.put(CgAutoListConstant.CONFIG_NOLISTSTR, nolistStr==null?"":nolistStr);
 	}
 	/**
@@ -506,7 +366,9 @@ public class CgAutoListController extends BaseController{
 		String paramV = request.getParameter(bean.getFieldName());
 		String paramVbegin = request.getParameter(bean.getFieldName()+"_begin");
 		String paramVend = request.getParameter(bean.getFieldName()+"_end");
-		paramV = getSystemValue(paramV);
+		paramV = SysVar.getSysVar(paramV);
+		paramVbegin = SysVar.getSysVar(paramVbegin);
+		paramVend = SysVar.getSysVar(paramVend);
 		if(!StringUtil.isEmpty(paramV)){
 			initQuery.append("&"+bean.getFieldName()+"="+paramV);
 		}
@@ -545,9 +407,10 @@ public class CgAutoListController extends BaseController{
 			fmq.put(CgAutoListConstant.FIELD_QUERYMODE, bean.getQueryMode());
 			fmq.put(CgAutoListConstant.FIELD_TYPE, bean.getType());
 			fmq.put(CgAutoListConstant.FIELD_ISQUERY,"N");
-			paramV = getSystemValue(paramV);
+			paramV = SysVar.getSysVar(paramV);
 			fmq.put(CgAutoListConstant.FIELD_VALUE, paramV);
-			paramVend = getSystemValue(paramVend);
+			paramVbegin = SysVar.getSysVar(paramVbegin);
+			paramVend = SysVar.getSysVar(paramVend);
 			fmq.put(CgAutoListConstant.FIELD_VALUE_BEGIN, StringUtil.isEmpty(paramVbegin)?"":paramVbegin);
 			fmq.put(CgAutoListConstant.FIELD_VALUE_END, StringUtil.isEmpty(paramVend)?"":paramVend);
 			queryList.add(fmq);
@@ -566,12 +429,14 @@ public class CgAutoListController extends BaseController{
 		if(bean.getQueryMode().equalsIgnoreCase("single")){
 			String paramV = request.getParameter(bean.getFieldName());
 			if(!StringUtil.isEmpty(paramV)){
-				paramV = getSystemValue(paramV);
+				paramV = SysVar.getSysVar(paramV);
 				fmq.put(CgAutoListConstant.FIELD_VALUE, paramV);
 			}
 		}else if(bean.getQueryMode().equalsIgnoreCase("group")){
 			String paramVbegin = request.getParameter(bean.getFieldName()+"_begin");
 			String paramVend = request.getParameter(bean.getFieldName()+"_end");
+			paramVbegin = SysVar.getSysVar(paramVbegin);
+			paramVend = SysVar.getSysVar(paramVend);
 			fmq.put(CgAutoListConstant.FIELD_VALUE_BEGIN, StringUtil.isEmpty(paramVbegin)?"":paramVbegin);
 			fmq.put(CgAutoListConstant.FIELD_VALUE_END, StringUtil.isEmpty(paramVend)?"":paramVend);
 		}
@@ -628,20 +493,5 @@ public class CgAutoListController extends BaseController{
 //		//step.3 字典数据
 //		List<Map<String, Object>> dicDatas = systemService.findForJdbc(dicSql.toString());
 		return systemService.queryDict(dicTable, dicCode, dicText);
-	}
-	
-	private String getSystemValue(String sysVarName) {
-		if(StringUtil.isEmpty(sysVarName)){
-			return sysVarName;
-		}
-		if(sysVarName.contains("{") && sysVarName.contains("}")){
-			sysVarName = sysVarName.replaceAll("\\{", "");
-			sysVarName = sysVarName.replaceAll("\\}", "");
-			sysVarName =sysVarName.replace("sys.", "");
-			//---author:jg_xugj----start-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
-			return ResourceUtil.converRuleValue(sysVarName); 		
-		}else{
-			return sysVarName;
-		}
 	}
 }

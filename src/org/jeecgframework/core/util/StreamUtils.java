@@ -209,7 +209,7 @@ public class StreamUtils {
 
 		byte[] bytes = baos.toByteArray();
 
-		org.jeecgframework.core.util.LogUtil.info(new String(bytes));
+		LogUtil.info(new String(bytes));
 
 		return bytes;
 	}

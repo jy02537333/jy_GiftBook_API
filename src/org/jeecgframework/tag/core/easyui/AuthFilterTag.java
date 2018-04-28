@@ -1,19 +1,14 @@
 package org.jeecgframework.tag.core.easyui;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.ApplicationContextUtil;
 import org.jeecgframework.core.util.ResourceUtil;
-import org.jeecgframework.core.util.oConvertUtils;
-import org.jeecgframework.web.system.pojo.base.TSOperation;
-import org.jeecgframework.web.system.service.SystemService;
-import org.springframework.beans.factory.annotation.Autowired;
 /**
  * 
  * @Title:AuthFilterTag
@@ -23,22 +18,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @version V1.0
  */
 public class AuthFilterTag extends TagSupport{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	/**列表容器的ID*/
 	protected String name;
-	@Autowired
-	private SystemService systemService;
+	
 	public int doStartTag() throws JspException {
 		return super.doStartTag();
 	}
 	
 	public int doEndTag() throws JspException {
-		JspWriter out = null;
 		try {
-				out = this.pageContext.getOut();
+			JspWriter out = this.pageContext.getOut();
 				out.print(end().toString());
 				out.flush();
 		} catch (IOException e) {
@@ -60,31 +49,15 @@ public class AuthFilterTag extends TagSupport{
 	protected void getAuthFilter(StringBuilder out) {
 		out.append("<script type=\"text/javascript\">");
 		out.append("$(document).ready(function(){");
-
+		List<String> nolist = (List<String>) super.pageContext.getRequest().getAttribute("noauto_operationCodes");
 		if(ResourceUtil.getSessionUserName().getUserName().equals("admin")|| !Globals.BUTTON_AUTHORITY_CHECK){
 		}else{
-			Set<String> operationCodes = (Set<String>) super.pageContext.getRequest().getAttribute(Globals.OPERATIONCODES);
-			if (null!=operationCodes) {
-				for (String MyoperationCode : operationCodes) {
-					if (oConvertUtils.isEmpty(MyoperationCode))
-						break;
-					systemService = ApplicationContextUtil.getContext().getBean(SystemService.class);
-					TSOperation operation = systemService.getEntity(TSOperation.class, MyoperationCode);
-					if (operation.getOperationcode().startsWith(".") || operation.getOperationcode().startsWith("#")){
-						if (operation.getOperationType().intValue()==Globals.OPERATION_TYPE_HIDE){
-							//out.append("$(\""+name+"\").find(\"#"+operation.getOperationcode().replaceAll(" ", "")+"\").hide();");
-							out.append("$(\""+operation.getOperationcode().replaceAll(" ", "")+"\").hide();");
-						}else {
-							//out.append("$(\""+name+"\").find(\"#"+operation.getOperationcode().replaceAll(" ", "")+"\").find(\":input\").attr(\"disabled\",\"disabled\");");
-							out.append("$(\""+operation.getOperationcode().replaceAll(" ", "")+"\").attr(\"disabled\",\"disabled\");");
-							out.append("$(\""+operation.getOperationcode().replaceAll(" ", "")+"\").find(\":input\").attr(\"disabled\",\"disabled\");");
-						}
-					}
+			if(nolist!=null&&nolist.size()>0){
+				for(String s:nolist){
+					out.append("$(\"#"+name+"\").find(\"#"+s.replaceAll(" ", "")+"\").hide();");
 				}
 			}
-			
 		}
-
 		out.append("});");
 		out.append("</script>");
 	}

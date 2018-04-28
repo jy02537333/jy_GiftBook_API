@@ -24,16 +24,6 @@ public class DataGrid {
 	private List results;// 结果集
 	private int total;//总记录数
 	private String footer;//合计列
-	private String sqlbuilder;//合计列
-	
-	public String getSqlbuilder() {
-		return sqlbuilder;
-	}
-
-	public void setSqlbuilder(String sqlbuilder) {
-		this.sqlbuilder = sqlbuilder;
-	}
-
 	public int getTotal() {
 		return total;
 	}

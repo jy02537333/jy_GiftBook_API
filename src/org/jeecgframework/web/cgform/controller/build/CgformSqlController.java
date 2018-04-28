@@ -57,7 +57,7 @@ import com.thoughtworks.xstream.XStream;
  * @version V1.0
  * 
  */
-//@Scope("prototype")
+@Scope("prototype")
 @Controller
 @RequestMapping("/cgformSqlController")
 public class CgformSqlController extends BaseController {
@@ -76,6 +76,16 @@ public class CgformSqlController extends BaseController {
 	@Autowired
 	@Qualifier("namedParameterJdbcTemplate")
 	private NamedParameterJdbcTemplate namedJdbcTemplate;
+
+	private String message;
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 	/**
 	 * 导出 Form(采用SQL方式)
@@ -159,7 +169,6 @@ public class CgformSqlController extends BaseController {
 	@ResponseBody
 	public AjaxJson doMigrateIn(HttpServletRequest request,
 			HttpServletResponse response) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		String ls_file = "";
 		UploadFile uploadFile = new UploadFile(request, ls_file);

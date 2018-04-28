@@ -67,6 +67,12 @@ public class ApiConfigCtrl extends BaseController {
 		AjaxJson j = new AjaxJson();
 
 		try {
+			vGroupAndMemberServiceI.findForJdbc()
+
+
+
+
+
 			Map<String, Object> map = new HashMap<String, Object>();
 			String useridString = request.getParameter("userid");
 			if (useridString != null) {

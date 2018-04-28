@@ -126,7 +126,7 @@ public class ApiWebInterceptor implements HandlerInterceptor {
 		List list = this.systemService.findListbySql(sql);
 		if(list.size()==0){
 
-            String orgId = currLoginUser.getCurrentDepart().getId();
+            String orgId = currLoginUser.getTSDepart().getId();
 
             String functionOfOrgSql = "SELECT DISTINCT f.id from t_s_function f, t_s_role_function rf, t_s_role_org ro  " +
                     "WHERE f.ID=rf.functionid AND rf.roleid=ro.role_id " +
@@ -141,8 +141,6 @@ public class ApiWebInterceptor implements HandlerInterceptor {
 	/**
 	 * 转发
 	 * 
-	 * @param user
-	 * @param req
 	 * @return
 	 */
 	@RequestMapping(params = "forword")

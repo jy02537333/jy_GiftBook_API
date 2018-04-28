@@ -29,15 +29,15 @@ import javax.persistence.SequenceGenerator;
 @SuppressWarnings("serial")
 public class OptimisticLockingEntity implements java.io.Serializable {
 	/**id*/
-	private java.lang.String id;
+	private String id;
 	/**name*/
-	private java.lang.String name;
+	private String name;
 	/**age*/
-	private java.lang.Integer age;
+	private Integer age;
 	/**account*/
-	private java.lang.Integer account;
+	private Integer account;
 	/**ver*/
-	private java.lang.Integer ver;
+	private Integer ver;
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -48,7 +48,7 @@ public class OptimisticLockingEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -56,7 +56,7 @@ public class OptimisticLockingEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -64,7 +64,7 @@ public class OptimisticLockingEntity implements java.io.Serializable {
 	 *@return: java.lang.String  name
 	 */
 	@Column(name ="NAME",nullable=true,length=85)
-	public java.lang.String getName(){
+	public String getName(){
 		return this.name;
 	}
 
@@ -72,7 +72,7 @@ public class OptimisticLockingEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  name
 	 */
-	public void setName(java.lang.String name){
+	public void setName(String name){
 		this.name = name;
 	}
 	/**
@@ -80,7 +80,7 @@ public class OptimisticLockingEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  age
 	 */
 	@Column(name ="AGE",nullable=true,precision=10,scale=0)
-	public java.lang.Integer getAge(){
+	public Integer getAge(){
 		return this.age;
 	}
 
@@ -88,7 +88,7 @@ public class OptimisticLockingEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  age
 	 */
-	public void setAge(java.lang.Integer age){
+	public void setAge(Integer age){
 		this.age = age;
 	}
 	/**
@@ -96,7 +96,7 @@ public class OptimisticLockingEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  account
 	 */
 	@Column(name ="ACCOUNT",nullable=true,precision=10,scale=0)
-	public java.lang.Integer getAccount(){
+	public Integer getAccount(){
 		return this.account;
 	}
 
@@ -104,7 +104,7 @@ public class OptimisticLockingEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  account
 	 */
-	public void setAccount(java.lang.Integer account){
+	public void setAccount(Integer account){
 		this.account = account;
 	}
 	/**
@@ -113,7 +113,7 @@ public class OptimisticLockingEntity implements java.io.Serializable {
 	 */
 	 @Version
 	 @Column(name="VER")
-	public java.lang.Integer getVer(){
+	public Integer getVer(){
 		return this.ver;
 	}
 
@@ -121,7 +121,7 @@ public class OptimisticLockingEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  ver
 	 */
-	public void setVer(java.lang.Integer ver){
+	public void setVer(Integer ver){
 		this.ver = ver;
 	}
 }

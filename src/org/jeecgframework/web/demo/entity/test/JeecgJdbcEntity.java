@@ -25,27 +25,27 @@ import javax.persistence.SequenceGenerator;
 @SuppressWarnings("serial")
 public class JeecgJdbcEntity implements java.io.Serializable {
 	/**id*/
-	private java.lang.String id;
+	private String id;
 	/**age*/
-	private java.lang.Integer age;
+	private Integer age;
 	/**birthday*/
-	private java.util.Date birthday;
+	private Date birthday;
 	/**createTime*/
-	private java.util.Date createTime;
+	private Date createTime;
 	/**depId*/
-	private java.lang.String depId;
+	private String depId;
 	/**email*/
-	private java.lang.String email;
+	private String email;
 	/**mobilePhone*/
-	private java.lang.String mobilePhone;
+	private String mobilePhone;
 	/**officePhone*/
-	private java.lang.String officePhone;
+	private String officePhone;
 	/**salary*/
 	private BigDecimal salary;
 	/**sex*/
-	private java.lang.String sex;
+	private String sex;
 	/**userName*/
-	private java.lang.String userName;
+	private String userName;
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -56,7 +56,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -64,7 +64,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -72,7 +72,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  age
 	 */
 	@Column(name ="AGE",nullable=true,precision=10,scale=0)
-	public java.lang.Integer getAge(){
+	public Integer getAge(){
 		return this.age;
 	}
 
@@ -80,7 +80,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  age
 	 */
-	public void setAge(java.lang.Integer age){
+	public void setAge(Integer age){
 		this.age = age;
 	}
 	/**
@@ -88,7 +88,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *@return: java.util.Date  birthday
 	 */
 	@Column(name ="BIRTHDAY",nullable=true)
-	public java.util.Date getBirthday(){
+	public Date getBirthday(){
 		return this.birthday;
 	}
 
@@ -96,7 +96,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *方法: 设置java.util.Date
 	 *@param: java.util.Date  birthday
 	 */
-	public void setBirthday(java.util.Date birthday){
+	public void setBirthday(Date birthday){
 		this.birthday = birthday;
 	}
 	/**
@@ -104,7 +104,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *@return: java.util.Date  createTime
 	 */
 	@Column(name ="CREATE_TIME",nullable=true)
-	public java.util.Date getCreateTime(){
+	public Date getCreateTime(){
 		return this.createTime;
 	}
 
@@ -112,7 +112,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *方法: 设置java.util.Date
 	 *@param: java.util.Date  createTime
 	 */
-	public void setCreateTime(java.util.Date createTime){
+	public void setCreateTime(Date createTime){
 		this.createTime = createTime;
 	}
 	/**
@@ -120,7 +120,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *@return: java.lang.String  depId
 	 */
 	@Column(name ="DEP_ID",nullable=true,length=255)
-	public java.lang.String getDepId(){
+	public String getDepId(){
 		return this.depId;
 	}
 
@@ -128,7 +128,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  depId
 	 */
-	public void setDepId(java.lang.String depId){
+	public void setDepId(String depId){
 		this.depId = depId;
 	}
 	/**
@@ -136,7 +136,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *@return: java.lang.String  email
 	 */
 	@Column(name ="EMAIL",nullable=true,length=255)
-	public java.lang.String getEmail(){
+	public String getEmail(){
 		return this.email;
 	}
 
@@ -144,7 +144,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  email
 	 */
-	public void setEmail(java.lang.String email){
+	public void setEmail(String email){
 		this.email = email;
 	}
 	/**
@@ -152,7 +152,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *@return: java.lang.String  mobilePhone
 	 */
 	@Column(name ="MOBILE_PHONE",nullable=true,length=255)
-	public java.lang.String getMobilePhone(){
+	public String getMobilePhone(){
 		return this.mobilePhone;
 	}
 
@@ -160,7 +160,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  mobilePhone
 	 */
-	public void setMobilePhone(java.lang.String mobilePhone){
+	public void setMobilePhone(String mobilePhone){
 		this.mobilePhone = mobilePhone;
 	}
 	/**
@@ -168,7 +168,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *@return: java.lang.String  officePhone
 	 */
 	@Column(name ="OFFICE_PHONE",nullable=true,length=255)
-	public java.lang.String getOfficePhone(){
+	public String getOfficePhone(){
 		return this.officePhone;
 	}
 
@@ -176,7 +176,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  officePhone
 	 */
-	public void setOfficePhone(java.lang.String officePhone){
+	public void setOfficePhone(String officePhone){
 		this.officePhone = officePhone;
 	}
 	/**
@@ -200,7 +200,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *@return: java.lang.String  sex
 	 */
 	@Column(name ="SEX",nullable=true,length=4)
-	public java.lang.String getSex(){
+	public String getSex(){
 		return this.sex;
 	}
 
@@ -208,7 +208,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  sex
 	 */
-	public void setSex(java.lang.String sex){
+	public void setSex(String sex){
 		this.sex = sex;
 	}
 	/**
@@ -216,7 +216,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *@return: java.lang.String  userName
 	 */
 	@Column(name ="USER_NAME",nullable=false,length=255)
-	public java.lang.String getUserName(){
+	public String getUserName(){
 		return this.userName;
 	}
 
@@ -224,7 +224,7 @@ public class JeecgJdbcEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  userName
 	 */
-	public void setUserName(java.lang.String userName){
+	public void setUserName(String userName){
 		this.userName = userName;
 	}
 }

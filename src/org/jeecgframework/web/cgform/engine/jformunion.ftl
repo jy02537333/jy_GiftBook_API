@@ -3,7 +3,8 @@
 <html>
  <head>
   <title>订单信息</title>
-  ${config_iframe}
+  <script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script><script type="text/javascript" src="plug-in/tools/dataformat.js"></script><link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/default/easyui.css" type="text/css"></link><link rel="stylesheet" href="plug-in/easyui/themes/icon.css" type="text/css"></link><link rel="stylesheet" type="text/css" href="plug-in/accordion/css/accordion.css"><script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script><script type="text/javascript" src="plug-in/easyui/locale/easyui-lang-zh_CN.js"></script><script type="text/javascript" src="plug-in/tools/syUtil.js"></script><script type="text/javascript" src="plug-in/My97DatePicker/WdatePicker.js"></script><script type="text/javascript" src="plug-in/lhgDialog/lhgdialog.min.js"></script><script type="text/javascript" src="plug-in/tools/curdtools.js"></script><script type="text/javascript" src="plug-in/tools/easyuiextend.js"></script>
+  <link rel="stylesheet" href="plug-in/uploadify/css/uploadify.css" type="text/css"></link><script type="text/javascript" src="plug-in/uploadify/jquery.uploadify-3.1.js"></script><script type="text/javascript" src="plug-in/tools/Map.js"></script>
  </head>
  <script type="text/javascript">
  $(document).ready(function(){
@@ -46,14 +47,6 @@
 	if(location.href.indexOf("load=detail")!=-1){
 		$(".jeecgDetail").hide();
 	}
-	if(location.href.indexOf("mode=read")!=-1){
-		//查看模式控件禁用
-		$("#formobj").find(":input").attr("disabled","disabled");
-	}
-	if(location.href.indexOf("mode=onbutton")!=-1){
-		//其他模式显示提交按钮
-		$("#sub_tr").show();
-	}
    });
    function upload() {
   	<#list columns as po>
@@ -61,11 +54,6 @@
   		$('#${po.field_name}').uploadify('upload', '*');		
   		</#if>
   	</#list>
-  }
-  var neibuClickFlag = false;
-  function neibuClick() {
-	  neibuClickFlag = true; 
-	  $('#btn_sub').trigger('click');
   }
   function cancel() {
   	<#list columns as po>
@@ -76,22 +64,15 @@
   }
   function uploadFile(data){
   		if(!$("input[name='id']").val()){
-  			if(data.obj!=null && data.obj!='undefined'){
-  				$("input[name='id']").val(data.obj.id);
-  			}
+  			$("input[name='id']").val(data.obj.id);
   		}
   		if($(".uploadify-queue-item").length>0){
   			upload();
   		}else{
-  			if (neibuClickFlag){
-  				alert(data.msg);
-  				neibuClickFlag = false;
-  			}else {
-	  			var win = frameElement.api.opener;
-				win.reloadTable();
-				win.tip(data.msg);
-				frameElement.api.close();
-  			}
+  			var win = frameElement.api.opener;
+			win.reloadTable();
+			win.tip(data.msg);
+			frameElement.api.close();
   		}
   	}
 	$.dialog.setting.zIndex =1990;
@@ -133,8 +114,7 @@
 				</#list>
 				</div>
 			</div>
-		<div align="center"  id = "sub_tr" style="display: none;" > <input type="button" value="提交" onclick="$('#btn_sub').trigger('click');" class="ui_state_highlight"></div>
-		<script type="text/javascript">$(function(){$("#formobj").Validform({tiptype:1,btnSubmit:"#btn_sub",btnReset:"#btn_reset",ajaxPost:true,usePlugin:{passwordstrength:{minLen:6,maxLen:18,trigger:function(obj,error){if(error){obj.parent().next().find(".Validform_checktip").show();obj.find(".passwordStrength").hide();}else{$(".passwordStrength").show();obj.parent().next().find(".Validform_checktip").hide();}}}},callback:function(data){if(data.success==true){uploadFile(data);}else{if(data.responseText==''||data.responseText==undefined){$.messager.alert('错误', data.msg);$.Hidemsg();}else{try{var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'),data.responseText.indexOf('错误信息')); $.messager.alert('错误',emsg);$.Hidemsg();}catch(ex){$.messager.alert('错误',data.responseText+'');}} return false;}if(!neibuClickFlag){var win = frameElement.api.opener; win.reloadTable();}}});});</script></form>
+		<link rel="stylesheet" href="plug-in/Validform/css/style.css" type="text/css"/><link rel="stylesheet" href="plug-in/Validform/css/tablefrom.css" type="text/css"/><script type="text/javascript" src="plug-in/Validform/js/Validform_v5.3.1_min.js"></script><script type="text/javascript" src="plug-in/Validform/js/Validform_Datatype.js"></script><script type="text/javascript" src="plug-in/Validform/js/datatype.js"></script><SCRIPT type="text/javascript" src="plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js"></SCRIPT><script type="text/javascript">$(function(){$("#formobj").Validform({tiptype:1,btnSubmit:"#btn_sub",btnReset:"#btn_reset",ajaxPost:true,usePlugin:{passwordstrength:{minLen:6,maxLen:18,trigger:function(obj,error){if(error){obj.parent().next().find(".Validform_checktip").show();obj.find(".passwordStrength").hide();}else{$(".passwordStrength").show();obj.parent().next().find(".Validform_checktip").hide();}}}},callback:function(data){var win = frameElement.api.opener;if(data.success==true){uploadFile(data);}else{if(data.responseText==''||data.responseText==undefined){$.messager.alert('错误', data.msg);$.Hidemsg();}else{try{var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'),data.responseText.indexOf('错误信息')); $.messager.alert('错误',emsg);$.Hidemsg();}catch(ex){$.messager.alert('错误',data.responseText+'');}} return false;}win.reloadTable();}});});</script></form>
 		<!-- 添加 产品明细 模版 -->
 		<table style="display:none">
 		<#assign subTableStr>${head.subTableStr?if_exists?html}</#assign>

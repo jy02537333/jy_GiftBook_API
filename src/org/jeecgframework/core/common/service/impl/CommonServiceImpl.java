@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jeecgframework.web.system.pojo.base.TSDepart;
+
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.jeecgframework.core.common.dao.ICommonDao;
@@ -90,6 +91,8 @@ public class CommonServiceImpl implements CommonService {
 	 * 根据实体名返回全部对象
 	 * 
 	 * @param <T>
+	 * @param hql
+	 * @param size
 	 * @return
 	 */
 	public <T> List<T> getList(Class clas) {
@@ -145,6 +148,7 @@ public class CommonServiceImpl implements CommonService {
 	 * 删除实体主键ID删除对象
 	 * 
 	 * @param <T>
+	 * @param entities
 	 */
 	public <T> void deleteEntityById(Class entityName, Serializable id) {
 		commonDao.deleteEntityById(entityName, id);
@@ -165,20 +169,17 @@ public class CommonServiceImpl implements CommonService {
 	 * 通过hql 查询语句查找对象
 	 * 
 	 * @param <T>
+	 * @param query
 	 * @return
 	 */
 	public <T> List<T> findByQueryString(String hql) {
 		return commonDao.findByQueryString(hql);
 	}
 
-	public <T> List<T> findHQLQuery(String hql,Map<String,Object> kv, Integer page, Integer count) {
-		 return commonDao.findHQLQuery(hql,kv,page,count);
-	}
-
-
 	/**
 	 * 根据sql更新
 	 * 
+	 * @param query
 	 * @return
 	 */
 	public int updateBySqlString(String sql) {
@@ -200,6 +201,7 @@ public class CommonServiceImpl implements CommonService {
 	 * 通过属性称获取实体带排序
 	 * 
 	 * @param <T>
+	 * @param clas
 	 * @return
 	 */
 	public <T> List<T> findByPropertyisOrder(Class<T> entityClass,
@@ -248,8 +250,8 @@ public class CommonServiceImpl implements CommonService {
 	 * 
 	 * hqlQuery方式分页
 	 * 
-	 * @param hqlQuery
-	 * @param needParameter
+	 * @param cq
+	 * @param isOffset
 	 * @return
 	 */
 	public PageList getPageList(final HqlQuery hqlQuery,
@@ -261,8 +263,8 @@ public class CommonServiceImpl implements CommonService {
 	 * 
 	 * sqlQuery方式分页
 	 * 
-	 * @param hqlQuery
-	 * @param isToEntity
+	 * @param cq
+	 * @param isOffset
 	 * @return
 	 */
 	public PageList getPageListBySql(final HqlQuery hqlQuery,
@@ -296,7 +298,7 @@ public class CommonServiceImpl implements CommonService {
 	/**
 	 * 文件上传
 	 * 
-	 * @param uploadFile
+	 * @param request
 	 */
 	public <T> T uploadFile(UploadFile uploadFile) {
 		return commonDao.uploadFile(uploadFile);
@@ -311,7 +313,7 @@ public class CommonServiceImpl implements CommonService {
 	/**
 	 * 生成XML文件
 	 * 
-	 * @param importFile
+	 * @param fileName
 	 *            XML全路径
 	 * @return
 	 */
@@ -333,8 +335,20 @@ public class CommonServiceImpl implements CommonService {
 		return commonDao.comTree(all, comboTree);
 	}
 
-	public List<ComboTree> ComboTree(List all, ComboTreeModel comboTreeModel, List in, boolean recursive) {
-        return commonDao.ComboTree(all, comboTreeModel, in, recursive);
+	/**
+	 * 根据模型生成JSON
+	 * 
+	 * @param all
+	 *            全部对象
+	 * @param in
+	 *            已拥有的对象
+	 * @param comboBox
+	 *            模型
+	 * @return
+	 */
+	public List<ComboTree> ComboTree(List all, ComboTreeModel comboTreeModel,
+			List in) {
+		return commonDao.ComboTree(all, comboTreeModel, in);
 	}
 
 	/**
@@ -417,7 +431,6 @@ public class CommonServiceImpl implements CommonService {
 		return commonDao.getCountForJdbcParam(sql,objs);
 	}
 
-
 	
 	public <T> void batchSave(List<T> entitys) {
 		this.commonDao.batchSave(entitys);
@@ -427,7 +440,7 @@ public class CommonServiceImpl implements CommonService {
 	 * 通过hql 查询语句查找对象
 	 * 
 	 * @param <T>
-	 * @param hql
+	 * @param query
 	 * @return
 	 */
 	public <T> List<T> findHql(String hql, Object... param) {
@@ -441,13 +454,6 @@ public class CommonServiceImpl implements CommonService {
 
 	public <T> List<T> findByDetached(DetachedCriteria dc) {
 		return this.commonDao.findByDetached(dc);
-	}
-
-	/**
-	 * 调用存储过程
-	 */
-	public <T> List<T> executeProcedure(String procedureSql,Object... params) {
-		return this.commonDao.executeProcedure(procedureSql, params);
 	}
 
 }

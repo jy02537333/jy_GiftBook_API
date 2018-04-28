@@ -34,7 +34,7 @@ public class JeecgSqlUtil {
 	private static final String SUFFIX_X = "/";
 	
 	
-	private static final ResourceBundle bundle = java.util.ResourceBundle.getBundle("sysConfig");
+	private static final ResourceBundle bundle = ResourceBundle.getBundle("sysConfig");
 	private static Cache dictCache;
 	static{
 		if (dictCache == null) {
@@ -101,7 +101,7 @@ public class JeecgSqlUtil {
 	 */
 
 	private static String getFlieTxt(String fileUrl) {
-		org.jeecgframework.core.util.LogUtil.info("---------------------------------------sql 路径 :"+fileUrl);
+		LogUtil.info("---------------------------------------sql 路径 :"+fileUrl);
 		String sql = null;
 		try {
 			sql = loadStringFromFile(new File(fileUrl));
@@ -147,7 +147,7 @@ public class JeecgSqlUtil {
 		
 		String projectPath = getAppPath(JeecgSqlUtil.class);
 		sqlurl = projectPath + SUFFIX_X+sqlurl;
-		org.jeecgframework.core.util.LogUtil.info(sqlurl);
+		LogUtil.info(sqlurl);
 		return getFlieTxt(sqlurl);
 	}
 	/**
@@ -218,7 +218,7 @@ public class JeecgSqlUtil {
 	public static String getAppPath(Class cls) {
 		// 检查用户传入的参数是否为空
 		if (cls == null)
-			throw new java.lang.IllegalArgumentException("参数不能为空！");
+			throw new IllegalArgumentException("参数不能为空！");
 		ClassLoader loader = cls.getClassLoader();
 		// 获得类的全名，包括包名
 		String clsName = cls.getName() + ".class";
@@ -230,7 +230,7 @@ public class JeecgSqlUtil {
 			String packName = pack.getName();
 			// 此处简单判定是否是Java基础类库，防止用户传入JDK内置的类库
 			if (packName.startsWith("java.") || packName.startsWith("javax."))
-				throw new java.lang.IllegalArgumentException("不要传送系统类！");
+				throw new IllegalArgumentException("不要传送系统类！");
 			// 在类的名称中，去掉包名的部分，获得类的文件名
 			clsName = clsName.substring(packName.length() + 1);
 			// 判定包名是否是简单包名，如果是，则直接将包名转换为路径，
@@ -272,7 +272,7 @@ public class JeecgSqlUtil {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		org.jeecgframework.core.util.LogUtil.info("realPath----->"+realPath);
+		LogUtil.info("realPath----->"+realPath);
 		return realPath;
 	}
 
@@ -293,7 +293,7 @@ public class JeecgSqlUtil {
 	
 	public static void main(String[] args) {
 		//org.jeecgframework.core.util.LogUtil.info(getAppPath(JeecgSqlUtil.class));
-		org.jeecgframework.core.util.LogUtil.info(getCountSqlBySql("SELECT * 	from JEECG_DICT_PARAM WHERE 1=1"));
+		LogUtil.info(getCountSqlBySql("SELECT * 	from JEECG_DICT_PARAM WHERE 1=1"));
 	}
 
 	/**

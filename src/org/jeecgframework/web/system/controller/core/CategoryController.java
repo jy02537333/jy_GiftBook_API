@@ -72,7 +72,6 @@ public class CategoryController extends BaseController {
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param user
 	 */
 
 	@SuppressWarnings("unchecked")
@@ -127,7 +126,6 @@ public class CategoryController extends BaseController {
 	/**
 	 * 添加分类管理
 	 * 
-	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "save")
@@ -200,7 +198,7 @@ public class CategoryController extends BaseController {
 		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
 		ComboTreeModel comboTreeModel = new ComboTreeModel("code", "name", "list");
 		comboTrees = systemService.ComboTree(categoryList, comboTreeModel,
-				null, false);
+				null);
 		MutiLangUtil.setMutiTree(comboTrees);
 		return comboTrees;
 	}

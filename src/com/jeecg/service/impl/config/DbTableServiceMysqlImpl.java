@@ -1,4 +1,4 @@
-package org.jeecgframework.web.cgform.service.impl.config;
+package com.jeecg.service.impl.config;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
-import org.jeecgframework.web.cgform.service.config.DbTableServiceI;
+import com.jeecg.service.config.DbTableServiceI;
 import org.jeecgframework.web.cgform.service.impl.config.util.DbTableUtil;
 import org.jeecgframework.web.cgform.service.impl.config.util.FieldNumComparator;
 

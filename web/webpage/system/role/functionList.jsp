@@ -3,7 +3,7 @@
 <!DOCTYPE html >
 <html>
 <head>
-<title><t:mutiLang langKey="permission.collection"/></title>
+<title>权限集合</title>
 <t:base type="jquery,easyui,tools"></t:base>
 <script type="text/javascript">
 	function op() {
@@ -35,10 +35,10 @@
 </script>
 </head>
 <body>
-<t:datagrid name="functionList" title="permission.manage" actionUrl="roleController.do?setOperate&roleId=${roleId}" idField="functionid" treegrid="true" pagination="false">
-	<t:dgCol title="common.id" field="id" treefield="id" hidden="true"></t:dgCol>
-	<t:dgCol title="permission.name" field="functionName" width="100" treefield="text"></t:dgCol>
-	<t:dgCol title="common.operation" field="TOperations" width="300" treefield="operations"></t:dgCol>
+<t:datagrid name="functionList" title="权限管理" actionUrl="roleController.do?setOperate&roleId=${roleId}" idField="functionid" treegrid="true" pagination="false">
+	<t:dgCol title="编号" field="id" treefield="id" hidden="false"></t:dgCol>
+	<t:dgCol title="权限名称" field="functionName" width="100" treefield="text"></t:dgCol>
+	<t:dgCol title="操作" field="TOperations" width="300" treefield="operations"></t:dgCol>
 </t:datagrid>
 <div id="functionListtb" style="padding: 5px; height: 30px">
 <div style="float: left;"><input type="hidden" name="roleId" id="roleId" value="${roleId }"> <a href="#" class="easyui-linkbutton" plain="true" icon="icon-add" onclick="op();">保存</a> <a

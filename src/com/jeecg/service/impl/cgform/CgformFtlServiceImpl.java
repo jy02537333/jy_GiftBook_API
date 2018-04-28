@@ -1,9 +1,9 @@
-package org.jeecgframework.web.cgform.service.impl.cgformftl;
+package com.jeecg.service.impl.cgform;
 
 import java.util.List;
 import java.util.Map;
 
-import com.jeecg.service.impl.cgform.CgformFtlServiceI;
+import com.jeecg.service.cgform.CgformFtlServiceI;
 
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
 import org.springframework.stereotype.Service;

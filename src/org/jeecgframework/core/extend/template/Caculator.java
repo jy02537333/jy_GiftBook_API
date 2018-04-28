@@ -12,8 +12,8 @@ import java.util.Vector;
  */
 public class Caculator {
 
-	public static java.text.NumberFormat nfd = NumberFormat.getNumberInstance(); 
-	public static java.text.NumberFormat nfi = NumberFormat.getNumberInstance();
+	public static NumberFormat nfd = NumberFormat.getNumberInstance();
+	public static NumberFormat nfi = NumberFormat.getNumberInstance();
 	public static DecimalFormat dfd = (DecimalFormat) nfd; 
 	public static DecimalFormat dfi = (DecimalFormat) nfi;
 	static{

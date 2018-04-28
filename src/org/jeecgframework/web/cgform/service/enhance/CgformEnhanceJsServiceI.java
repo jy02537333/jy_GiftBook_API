@@ -12,5 +12,5 @@ public interface CgformEnhanceJsServiceI extends CommonService{
 	 * @param formId
 	 * @return
 	 */
-	public CgformEnhanceJsEntity getCgformEnhanceJsByTypeFormId(String cgJsType,String formId);
+	public CgformEnhanceJsEntity getCgformEnhanceJsByTypeFormId(String cgJsType, String formId);
 }

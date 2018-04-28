@@ -40,10 +40,6 @@ public class UserRestController {
 	@Autowired
 	private Validator validator;
 
-	/**
-	 * 访问地址：http://localhost:8080/jeecg/rest/user
-	 * @return
-	 */
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
 	public List<TSUser> list() {
@@ -51,14 +47,9 @@ public class UserRestController {
 		return listUsers;
 	}
 
-	/**
-	 * 访问地址：http://localhost:8080/jeecg/rest/user/{id}
-	 * @param id
-	 * @return
-	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<?> get(@PathVariable("id") String id) {
+	public ResponseEntity<?> get(@PathVariable("id") Long id) {
 		TSUser task = userService.get(TSUser.class, id);
 		if (task == null) {
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -104,7 +95,7 @@ public class UserRestController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("id") String id) {
+	public void delete(@PathVariable("id") Long id) {
 		userService.deleteEntityById(TSUser.class, id);
 	}
 }

@@ -22,7 +22,7 @@ public class TSRoleFunction extends IdEntity implements java.io.Serializable {
 	private TSFunction TSFunction;
 	private TSRole TSRole;
 	private String operation;
-	private String dataRule;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "functionid")
 	public TSFunction getTSFunction() {
@@ -50,14 +50,6 @@ public class TSRoleFunction extends IdEntity implements java.io.Serializable {
 
 	public void setOperation(String operation) {
 		this.operation = operation;
-	}
-	@Column(name = "datarule", length = 100)
-	public String getDataRule() {
-		return dataRule;
-	}
-
-	public void setDataRule(String dataRule) {
-		this.dataRule = dataRule;
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.hxyc.util;
+package com.zxw.util;
 
 import org.springframework.context.ApplicationContext;
 
@@ -6,7 +6,6 @@ import org.springframework.context.ApplicationContext;
  * 
  * @类名: Constants.java
  * @描述: 项目名称配置文件
- * @创建人: pcl
  * @创建时间: 2016年7月4日 下午5:33:30
  * @version V1.0
  */

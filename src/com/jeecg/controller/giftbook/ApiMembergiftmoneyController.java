@@ -141,50 +141,58 @@ public class ApiMembergiftmoneyController extends BaseController {
 	@ResponseBody
 	public Object getList(HttpServletRequest request, HttpServletResponse response)
 	{
-		if(TokenVerifyTool.verify(request))
-			return AjaxReturnTool.emptyKey();
+//		if(TokenVerifyTool.verify(request))
+//			return AjaxReturnTool.emptyKey();
 		AjaxJson j=new AjaxJson();
-		String correlativeinvitatioStr=	request.getParameter("correlativeinvitatio");
+		String correlativeinvitatioStr=	request.getParameter("correlativeinvitation");
 		StringBuffer whereStr=new StringBuffer();
 		Map<String ,Object> kv=new TreeMap();
 		if(correlativeinvitatioStr!=null)
 		{
-			whereStr.append(" and correlativeinvitation=:correlativeinvitation");
-			kv.put("correlativeinvitation", ComUtil.clearSqlParam(correlativeinvitatioStr));
+			whereStr.append(" and correlativeinvitation='"+ComUtil.clearSqlParam(correlativeinvitatioStr)+"' ");
+//			whereStr.append(" and correlativeinvitation=:correlativeinvitation");
+//			kv.put("correlativeinvitation", ComUtil.clearSqlParam(correlativeinvitatioStr));
 		}
 		Integer isexpenditure=	request.getParameter("isexpenditure")==null?null:
 				Integer.parseInt( request.getParameter("isexpenditure").toString());
 		if(isexpenditure!=null)
 		{
-			whereStr.append(" and isexpenditure=:isexpenditure");
-			kv.put("isexpenditure",isexpenditure);
+			whereStr.append(" and isexpenditure="+isexpenditure);
+//			whereStr.append(" and isexpenditure=:isexpenditure");
+//			kv.put("isexpenditure",isexpenditure);
 		}
 		String expendituretype=	request.getParameter("expendituretype");
 		if(expendituretype!=null)
 		{
-			whereStr.append(" and expendituretype=:expendituretype");
-			kv.put("expendituretype",ComUtil.clearSqlParam(expendituretype) );
+			whereStr.append(" and expendituretype='"+ComUtil.clearSqlParam(expendituretype)+"' ");
+//			whereStr.append(" and expendituretype=:expendituretype");
+//			kv.put("expendituretype",ComUtil.clearSqlParam(expendituretype) );
 		}
 		String year=	request.getParameter("year");
 		if(year!=null&&!year.equals("0"))
 		{
-			whereStr.append(" and year(createDate)=:year");
-			kv.put("year",Integer.parseInt(year) );
+			whereStr.append(" and year(createDate)="+Integer.parseInt(year));
+//			whereStr.append(" and year(createDate)=:year");
+//			kv.put("year",Integer.parseInt(year) );
 		}
 		String month=	request.getParameter("month");
 		if(month!=null&&!month.equals("0"))
 		{
-			whereStr.append(" and month(createDate)=:month");
-			kv.put("month",Integer.parseInt(month) );
+			whereStr.append(" and month(createDate)="+Integer.parseInt(month));
+//			whereStr.append(" and month(createDate)=:month");
+//			kv.put("month",Integer.parseInt(month) );
 		}
-		whereStr.append(" and createBy=:createBy");
-		kv.put("createBy",request.getParameter("createBy") );
+		whereStr.append(" and createBy="+request.getParameter("createBy"));
+//		whereStr.append(" and createBy=:createBy");
+//		kv.put("createBy",request.getParameter("createBy") );
 
 		String getCount=	request.getParameter("getCount");
 		if(!StringUtil.isEmpty(getCount))
 		{
 			String countHql="select sum(money) from MembergiftmoneyEntity  where 1=1 "+whereStr+" ";
-			 List<Object> sumList=this.membergiftmoneyService.findHQLQuery(countHql,kv,null,null);
+
+//			 List<Object> sumList=this.membergiftmoneyService.findHQLQuery(countHql,kv,null,null);
+			List<Object> sumList=this.membergiftmoneyService.findByQueryString(countHql);
 			 if(sumList!=null&&sumList.get(0)==null)
 			 {
 				 j.setSumCount(0);
@@ -203,7 +211,8 @@ public class ApiMembergiftmoneyController extends BaseController {
 		try {
 			String hql= //"select id,gourpmemberid,groupmember,isexpenditure,money,expendituretype,expendituretypename,correlativeinvitation,createDate" +
 					" from MembergiftmoneyEntity where 1=1 "+whereStr+" order by  createDate desc ";
-			list = this.membergiftmoneyService.findHQLQuery(hql,kv,page,count);
+//			list = this.membergiftmoneyService.findHQLQuery(hql,kv,page,count);
+			list =this.membergiftmoneyService.findObjForJdbc(hql,page,count,MembergiftmoneyEntity.class);
 			if(list==null||list.size()==0)
 			{
 				j.setResult(2);

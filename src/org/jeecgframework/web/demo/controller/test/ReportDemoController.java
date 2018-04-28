@@ -12,6 +12,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jeecgframework.web.system.service.SystemService;
 import org.apache.batik.transcoder.Transcoder;
 import org.apache.batik.transcoder.TranscoderException;
 import org.apache.batik.transcoder.TranscoderInput;
@@ -26,8 +27,6 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.Highchart;
 import org.jeecgframework.core.util.DBTypeUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
-import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,13 +47,7 @@ public class ReportDemoController extends BaseController {
 	 * Logger for this class
 	 */
 	private static final Logger logger = Logger.getLogger(ReportDemoController.class);
-    //班级学生人数比例分析国际化Key
-    private static final String CLASS_STUDENT_COUNT_ANALYSIS = "class.student.count.analysis";
-
 	private SystemService systemService;
-
-    @Autowired
-    private MutiLangServiceI mutiLangService;
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -114,9 +107,7 @@ public class ReportDemoController extends BaseController {
 		Long count = systemService.getCountForJdbc("SELECT COUNT(1) FROM T_S_student WHERE 1=1");
 		List lt = new ArrayList();
 		hc = new Highchart();
-
-		hc.setName(mutiLangService.getLang(CLASS_STUDENT_COUNT_ANALYSIS));
-
+		hc.setName("班级人数统计分析");
 		hc.setType(reportType);
 		Map<String, Object> map;
 		if (userBroswerList.size() > 0) {

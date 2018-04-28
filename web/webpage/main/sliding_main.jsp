@@ -3,8 +3,9 @@
 <!DOCTYPE html >
 <html>
 	<head>
-		<title>礼簿管理平台</title>
+		<title>JEECG 微云快速开发平台</title>
 <t:base type="jquery-webos,easyui,tools,DatePicker,autocomplete"></t:base>
+<%--update-end--Author:zhangguoming  Date:20140521 for：云桌面图标拖拽、用户自定义桌面--%>
 <link rel="shortcut icon" href="images/favicon.ico">
 		<link href="plug-in/sliding/css/main.css" rel="stylesheet" type="text/css" />
 		<link href="plug-in/sliding/css/themesetting.css" rel="stylesheet"  type="text/css" >
@@ -13,7 +14,9 @@
 		<link href="plug-in/sliding/css/smartMenu.css" rel="stylesheet"  type="text/css" />
 		<link href="plug-in/sliding/css/skins/opera.css" rel="stylesheet"  type="text/css" />
         <link href="plug-in/sliding/css/scrollStyle.css" rel="stylesheet"  type="text/css" />
+        <%--update-end--Author:zhangguoming  Date:20140604 for：云桌面全局视图，添加纵向滚动条--%>
 		<%--<script  type="text/javascript" src="plug-in/webos1.2/js/jquery-1.7.1.min.js"></script>--%>
+        <%--update-end--Author:zhangguoming  Date:20140521 for：云桌面图标拖拽、用户自定义桌面--%>
 		<script  type="text/javascript" src="plug-in/sliding/js/jquery-powerFloat-min.js"></script>
 		<script  type="text/javascript" src="plug-in/sliding/js/jquery-smartMenu-min.js"></script>
 		<script  type="text/javascript" src="plug-in/sliding/js/jquery-class.js"></script>
@@ -178,15 +181,10 @@
 			<div class="startMenuImg taskbar_start_menu_body" id="taskbar_start_menu_body">          
 			<div uin="0" class="taskbar_start_menu_selfinfo" id="startMenuSelfInfo">       
 				<div style="float: left; line-height: 15px;">
-                     <span style="color: #6DB6D9">用户: </span>
-                     <span style="color: #FFFFFF">${userName }</span><br>
-                     <!-- 
-                     <span style="color: #6DB6D9">岗位: </span>
-                     <span style="color: #FFFFFF">${currentOrgName }</span><br>
-                      -->
-                      
-                     <span style="color: #6DB6D9">职务: </span>
-                     <span style="color: #FFFFFF">${roleName }</span>
+							 <span style="color: #6DB6D9">当前用户: </span>
+							 <span style="color: #FFFFFF">${userName }</span><br>
+							 <span style="color: #6DB6D9">职务: </span>
+							 <span style="color: #FFFFFF">${roleName }</span>
 				</div>
 				<a title="反馈" href="###" class="startMenuImg startMenuTopControl_support" cmd="support">&nbsp;</a>    
 				<a title="锁定" href="###" class="startMenuImg startMenuTopControl_lock" cmd="lock">&nbsp;</a>     
@@ -202,15 +200,7 @@
 				</li>
 				<li cmd="favorite">
 					<div style="background: url(plug-in/login/images/exit.png) no-repeat left center;padding-left:30px;"
-                         onclick="openwindow('系统信息','tSSmsController.do?getSysInfos')">系统信息</div>
-				</li>
-				<li cmd="favorite">
-					<div style="background: url(plug-in/login/images/exit.png) no-repeat left center;padding-left:30px;"
-                         onclick="add('修改首页风格','userController.do?changestyle',null,560,200)">首页风格 </div>
-				</li>
-				<li cmd="favorite">
-					<div style="background: url(plug-in/login/images/exit.png) no-repeat left center;padding-left:30px;"
-                         onclick="window.open('http://yun.jeecg.org')">云应用中心 </div>
+                         onclick="add('修改首页风格','userController.do?changestyle',null,560,120)">首页风格 </div>
 				</li>
 				<li cmd="logout">
 					<div class="startMenuImg logout_botton" title="注销当前用户"

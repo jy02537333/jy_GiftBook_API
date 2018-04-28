@@ -21,35 +21,35 @@ import org.hibernate.annotations.GenericGenerator;
 @SuppressWarnings("serial")
 public class JeecgOrderCustomEntity implements java.io.Serializable {
 	/**id*/
-	private java.lang.String id;
+	private String id;
 	/**团购订单号*/
-	private java.lang.String goOrderCode;
+	private String goOrderCode;
 	/**姓名*/
-	private java.lang.String gocCusName;
+	private String gocCusName;
 	/**性别*/
-	private java.lang.String gocSex;
+	private String gocSex;
 	/**身份证号*/
-	private java.lang.String gocIdcard;
+	private String gocIdcard;
 	/**护照号*/
-	private java.lang.String gocPassportCode;
+	private String gocPassportCode;
 	/**业务*/
-	private java.lang.String gocBussContent;
+	private String gocBussContent;
 	/**备注*/
-	private java.lang.String gocContent;
+	private String gocContent;
 	/**创建人*/
-	private java.lang.String crtuser;
+	private String crtuser;
 	/**创建人名字*/
-	private java.lang.String crtuserName;
+	private String crtuserName;
 	/**创建时间*/
 	private java.util.Date createDt;
 	/**修改人*/
-	private java.lang.String modifier;
+	private String modifier;
 	/**修改人名字*/
-	private java.lang.String modifierName;
+	private String modifierName;
 	/**修改时间*/
 	private java.util.Date modifyDt;
 	/**删除标记*/
-	private java.lang.Integer delflag;
+	private Integer delflag;
 	/**删除时间*/
 	private java.util.Date delDt;
 	
@@ -62,7 +62,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -70,7 +70,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -78,7 +78,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *@return: java.lang.String  团购订单号
 	 */
 	@Column(name ="GO_ORDER_CODE",nullable=false,length=12)
-	public java.lang.String getGoOrderCode(){
+	public String getGoOrderCode(){
 		return this.goOrderCode;
 	}
 
@@ -86,7 +86,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  团购订单号
 	 */
-	public void setGoOrderCode(java.lang.String goOrderCode){
+	public void setGoOrderCode(String goOrderCode){
 		this.goOrderCode = goOrderCode;
 	}
 	/**
@@ -94,7 +94,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *@return: java.lang.String  姓名
 	 */
 	@Column(name ="GOC_CUS_NAME",nullable=true,length=16)
-	public java.lang.String getGocCusName(){
+	public String getGocCusName(){
 		return this.gocCusName;
 	}
 
@@ -102,7 +102,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  姓名
 	 */
-	public void setGocCusName(java.lang.String gocCusName){
+	public void setGocCusName(String gocCusName){
 		this.gocCusName = gocCusName;
 	}
 	/**
@@ -110,7 +110,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *@return: java.lang.String  性别
 	 */
 	@Column(name ="GOC_SEX",nullable=true)
-	public java.lang.String getGocSex(){
+	public String getGocSex(){
 		return this.gocSex;
 	}
 
@@ -118,7 +118,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  性别
 	 */
-	public void setGocSex(java.lang.String gocSex){
+	public void setGocSex(String gocSex){
 		this.gocSex = gocSex;
 	}
 	/**
@@ -126,7 +126,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *@return: java.lang.String  身份证号
 	 */
 	@Column(name ="GOC_IDCARD",nullable=true,length=18)
-	public java.lang.String getGocIdcard(){
+	public String getGocIdcard(){
 		return this.gocIdcard;
 	}
 
@@ -134,7 +134,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  身份证号
 	 */
-	public void setGocIdcard(java.lang.String gocIdcard){
+	public void setGocIdcard(String gocIdcard){
 		this.gocIdcard = gocIdcard;
 	}
 	/**
@@ -142,7 +142,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *@return: java.lang.String  护照号
 	 */
 	@Column(name ="GOC_PASSPORT_CODE",nullable=true,length=10)
-	public java.lang.String getGocPassportCode(){
+	public String getGocPassportCode(){
 		return this.gocPassportCode;
 	}
 
@@ -150,7 +150,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  护照号
 	 */
-	public void setGocPassportCode(java.lang.String gocPassportCode){
+	public void setGocPassportCode(String gocPassportCode){
 		this.gocPassportCode = gocPassportCode;
 	}
 	/**
@@ -158,7 +158,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *@return: java.lang.String  业务
 	 */
 	@Column(name ="GOC_BUSS_CONTENT",nullable=true,length=33)
-	public java.lang.String getGocBussContent(){
+	public String getGocBussContent(){
 		return this.gocBussContent;
 	}
 
@@ -166,7 +166,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  业务
 	 */
-	public void setGocBussContent(java.lang.String gocBussContent){
+	public void setGocBussContent(String gocBussContent){
 		this.gocBussContent = gocBussContent;
 	}
 	/**
@@ -174,7 +174,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *@return: java.lang.String  备注
 	 */
 	@Column(name ="GOC_CONTENT",nullable=true,length=66)
-	public java.lang.String getGocContent(){
+	public String getGocContent(){
 		return this.gocContent;
 	}
 
@@ -182,7 +182,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  备注
 	 */
-	public void setGocContent(java.lang.String gocContent){
+	public void setGocContent(String gocContent){
 		this.gocContent = gocContent;
 	}
 	/**
@@ -190,7 +190,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *@return: java.lang.String  创建人
 	 */
 	@Column(name ="CRTUSER",nullable=true,length=12)
-	public java.lang.String getCrtuser(){
+	public String getCrtuser(){
 		return this.crtuser;
 	}
 
@@ -198,7 +198,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人
 	 */
-	public void setCrtuser(java.lang.String crtuser){
+	public void setCrtuser(String crtuser){
 		this.crtuser = crtuser;
 	}
 	/**
@@ -206,7 +206,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *@return: java.lang.String  创建人名字
 	 */
 	@Column(name ="CRTUSER_NAME",nullable=true,length=10)
-	public java.lang.String getCrtuserName(){
+	public String getCrtuserName(){
 		return this.crtuserName;
 	}
 
@@ -214,7 +214,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人名字
 	 */
-	public void setCrtuserName(java.lang.String crtuserName){
+	public void setCrtuserName(String crtuserName){
 		this.crtuserName = crtuserName;
 	}
 	/**
@@ -238,7 +238,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *@return: java.lang.String  修改人
 	 */
 	@Column(name ="MODIFIER",nullable=true,length=12)
-	public java.lang.String getModifier(){
+	public String getModifier(){
 		return this.modifier;
 	}
 
@@ -246,7 +246,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  修改人
 	 */
-	public void setModifier(java.lang.String modifier){
+	public void setModifier(String modifier){
 		this.modifier = modifier;
 	}
 	/**
@@ -254,7 +254,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *@return: java.lang.String  修改人名字
 	 */
 	@Column(name ="MODIFIER_NAME",nullable=true,length=10)
-	public java.lang.String getModifierName(){
+	public String getModifierName(){
 		return this.modifierName;
 	}
 
@@ -262,7 +262,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  修改人名字
 	 */
-	public void setModifierName(java.lang.String modifierName){
+	public void setModifierName(String modifierName){
 		this.modifierName = modifierName;
 	}
 	/**
@@ -286,7 +286,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  删除标记
 	 */
 	@Column(name ="DELFLAG",nullable=true,precision=10,scale=0)
-	public java.lang.Integer getDelflag(){
+	public Integer getDelflag(){
 		return this.delflag;
 	}
 
@@ -294,7 +294,7 @@ public class JeecgOrderCustomEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  删除标记
 	 */
-	public void setDelflag(java.lang.Integer delflag){
+	public void setDelflag(Integer delflag){
 		this.delflag = delflag;
 	}
 	/**

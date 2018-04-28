@@ -13,6 +13,6 @@ import org.jeecgframework.core.common.service.CommonService;
  */
 public interface DeclareService extends CommonService{
 	
-	public List<TSAttachment> getAttachmentsByCode(String businessKey,String description);
+	public List<TSAttachment> getAttachmentsByCode(String businessKey, String description);
 	
 }

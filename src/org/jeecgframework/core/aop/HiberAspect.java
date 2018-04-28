@@ -1,16 +1,17 @@
 package org.jeecgframework.core.aop;
 
+import java.io.Serializable;
+import java.util.Date;
+
+
+import org.jeecgframework.web.system.pojo.base.TSUser;
+
 import org.apache.log4j.Logger;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
-import org.jeecgframework.core.constant.DataBaseConstant;
 import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.core.util.oConvertUtils;
-import org.jeecgframework.web.system.pojo.base.TSUser;
 import org.springframework.stereotype.Component;
-
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Hiberate拦截器：实现创建人，创建时间，创建人名称自动注入;
@@ -30,7 +31,7 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 	try {
 		currentUser = ResourceUtil.getSessionUserName();
 	} catch (RuntimeException e) {
-		//logger.warn("当前session为空,无法获取用户");
+		logger.warn("当前session为空,无法获取用户");
 	}
 	if(currentUser==null){
 		return true;
@@ -40,8 +41,8 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		 for (int index=0;index<propertyNames.length;index++)
 		 {
 		     /*找到名为"创建时间"的属性*/
-		     if (DataBaseConstant.CREATE_DATE.equals(propertyNames[index])
-		    		 ||DataBaseConstant.CREATE_TIME.equals(propertyNames[index]))
+		     if ("createDate".equals(propertyNames[index])
+		    		 ||"createDatetime".equals(propertyNames[index]))
 		     {
 		         /*使用拦截器将对象的"创建时间"属性赋上值*/
 		    	 if(oConvertUtils.isEmpty(state[index])){
@@ -50,50 +51,70 @@ public boolean onSave(Object entity, Serializable id, Object[] state,
 		         continue;
 		     }
 		     /*找到名为"创建人"的属性*/
-		     else if (DataBaseConstant.CREATE_BY.equals(propertyNames[index]))
+		     else if ("createBy".equals(propertyNames[index]))
 		     {
 		         /*使用拦截器将对象的"创建人"属性赋上值*/
 		    	 if(oConvertUtils.isEmpty(state[index])){
-		    		  state[index] = ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE);
+		    		  state[index] = currentUser.getId();
+		    	 }
+		         continue;
+		     }
+		     /*找到名为"创建人Key"的属性*/
+		     else if ("createKey".equals(propertyNames[index]))
+		     {
+		         /*使用拦截器将对象的"创建人Key"属性赋上值*/
+		    	 if(oConvertUtils.isEmpty(state[index])){
+		    		  state[index] = currentUser.getUserKey();
 		    	 }
 		         continue;
 		     }
 		     /*找到名为"创建人名称"的属性*/
-		     else if (DataBaseConstant.CREATE_NAME.equals(propertyNames[index]))
+		     else if ("createName".equals(propertyNames[index]))
 		     {
 		         /*使用拦截器将对象的"创建人名称"属性赋上值*/
 		    	 if(oConvertUtils.isEmpty(state[index])){
-		    		 state[index] = ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_NAME);
+		    		 state[index] = currentUser.getUserName();
 		    	 }
 		         continue;
 		     }
 		     /*找到名为"创建人名称"的属性*/
-		     else if (DataBaseConstant.SYS_USER_CODE.equals(propertyNames[index]))
+		     else if ("createRealname".equals(propertyNames[index]))
 		     {
-		    	 /*使用拦截器将对象的"创建人名称"属性赋上值*/
+		         /*使用拦截器将对象的"创建人名称"属性赋上值*/
 		    	 if(oConvertUtils.isEmpty(state[index])){
-		    		 state[index] = ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE);
-		    	 }
-		    	 continue;
-		     }
-		     /*找到名为"创建人部门"的属性*/
-		     else if (DataBaseConstant.SYS_ORG_CODE.equals(propertyNames[index]))
-		     {
-		         /*使用拦截器将对象的"创建人部门"属性赋上值*/
-		    	 if(oConvertUtils.isEmpty(state[index])){
-		    		 state[index] = ResourceUtil.getUserSystemData(DataBaseConstant.SYS_ORG_CODE);
+		    		 state[index] = currentUser.getRealName();
 		    	 }
 		         continue;
 		     }
 		     /*找到名为"创建人部门"的属性*/
-		     else if (DataBaseConstant.SYS_COMPANY_CODE.equals(propertyNames[index]))
+		     else if ("createDepartmentid".equals(propertyNames[index]))
 		     {
 		         /*使用拦截器将对象的"创建人部门"属性赋上值*/
 		    	 if(oConvertUtils.isEmpty(state[index])){
-		    		 state[index] = ResourceUtil.getUserSystemData(DataBaseConstant.SYS_COMPANY_CODE);
+		    		 state[index] = currentUser.getTSDepart().getId();
 		    	 }
 		         continue;
 		     }
+		     /*找到名为"创建人部门"的属性*/
+		     else if ("createDepartmentname".equals(propertyNames[index]))
+		     {
+		         /*使用拦截器将对象的"创建人部门"属性赋上值*/
+		    	 if(oConvertUtils.isEmpty(state[index])){
+		    		 state[index] = currentUser.getTSDepart().getDepartname();
+		    	 }
+		         continue;
+		     }
+		     
+		     /*accountid 数据权限问题*/
+		     else if ("accountid".equals(propertyNames[index]))
+		     {
+		         /*数据权限ID*/
+		    	 if(oConvertUtils.isEmpty(state[index])){
+		    		 state[index] = ResourceUtil.getWeiXinAccountId();
+		    	 }
+		         continue;
+		     }
+		     
 		 }
 	} catch (RuntimeException e) {
 		e.printStackTrace();
@@ -109,7 +130,7 @@ public boolean onFlushDirty(Object entity, Serializable id,
 	try {
 		currentUser = ResourceUtil.getSessionUserName();
 	} catch (RuntimeException e1) {
-		//logger.warn("当前session为空,无法获取用户");
+		logger.warn("当前session为空,无法获取用户");
 	}
 	if(currentUser==null){
 		return true;
@@ -118,27 +139,48 @@ public boolean onFlushDirty(Object entity, Serializable id,
      for (int index=0;index<propertyNames.length;index++)
      {
          /*找到名为"修改时间"的属性*/
-         if (DataBaseConstant.UPDATE_DATE.equals(propertyNames[index])
-        		 ||DataBaseConstant.UPDATE_TIME.equals(propertyNames[index]))
+         if ("updateDate".equals(propertyNames[index])
+        		 ||"updateDatetime".equals(propertyNames[index]))
          {
              /*使用拦截器将对象的"修改时间"属性赋上值*/
         	 currentState[index] = new Date();
              continue;
          }
          /*找到名为"修改人"的属性*/
-         else if (DataBaseConstant.UPDATE_BY.equals(propertyNames[index]))
+         else if ("updateBy".equals(propertyNames[index]))
          {
              /*使用拦截器将对象的"修改人"属性赋上值*/
-        	 currentState[index] = ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_CODE);
+        	 currentState[index] = currentUser.getId();
+        	 continue;
+         }
+         /*找到名为"修改人"的属性*/
+         else if ("updateName".equals(propertyNames[index]))
+         {
+             /*使用拦截器将对象的"修改人"属性赋上值*/
+        	 currentState[index] = currentUser.getUserName();
         	 continue;
          }
          /*找到名为"修改人名称"的属性*/
-         else if (DataBaseConstant.UPDATE_NAME.equals(propertyNames[index]))
+         else if ("updateRealname".equals(propertyNames[index]))
          {
              /*使用拦截器将对象的"修改人名称"属性赋上值*/
-        	 currentState[index] = ResourceUtil.getUserSystemData(DataBaseConstant.SYS_USER_NAME);
+        	 currentState[index] = currentUser.getRealName();
         	 continue;
          }
+         /*找到名为"修改人部门"的属性*/
+	     else if ("updateDepartmentid".equals(propertyNames[index]))
+	     {
+	         /*使用拦截器将对象的"修改人部门"属性赋上值*/
+	    	currentState[index] = currentUser.getTSDepart().getId();
+	         continue;
+	     }
+	     /*找到名为"修改人部门"的属性*/
+	     else if ("updateDepartmentname".equals(propertyNames[index]))
+	     {
+	         /*使用拦截器将对象的"修改人部门"属性赋上值*/
+	    	currentState[index] = currentUser.getTSDepart().getDepartname();
+	         continue;
+	     }
      }
 	 return true;
 }

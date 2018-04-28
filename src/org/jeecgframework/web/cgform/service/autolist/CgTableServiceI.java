@@ -20,7 +20,7 @@ public interface CgTableServiceI {
 	 * @param rows 页面大小
 	 * @return
 	 */
-	public List querySingle(String table,String field,Map params, int page,int rows);
+	public List querySingle(String table, String field, Map params, int page, int rows);
 	/**
 	 * 单表条件分页查询+排序
 	 * @param table 表
@@ -32,7 +32,7 @@ public interface CgTableServiceI {
 	 * @param rows 页面大小
 	 * @return
 	 */
-	public List querySingle(String table,String field,Map params,String sort,String order, int page,int rows);
+	public List querySingle(String table, String field, Map params, String sort, String order, int page, int rows);
 	/**
 	 * 获得数据大小
 	 * @param table 表
@@ -42,30 +42,19 @@ public interface CgTableServiceI {
 	 * @param rows 页面大小
 	 * @return
 	 */
-	public Long getQuerySingleSize(String table,String field,Map params);
+	public Long getQuerySingleSize(String table, String field, Map params);
 	/**
 	 * 删除单条数据
 	 * @param table 表
 	 * @param id 主键
 	 * @return
 	 */
-	public boolean delete(String table,Object id);
+	public boolean delete(String table, Object id);
 	/**
 	 * 删除多条数据
 	 * @param table 表
 	 * @param ids 主键串,以逗号分隔
 	 * @return
 	 */
-	public boolean deleteBatch(String table,String[] ids);
-	
-	/**
-	 * 树形菜单结果处理
-	 * @param table
-	 * @param parentIdFieldName
-	 * @param parentIdFieldType
-	 * @param result
-	 */
-	public void treeFromResultHandle(String table, String parentIdFieldName,
-			String parentIdFieldType, List<Map<String, Object>> result);
-
+	public boolean deleteBatch(String table, String[] ids);
 }

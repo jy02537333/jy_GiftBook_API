@@ -3,47 +3,16 @@ package org.jeecgframework.web.system.controller.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-import org.jeecgframework.core.common.controller.BaseController;
-import org.jeecgframework.core.common.dao.jdbc.JdbcDao;
-import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
-import org.jeecgframework.core.common.model.common.UploadFile;
-import org.jeecgframework.core.common.model.json.AjaxJson;
-import org.jeecgframework.core.common.model.json.ComboTree;
-import org.jeecgframework.core.common.model.json.DataGrid;
-import org.jeecgframework.core.common.model.json.TreeGrid;
-import org.jeecgframework.core.common.model.json.ValidForm;
-import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.extend.hqlsearch.parse.ObjectParseUtil;
-import org.jeecgframework.core.extend.hqlsearch.parse.PageValueConvertRuleEnum;
-import org.jeecgframework.core.extend.hqlsearch.parse.vo.HqlRuleEnum;
-import org.jeecgframework.core.util.DateUtils;
-import org.jeecgframework.core.util.JSONHelper;
-import org.jeecgframework.core.util.ListUtils;
-import org.jeecgframework.core.util.MutiLangSqlCriteriaUtil;
-import org.jeecgframework.core.util.MutiLangUtil;
-import org.jeecgframework.core.util.MyClassLoader;
-import org.jeecgframework.core.util.ResourceUtil;
-import org.jeecgframework.core.util.SetListSort;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.YouBianCodeUtil;
-import org.jeecgframework.core.util.oConvertUtils;
-import org.jeecgframework.tag.core.easyui.TagUtil;
-import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
-import org.jeecgframework.tag.vo.easyui.TreeGridModel;
 import org.jeecgframework.web.system.manager.ClientManager;
 import org.jeecgframework.web.system.manager.ClientSort;
 import org.jeecgframework.web.system.pojo.base.Client;
-import org.jeecgframework.web.system.pojo.base.DataLogDiff;
-import org.jeecgframework.web.system.pojo.base.TSDatalogEntity;
 import org.jeecgframework.web.system.pojo.base.TSDepart;
 import org.jeecgframework.web.system.pojo.base.TSDocument;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
@@ -52,43 +21,62 @@ import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
 import org.jeecgframework.web.system.pojo.base.TSType;
 import org.jeecgframework.web.system.pojo.base.TSTypegroup;
 import org.jeecgframework.web.system.pojo.base.TSVersion;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.jeecgframework.web.system.service.UserService;
+
+import org.apache.log4j.Logger;
+import org.jeecgframework.core.common.controller.BaseController;
+import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
+import org.jeecgframework.core.common.model.common.UploadFile;
+import org.jeecgframework.core.common.model.json.AjaxJson;
+import org.jeecgframework.core.common.model.json.ComboTree;
+import org.jeecgframework.core.common.model.json.DataGrid;
+import org.jeecgframework.core.common.model.json.TreeGrid;
+import org.jeecgframework.core.common.model.json.ValidForm;
+import org.jeecgframework.core.constant.Globals;
+import org.jeecgframework.core.util.DataUtils;
+import org.jeecgframework.core.util.MyClassLoader;
+import org.jeecgframework.core.util.SetListSort;
+import org.jeecgframework.core.util.StringUtil;
+import org.jeecgframework.core.util.oConvertUtils;
+import org.jeecgframework.tag.core.easyui.TagUtil;
+import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
+import org.jeecgframework.tag.vo.easyui.TreeGridModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 /**
  * 类型字段处理类
- *
+ * 
  * @author 张代浩
- *
+ * 
  */
-//@Scope("prototype")
+@Scope("prototype")
 @Controller
 @RequestMapping("/systemController")
 public class SystemController extends BaseController {
 	private static final Logger logger = Logger.getLogger(SystemController.class);
 	private UserService userService;
 	private SystemService systemService;
-	private MutiLangServiceI mutiLangService;
+	private String message;
 
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
 		this.systemService = systemService;
-	}
-
-	@Autowired
-	public void setMutiLangService(MutiLangServiceI mutiLangService) {
-		this.mutiLangService = mutiLangService;
 	}
 
 	public UserService getUserService() {
@@ -105,7 +93,7 @@ public class SystemController extends BaseController {
 	}
 	/**
 	 * 类型字典列表页面跳转
-	 *
+	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "typeGroupTabs")
@@ -117,7 +105,7 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 类型分组列表页面跳转
-	 *
+	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "typeGroupList")
@@ -127,7 +115,7 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 类型列表页面跳转
-	 *
+	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "typeList")
@@ -143,62 +131,20 @@ public class SystemController extends BaseController {
 	 */
 
 	@RequestMapping(params = "typeGroupGrid")
-	public void typeGroupGrid(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid, TSTypegroup typegroup) {
+	public void typeGroupGrid(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TSTypegroup.class, dataGrid);
-//        add-start--Author:zhangguoming  Date:20140929 for：多语言条件添加
-        String typegroupname = request.getParameter("typegroupname");
-        if(typegroupname != null && typegroupname.trim().length() > 0) {
-            typegroupname = typegroupname.trim();
-            List<String> typegroupnameKeyList = systemService.findByQueryString("select typegroupname from TSTypegroup");
-            if(typegroupname.lastIndexOf("*")==-1){
-            	typegroupname = typegroupname + "*";
-            }
-            MutiLangSqlCriteriaUtil.assembleCondition(typegroupnameKeyList, cq, "typegroupname", typegroupname);
-        }
 		this.systemService.getDataGridReturn(cq, true);
-        MutiLangUtil.setMutiLangValueForList(dataGrid.getResults(), "typegroupname");
-//        add-end--Author:zhangguoming  Date:20140929 for：多语言条件添加
-
 		TagUtil.datagrid(response, dataGrid);
 	}
 
 
-	//add-start--Author:luobaoli  Date:20150607 for：增加表单分类树
-	/**
-	 *
-	 * @param request
-	 * @param comboTree
-	 * @param code
-	 * @return
-	 */
-	@RequestMapping(params = "formTree")
-	@ResponseBody
-	public List<ComboTree> formTree(HttpServletRequest request,final ComboTree rootCombotree) {
-		String typegroupCode = request.getParameter("typegroupCode");
-		TSTypegroup group = ResourceUtil.allTypeGroups.get(typegroupCode.toLowerCase());
-		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
-
-		for(TSType tsType : ResourceUtil.allTypes.get(typegroupCode.toLowerCase())){
-			ComboTree combotree = new ComboTree();
-			combotree.setId(tsType.getTypecode());
-			combotree.setText(tsType.getTypename());
-			comboTrees.add(combotree);
-		}
-		rootCombotree.setId(group.getTypegroupcode());
-		rootCombotree.setText(group.getTypegroupname());
-		rootCombotree.setChecked(false);
-		rootCombotree.setChildren(comboTrees);
-
-		return new ArrayList<ComboTree>(){{add(rootCombotree);}};
-	}
-	//add-end--Author:luobaoli  Date:20150607 for：增加表单分类树
-
 	/**
 	 * easyuiAJAX请求数据
-	 *
+	 * 
 	 * @param request
 	 * @param response
 	 * @param dataGrid
+	 * @param user
 	 */
 
 	@RequestMapping(params = "typeGrid")
@@ -210,26 +156,8 @@ public class SystemController extends BaseController {
 		cq.like("typename", typename);
 		cq.add();
 		this.systemService.getDataGridReturn(cq, true);
-        // add-start--Author:zhangguoming  Date:20140928 for：处理多语言
-        MutiLangUtil.setMutiLangValueForList(dataGrid.getResults(), "typename");
-        // add-end--Author:zhangguoming  Date:20140928 for：处理多语言
-
 		TagUtil.datagrid(response, dataGrid);
 	}
-
-    // add-start--Author:zhangguoming  Date:20140928 for：数据字典修改
-    /**
-     * 跳转到类型页面
-     * @param request request
-     * @return
-     */
-	@RequestMapping(params = "goTypeGrid")
-	public ModelAndView goTypeGrid(HttpServletRequest request) {
-		String typegroupid = request.getParameter("typegroupid");
-        request.setAttribute("typegroupid", typegroupid);
-		return new ModelAndView("system/type/typeListForTypegroup");
-	}
-    // add-end--Author:zhangguoming  Date:20140928 for：数据字典修改
 //	@RequestMapping(params = "typeGroupTree")
 //	@ResponseBody
 //	public List<ComboTree> typeGroupTree(HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
@@ -262,7 +190,6 @@ public class SystemController extends BaseController {
 
 	@RequestMapping(params = "typeGridTree")
 	@ResponseBody
-    @Deprecated // add-begin-end--Author:zhangguoming  Date:20140928 for：数据字典修改，该方法启用，数据字典不在已树结构展示了
 	public List<TreeGrid> typeGridTree(HttpServletRequest request, TreeGrid treegrid) {
 		CriteriaQuery cq;
 		List<TreeGrid> treeGrids = new ArrayList<TreeGrid>();
@@ -280,26 +207,7 @@ public class SystemController extends BaseController {
 			}
 		} else {
 			cq = new CriteriaQuery(TSTypegroup.class);
-//            add-begin--Author:zhangguoming  Date:20140807 for：添加字典查询条件
-            String typegroupcode = request.getParameter("typegroupcode");
-            if(typegroupcode != null ) {
-            	//begin--Author:JueYue  Date:2014-8-23 for：修改查询拼装
-                HqlRuleEnum rule = PageValueConvertRuleEnum
-						.convert(typegroupcode);
-                Object value = PageValueConvertRuleEnum.replaceValue(rule,
-                		typegroupcode);
-				ObjectParseUtil.addCriteria(cq, "typegroupcode", rule, value);
-				//end--Author:JueYue  Date:2014-8-23 for：修改查询拼装
-                cq.add();
-            }
-            String typegroupname = request.getParameter("typegroupname");
-            if(typegroupname != null && typegroupname.trim().length() > 0) {
-                typegroupname = typegroupname.trim();
-                List<String> typegroupnameKeyList = systemService.findByQueryString("select typegroupname from TSTypegroup");
-                MutiLangSqlCriteriaUtil.assembleCondition(typegroupnameKeyList, cq, "typegroupname", typegroupname);
-            }
-//            add-end--Author:zhangguoming  Date:20140807 for：添加字典查询条件
-            List<TSTypegroup> typeGroupList = systemService.getListByCriteriaQuery(cq, false);
+			List<TSTypegroup> typeGroupList = systemService.getListByCriteriaQuery(cq, false);
 			for (TSTypegroup obj : typeGroupList) {
 				TreeGrid treeNode = new TreeGrid();
 				treeNode.setId("G"+obj.getId());
@@ -309,62 +217,25 @@ public class SystemController extends BaseController {
 				treeGrids.add(treeNode);
 			}
 		}
-		MutiLangUtil.setMutiTree(treeGrids);
+
 		return treeGrids;
 	}
-
-//    private void assembleConditionForMutilLang(CriteriaQuery cq, String typegroupname, List<String> typegroupnameKeyList) {
-//        Map<String,String> typegroupnameMap = new HashMap<String, String>();
-//        for (String nameKey : typegroupnameKeyList) {
-//            String name = mutiLangService.getLang(nameKey);
-//            typegroupnameMap.put(nameKey, name);
-//        }
-//        List<String> tepegroupnameParamList = new ArrayList<String>();
-//        for (Map.Entry<String, String> entry : typegroupnameMap.entrySet()) {
-//            String key = entry.getKey();
-//            String value = entry.getValue();
-//            if (typegroupname.startsWith("*") && typegroupname.endsWith("*")) {
-//                if (value.contains(typegroupname)) {
-//                    tepegroupnameParamList.add(key);
-//                }
-//            } else if(typegroupname.startsWith("*")) {
-//                if (value.endsWith(typegroupname.substring(1))) {
-//                    tepegroupnameParamList.add(key);
-//                }
-//            } else if(typegroupname.endsWith("*")) {
-//                if (value.startsWith(typegroupname.substring(0, typegroupname.length() -1))) {
-//                    tepegroupnameParamList.add(key);
-//                }
-//            } else {
-//                if (value.equals(typegroupname)) {
-//                    tepegroupnameParamList.add(key);
-//                }
-//            }
-//        }
-//
-//        if (tepegroupnameParamList.size() > 0) {
-//            cq.in("typegroupname", tepegroupnameParamList.toArray());
-//            cq.add();
-//        }
-//    }
-
-    /**
+	/**
 	 * 删除类型分组或者类型（ID以G开头的是分组）
-	 *
+	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "delTypeGridTree")
 	@ResponseBody
 	public AjaxJson delTypeGridTree(String id, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (id.startsWith("G")) {//分组
 			TSTypegroup typegroup = systemService.getEntity(TSTypegroup.class, id.substring(1));
-			message = "数据字典分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + "被删除 成功";
+			message = "数据字典分组: " + typegroup.getTypegroupname() + "被删除 成功";
 			systemService.delete(typegroup);
 		} else {
 			TSType type = systemService.getEntity(TSType.class, id.substring(1));
-			message = "数据字典类型: " + mutiLangService.getLang(type.getTypename()) + "被删除 成功";
+			message = "数据字典类型: " + type.getTypename() + "被删除 成功";
 			systemService.delete(type);
 		}
 		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
@@ -376,42 +247,34 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 删除类型分组
-	 *
+	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "delTypeGroup")
 	@ResponseBody
 	public AjaxJson delTypeGroup(TSTypegroup typegroup, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		typegroup = systemService.getEntity(TSTypegroup.class, typegroup.getId());
-//        add-begin--Author:zhangguoming  Date:20140929 for：数据字典修改
-		message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + " 被删除 成功";
-        if (ListUtils.isNullOrEmpty(typegroup.getTSTypes())) {
-            systemService.delete(typegroup);
-            systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
-            //刷新缓存
-            systemService.refleshTypeGroupCach();
-        } else {
-            message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + " 下有类型信息，不能删除！";
-        }
-//        add-end--Author:zhangguoming  Date:20140929 for：数据字典修改
+		message = "类型分组: " + typegroup.getTypegroupname() + "被删除 成功";
+		systemService.delete(typegroup);
+		systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
+		//刷新缓存
+		systemService.refleshTypeGroupCach();
 		j.setMsg(message);
 		return j;
 	}
 
 	/**
 	 * 删除类型
-	 *
+	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "delType")
 	@ResponseBody
 	public AjaxJson delType(TSType type, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		type = systemService.getEntity(TSType.class, type.getId());
-		message = "类型: " + mutiLangService.getLang(type.getTypename()) + "被删除 成功";
+		message = "类型: " + type.getTypename() + "被删除 成功";
 		systemService.delete(type);
 		//刷新缓存
 		systemService.refleshTypesCach(type);
@@ -422,8 +285,8 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 检查分组代码
-	 *
-	 * @param request
+	 * 
+	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "checkTypeGroup")
@@ -442,21 +305,20 @@ public class SystemController extends BaseController {
 	}
 	/**
 	 * 添加类型分组
-	 *
-	 * @param typegroup
+	 * 
+	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "saveTypeGroup")
 	@ResponseBody
 	public AjaxJson saveTypeGroup(TSTypegroup typegroup, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(typegroup.getId())) {
-			message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + "被更新成功";
+			message = "类型分组: " + typegroup.getTypegroupname() + "被更新成功";
 			userService.saveOrUpdate(typegroup);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		} else {
-			message = "类型分组: " + mutiLangService.getLang(typegroup.getTypegroupname()) + "被添加成功";
+			message = "类型分组: " + typegroup.getTypegroupname() + "被添加成功";
 			userService.save(typegroup);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}
@@ -467,8 +329,8 @@ public class SystemController extends BaseController {
 	}
 	/**
 	 * 检查类型代码
-	 *
-	 * @param request
+	 * 
+	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "checkType")
@@ -491,21 +353,20 @@ public class SystemController extends BaseController {
 	}
 	/**
 	 * 添加类型
-	 *
-	 * @param type
+	 * 
+	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "saveType")
 	@ResponseBody
 	public AjaxJson saveType(TSType type, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(type.getId())) {
-			message = "类型: " + mutiLangService.getLang(type.getTypename()) + "被更新成功";
+			message = "类型: " + type.getTypename() + "被更新成功";
 			userService.saveOrUpdate(type);
 			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		} else {
-			message = "类型: " + mutiLangService.getLang(type.getTypename()) + "被添加成功";
+			message = "类型: " + type.getTypename() + "被添加成功";
 			userService.save(type);
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}
@@ -515,11 +376,11 @@ public class SystemController extends BaseController {
 		return j;
 	}
 
-
+	
 
 	/**
 	 * 类型分组列表页面跳转
-	 *
+	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "aouTypeGroup")
@@ -533,16 +394,13 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 类型列表页面跳转
-	 *
+	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "addorupdateType")
 	public ModelAndView addorupdateType(TSType type, HttpServletRequest req) {
 		String typegroupid = req.getParameter("typegroupid");
 		req.setAttribute("typegroupid", typegroupid);
-        TSTypegroup typegroup = systemService.findUniqueByProperty(TSTypegroup.class, "id", typegroupid);
-        String typegroupname = typegroup.getTypegroupname();
-        req.setAttribute("typegroupname", mutiLangService.getLang(typegroupname));
 		if (StringUtil.isNotEmpty(type.getId())) {
 			type = systemService.getEntity(TSType.class, type.getId());
 			req.setAttribute("type", type);
@@ -556,7 +414,7 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 部门列表页面跳转
-	 *
+	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "depart")
@@ -566,10 +424,11 @@ public class SystemController extends BaseController {
 
 	/**
 	 * easyuiAJAX请求数据
-	 *
+	 * 
 	 * @param request
 	 * @param response
 	 * @param dataGrid
+	 * @param user
 	 */
 
 	@RequestMapping(params = "datagridDepart")
@@ -582,13 +441,12 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 删除部门
-	 *
+	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "delDepart")
 	@ResponseBody
 	public AjaxJson delDepart(TSDepart depart, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		depart = systemService.getEntity(TSDepart.class, depart.getId());
 		message = "部门: " + depart.getDepartname() + "被删除 成功";
@@ -600,14 +458,13 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 添加部门
-	 *
-	 * @param depart
+	 * 
+	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "saveDepart")
 	@ResponseBody
 	public AjaxJson saveDepart(TSDepart depart, HttpServletRequest request) {
-		String message = null;
 		// 设置上级部门
 		String pid = request.getParameter("TSPDepart.id");
 		if (pid.equals("")) {
@@ -615,63 +472,21 @@ public class SystemController extends BaseController {
 		}
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(depart.getId())) {
+			message = "部门: " + depart.getDepartname() + "被更新成功";
 			userService.saveOrUpdate(depart);
-            message = MutiLangUtil.paramUpdSuccess("common.department");
-            systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
-
+			systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 		} else {
-
-//			String orgCode = systemService.generateOrgCode(depart.getId(), pid);
-//			depart.setOrgCode(orgCode);
-			if(oConvertUtils.isNotEmpty(pid)){
-				TSDepart paretDept = systemService.findUniqueByProperty(TSDepart.class, "id", pid);
-				String localMaxCode  = getMaxLocalCode(paretDept.getOrgCode());
-				depart.setOrgCode(YouBianCodeUtil.getSubYouBianCode(paretDept.getOrgCode(), localMaxCode));
-			}else{
-				String localMaxCode  = getMaxLocalCode(null);
-				depart.setOrgCode(YouBianCodeUtil.getNextYouBianCode(localMaxCode));
-			}
-
+			message = "部门: " + depart.getDepartname() + "被添加成功";
 			userService.save(depart);
-            message = MutiLangUtil.paramAddSuccess("common.department");
-            systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
-
-        }
+			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+		}
 		j.setMsg(message);
 		return j;
 	}
 
-	private synchronized String getMaxLocalCode(String parentCode){
-		if(oConvertUtils.isEmpty(parentCode)){
-			parentCode = "";
-		}
-		int localCodeLength = parentCode.length() + YouBianCodeUtil.zhanweiLength;
-		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT org_code FROM t_s_depart");
-
-		if(ResourceUtil.getJdbcUrl().indexOf(JdbcDao.DATABSE_TYPE_SQLSERVER)!=-1){
-			sb.append(" where LEN(org_code) = ").append(localCodeLength);
-		}else{
-			sb.append(" where LENGTH(org_code) = ").append(localCodeLength);
-		}
-
-		if(oConvertUtils.isNotEmpty(parentCode)){
-			sb.append(" and  org_code like '").append(parentCode).append("%'");
-		}
-
-		sb.append(" ORDER BY org_code DESC");
-		List<Map<String, Object>> objMapList = systemService.findForJdbc(sb.toString(), 1, 1);
-		String returnCode = null;
-		if(objMapList!=null && objMapList.size()>0){
-			returnCode = (String)objMapList.get(0).get("org_code");
-		}
-
-		return returnCode;
-	}
-
 	/**
 	 * 部门列表页面跳转
-	 *
+	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "addorupdateDepart")
@@ -687,8 +502,12 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 父级权限列表
-	 *
+	 * 
+	 * @param role
 	 * @param request
+	 * @param response
+	 * @param dataGrid
+	 * @param user
 	 * @return
 	 */
 	@RequestMapping(params = "setPFunction")
@@ -714,7 +533,7 @@ public class SystemController extends BaseController {
 	 */
 	/**
 	 * 角色列表页面跳转
-	 *
+	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "role")
@@ -724,10 +543,11 @@ public class SystemController extends BaseController {
 
 	/**
 	 * easyuiAJAX请求数据
-	 *
+	 * 
 	 * @param request
 	 * @param response
 	 * @param dataGrid
+	 * @param user
 	 */
 
 	@RequestMapping(params = "datagridRole")
@@ -739,14 +559,13 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 删除角色
-	 *
+	 * 
 	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "delRole")
 	@ResponseBody
 	public AjaxJson delRole(TSRole role, String ids, HttpServletRequest request) {
-		String message = null;
 		message = "角色: " + role.getRoleName() + "被删除成功";
 		AjaxJson j = new AjaxJson();
 		role = systemService.getEntity(TSRole.class, role.getId());
@@ -758,14 +577,13 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 角色录入
-	 *
-	 * @param role
+	 * 
+	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "saveRole")
 	@ResponseBody
 	public AjaxJson saveRole(TSRole role, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (role.getId() != null) {
 			message = "角色: " + role.getRoleName() + "被更新成功";
@@ -782,7 +600,7 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 角色列表页面跳转
-	 *
+	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "fun")
@@ -794,9 +612,12 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 设置权限
-	 *
+	 * 
 	 * @param role
 	 * @param request
+	 * @param response
+	 * @param dataGrid
+	 * @param user
 	 * @return
 	 */
 	@RequestMapping(params = "setAuthority")
@@ -825,13 +646,13 @@ public class SystemController extends BaseController {
 			}
 		}
 		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "functionName", "TSFunctions");
-		comboTrees = systemService.ComboTree(functionList, comboTreeModel, loginActionlist, false);
+		comboTrees = systemService.ComboTree(functionList, comboTreeModel, loginActionlist);
 		return comboTrees;
 	}
 
 	/**
 	 * 更新权限
-	 *
+	 * 
 	 * @param request
 	 * @return
 	 */
@@ -858,7 +679,7 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 角色页面跳转
-	 *
+	 * 
 	 * @param role
 	 * @param req
 	 * @return
@@ -874,7 +695,7 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 操作列表页面跳转
-	 *
+	 * 
 	 * @return
 	 */
 	@RequestMapping(params = "operate")
@@ -886,8 +707,12 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 权限操作列表
-	 *
+	 * 
+	 * @param role
 	 * @param request
+	 * @param response
+	 * @param dataGrid
+	 * @param user
 	 * @return
 	 */
 	@RequestMapping(params = "setOperate")
@@ -914,8 +739,8 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 操作录入
-	 *
-	 * @param request
+	 * 
+	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "saveOperate")
@@ -964,7 +789,7 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 更新操作
-	 *
+	 * 
 	 * @param roleid
 	 * @param functionid
 	 * @param ids
@@ -980,7 +805,7 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 清空操作
-	 *
+	 * 
 	 * @param roleid
 	 */
 	public void clearp(String roleid) {
@@ -1014,7 +839,6 @@ public class SystemController extends BaseController {
 	@RequestMapping(params = "delVersion")
 	@ResponseBody
 	public AjaxJson delVersion(TSVersion version, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		version = systemService.getEntity(TSVersion.class, version.getId());
 		message = "版本：" + version.getVersionName() + "被删除 成功";
@@ -1026,7 +850,8 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 版本添加跳转
-	 *
+	 * 
+	 * @param icon
 	 * @param req
 	 * @return
 	 */
@@ -1037,7 +862,7 @@ public class SystemController extends BaseController {
 
 	/**
 	 * 保存版本
-	 *
+	 * 
 	 * @param request
 	 * @return
 	 * @throws Exception
@@ -1069,17 +894,16 @@ public class SystemController extends BaseController {
 		this.systemService.getDataGridReturn(cq, true);
 		TagUtil.datagrid(response, dataGrid);
 	}
-
+	
 	/**
 	 * 删除文档
-	 *
-	 * @param document
+	 * 
+	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "delDocument")
 	@ResponseBody
 	public AjaxJson delDocument(TSDocument document, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		document = systemService.getEntity(TSDocument.class, document.getId());
 		message = "" + document.getDocumentTitle() + "被删除成功";
@@ -1090,10 +914,11 @@ public class SystemController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
-
+	
 	/**
 	 * 文件添加跳转
-	 *
+	 * 
+	 * @param icon
 	 * @param req
 	 * @return
 	 */
@@ -1101,26 +926,11 @@ public class SystemController extends BaseController {
 	public ModelAndView addFiles(HttpServletRequest req) {
 		return new ModelAndView("system/document/files");
 	}
-
-	/**
-	 * 文件编辑跳转
-	 *
-	 * @return
-	 */
-
-	@RequestMapping(params = "editFiles")
-	public ModelAndView editFiles(TSDocument doc, ModelMap map) {
-		if (StringUtil.isNotEmpty(doc.getId())) {
-			doc = systemService.getEntity(TSDocument.class, doc.getId());
-            map.put("doc", doc);
-		}
-		return new ModelAndView("system/document/files");
-	}
-
+	
 	/**
 	 * 保存文件
-	 *
-	 * @param document
+	 * 
+	 * @param ids
 	 * @return
 	 * @throws Exception
 	 */
@@ -1140,11 +950,10 @@ public class SystemController extends BaseController {
 
 		}
 		document.setSubclassname(MyClassLoader.getPackPath(document));
-		document.setCreatedate(DateUtils.gettimestamp());
+		document.setCreatedate(DataUtils.gettimestamp());
 		document.setTSType(tsType);
 		UploadFile uploadFile = new UploadFile(request, document);
 		uploadFile.setCusPath("files");
-		//设置weboffice转化【不设置该字段，则不做在线预览转化】
 		uploadFile.setSwfpath("swfpath");
 		document = systemService.uploadFile(uploadFile);
 		attributes.put("url", document.getRealpath());
@@ -1156,16 +965,17 @@ public class SystemController extends BaseController {
 		j.setAttributes(attributes);
 		return j;
 	}
-
+	
 	/**
 	 * 在线用户列表
 	 * @param request
 	 * @param response
 	 * @param dataGrid
+	 * @param tSOline
 	 */
 
 	@RequestMapping(params = "datagridOnline")
-	public void datagridOnline(Client tSOnline,HttpServletRequest request,
+	public void datagridOnline(Client tSOnline,HttpServletRequest request, 
 			HttpServletResponse response, DataGrid dataGrid) {
 		List<Client> onlines = new ArrayList<Client>();
 		onlines.addAll(ClientManager.getInstance().getAllClient());
@@ -1188,10 +998,11 @@ public class SystemController extends BaseController {
 		}
 		return result;
 	}
-
+	
 	/**
      * 文件上传通用跳转
-     *
+     * 
+     * @param icon
      * @param req
      * @return
      */
@@ -1199,148 +1010,4 @@ public class SystemController extends BaseController {
     public ModelAndView commonUpload(HttpServletRequest req) {
             return new ModelAndView("common/upload/uploadView");
     }
-
-	//add-begin--Author: jg_huangxg  Date:20150629 for：增加数据日志功能
-    /************************************** 数据日志 ************************************/
-    /**
-     * 转跳到 数据日志
-     * @param request
-     * @return
-     */
-    @RequestMapping(params = "dataLogList")
-    public ModelAndView dataLogList(HttpServletRequest request){
-    	return new ModelAndView("system/dataLog/dataLogList");
-    }
-
-    @RequestMapping(params = "datagridDataLog")
-    public void dataLogDatagrid(TSDatalogEntity datalogEntity,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid){
-    	CriteriaQuery cq = new CriteriaQuery(TSDatalogEntity.class, dataGrid);
-		//查询条件组装器
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, datalogEntity, request.getParameterMap());
-		cq.add();
-		this.systemService.getDataGridReturn(cq, true);
-		TagUtil.datagrid(response, dataGrid);
-    }
-
-    @RequestMapping(params = "popDataContent")
-	public ModelAndView popDataContent(ModelMap modelMap, @RequestParam String id, HttpServletRequest request) {
-    	TSDatalogEntity datalogEntity = this.systemService.get(TSDatalogEntity.class, id);
-        modelMap.put("dataContent",datalogEntity.getDataContent());
-		return new ModelAndView("system/dataLog/popDataContent");
-	}
-	//add-end--Author: jg_huangxg  Date:20150629 for：增加数据日志功能
-
-	//add-begin--Author: jg_huangxg  Date:20150701 for：增加数据日志Diff功能
-    /**
-     * 转跳到 数据日志
-     * @param request
-     * @return
-     */
-    @RequestMapping(params = "dataDiff")
-    public ModelAndView dataDiff(HttpServletRequest request){
-    	return new ModelAndView("system/dataLog/dataDiff");
-    }
-
-	@RequestMapping(params = "getDataVersion")
-	@ResponseBody
-    public AjaxJson getDataVersion(@RequestParam String tableName, @RequestParam String dataId){
-    	AjaxJson j = new AjaxJson();
-    	String hql = "from TSDatalogEntity where tableName = ? and dataId = ? order by versionNumber desc";
-    	List<TSDatalogEntity> datalogEntities = this.systemService.findHql(hql, new Object[]{tableName,dataId});
-
-    	if (datalogEntities.size() > 0) {
-			j.setObj(datalogEntities);
-		}
-
-    	return j;
-    }
-
-	@RequestMapping(params = "diffDataVersion")
-	public ModelAndView diffDataVersion(HttpServletRequest request, @RequestParam String id1, @RequestParam String id2){
-		String hql1 = "from TSDatalogEntity where id = '" + id1 + "'";
-		TSDatalogEntity datalogEntity1 = this.systemService.singleResult(hql1);
-
-		String hql2 = "from TSDatalogEntity where id = '" + id2 + "'";
-		TSDatalogEntity datalogEntity2 = this.systemService.singleResult(hql2);
-
-		if (datalogEntity1 != null && datalogEntity2 != null) {
-			//正则用于去掉头尾的[]字符(如存在)
-			Integer version1 = datalogEntity1.getVersionNumber();
-			Integer version2 = datalogEntity2.getVersionNumber();
-			Map<String, Object> map1 = null;
-			Map<String, Object> map2 = null;
-
-			if (version1 < version2) {
-				map1 = JSONHelper.toHashMap(datalogEntity1.getDataContent().replaceAll("^\\[|\\]$", ""));
-				map2 = JSONHelper.toHashMap(datalogEntity2.getDataContent().replaceAll("^\\[|\\]$", ""));
-			}else{
-				map1 = JSONHelper.toHashMap(datalogEntity2.getDataContent().replaceAll("^\\[|\\]$", ""));
-				map2 = JSONHelper.toHashMap(datalogEntity1.getDataContent().replaceAll("^\\[|\\]$", ""));
-			}
-
-			Map<String, Object> mapAll = new HashMap<String, Object>();
-			mapAll.putAll(map1);
-			mapAll.putAll(map2);
-			Set<String> set = mapAll.keySet();
-
-			List<DataLogDiff> dataLogDiffs = new LinkedList<DataLogDiff>();
-
-			String value1 = null;
-			String value2 = null;
-			for (String string : set) {
-				DataLogDiff dataLogDiff = new DataLogDiff();
-				dataLogDiff.setName(string);
-
-				if (map1.containsKey(string)) {
-					value1 = map1.get(string).toString();
-					if (value1 == null) {
-						dataLogDiff.setValue1("");
-					}else {
-						dataLogDiff.setValue1(value1);
-					}
-				}else{
-					dataLogDiff.setValue1("");
-				}
-				
-				if (map2.containsKey(string)) {
-					value2 = map2.get(string).toString();
-					if (value2 == null) {
-						dataLogDiff.setValue2("");
-					}else {
-						dataLogDiff.setValue2(value2);
-					}
-				}else {
-					dataLogDiff.setValue2("");
-				}
-
-				
-				if (value1 == null && value2 == null) {
-					dataLogDiff.setDiff("N");
-				}else {
-					if (value1 != null && value2 != null) {
-						if (value1.equals(value2)) {//相同
-							dataLogDiff.setDiff("N");
-						}else {
-							dataLogDiff.setDiff("Y");
-						}
-					}else {
-						dataLogDiff.setDiff("Y");
-					}
-				}
-				dataLogDiffs.add(dataLogDiff);
-			}
-
-			if (version1 < version2) {
-				request.setAttribute("versionNumber1", datalogEntity1.getVersionNumber());
-				request.setAttribute("versionNumber2", datalogEntity2.getVersionNumber());
-			}else {
-				request.setAttribute("versionNumber1", datalogEntity2.getVersionNumber());
-				request.setAttribute("versionNumber2", datalogEntity1.getVersionNumber());
-			}
-			request.setAttribute("dataLogDiffs", dataLogDiffs);
-		}
-		return new ModelAndView("system/dataLog/diffDataVersion");
-	}
-
-	//add-end--Author: jg_huangxg  Date:20150701 for：增加数据日志Diff功能
 }

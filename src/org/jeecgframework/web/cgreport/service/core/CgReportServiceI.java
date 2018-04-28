@@ -40,14 +40,14 @@ public interface CgReportServiceI extends CommonService{
 	 * @param rows 要获取的条目总数
 	 * @return
 	 */
-	public List<Map<String,Object>> queryByCgReportSql(String sql,Map params,int page,int rows);
+	public List<Map<String,Object>> queryByCgReportSql(String sql, Map params, int page, int rows);
 	/**
 	 * 获取报表sql结果集大小
 	 * @param sql 报表SQL
 	 * @param params 查询条件
 	 * @return
 	 */
-	public long countQueryByCgReportSql(String sql,Map params);
+	public long countQueryByCgReportSql(String sql, Map params);
 	/**
 	 * 通过执行sql获得该sql语句中的字段集合
 	 * @param sql 报表sql

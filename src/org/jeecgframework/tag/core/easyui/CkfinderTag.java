@@ -86,19 +86,12 @@ public class CkfinderTag extends TagSupport {
 	}
 
 	public int doEndTag() throws JspTagException {
-		JspWriter out = null;
 		try {
-			out = this.pageContext.getOut();
+			JspWriter out = this.pageContext.getOut();
 			out.print(end().toString());
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				out.clear();
-				out.close();
-			} catch (Exception e2) {
-			}
 		}
 		return EVAL_PAGE;
 	}

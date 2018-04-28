@@ -36,9 +36,9 @@ public class SystemPath {
 	}
 	
 	public static void main(String[] args){
-		org.jeecgframework.core.util.LogUtil.info(getSysPath());
-		org.jeecgframework.core.util.LogUtil.info(System.getProperty("java.io.tmpdir"));
-		org.jeecgframework.core.util.LogUtil.info(getSeparator());
-		org.jeecgframework.core.util.LogUtil.info(getClassPath());
+		LogUtil.info(getSysPath());
+		LogUtil.info(System.getProperty("java.io.tmpdir"));
+		LogUtil.info(getSeparator());
+		LogUtil.info(getClassPath());
 	}
 }

@@ -13,11 +13,9 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jeecgframework.core.util.MutiLangUtil;
 import org.jeecgframework.web.system.pojo.base.TSFunction;
 import org.jeecgframework.web.system.pojo.base.TSIcon;
 import org.jeecgframework.web.system.pojo.base.TSOperation;
-import org.jeecgframework.web.system.service.MutiLangServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 
 import org.jeecgframework.core.common.controller.BaseController;
@@ -44,12 +42,22 @@ import org.springframework.web.servlet.ModelAndView;
  * @author 张代浩
  * 
  */
-//@Scope("prototype")
+@Scope("prototype")
 @Controller
 @RequestMapping("/iconController")
 public class IconController extends BaseController {
+	 
 	private SystemService systemService;
 	
+	private String message;
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -73,7 +81,6 @@ public class IconController extends BaseController {
 	 * @param response
 	 * @param dataGrid
 	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping(params = "datagrid")
 	public void datagrid(TSIcon icon,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(TSIcon.class, dataGrid);
@@ -81,13 +88,7 @@ public class IconController extends BaseController {
 		cq.add();
 		this.systemService.getDataGridReturn(cq, true);
         IconImageUtil.convertDataGrid(dataGrid, request);//先把数据库的byte存成图片到临时目录，再给每个TsIcon设置目录路径
-
-        List<TSIcon> list = dataGrid.getResults();
-        for(TSIcon tsicon:list){
-        	tsicon.setIconName(MutiLangUtil.doMutiLang(tsicon.getIconName(), ""));
-		}
-
-        TagUtil.datagrid(response, dataGrid);
+		TagUtil.datagrid(response, dataGrid);
 	}
 
 	/**
@@ -100,7 +101,6 @@ public class IconController extends BaseController {
 	@RequestMapping(params = "saveOrUpdateIcon", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxJson saveOrUpdateIcon(HttpServletRequest request) throws Exception {
-		String message = null;
 		AjaxJson j = new AjaxJson();		
 		TSIcon icon = new TSIcon();
 		Short iconType = oConvertUtils.getShort(request.getParameter("iconType"));
@@ -122,7 +122,7 @@ public class IconController extends BaseController {
 		// 图标的css样式
 		String css = "." + icon.getIconClas() + "{background:url('../images/" + icon.getIconClas() + "." + icon.getExtend() + "') no-repeat}";
 		write(request, css);
-		message = MutiLangUtil.paramAddSuccess("common.icon");
+		message = "上传成功";
 		j.setMsg(message);
 		return j;
 	}	
@@ -137,7 +137,6 @@ public class IconController extends BaseController {
 	@RequestMapping(params = "update", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxJson update(HttpServletRequest request) throws Exception {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		Short iconType = oConvertUtils.getShort(request.getParameter("iconType"));
 		String iconName = java.net.URLDecoder.decode(oConvertUtils.getString(request.getParameter("iconName")));
@@ -205,16 +204,17 @@ public class IconController extends BaseController {
 			}
 			String css = "." + c.getIconClas() + "{background:url('../images/" + c.getIconClas() + "." + c.getExtend() + "') no-repeat}";
 			write(request, css);
+			json.setMsg("样式表创建成功");
 		}
-        json.setMsg(MutiLangUtil.paramAddSuccess("common.icon.style"));
-        json.setSuccess(true);
+		json.setSuccess(true);
 		return json;
 	}
 
 	/**
 	 * 清空文件内容
 	 * 
-	 * @param path
+	 * @param request
+	 * @param css
 	 */
 	protected void clearFile(String path) {
 		try {
@@ -238,7 +238,6 @@ public class IconController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(TSIcon icon, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		
 		icon = systemService.getEntity(TSIcon.class, icon.getId());
@@ -247,18 +246,17 @@ public class IconController extends BaseController {
 		
 		if(isPermit){
 			systemService.delete(icon);
-
-            message = MutiLangUtil.paramDelSuccess("common.icon");
+			
+			message = "图标: " + icon.getIconName() + "被删除成功。";
 			
 			systemService.addLog(message, Globals.Log_Type_DEL, Globals.Log_Leavel_INFO);
-
-            j.setMsg(message);
-
-            return j;
+			
+			return j;
 		}
 		
-        message = MutiLangUtil.paramDelFail("common.icon,common.icon.isusing");
-        j.setMsg(message);
+		message = "图标: " + icon.getIconName() + "正在使用，不允许删除。";
+
+		j.setMsg(message);
 		
 		return j;
 	}

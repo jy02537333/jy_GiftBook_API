@@ -22,13 +22,13 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 public class WebOfficeEntity implements java.io.Serializable {
 	/**id*/
-	private java.lang.Integer id;
+	private Integer id;
 	/**docid*/
-	private java.lang.String docid;
+	private String docid;
 	/**doctitle*/
-	private java.lang.String doctitle;
+	private String doctitle;
 	/**doctype*/
-	private java.lang.String doctype;
+	private String doctype;
 	/**docdate*/
 	private java.util.Date docdate;
 	/**doccontent*/
@@ -42,7 +42,7 @@ public class WebOfficeEntity implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.Integer getId(){
+	public Integer getId(){
 		return this.id;
 	}
 
@@ -50,7 +50,7 @@ public class WebOfficeEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  id
 	 */
-	public void setId(java.lang.Integer id){
+	public void setId(Integer id){
 		this.id = id;
 	}
 	/**
@@ -58,7 +58,7 @@ public class WebOfficeEntity implements java.io.Serializable {
 	 *@return: java.lang.String  docid
 	 */
 	@Column(name ="DOCID",nullable=true,length=255)
-	public java.lang.String getDocid(){
+	public String getDocid(){
 		return this.docid;
 	}
 
@@ -66,7 +66,7 @@ public class WebOfficeEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  docid
 	 */
-	public void setDocid(java.lang.String docid){
+	public void setDocid(String docid){
 		this.docid = docid;
 	}
 	/**
@@ -74,7 +74,7 @@ public class WebOfficeEntity implements java.io.Serializable {
 	 *@return: java.lang.String  doctitle
 	 */
 	@Column(name ="DOCTITLE",nullable=true,length=255)
-	public java.lang.String getDoctitle(){
+	public String getDoctitle(){
 		return this.doctitle;
 	}
 
@@ -82,7 +82,7 @@ public class WebOfficeEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  doctitle
 	 */
-	public void setDoctitle(java.lang.String doctitle){
+	public void setDoctitle(String doctitle){
 		this.doctitle = doctitle;
 	}
 	/**
@@ -90,7 +90,7 @@ public class WebOfficeEntity implements java.io.Serializable {
 	 *@return: java.lang.String  doctype
 	 */
 	@Column(name ="DOCTYPE",nullable=true,length=255)
-	public java.lang.String getDoctype(){
+	public String getDoctype(){
 		return this.doctype;
 	}
 
@@ -98,7 +98,7 @@ public class WebOfficeEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  doctype
 	 */
-	public void setDoctype(java.lang.String doctype){
+	public void setDoctype(String doctype){
 		this.doctype = doctype;
 	}
 	/**

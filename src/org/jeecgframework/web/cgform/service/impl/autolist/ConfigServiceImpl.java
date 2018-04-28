@@ -12,7 +12,7 @@ import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.entity.enhance.CgformEnhanceJsEntity;
 import org.jeecgframework.web.cgform.service.autolist.ConfigServiceI;
 import org.jeecgframework.web.cgform.service.button.CgformButtonServiceI;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import com.jeecg.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.service.enhance.CgformEnhanceJsServiceI;
 
 import org.jeecgframework.core.annotation.Ehcache;
@@ -69,11 +69,6 @@ public class ConfigServiceImpl implements ConfigServiceI {
 		configs.put(CgAutoListConstant.CONFIG_QUERYMODE,tableEntity.getQuerymode());
 		configs.put(CgAutoListConstant.FILEDS,columns);
 		configs.put(CgAutoListConstant.CONFIG_VERSION, tableEntity.getJformVersion());
-		configs.put(CgAutoListConstant.TREE_PARENTID_FIELDNAME, tableEntity.getTreeParentIdFieldName());
-		configs.put(CgAutoListConstant.TREE_ID_FIELDNAME, tableEntity.getTreeIdFieldname());
-		configs.put(CgAutoListConstant.TREE_FIELDNAME, tableEntity.getTreeFieldname());
-		configs.put(CgAutoListConstant.TABLE_TYPE, tableEntity.getJformType());
-		configs.put(CgAutoListConstant.SUB_TABLES, tableEntity.getSubTableStr());
 		String formId = tableEntity.getId();
 		List<CgformButtonEntity>  buttons = cgformButtonService.getCgformButtonListByFormId(formId);
 		configs.put(CgAutoListConstant.CONFIG_BUTTONLIST,buttons.size()>0?buttons:new ArrayList<CgformButtonEntity>(0));

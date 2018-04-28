@@ -27,9 +27,9 @@ import org.jeecgframework.core.common.exception.BusinessException;
 
 /**
  * 模版导出工具类
- *
+ * 
  * @author huiyong
- *
+ * 
  */
 public class ExcelTempletService {
 	//默认列宽
@@ -51,7 +51,7 @@ public class ExcelTempletService {
 
 	@SuppressWarnings("unchecked")
 	private static HSSFWorkbook exportExcelInUserModel2File(String title,
-															Collection<?> dataSet) {
+			Collection<?> dataSet) {
 		// 声明一个工作薄
 		HSSFWorkbook workbook = null;
 		try {
@@ -125,11 +125,11 @@ public class ExcelTempletService {
 		for (int i = 1; i <=rows; i++) {
 			Row row = sheet.createRow(i);
 			for (int j = 0; j < columns; j++) {
-				row.createCell(j).setCellStyle(cellStyle);
+				 row.createCell(j).setCellStyle(cellStyle);
 			}
 		}
 	}
-
+	
 	public static HSSFCellStyle getTwoStyle(HSSFWorkbook workbook) {
 		// 产生Excel表头
 		HSSFCellStyle style = workbook.createCellStyle();
@@ -157,11 +157,12 @@ public class ExcelTempletService {
 	 * 导入 excel
 	 * @param inputstream
 	 *            : 文件输入流
+	 * @param pojoClass
 	 *            : 对应的导入对象 (每行记录)
 	 * @return
 	 */
 	public static Collection importExcelByIs(InputStream inputstream,
-											 List<CgFormFieldEntity> lists) {
+			List<CgFormFieldEntity> lists) {
 		Map<String, CgFormFieldEntity> fieldMap = ConvertDate(lists);
 		//返回的数据类型
 		List<Map<String, Object>> tObject = new ArrayList<Map<String,Object>>();
@@ -221,63 +222,63 @@ public class ExcelTempletService {
 	}
 	//TODO huiyong excel日期格式处理默认如此，需要从数据库或者配置文件读取
 	public final static DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-	/**
-	 * 得到某个格子的值 已经对过时方法进行更新
-	 *
-	 * @param cell
-	 *            格子对象
-	 * @return 格子的值
-	 */
+	 /**
+	  * 得到某个格子的值 已经对过时方法进行更新
+	  * 
+	  * @param cell
+	  *            格子对象
+	  * @return 格子的值
+	  */
 	public static String getCellValueString(Cell cell) {
-		if (cell == null) {
-			return null;
-		}
-		// 时间对象 特殊处理
-		int dataFormat = cell.getCellStyle().getDataFormat();
-
-		if (dataFormat == 14 || dataFormat == 178 || dataFormat == 180 || dataFormat == 181
-				|| dataFormat == 182) {
-			return getDateValue(cell);
-		}
-		String value = null;
-		switch (cell.getCellType()) {
-			case Cell.CELL_TYPE_NUMERIC :
-				value = new DecimalFormat("0.##########").format(cell.getNumericCellValue());
-				break;
-			case Cell.CELL_TYPE_STRING :
-				// value = cell.getStringCellValue();
-				value = cell.getRichStringCellValue().toString();
-				break;
-			case Cell.CELL_TYPE_FORMULA :
-				value = String.valueOf(cell.getCellFormula());
-				break;
-			case Cell.CELL_TYPE_BLANK :
-				// value = String.valueOf(cell.getStringCellValue());
-				value = String.valueOf(cell.getRichStringCellValue().toString());
-				break;
-			case Cell.CELL_TYPE_BOOLEAN :
-				value = String.valueOf(cell.getBooleanCellValue());
-				break;
-			case Cell.CELL_TYPE_ERROR :
-				value = String.valueOf(cell.getErrorCellValue());
-				break;
-		}
-		return value;
-	}
-	/**
-	 * 返回时间内的特殊时间格式 OFFICE2003
-	 * @param cell
-	 * @return
-	 */
-	private static String getDateValue(Cell cell){
-		return DEFAULT_DATE_FORMAT.format(cell.getDateCellValue());
-	}
+	  if (cell == null) {
+	   return null;
+	  }
+	  // 时间对象 特殊处理
+	  int dataFormat = cell.getCellStyle().getDataFormat();
+	  
+	  if (dataFormat == 14 || dataFormat == 178 || dataFormat == 180 || dataFormat == 181
+	    || dataFormat == 182) {
+		  	return getDateValue(cell);
+	  } 
+	  String value = null;
+	  switch (cell.getCellType()) {
+		   case Cell.CELL_TYPE_NUMERIC :
+		    value = new DecimalFormat("0.##########").format(cell.getNumericCellValue());
+		    break;
+		   case Cell.CELL_TYPE_STRING :
+		    // value = cell.getStringCellValue();
+		    value = cell.getRichStringCellValue().toString();
+		    break;
+		   case Cell.CELL_TYPE_FORMULA :
+		    value = String.valueOf(cell.getCellFormula());
+		    break;
+		   case Cell.CELL_TYPE_BLANK :
+		    // value = String.valueOf(cell.getStringCellValue());
+		    value = String.valueOf(cell.getRichStringCellValue().toString());
+		    break;
+		   case Cell.CELL_TYPE_BOOLEAN :
+		    value = String.valueOf(cell.getBooleanCellValue());
+		    break;
+		   case Cell.CELL_TYPE_ERROR :
+		    value = String.valueOf(cell.getErrorCellValue());
+		    break;
+	  }
+	  return value;
+	 }
+	 /**
+	  * 返回时间内的特殊时间格式 OFFICE2003
+	  * @param cell
+	  * @return
+	  */
+	 private static String getDateValue(Cell cell){
+	  return DEFAULT_DATE_FORMAT.format(cell.getDateCellValue());
+	 }
 	/**
 	 * 数据处理
 	 */
 	private static Map<String,CgFormFieldEntity> ConvertDate(List<CgFormFieldEntity> lists){
 		Map<String,CgFormFieldEntity> maps = new HashMap<String, CgFormFieldEntity>();
-
+		
 		for (CgFormFieldEntity cgFormFieldEntity : lists) {
 			maps.put(cgFormFieldEntity.getContent(), cgFormFieldEntity);
 		}

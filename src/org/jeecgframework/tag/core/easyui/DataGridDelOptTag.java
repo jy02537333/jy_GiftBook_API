@@ -4,8 +4,6 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.Tag;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.jeecgframework.core.util.MutiLangUtil;
-
 /**
  * 
  * 类描述：列表删除操作项标签
@@ -22,18 +20,14 @@ public class DataGridDelOptTag extends TagSupport {
 	private String funname;//自定义函数名称
 	
 	private String operationCode;//按钮的操作Code
-	private String langArg;
-	private String urlStyle;//样式
 	
 	public int doStartTag() throws JspTagException {
 		return EVAL_PAGE;
 	}
 	public int doEndTag() throws JspTagException {
-		title = MutiLangUtil.doMutiLang(title, langArg);
-		
 		Tag t = findAncestorWithClass(this, DataGridTag.class);
 		DataGridTag parent = (DataGridTag) t;
-		parent.setDelUrl(url, title, message, exp, funname,operationCode,urlStyle);
+		parent.setDelUrl(url, title, message, exp, funname,operationCode);
 		return EVAL_PAGE;
 	}
 	public void setFunname(String funname) {
@@ -53,15 +47,5 @@ public class DataGridDelOptTag extends TagSupport {
 	}
 	public void setOperationCode(String operationCode) {
 		this.operationCode = operationCode;
-	}
-	
-	public void setLangArg(String langArg) {
-		this.langArg = langArg;
-	}
-	public void setUrlStyle(String urlStyle) {
-		this.urlStyle = urlStyle;
-	}
-	public String getUrlStyle() {
-		return urlStyle;
 	}
 }

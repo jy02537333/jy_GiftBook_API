@@ -8,13 +8,12 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.commons.lang.StringUtils;
-import org.jeecgframework.core.util.ApplicationContextUtil;
-import org.jeecgframework.core.util.MutiLangUtil;
-import org.jeecgframework.core.util.ResourceUtil;
 import org.jeecgframework.web.system.pojo.base.TSType;
 import org.jeecgframework.web.system.pojo.base.TSTypegroup;
 import org.jeecgframework.web.system.service.SystemService;
+
+import org.apache.commons.lang.StringUtils;
+import org.jeecgframework.core.util.ApplicationContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
@@ -45,31 +44,6 @@ public class DictSelectTag extends TagSupport {
 	private String dictText;// 自定义字典表的显示文本-字典的显示值
 	private String extendJson;//扩展参数
 
-	private String readonly;// 只读属性
-    public String getReadonly() {
-		return readonly;
-	}
-	public void setReadonly(String readonly) {
-		this.readonly = readonly;
-	}
-
-	private String dictCondition;
-	public String getDictCondition() {
-		return dictCondition;
-	}
-
-	public void setDictCondition(String dicCondition) {
-		this.dictCondition = dicCondition;
-	}
-
-	private String datatype;
-	public String getDatatype() {
-		return datatype;
-	}
-
-	public void setDatatype(String datatype) {
-		this.datatype = datatype;
-	}
 
 	@Autowired
 	private static SystemService systemService;
@@ -79,25 +53,16 @@ public class DictSelectTag extends TagSupport {
 	}
 
 	public int doEndTag() throws JspTagException {
-		JspWriter out = null;
 		try {
-			out = this.pageContext.getOut();
+			JspWriter out = this.pageContext.getOut();
 			out.print(end().toString());
-			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				out.clear();
-				out.close();
-			} catch (Exception e2) {
-			}
 		}
 		return EVAL_PAGE;
 	}
 
 	public StringBuffer end() {
-		
 		StringBuffer sb = new StringBuffer();
 		if (StringUtils.isBlank(divClass)) {
 			divClass = "form"; // 默认form样式
@@ -124,10 +89,6 @@ public class DictSelectTag extends TagSupport {
 				}
 			}else {
 				sb.append("<select name=\"" + field + "\"");
-
-				this.readonly(sb);
-
-				
 				//增加扩展属性
 				if (!StringUtils.isBlank(this.extendJson)) {
 					Gson gson = new Gson();
@@ -140,17 +101,19 @@ public class DictSelectTag extends TagSupport {
 					sb.append(" id=\"" + id + "\"");
 				}
 				sb.append(">");
-
-				select("common.please.select", "", sb);
-
+				//update-begin--Author:zhangdaihao  Date:20140724 for：[bugfree号]默认选择项目--------------------
+				select("请选择", "", sb);
+				//update-end--Author:zhangdaihao  Date:20140724 for：[bugfree号]默认选择项目----------------------
 				for (Map<String, Object> map : list) {
 					select(map.get("text").toString(), map.get("field").toString(), sb);
 				}
 				sb.append("</select>");
 			}
 		} else {
-			TSTypegroup typeGroup = ResourceUtil.allTypeGroups.get(this.typeGroupCode.toLowerCase());
-			List<TSType> types = ResourceUtil.allTypes.get(this.typeGroupCode.toLowerCase());
+			TSTypegroup typeGroup = TSTypegroup.allTypeGroups
+					.get(this.typeGroupCode.toLowerCase());
+			List<TSType> types = TSTypegroup.allTypes.get(this.typeGroupCode
+					.toLowerCase());
 			if (hasLabel) {
 				sb.append("<div class=\"" + divClass + "\">");
 				sb.append("<label class=\"" + labelClass + "\" >");
@@ -158,7 +121,7 @@ public class DictSelectTag extends TagSupport {
 			if (typeGroup != null) {
 				if (hasLabel) {
 					if (StringUtils.isBlank(this.title)) {
-						this.title = MutiLangUtil.getMutiLangInstance().getLang(typeGroup.getTypegroupname());
+						this.title = typeGroup.getTypegroupname();
 					}
 					sb.append(this.title + ":");
 					sb.append("</label>");
@@ -177,10 +140,6 @@ public class DictSelectTag extends TagSupport {
 					}
 				} else {
 					sb.append("<select name=\"" + field + "\"");
-
-					this.readonly(sb);
-
-					
 					//增加扩展属性
 					if (!StringUtils.isBlank(this.extendJson)) {
 						Gson gson = new Gson();
@@ -192,11 +151,10 @@ public class DictSelectTag extends TagSupport {
 					if (!StringUtils.isBlank(this.id)) {
 						sb.append(" id=\"" + id + "\"");
 					}
-					this.datatype(sb);
 					sb.append(">");
-
-					select("common.please.select", "", sb);
-
+					//update-begin--Author:zhangdaihao  Date:20140724 for：[bugfree号]默认选择项目--------------------
+					select("请选择", "", sb);
+					//update-end--Author:zhangdaihao  Date:20140724 for：[bugfree号]默认选择项目----------------------
 					for (TSType type : types) {
 						select(type.getTypename(), type.getTypecode(), sb);
 					}
@@ -218,7 +176,7 @@ public class DictSelectTag extends TagSupport {
 	 */
 	private void text(String name, String code, StringBuffer sb) {
 		if (code.equals(this.defaultVal)) {
-			sb.append("<input name='"+field+"'"+" id='"+id+"' value='" + MutiLangUtil.getMutiLangInstance().getLang(name) + "' readOnly = 'readOnly' />");
+			sb.append("<input name='"+field+"'"+" id='"+id+"' value='"+name+"' readOnly = 'readOnly' />");
 		} else {
 		}
 	}
@@ -240,11 +198,6 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
-
-			this.readonly(sb);
-
-
-			this.datatype(sb);
 			sb.append(" />");
 		} else {
 			sb.append("<input type=\"radio\" name=\"" + field + "\" value=\""
@@ -252,13 +205,9 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
-
-			this.readonly(sb);
-
-			this.datatype(sb);
 			sb.append(" />");
 		}
-		sb.append(MutiLangUtil.getMutiLangInstance().getLang(name));
+		sb.append(name);
 	}
 
 	/**
@@ -287,10 +236,6 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
-
-			this.readonly(sb);
-
-			this.datatype(sb);
 			sb.append(" />");
 		} else {
 			sb.append("<input type=\"checkbox\" name=\"" + field
@@ -298,13 +243,9 @@ public class DictSelectTag extends TagSupport {
 			if (!StringUtils.isBlank(this.id)) {
 				sb.append(" id=\"" + id + "\"");
 			}
-
-			this.readonly(sb);
-
-			this.datatype(sb);
 			sb.append(" />");
 		}
-		sb.append(MutiLangUtil.getMutiLangInstance().getLang(name));
+		sb.append(name);
 	}
 
 	/**
@@ -322,7 +263,7 @@ public class DictSelectTag extends TagSupport {
 		} else {
 			sb.append(" <option value=\"" + code + "\">");
 		}
-		sb.append(MutiLangUtil.getMutiLangInstance().getLang(name));
+		sb.append(name);
 		sb.append(" </option>");
 	}
 
@@ -334,51 +275,10 @@ public class DictSelectTag extends TagSupport {
 	private List<Map<String, Object>> queryDic() {
 		String sql = "select " + dictField + " as field," + dictText
 				+ " as text from " + dictTable;
-
-	       if(dictCondition!=null){
-	           sql+=dictCondition;
-	       }
-
 		systemService = ApplicationContextUtil.getContext().getBean(
 				SystemService.class);
 		List<Map<String, Object>> list = systemService.findForJdbc(sql);
 		return list;
-	}
-	
-	/**
-	 * 加入datatype属性,并加入非空验证作为默认值
-	 * @param sb
-	 * @return
-	 */
-	private StringBuffer datatype(StringBuffer sb){
-		if (!StringUtils.isBlank(this.datatype)) {
-			sb.append(" datatype=\"" + datatype + "\"");
-		}
-		return sb;
-	}
-	
-	/**
-	 * 加入readonly 属性,当此属性值为 readonly时，设置控件只读
-	 * @author jg_xugj
-	 * @param sb
-	 * @return sb
-	 */
-	private StringBuffer readonly(StringBuffer sb){
-		if(!StringUtils.isBlank(readonly) &&readonly.equals("readonly")){
-			if ("radio".equals(type)) {
-				sb.append(" disable= \"disabled\" disabled=\"disabled\" ");
-			}
-			else if ("checkbox".equals(type)) {
-				sb.append(" disable= \"disabled\" disabled=\"disabled\" ");
-			}
-			else if ("text".equals(type)) {
-				
-			} 
-			else {
-				sb.append(" disable= \"disabled\" disabled=\"disabled\" ");
-			}
-		}
-		return sb;
 	}
 
 	public String getTypeGroupCode() {

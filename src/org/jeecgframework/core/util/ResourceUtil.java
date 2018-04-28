@@ -1,24 +1,18 @@
 package org.jeecgframework.core.util;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.validator.util.privilegedactions.GetAnnotationParameter;
 import org.jeecgframework.core.constant.DataBaseConstant;
 import org.jeecgframework.web.system.manager.ClientManager;
-import org.jeecgframework.web.system.pojo.base.Client;
 import org.jeecgframework.web.system.pojo.base.DynamicDataSourceEntity;
-import org.jeecgframework.web.system.pojo.base.TSIcon;
 import org.jeecgframework.web.system.pojo.base.TSRoleFunction;
 import org.jeecgframework.web.system.pojo.base.TSType;
-import org.jeecgframework.web.system.pojo.base.TSTypegroup;
 import org.jeecgframework.web.system.pojo.base.TSUser;
+
 import weixin.guanjia.account.entity.WeixinAccountEntity;
 import weixin.util.WeiXinConstants;
 
@@ -28,40 +22,21 @@ import weixin.util.WeiXinConstants;
  * 
  */
 public class ResourceUtil {
-	public static final String LOCAL_CLINET_USER = "LOCAL_CLINET_USER";
+
+	private static final ResourceBundle bundle = ResourceBundle.getBundle("sysConfig");
 	/**
-	 * 缓存字段分组【缓存】
+	 * 动态数据源【缓存】
 	 */
-	public static Map<String, TSTypegroup> allTypeGroups = new HashMap<String,TSTypegroup>();
+	public static Map<String, DynamicDataSourceEntity> dynamicDataSourceMap = new HashMap<String, DynamicDataSourceEntity>();
 	/**
 	 * 缓存字典【缓存】
 	 */
 	public static Map<String, List<TSType>> allTypes = new HashMap<String,List<TSType>>();
-	
+
 	/**
 	 * 国际化【缓存】
 	 */
-	public static Map<String, String> mutiLangMap = new HashMap<String, String>(); 
-	/**
-	 * 缓存系统图标【缓存】
-	 */
-	public static Map<String, TSIcon> allTSIcons = new HashMap<String,TSIcon>();
-	/**
-	 * 动态数据源【缓存】
-	 */
-	public static Map<String, DynamicDataSourceEntity> dynamicDataSourceMap = new HashMap<String, DynamicDataSourceEntity>(); 
-	
-	private static final ResourceBundle bundle = java.util.ResourceBundle.getBundle("sysConfig");
-	
-	/**
-	 * 属性文件[resources/sysConfig.properties]
-	 * #默认开启模糊查询方式 1为开启 条件无需带*就能模糊查询[暂时取消]
-	 * fuzzySearch=0
-	 */
-
-//	public final static boolean fuzzySearch= ResourceUtil.isFuzzySearch();
-
-
+	public static Map<String, String> mutiLangMap = new HashMap<String, String>();
 	/**
 	 * 获取session定义名称
 	 * 
@@ -74,18 +49,66 @@ public class ResourceUtil {
 		HttpSession session = ContextHolderUtils.getSession();
 		if(ClientManager.getInstance().getClient(session.getId())!=null){
 			return ClientManager.getInstance().getClient(session.getId()).getUser();
-
-		}else{
-			TSUser u = (TSUser) session.getAttribute(ResourceUtil.LOCAL_CLINET_USER);
-			Client client = new Client();
-	        client.setIp("");
-	        client.setLogindatetime(new Date());
-	        client.setUser(u);
-	        ClientManager.getInstance().addClinet(session.getId(), client);
 		}
-
 		return null;
 	}
+	
+	/**
+	 * 获取登录用户微信账号信息
+	 * @return
+	 */
+	public static final WeixinAccountEntity getWeiXinAccount() {
+		HttpSession session = ContextHolderUtils.getSession();
+		if(session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT)!=null){
+			WeixinAccountEntity WeixinAccountEntity = (weixin.guanjia.account.entity.WeixinAccountEntity) session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT);
+			return WeixinAccountEntity;
+		}else{
+			return null;
+		}
+	}
+	
+	/**
+	 * 获取登录用户微信账号信息
+	 * @return
+	 */
+	public static final String getShangJiaAccountId() {
+		HttpSession session = ContextHolderUtils.getSession();
+		if(session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT)!=null){
+			WeixinAccountEntity weixinAccountEntity = (WeixinAccountEntity) session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT);
+			return weixinAccountEntity.getId();
+		}else{
+			return null;
+		}
+	}
+	
+	/**
+	 * 获取登录用户微信账号ID
+	 * @return
+	 */
+	public static final String getWeiXinAccountId() {
+		HttpSession session = ContextHolderUtils.getSession();
+		if(session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT)!=null){
+			WeixinAccountEntity weixinAccountEntity = (WeixinAccountEntity) session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT);
+			return weixinAccountEntity.getId();
+		}else{
+			return null;
+		}
+	}
+	
+	/**
+	 * 获取浏览用户的openId
+	 * @return
+	 */
+	public static final String getUserOpenId() {
+		HttpSession session = ContextHolderUtils.getSession();
+		Object userOpenId = session.getAttribute(WeiXinConstants.USER_OPENID);
+		if(userOpenId!=null){
+			return userOpenId.toString();
+		}else{
+			return null;
+		}
+	} 
+	
 	@Deprecated
 	public static final List<TSRoleFunction> getSessionTSRoleFunction(String roleId) {
 		HttpSession session = ContextHolderUtils.getSession();
@@ -112,6 +135,17 @@ public class ResourceUtil {
 		if (requestPath.indexOf("&") > -1) {// 去掉其他参数
 			requestPath = requestPath.substring(0, requestPath.indexOf("&"));
 		}
+		requestPath = requestPath.substring(request.getContextPath().length() + 1);// 去掉项目路径
+		return requestPath;
+	}
+	
+	/**
+	 * 没有登录，跳转到登陆界面，获得登录前的url
+	 * @param request
+	 * @return
+	 */
+	public static String getRedirUrl(HttpServletRequest request){
+		String requestPath = request.getRequestURI() + "?" + request.getQueryString();
 		requestPath = requestPath.substring(request.getContextPath().length() + 1);// 去掉项目路径
 		return requestPath;
 	}
@@ -183,6 +217,15 @@ public class ResourceUtil {
 		return request.getParameter(field);
 	}
 
+	/**
+	 * 获取数据库类型
+	 * 
+	 * @return
+	 * @throws Exception 
+	 */
+	public static final String getJdbcUrl() {
+		return DBTypeUtil.getDBType().toLowerCase();
+	}
 
     /**
      * 获取随机码的长度
@@ -193,90 +236,53 @@ public class ResourceUtil {
         return bundle.getString("randCodeLength");
     }
 
-
-
     /**
-     * 获取组织机构编码长度的类型
+     * 获取随机码的类型
      *
-     * @return 组织机构编码长度的类型
+     * @return 随机码的类型
      */
-    public static String getOrgCodeLengthType() {
-        return bundle.getString("orgCodeLengthType");
+    public static String getRandCodeType() {
+        return bundle.getString("randCodeType");
     }
+    
     /**
-     * 获取用户系统变量
-     * @param key
-     * 			DataBaseConstant 中的值
-     * @return
-     */
-	public static String getUserSystemData(String key) {
-		//#{sys_user_code}%
-		String moshi = "";
-		if(key.indexOf("}")!=-1){
-			 moshi = key.substring(key.indexOf("}")+1);
+	 * 获取商家的账号ID
+	 * 对应着微信公众账号
+	 * @return
+	 */
+	public static final String getOpenid(HttpServletRequest request) {
+		String openid = request.getParameter("openid");
+		if(openid!=null){
+			return openid;
+		}else{
+			return null;
 		}
-		String returnValue = null;
-		//针对特殊标示处理#{sysOrgCode}，判断替换
-		if (key.contains("#{")) {
-			key = key.substring(2,key.indexOf("}"));
-		} else {
-			key = key;
-		}
-
-	
-		//替换为系统的登录用户账号
-//		if (key.equals(DataBaseConstant.CREATE_BY)
-//				|| key.equals(DataBaseConstant.CREATE_BY_TABLE)
-//				|| key.equals(DataBaseConstant.UPDATE_BY)
-//				|| key.equals(DataBaseConstant.UPDATE_BY_TABLE)
-//				|| 
-		if (key.equals(DataBaseConstant.SYS_USER_CODE)
-				|| key.equals(DataBaseConstant.SYS_USER_CODE_TABLE)) {
-			returnValue = getSessionUserName().getUserName();
-		}
-		//替换为系统登录用户真实名字
-//		if (key.equals(DataBaseConstant.CREATE_NAME)
-//				|| key.equals(DataBaseConstant.CREATE_NAME_TABLE)
-//				|| key.equals(DataBaseConstant.UPDATE_NAME_TABLE)
-//				|| key.equals(DataBaseConstant.UPDATE_NAME)
-		if (key.equals(DataBaseConstant.SYS_USER_NAME)
-				|| key.equals(DataBaseConstant.SYS_USER_NAME_TABLE)
-			) {
-			returnValue =  getSessionUserName().getRealName();
-		}
-		//替换为系统登录用户的公司编码
-		if (key.equals(DataBaseConstant.SYS_COMPANY_CODE)|| key.equals(DataBaseConstant.SYS_COMPANY_CODE_TABLE)) {
-			returnValue = getSessionUserName().getCurrentDepart().getOrgCode()
-					.substring(0, Integer.valueOf(getOrgCodeLengthType()));
-		}
-		//替换为系统用户登录所使用的机构编码
-		if (key.equals(DataBaseConstant.SYS_ORG_CODE)|| key.equals(DataBaseConstant.SYS_ORG_CODE_TABLE)) {
-			returnValue = getSessionUserName().getCurrentDepart().getOrgCode();
-		}
-		//替换为当前系统时间(年月日)
-		if (key.equals(DataBaseConstant.SYS_DATE)|| key.equals(DataBaseConstant.SYS_DATE_TABLE)) {
-			returnValue = DateUtils.formatDate();
-		}
-		//替换为当前系统时间（年月日时分秒）
-		if (key.equals(DataBaseConstant.SYS_TIME)|| key.equals(DataBaseConstant.SYS_TIME_TABLE)) {
-			returnValue = DateUtils.formatTime();
-		}
-		if(returnValue!=null){returnValue = returnValue + moshi;}
-		return returnValue;
+	}
+	/**
+	 * 处理数据权限规则变量
+	 * 以用户变量为准  先得到用户变量，如果用户没有设置，则获到 系统变量
+	 * 			Session 中的值
+	 * @return
+	 */
+	public static String converRuleValue(String ruleValue) {
+		String value = ResourceUtil.getSessionData(ruleValue);
+		if(StringUtil.isEmpty(value))
+			value = ResourceUtil.getUserSystemData(ruleValue);
+		return value!= null ? value : ruleValue;
 	}
 	//---author:jg_xugj----start-----date:20151226--------for：#814 【数据权限】扩展支持写表达式，通过session取值
-    /**
-     * 获取用户session 中的变量
-     * @param key
-     * 			Session 中的值
-     * @return
-     */
+	/**
+	 * 获取用户session 中的变量
+	 * @param key
+	 * 			Session 中的值
+	 * @return
+	 */
 	private static String getSessionData(String key) {
 		//${myVar}%
 		//得到${} 后面的值
 		String moshi = "";
 		if(key.indexOf("}")!=-1){
-			 moshi = key.substring(key.indexOf("}")+1);
+			moshi = key.substring(key.indexOf("}")+1);
 		}
 		String returnValue = null;
 //---author:jg_xugj----start-----date:20151226--------for：修改bug 1、key.contains("${")  应改为 key.contains("#{") 2、StringUtil.isEmpty(key) 判断 不为空
@@ -293,138 +299,79 @@ public class ResourceUtil {
 		if(returnValue!=null){returnValue = returnValue + moshi;}
 		return returnValue;
 	}
+	/**
+	 * 获取用户系统变量
+	 * @param key
+	 * 			DataBaseConstant 中的值
+	 * @return
+	 */
+	public static String getUserSystemData(String key) {
+		//#{sys_user_code}%
+		String moshi = "";
+		if(key.indexOf("}")!=-1){
+			moshi = key.substring(key.indexOf("}")+1);
+		}
+		String returnValue = null;
+		//针对特殊标示处理#{sysOrgCode}，判断替换
+		if (key.contains("#{")) {
+			key = key.substring(2,key.indexOf("}"));
+		} else {
+			key = key;
+		}
+
+
+		//替换为系统的登录用户账号
+//		if (key.equals(DataBaseConstant.CREATE_BY)
+//				|| key.equals(DataBaseConstant.CREATE_BY_TABLE)
+//				|| key.equals(DataBaseConstant.UPDATE_BY)
+//				|| key.equals(DataBaseConstant.UPDATE_BY_TABLE)
+//				||
+		if (key.equals(DataBaseConstant.SYS_USER_CODE)
+				|| key.equals(DataBaseConstant.SYS_USER_CODE_TABLE)) {
+			returnValue = getSessionUserName().getUserName();
+		}
+		//替换为系统登录用户真实名字
+//		if (key.equals(DataBaseConstant.CREATE_NAME)
+//				|| key.equals(DataBaseConstant.CREATE_NAME_TABLE)
+//				|| key.equals(DataBaseConstant.UPDATE_NAME_TABLE)
+//				|| key.equals(DataBaseConstant.UPDATE_NAME)
+		if (key.equals(DataBaseConstant.SYS_USER_NAME)
+				|| key.equals(DataBaseConstant.SYS_USER_NAME_TABLE)
+				) {
+			returnValue =  getSessionUserName().getRealName();
+		}
+		//替换为系统登录用户的公司编码
+		if (key.equals(DataBaseConstant.SYS_COMPANY_CODE)|| key.equals(DataBaseConstant.SYS_COMPANY_CODE_TABLE)) {
+			returnValue = getSessionUserName().getTSDepart().getOrgCode()
+					.substring(0, Integer.valueOf(getOrgCodeLengthType()));
+		}
+		//替换为系统用户登录所使用的机构编码
+		if (key.equals(DataBaseConstant.SYS_ORG_CODE)|| key.equals(DataBaseConstant.SYS_ORG_CODE_TABLE)) {
+			returnValue = getSessionUserName().getTSDepart().getOrgCode();
+		}
+		//替换为当前系统时间(年月日)
+		if (key.equals(DataBaseConstant.SYS_DATE)|| key.equals(DataBaseConstant.SYS_DATE_TABLE)) {
+			returnValue = DateUtils.formatDate();
+		}
+		//替换为当前系统时间（年月日时分秒）
+		if (key.equals(DataBaseConstant.SYS_TIME)|| key.equals(DataBaseConstant.SYS_TIME_TABLE)) {
+			returnValue = DateUtils.formatTime();
+		}
+		if(returnValue!=null){returnValue = returnValue + moshi;}
+		return returnValue;
+	}
+	/**
+	 * 获取组织机构编码长度的类型
+	 *
+	 * @return 组织机构编码长度的类型
+	 */
+	public static String getOrgCodeLengthType() {
+		return bundle.getString("orgCodeLengthType");
+	}
 	
-    /**
-     * 处理数据权限规则变量
-     * 以用户变量为准  先得到用户变量，如果用户没有设置，则获到 系统变量
-     * 			Session 中的值
-     * @return
-     */
-	public static String converRuleValue(String ruleValue) {
-		String value = ResourceUtil.getSessionData(ruleValue);
-		if(StringUtil.isEmpty(value))
-			value = ResourceUtil.getUserSystemData(ruleValue);
-		return value!= null ? value : ruleValue;
-	}
-
-
-	/**
-	 * 获取登录用户微信账号信息
-	 * @return
-	 */
-	public static final WeixinAccountEntity getWeiXinAccount() {
-		HttpSession session = ContextHolderUtils.getSession();
-		if(session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT)!=null){
-			WeixinAccountEntity WeixinAccountEntity = (weixin.guanjia.account.entity.WeixinAccountEntity) session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT);
-			return WeixinAccountEntity;
-		}else{
-			return null;
-		}
-	}
-
-	/**
-	 * 获取登录用户微信账号信息
-	 * @return
-	 */
-	public static final String getShangJiaAccountId() {
-		HttpSession session = ContextHolderUtils.getSession();
-		if(session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT)!=null){
-			WeixinAccountEntity weixinAccountEntity = (weixin.guanjia.account.entity.WeixinAccountEntity) session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT);
-			return weixinAccountEntity.getId();
-		}else{
-			return null;
-		}
-	}
-
-	/**
-	 * 获取登录用户微信账号ID
-	 * @return
-	 */
-	public static final String getWeiXinAccountId() {
-		HttpSession session = ContextHolderUtils.getSession();
-		if(session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT)!=null){
-			WeixinAccountEntity weixinAccountEntity = (weixin.guanjia.account.entity.WeixinAccountEntity) session.getAttribute(WeiXinConstants.WEIXIN_ACCOUNT);
-			return weixinAccountEntity.getId();
-		}else{
-			return null;
-		}
-	}
-
-	/**
-	 * 获取浏览用户的openId
-	 * @return
-	 */
-	public static final String getUserOpenId() {
-		HttpSession session = ContextHolderUtils.getSession();
-		Object userOpenId = session.getAttribute(WeiXinConstants.USER_OPENID);
-		if(userOpenId!=null){
-			return userOpenId.toString();
-		}else{
-			return null;
-		}
-	}
-
-
-
-	/**
-	 * 没有登录，跳转到登陆界面，获得登录前的url
-	 * @param request
-	 * @return
-	 */
-	public static String getRedirUrl(HttpServletRequest request){
-		String requestPath = request.getRequestURI() + "?" + request.getQueryString();
-		requestPath = requestPath.substring(request.getContextPath().length() + 1);// 去掉项目路径
-		return requestPath;
-	}
-
-
-
-
-
-
-
-
-	/**
-	 * 获取数据库类型
-	 *
-	 * @return
-	 * @throws Exception
-	 */
-	public static final String getJdbcUrl() {
-		return DBTypeUtil.getDBType().toLowerCase();
-	}
-
-
-	/**
-	 * 获取随机码的类型
-	 *
-	 * @return 随机码的类型
-	 */
-	public static String getRandCodeType() {
-		return bundle.getString("randCodeType");
-	}
-
-	/**
-	 * 获取商家的账号ID
-	 * 对应着微信公众账号
-	 * @return
-	 */
-	public static final String getOpenid(HttpServletRequest request) {
-		String openid = request.getParameter("openid");
-		if(openid!=null){
-			return openid;
-		}else{
-			return null;
-		}
-	}
-
 	public static void main(String[] args) {
-		org.jeecgframework.core.util.LogUtil.info(getPorjectPath());
-		org.jeecgframework.core.util.LogUtil.info(getSysPath());
+		LogUtil.info(getPorjectPath());
+		LogUtil.info(getSysPath());
+
 	}
-
-//	public static boolean isFuzzySearch(){
-//		return "1".equals(bundle.getString("fuzzySearch"));
-//	}
-
 }

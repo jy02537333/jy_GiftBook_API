@@ -1,9 +1,18 @@
 package org.jeecgframework.web.demo.controller.test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.jeecgframework.web.system.pojo.base.TSAttachment;
+import org.jeecgframework.web.system.pojo.base.TSDemo;
+import org.jeecgframework.web.system.pojo.base.TSDocument;
+import org.jeecgframework.web.system.pojo.base.TSFunction;
+import org.jeecgframework.web.system.pojo.base.TSUser;
+import org.jeecgframework.web.system.service.SystemService;
 
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
@@ -12,16 +21,16 @@ import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.ComboTree;
 import org.jeecgframework.core.common.model.json.TreeGrid;
 import org.jeecgframework.core.constant.Globals;
-import org.jeecgframework.core.util.MutiLangUtil;
+import org.jeecgframework.core.extend.template.Template;
 import org.jeecgframework.core.util.MyBeanUtils;
+import org.jeecgframework.core.util.ResourceUtil;
+import org.jeecgframework.core.util.StreamUtils;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.tag.vo.easyui.ComboTreeModel;
 import org.jeecgframework.tag.vo.easyui.TreeGridModel;
-import org.jeecgframework.web.system.pojo.base.TSDemo;
-import org.jeecgframework.web.system.pojo.base.TSFunction;
-import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,12 +43,21 @@ import org.springframework.web.util.HtmlUtils;
  * @Description: TODO(演示例子处理类)
  * @author jeecg
  */
-//@Scope("prototype")
+@Scope("prototype")
 @Controller
 @RequestMapping("/demoController")
 public class DemoController extends BaseController {
 	private static final Logger logger = Logger.getLogger(DemoController.class);
 	private SystemService systemService;
+	private String message;
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -58,9 +76,7 @@ public class DemoController extends BaseController {
 		}
 		if (type.equals("table")) {
 			return new ModelAndView("jeecg/demo/base/tabledemo");
-		} else if(type.equals("tableupdate")){
-			return new ModelAndView("jeecg/demo/base/demoTab");
-		}else{
+		} else {
 			return new ModelAndView("jeecg/demo/base/demo");
 		}
 
@@ -83,7 +99,7 @@ public class DemoController extends BaseController {
 		List<TSDemo> demoList = systemService.getListByCriteriaQuery(cq, false);
 		List<ComboTree> comboTrees = new ArrayList<ComboTree>();
 		ComboTreeModel comboTreeModel = new ComboTreeModel("id", "demotitle", "tsDemos", "demourl");
-		comboTrees = systemService.ComboTree(demoList, comboTreeModel, null, false);
+		comboTrees = systemService.ComboTree(demoList, comboTreeModel, null);
 		return comboTrees;
 	}
 	@RequestMapping(params = "demoTurn")
@@ -164,29 +180,18 @@ public class DemoController extends BaseController {
 		AjaxJson j = new AjaxJson();
 		String id = StringUtil.getEncodePra(req.getParameter("id"));
 		String floor = "";
-
-		if(StringUtil.isNotEmpty(id)){
-			if("ThreeLevelLinkage".equals(id)){
-				floor += "省：<select name=\"province\" id=\"provinceid\">"+"</select>" + "&nbsp;&nbsp;";
-				floor += "市：<select name=\"city\" id=\"cityid\">"+"</select>" + "&nbsp;&nbsp;";
-				floor += "县：<select name=\"county\" id=\"countyid\">"+"</select>" + "&nbsp;&nbsp;";
-
-			}else{
-				CriteriaQuery cq = new CriteriaQuery(TSFunction.class);
-				cq.eq("TSFunction.id", id);
-				cq.add();
-				List<TSFunction> functions = systemService.getListByCriteriaQuery(cq, false);
-				if (functions.size() > 0) {
-
-					for (TSFunction function : functions) {
-						floor += "<input type=\"checkbox\"  name=\"floornum\" id=\"floornum\" value=\"" + function.getId() + "\">" + MutiLangUtil.getMutiLangInstance().getLang(function.getFunctionName()) + "&nbsp;&nbsp;";
-					}
-
-				} else {
-					floor += "没有子项目!";
-				}
+		CriteriaQuery cq = new CriteriaQuery(TSFunction.class);
+		cq.eq("TSFunction.id", id);
+		cq.add();
+		List<TSFunction> functions = systemService.getListByCriteriaQuery(cq, false);
+		if (functions.size() > 0) {
+			for (TSFunction function : functions) {
+				floor += "<input type=\"checkbox\"  name=\"floornum\" id=\"floornum\" value=\"" + function.getId() + "\">" + function.getFunctionName() + "&nbsp;&nbsp;";
 			}
+		} else {
+			floor += "没有子项目!";
 		}
+
 		j.setMsg(floor);
 		return j;
 	}
@@ -262,7 +267,7 @@ public class DemoController extends BaseController {
 	/**
 	 * 保存DEMO维护
 	 * 
-	 * @param demo
+	 * @param jeecgDemo
 	 * @param request
 	 * @return
 	 * @throws Exception 
@@ -270,7 +275,6 @@ public class DemoController extends BaseController {
 	@RequestMapping(params = "saveDemo")
 	@ResponseBody
 	public AjaxJson saveDemo(TSDemo demo, HttpServletRequest request) throws Exception{
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (!StringUtil.isEmpty(demo.getId())) {
 			message = "Demo维护例子: " + demo.getDemotitle() + "被更新成功";
@@ -301,7 +305,6 @@ public class DemoController extends BaseController {
 	@RequestMapping(params = "delDemo")
 	@ResponseBody
 	public AjaxJson del(TSDemo demo, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		demo = systemService.getEntity(TSDemo.class, demo.getId());
 		message = "Demo: " + demo.getDemotitle() + "被删除 成功";
@@ -313,36 +316,6 @@ public class DemoController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
-
-	/**
-	 * demo页面跳转
-	 */
-	@RequestMapping(params = "demoLayoutList")
-	public ModelAndView demoLayout(HttpServletRequest request) {
-		CriteriaQuery cq = new CriteriaQuery(TSDemo.class);
-		cq.isNull("TSDemo.id");
-		cq.add();
-		List<TSDemo> demoList = systemService.getListByCriteriaQuery(cq, false);
-		request.setAttribute("demoList", demoList);
-		return new ModelAndView("jeecg/demo/base/layout/demoLayoutList");
-	}
 	
-	/**
-	 * demo添加页面跳转
-	 */
-	@RequestMapping(params = "demoLayout")
-	public ModelAndView aorudemoLayout(TSDemo demo, HttpServletRequest request) {
-		if (demo.getId() != null) {
-			demo = systemService.getEntity(TSDemo.class, demo.getId());
-			request.setAttribute("demo", demo);
-		}
-		return new ModelAndView("jeecg/demo/base/layout/demoLayout");
-
-	}
-
-	@RequestMapping(params = "eSign")
-	public ModelAndView eSignDemo(HttpServletRequest request) {
-		return new ModelAndView("jeecg/demo/test/zsign");
-	}
-
+	
 }

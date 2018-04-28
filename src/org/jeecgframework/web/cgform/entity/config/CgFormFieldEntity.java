@@ -33,75 +33,67 @@ import org.hibernate.annotations.GenericGenerator;
 @SuppressWarnings("serial")
 public class CgFormFieldEntity implements java.io.Serializable {
 	/**id*/
-	private java.lang.String id;
-	/**功能注释*/
-	private java.lang.String content;
-	/**创建时间*/
-	private java.util.Date createDate;
-	/**创建人ID*/
-	private java.lang.String createBy;
-	/**创建人名称*/
-	private java.lang.String createName;
-	/**修改时间*/
-	private java.util.Date updateDate;
-	/**修改人ID*/
-	private java.lang.String updateBy;
-	/**修改人名称*/
-	private java.lang.String updateName;
-
-
+	private String id;
 	/**字段名称*/
-	private java.lang.String fieldName;
+	private String fieldName;
 	/**关联的表*/
 	private CgFormHeadEntity table;
 	/**字段长度*/
-	private java.lang.Integer length;
+	private Integer length;
 	/**小数点长度*/
-	private java.lang.Integer pointLength;
+	private Integer pointLength;
 	/**字段类型*/
-	private java.lang.String type;
+	private String type;
 	/**是否允许空值*/
-	private java.lang.String isNull;
+	private String isNull;
 	/**在表中的顺序*/
-	private java.lang.Integer orderNum;
+	private Integer orderNum;
 	/**是否主键*/
-	private java.lang.String isKey;
+	private String isKey;
 	/**是否显示*/
-	private java.lang.String isShow;
+	private String isShow;
 	/**是否在列表上显示*/
-	private java.lang.String isShowList;
+	private String isShowList;
 	/**显示类型*/
-	private java.lang.String showType;
+	private String showType;
 	/**是否生产查询字段*/
-	private java.lang.String isQuery;
+	private String isQuery;
 	/**控件长度*/
-	private java.lang.Integer fieldLength;
+	private Integer fieldLength;
 	/**字段Href*/
-	private java.lang.String fieldHref;
+	private String fieldHref;
 	/**控件校验*/
-	private java.lang.String fieldValidType;
+	private String fieldValidType;
 	/**查询类型single(默认：单字段查询),group(范围查询)*/
-	private java.lang.String queryMode;
-
-
+	private String queryMode;
+	/**功能注释*/
+	private String content;
+	/**创建时间*/
+	private java.util.Date createDate;
+	/**创建人ID*/
+	private String createBy;
+	/**创建人名称*/
+	private String createName;
+	/**修改时间*/
+	private java.util.Date updateDate;
+	/**修改人ID*/
+	private String updateBy;
+	/**修改人名称*/
+	private String updateName;
 	/**字典Code*/
-	private java.lang.String dictField;
+	private String dictField;
 	/**字典Table*/
-	private java.lang.String dictTable;
+	private String dictTable;
 	/**字典Text*/
-	private java.lang.String dictText;
+	private String dictText;
 	/**主表名*/
-	private java.lang.String mainTable;
+	private String mainTable;
 	/**主表字段*/
-	private java.lang.String mainField;
+	private String mainField;
 	/**旧的字段名称*/
-	private java.lang.String oldFieldName;
+	private String oldFieldName;
 	/**字段默认值*/
-	private java.lang.String fieldDefault;
-	//add-start--Author:luobaoli  Date:20150610 for：添加扩展参数字段
-//	/**扩展参数**/
-//	private java.lang.String extendJson;
-	//add-start--Author:luobaoli  Date:20150610 for：添加扩展参数字段
+	private String fieldDefault;
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -112,7 +104,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="id",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -120,7 +112,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -128,7 +120,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  字段名称
 	 */
 	@Column(name ="field_name",nullable=false,length=32)
-	public java.lang.String getFieldName(){
+	public String getFieldName(){
 		return this.fieldName;
 	}
 
@@ -136,7 +128,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  字段名称
 	 */
-	 public void setFieldName(java.lang.String fieldName){
+	 public void setFieldName(String fieldName){
 		this.fieldName = fieldName;
 	}
 	/**
@@ -163,7 +155,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  字段长度
 	 */
 	@Column(name ="length",nullable=false,precision=10,scale=0)
-	public java.lang.Integer getLength(){
+	public Integer getLength(){
 		return this.length;
 	}
 
@@ -171,7 +163,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  字段长度
 	 */
-	public void setLength(java.lang.Integer length){
+	public void setLength(Integer length){
 		this.length = length;
 	}
 	/**
@@ -179,7 +171,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  小数点长度
 	 */
 	@Column(name ="point_length",nullable=true,precision=10,scale=0)
-	public java.lang.Integer getPointLength(){
+	public Integer getPointLength(){
 		return this.pointLength;
 	}
 
@@ -187,7 +179,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  小数点长度
 	 */
-	public void setPointLength(java.lang.Integer pointLength){
+	public void setPointLength(Integer pointLength){
 		this.pointLength = pointLength;
 	}
 	/**
@@ -195,7 +187,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  字段类型
 	 */
 	@Column(name ="type",nullable=false,length=32)
-	public java.lang.String getType(){
+	public String getType(){
 		return this.type;
 	}
 
@@ -203,7 +195,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  字段类型
 	 */
-	public void setType(java.lang.String type){
+	public void setType(String type){
 		this.type = type;
 	}
 	/**
@@ -211,7 +203,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  是否允许空值
 	 */
 	@Column(name ="is_null",nullable=true,length=5)
-	public java.lang.String getIsNull(){
+	public String getIsNull(){
 		return this.isNull;
 	}
 
@@ -219,7 +211,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  是否允许空值
 	 */
-	public void setIsNull(java.lang.String isNull){
+	public void setIsNull(String isNull){
 		this.isNull = isNull;
 	}
 	/**
@@ -227,7 +219,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  是否显示
 	 */
 	@Column(name ="is_show",nullable=true,length=5)
-	public java.lang.String getIsShow(){
+	public String getIsShow(){
 		return this.isShow;
 	}
 
@@ -235,7 +227,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  是否显示
 	 */
-	public void setIsShow(java.lang.String isShow){
+	public void setIsShow(String isShow){
 		this.isShow = isShow;
 	}
 	/**
@@ -243,7 +235,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  显示类型
 	 */
 	@Column(name ="show_type",nullable=true,length=10)
-	public java.lang.String getShowType(){
+	public String getShowType(){
 		return this.showType;
 	}
 
@@ -251,7 +243,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  显示类型
 	 */
-	public void setShowType(java.lang.String showType){
+	public void setShowType(String showType){
 		this.showType = showType;
 	}
 	/**
@@ -259,7 +251,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  是否生产查询字段
 	 */
 	@Column(name ="is_query",nullable=true,length=5)
-	public java.lang.String getIsQuery(){
+	public String getIsQuery(){
 		return this.isQuery;
 	}
 
@@ -267,7 +259,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  是否生产查询字段
 	 */
-	public void setIsQuery(java.lang.String isQuery){
+	public void setIsQuery(String isQuery){
 		this.isQuery = isQuery;
 	}
 	/**
@@ -275,7 +267,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  查询类型single(默认：单字段查询),group(范围查询)
 	 */
 	@Column(name ="query_mode",nullable=true,length=10)
-	public java.lang.String getQueryMode(){
+	public String getQueryMode(){
 		return this.queryMode;
 	}
 
@@ -283,7 +275,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  查询类型single(默认：单字段查询),group(范围查询)
 	 */
-	public void setQueryMode(java.lang.String queryMode){
+	public void setQueryMode(String queryMode){
 		this.queryMode = queryMode;
 	}
 	/**
@@ -291,7 +283,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  功能注释
 	 */
 	@Column(name ="content",nullable=false,length=200)
-	public java.lang.String getContent(){
+	public String getContent(){
 		return this.content;
 	}
 
@@ -299,7 +291,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  功能注释
 	 */
-	public void setContent(java.lang.String content){
+	public void setContent(String content){
 		this.content = content;
 	}
 	/**
@@ -323,7 +315,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  创建人ID
 	 */
 	@Column(name ="create_by",nullable=true)
-	public java.lang.String getCreateBy(){
+	public String getCreateBy(){
 		return this.createBy;
 	}
 
@@ -331,7 +323,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人ID
 	 */
-	public void setCreateBy(java.lang.String createBy){
+	public void setCreateBy(String createBy){
 		this.createBy = createBy;
 	}
 	/**
@@ -339,7 +331,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  创建人名称
 	 */
 	@Column(name ="create_name",nullable=true,length=32)
-	public java.lang.String getCreateName(){
+	public String getCreateName(){
 		return this.createName;
 	}
 
@@ -347,7 +339,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  创建人名称
 	 */
-	public void setCreateName(java.lang.String createName){
+	public void setCreateName(String createName){
 		this.createName = createName;
 	}
 	/**
@@ -371,7 +363,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  修改人ID
 	 */
 	@Column(name ="update_by",nullable=true,length=32)
-	public java.lang.String getUpdateBy(){
+	public String getUpdateBy(){
 		return this.updateBy;
 	}
 
@@ -379,7 +371,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  修改人ID
 	 */
-	public void setUpdateBy(java.lang.String updateBy){
+	public void setUpdateBy(String updateBy){
 		this.updateBy = updateBy;
 	}
 	/**
@@ -387,7 +379,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  修改人名称
 	 */
 	@Column(name ="update_name",nullable=true,length=32)
-	public java.lang.String getUpdateName(){
+	public String getUpdateName(){
 		return this.updateName;
 	}
 
@@ -395,7 +387,7 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  修改人名称
 	 */
-	public void setUpdateName(java.lang.String updateName){
+	public void setUpdateName(String updateName){
 		this.updateName = updateName;
 	}
 	/**
@@ -403,11 +395,11 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  在表中的顺序
 	 */
 	@Column(name ="order_num",nullable=true,length=4)
-	public java.lang.Integer getOrderNum() {
+	public Integer getOrderNum() {
 		return orderNum;
 	}
 
-	public void setOrderNum(java.lang.Integer orderNum) {
+	public void setOrderNum(Integer orderNum) {
 		this.orderNum = orderNum;
 	}
 	/**
@@ -415,11 +407,11 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  是否为主键
 	 */
 	@Column(name ="is_key",nullable=true,length=2)
-	public java.lang.String getIsKey() {
+	public String getIsKey() {
 		return isKey;
 	}
 
-	public void setIsKey(java.lang.String isKey) {
+	public void setIsKey(String isKey) {
 		this.isKey = isKey;
 	}
 	/**
@@ -427,11 +419,11 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  控件长度
 	 */
 	@Column(name ="field_length",nullable=true,length=10)
-	public java.lang.Integer getFieldLength() {
+	public Integer getFieldLength() {
 		return fieldLength;
 	}
 
-	public void setFieldLength(java.lang.Integer field_length) {
+	public void setFieldLength(Integer field_length) {
 		this.fieldLength = field_length;
 	}
 	/**
@@ -439,11 +431,11 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  字段Href
 	 */
 	@Column(name ="field_href",nullable=true,length=200)
-	public java.lang.String getFieldHref() {
+	public String getFieldHref() {
 		return fieldHref;
 	}
 
-	public void setFieldHref(java.lang.String field_href) {
+	public void setFieldHref(String field_href) {
 		this.fieldHref = field_href;
 	}
 	/**
@@ -451,11 +443,11 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 *@return: java.lang.String  控件校验
 	 */
 	@Column(name ="field_valid_type",nullable=true,length=10)
-	public java.lang.String getFieldValidType() {
+	public String getFieldValidType() {
 		return fieldValidType;
 	}
 
-	public void setFieldValidType(java.lang.String field_valid_type) {
+	public void setFieldValidType(String field_valid_type) {
 		this.fieldValidType = field_valid_type;
 	}
 	/**
@@ -463,11 +455,11 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 * @return  字典Code
 	 * */
 	@Column(name ="dict_field",nullable=true,length=100)
-	public java.lang.String getDictField() {
+	public String getDictField() {
 		return dictField;
 	}
 
-	public void setDictField(java.lang.String dictField) {
+	public void setDictField(String dictField) {
 		this.dictField = dictField;
 	}
 	/**
@@ -475,11 +467,11 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 * @return  字典Table
 	 * */
 	@Column(name ="dict_table",nullable=true,length=100)
-	public java.lang.String getDictTable() {
+	public String getDictTable() {
 		return dictTable;
 	}
 
-	public void setDictTable(java.lang.String dictTable) {
+	public void setDictTable(String dictTable) {
 		this.dictTable = dictTable;
 	}
 	/**
@@ -487,11 +479,11 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 * @return  主表名称
 	 * */
 	@Column(name ="main_table",nullable=true,length=100)
-	public java.lang.String getMainTable() {
+	public String getMainTable() {
 		return mainTable;
 	}
 
-	public void setMainTable(java.lang.String mainTable) {
+	public void setMainTable(String mainTable) {
 		this.mainTable = mainTable;
 	}
 	/**
@@ -499,11 +491,11 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 * @return  主表名称
 	 * */
 	@Column(name ="main_field",nullable=true,length=100)
-	public java.lang.String getMainField() {
+	public String getMainField() {
 		return mainField;
 	}
 
-	public void setMainField(java.lang.String mainField) {
+	public void setMainField(String mainField) {
 		this.mainField = mainField;
 	}
 
@@ -512,11 +504,11 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 * @return  主表名称
 	 * */
 	@Column(name ="old_field_name",nullable=true,length=32)
-	public java.lang.String getOldFieldName() {
+	public String getOldFieldName() {
 		return oldFieldName;
 	}
 
-	public void setOldFieldName(java.lang.String oldFieldName) {
+	public void setOldFieldName(String oldFieldName) {
 		this.oldFieldName = oldFieldName;
 	}
 	/**
@@ -524,11 +516,11 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 * @return  是否在列表上显示
 	 * */
 	@Column(name ="is_show_list",nullable=true,length=5)
-	public java.lang.String getIsShowList() {
+	public String getIsShowList() {
 		return isShowList;
 	}
 
-	public void setIsShowList(java.lang.String isShowList) {
+	public void setIsShowList(String isShowList) {
 		this.isShowList = isShowList;
 	}
 	/**
@@ -536,34 +528,25 @@ public class CgFormFieldEntity implements java.io.Serializable {
 	 * @return  字典文本
 	 * */
 	@Column(name ="dict_text",nullable=true,length=100)
-	public java.lang.String getDictText() {
+	public String getDictText() {
 		return dictText;
 	}
 
-	public void setDictText(java.lang.String dictText) {
+	public void setDictText(String dictText) {
 		this.dictText = dictText;
 	}
 
 	@Column(name ="field_default",nullable=true,length=20)
-	public java.lang.String getFieldDefault() {
+	public String getFieldDefault() {
 		if (fieldDefault != null) {
 			fieldDefault = fieldDefault.trim();
 		}
 		return fieldDefault;
 	}
 
-	public void setFieldDefault(java.lang.String fieldDefault) {
+	public void setFieldDefault(String fieldDefault) {
 		this.fieldDefault = fieldDefault;
 	}
-
-//	//add-start--Author:luobaoli  Date:20150610 for：添加扩展参数字段
-//	@Column(name ="extend_json",nullable=true,length=500)
-//	public java.lang.String getExtendJson() {
-//		return extendJson;
-//	}
-//
-//	public void setExtendJson(java.lang.String extendJson) {
-//		this.extendJson = extendJson;
-//	}
-	//add-end--Author:luobaoli  Date:20150610 for：添加扩展参数字段
+	
+	
 }

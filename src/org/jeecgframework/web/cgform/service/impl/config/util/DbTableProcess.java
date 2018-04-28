@@ -21,7 +21,7 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.exception.DBException;
-import org.jeecgframework.web.cgform.service.config.DbTableHandleI;
+import com.jeecg.service.config.DbTableHandleI;
 import org.springframework.orm.hibernate4.SessionFactoryUtils;
 
 import freemarker.template.Configuration;
@@ -160,14 +160,13 @@ public class DbTableProcess {
 			dbExport = new SchemaExport(newconf,SessionFactoryUtils.getDataSource(
 					session.getSessionFactory()).getConnection());
 			dbExport.execute(true, true, false, true);
-
+			
 			//抛出执行异常，抛出第一个即可  
 			@SuppressWarnings("unchecked")
 			List<Exception> exceptionList = dbExport.getExceptions();
 			for (Exception exception : exceptionList) {
 				throw new DBException(exception.getMessage());
 			}
-
 	}
 
 	/**

@@ -1,22 +1,26 @@
 package org.jeecgframework.web.cgform.engine;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateDirectiveModel;
-import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-import org.jeecgframework.core.util.PropertiesUtil;
-import org.jeecgframework.web.cgform.common.CgAutoListConstant;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
+import org.jeecgframework.web.cgform.common.CgAutoListConstant;
+import com.jeecg.service.config.CgFormFieldServiceI;
+
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
+
+import org.jeecgframework.core.util.PropertiesUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateDirectiveModel;
 
 @Component("templetContext")
 public class TempletContext {
@@ -59,23 +63,17 @@ public class TempletContext {
 		return freemarker.getLocale();
 	}
 
-	public Template getTemplate(String tableName, String ftlVersion) {
+	public Template getTemplate(String tableName) {
 		Template template = null;
 		if (tableName == null) {
 			return null;
 		}
-		String oldTableName = tableName;
-
-        if (ftlVersion != null && ftlVersion.length() > 0) {
-            tableName = tableName + "&ftlVersion=" + ftlVersion;
-        }
-
-        try {
+		try {
 			if(CgAutoListConstant.SYS_MODE_DEV.equalsIgnoreCase(_sysMode)){//开发模式
 				template = freemarker.getTemplate(tableName,freemarker.getLocale(), ENCODING);
 			}else if(CgAutoListConstant.SYS_MODE_PUB.equalsIgnoreCase(_sysMode)){//生产模式（缓存）
 				//获取版本号
-		    	String version = cgFormFieldService.getCgFormVersionByTableName(oldTableName);
+		    	String version = cgFormFieldService.getCgFormVersionByTableName(tableName);
 				template = getTemplateFromCache(tableName, ENCODING,version);
 			}else{
 				throw new RuntimeException("sysConfig.properties的freeMarkerMode配置错误：(PUB:生产模式，DEV:开发模式)");
@@ -129,12 +127,5 @@ public class TempletContext {
 		this.tags = tags;
 	}
 
-	public void clearCache(){
-		try{
-			ehCache.removeAll();
-		}catch (Exception e){
-
-		}
-	}
-
+	
 }

@@ -2,36 +2,25 @@ package org.jeecgframework.web.cgreport.controller.core;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
-import org.jeecgframework.core.common.controller.BaseController;
-import org.jeecgframework.core.common.exception.BusinessException;
-import org.jeecgframework.core.enums.SysThemesEnum;
-import org.jeecgframework.core.util.ContextHolderUtils;
-import org.jeecgframework.core.util.DynamicDBUtil;
-import org.jeecgframework.core.util.SqlUtil;
-import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.SysThemesUtil;
-import org.jeecgframework.core.util.oConvertUtils;
-import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.engine.FreemarkerHelper;
 import org.jeecgframework.web.cgreport.common.CgReportConstant;
 import org.jeecgframework.web.cgreport.exception.CgReportNotFoundException;
 import org.jeecgframework.web.cgreport.service.core.CgReportServiceI;
 import org.jeecgframework.web.cgreport.util.CgReportQueryParamUtil;
+
+import org.hibernate.exception.SQLGrammarException;
+import org.jeecgframework.core.common.controller.BaseController;
+import org.jeecgframework.core.common.exception.BusinessException;
+import org.jeecgframework.core.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,49 +59,18 @@ public class CgReportController extends BaseController {
 		//step.2 获取列表ftl模板路径
 		FreemarkerHelper viewEngine = new FreemarkerHelper();
 		//step.3 组合模板+数据参数，进行页面展现
-		loadVars(cgReportMap,request);
-
-		//step.4 页面css js引用
-		cgReportMap.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
-
+		loadVars(cgReportMap);
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/cgreport/engine/core/cgreportlist.ftl", cgReportMap);
-		PrintWriter writer = null;
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
-			writer = response.getWriter();
+			PrintWriter writer = response.getWriter();
 			writer.println(html);
-			//System.out.println(html);
+			org.jeecgframework.core.util.LogUtil.info(html);
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				writer.close();
-			} catch (Exception e2) {
-				// TODO: handle exception
-			}
 		}
-	}
-	
-	private String getHtmlHead(HttpServletRequest request){
-		HttpSession session = ContextHolderUtils.getSession();
-		String lang = (String)session.getAttribute("lang");
-		StringBuilder sb= new StringBuilder("");
-		SysThemesEnum sysThemesEnum = SysThemesUtil.getSysTheme(request);
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/jquery/jquery-1.8.3.js\"></script>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/dataformat.js\"></script>");
-		sb.append(SysThemesUtil.getEasyUiTheme(sysThemesEnum));
-		sb.append("<link rel=\"stylesheet\" href=\"plug-in/easyui/themes/icon.css\" type=\"text/css\"></link>");
-		sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/accordion.css\">");
-		sb.append("<link rel=\"stylesheet\" type=\"text/css\" href=\"plug-in/accordion/css/icons.css\">");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/jquery.easyui.min.1.3.2.js\"></script>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/easyui/locale/zh-cn.js\"></script>");
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/syUtil.js\"></script>");
-		sb.append(SysThemesUtil.getLhgdialogTheme(sysThemesEnum));
-		sb.append(StringUtil.replace("<script type=\"text/javascript\" src=\"plug-in/tools/curdtools_{0}.js\"></script>", "{0}", lang));
-		sb.append("<script type=\"text/javascript\" src=\"plug-in/tools/easyuiextend.js\"></script>");
-		return sb.toString();
 	}
 	
 	/**
@@ -135,27 +93,16 @@ public class CgReportController extends BaseController {
 		//step.2 获取列表ftl模板路径
 		FreemarkerHelper viewEngine = new FreemarkerHelper();
 		//step.3 组合模板+数据参数，进行页面展现
-		loadVars(cgReportMap,request);
-
-		//step.4 页面css js引用
-		cgReportMap.put(CgAutoListConstant.CONFIG_IFRAME, getHtmlHead(request));
-
+		loadVars(cgReportMap);
 		String html = viewEngine.parseTemplate("/org/jeecgframework/web/cgreport/engine/core/cgreportlistpopup.ftl", cgReportMap);
-		PrintWriter writer = null;
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
-			writer = response.getWriter();
+			PrintWriter writer = response.getWriter();
 			writer.println(html);
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				writer.close();
-			} catch (Exception e2) {
-				// TODO: handle exception
-			}
 		}
 	}
 	/**
@@ -163,10 +110,9 @@ public class CgReportController extends BaseController {
 	 * @param cgReportMap
 	 */
 	@SuppressWarnings("unchecked")
-	private void loadVars(Map<String, Object> cgReportMap,HttpServletRequest request) {
+	private void loadVars(Map<String, Object> cgReportMap) {
 		Map mainM = (Map) cgReportMap.get(CgReportConstant.MAIN);
 		List<Map<String,Object>> fieldList = (List<Map<String, Object>>) cgReportMap.get(CgReportConstant.ITEMS);
-		List<String> paramList = (List<String>)cgReportMap.get(CgReportConstant.PARAMS);
 		List<Map<String,Object>> queryList = new ArrayList<Map<String,Object>>(0);
 		for(Map<String,Object> fl:fieldList){
 			fl.put(CgReportConstant.ITEM_FIELDNAME, ((String)fl.get(CgReportConstant.ITEM_FIELDNAME)).toLowerCase());
@@ -176,26 +122,11 @@ public class CgReportController extends BaseController {
 				queryList.add(fl);
 			}
 		}
-		StringBuilder sb = new StringBuilder("");
-		if(paramList!=null&&paramList.size()>0){
-			queryList = new ArrayList<Map<String,Object>>(0);
-			for(String param:paramList){
-				sb.append("&").append(param).append("=");
-				String value = request.getParameter(param);
-    			if(StringUtil.isNotEmpty(value)){
-    				sb.append(value);
-    			}
-			}
-		}
 		cgReportMap.put(CgReportConstant.CONFIG_ID, mainM.get("code"));
 		cgReportMap.put(CgReportConstant.CONFIG_NAME, mainM.get("name"));
 		cgReportMap.put(CgReportConstant.CONFIG_FIELDLIST, fieldList);
 		cgReportMap.put(CgReportConstant.CONFIG_QUERYLIST, queryList);
-		//获取传递参数
-		cgReportMap.put(CgReportConstant.CONFIG_PARAMS, sb.toString());
 	}
-	
-	
 	/**
 	 * 处理数据字典
 	 * @param result 查询的结果集
@@ -284,61 +215,30 @@ public class CgReportController extends BaseController {
 		Map configM = (Map) cgReportMap.get(CgReportConstant.MAIN);
 		String querySql = (String) configM.get(CgReportConstant.CONFIG_SQL);
 		List<Map<String,Object>> items = (List<Map<String, Object>>) cgReportMap.get(CgReportConstant.ITEMS);
-		List<String> paramList = (List<String>) cgReportMap.get(CgReportConstant.PARAMS);
 		Map queryparams =  new LinkedHashMap<String,Object>();
-		if(paramList!=null&&paramList.size()>0){
-			for(String param :paramList){
-				String value = request.getParameter(param);
-				value = value==null?"":value;
-				querySql = querySql.replace("${"+param+"}", value);
-			}
-		}else{
-			for(Map<String,Object> item:items){
-				String isQuery = (String) item.get(CgReportConstant.ITEM_ISQUERY);
-				if(CgReportConstant.BOOL_TRUE.equalsIgnoreCase(isQuery)){
-					//step.3 装载查询条件
-					CgReportQueryParamUtil.loadQueryParams(request, item, queryparams);
-				}
+		for(Map<String,Object> item:items){
+			String isQuery = (String) item.get(CgReportConstant.ITEM_ISQUERY);
+			if(CgReportConstant.BOOL_TRUE.equalsIgnoreCase(isQuery)){
+				//step.3 装载查询条件
+				CgReportQueryParamUtil.loadQueryParams(request, item, queryparams);
 			}
 		}
 		//step.4 进行查询返回结果
 		int p = page==null?1:Integer.parseInt(page);
 		int r = rows==null?99999:Integer.parseInt(rows);
-
-        String dbKey=(String)configM.get("db_source");
-        List<Map<String, Object>> result=null;
-        Long size=0l;
-        if(StringUtils.isNotBlank(dbKey)){
-            result= DynamicDBUtil.findList(dbKey,SqlUtil.jeecgCreatePageSql(dbKey,querySql,queryparams,p,r));
-            Map map=(Map)DynamicDBUtil.findOne(dbKey,SqlUtil.getCountSql(querySql,null));
-            if(map.get("COUNT(*)") instanceof BigDecimal){
-            	BigDecimal count = (BigDecimal)map.get("COUNT(*)");
-            	size = count.longValue();
-            }else{
-            	size=(Long)map.get("COUNT(*)");
-            }
-        }else{
-            result= cgReportService.queryByCgReportSql(querySql, queryparams, p, r);
-            size = cgReportService.countQueryByCgReportSql(querySql, queryparams);
-        }
-
+		List<Map<String, Object>> result= cgReportService.queryByCgReportSql(querySql, queryparams, p, r);
+		long size = cgReportService.countQueryByCgReportSql(querySql, queryparams);
 		dealDic(result,items);
 		dealReplace(result,items);
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "no-store");
-		PrintWriter writer = null;
+		PrintWriter writer;
 		try {
 			writer = response.getWriter();
 			writer.println(CgReportQueryParamUtil.getJson(result,size));
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				writer.close();
-			} catch (Exception e2) {
-				// TODO: handle exception
-			}
 		}
 	}
 	/**
@@ -349,93 +249,23 @@ public class CgReportController extends BaseController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(params = "getFields", method = RequestMethod.POST)
 	@ResponseBody
-	public Object getSqlFields(String sql,String dbKey){
-		List<String> fields = null;
-		List<String> params = null;
+	public Object getSqlFields(String sql){
+		List<String> result = null;
 		Map reJson = new HashMap<String, Object>();
 		try{
-			fields = getFields(sql, dbKey);
-			params = getSqlParams(sql);
+			result = cgReportService.getSqlFields(sql);
 		}catch (Exception e) {
 			e.printStackTrace();
 			String errorInfo = "解析失败!<br><br>失败原因：";
-
-			//无法直接捕捉到:java.net.ConnectException异常
-			int i = e.getMessage().indexOf("Connection refused: connect");
-			
-			if (i != -1) {//非链接异常
-				errorInfo += "数据源连接失败.";
-			}else{
-				errorInfo += "SQL语法错误.";
-			}
-
+			errorInfo += e.getMessage();
 			reJson.put("status", "error");
 			reJson.put("datas", errorInfo);
 			return reJson;
 		}
 		reJson.put("status", "success");
-		reJson.put("fields", fields);
-		reJson.put("params", params);
+		reJson.put("datas", result);
 		return reJson;
 	}
-	
-	private List<String> getFields(String sql,String dbKey){
-		List<String> fields = null;
-		sql = getSql(sql);
-		if(StringUtils.isNotBlank(dbKey)){
-			List<Map<String,Object>> dataList=DynamicDBUtil.findList(dbKey,SqlUtil.jeecgCreatePageSql(dbKey,sql,null,1,1),null);
-			if(dataList.size()<1){
-				throw new BusinessException("该报表sql没有数据");
-			}
-			Set fieldsSet= dataList.get(0).keySet();
-			fields = new ArrayList<String>(fieldsSet);
-		}else{
-			fields = cgReportService.getSqlFields(sql);
-		}
-		return fields;
-	}
-	
-	private String getSql(String sql){
-		String regex = "\\$\\{\\w+\\}";
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(sql);
-		while(m.find()){
-			String whereParam = m.group();
-			//System.out.println(whereParam);
-			sql = sql.replace(whereParam, "'' or 1=1 or 1=''");
-			sql = sql.replace("'''", "''");
-			//System.out.println(sql);
-		}
-		//兼容图表
-		regex = "\\{\\w+\\}";
-		p = Pattern.compile(regex);
-		m = p.matcher(sql);
-		while(m.find()){
-			String whereParam = m.group();
-			//System.out.println(whereParam);
-			sql = sql.replace(whereParam, " 1=1 ");
-			//System.out.println(sql);
-		}
-		return sql;
-	}
-	
-	public List<String> getSqlParams(String sql) {
-		if(oConvertUtils.isEmpty(sql)){
-			return null;
-		}
-		List<String> params = new ArrayList<String>();
-		String regex = "\\$\\{\\w+\\}";
-		
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(sql);
-		while(m.find()){
-			String whereParam = m.group();
-			params.add(whereParam.substring(whereParam.indexOf("{")+1,whereParam.indexOf("}")));
-		}
-		return params;
-	}
-	
-	
 	/**
 	 * 装载数据字典
 	 * @param m	要放入freemarker的数据

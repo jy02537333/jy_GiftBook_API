@@ -3,13 +3,12 @@ package org.jeecgframework.web.cgform.service.impl.generate;
 import freemarker.cache.TemplateLoader;
 
 import org.jeecgframework.codegenerate.database.JeecgReadTable;
-import org.jeecgframework.core.util.ContextHolderUtils;
 import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.entity.template.CgformTemplateEntity;
-import org.jeecgframework.web.cgform.service.cgformftl.CgformFtlServiceI;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import com.jeecg.service.cgform.CgformFtlServiceI;
+import com.jeecg.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.service.template.CgformTemplateServiceI;
 import org.jeecgframework.web.cgform.util.TemplateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,7 +113,8 @@ public class DBTempletLoaderWord implements TemplateLoader {
 
 	    	Map<String,Object> cgformFtlEntity = new HashMap<String, Object>();
             if (ftlVersion != null && ftlVersion.length() > 0) {
-                cgformFtlEntity = cgformFtlService.getCgformFtlByTableName(name, ftlVersion);
+//                cgformFtlEntity = cgformFtlService.getCgformFtlByTableName(name, ftlVersion);
+				cgformFtlEntity = cgformFtlService.getCgformFtlByTableName(name);
             } else {
                 cgformFtlEntity = cgformFtlService.getCgformFtlByTableName(name);
             }

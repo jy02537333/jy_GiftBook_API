@@ -5,6 +5,9 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jeecgframework.web.demo.entity.test.JeecgJdbcEntity;
+import org.jeecgframework.web.demo.service.test.JeecgJdbcServiceI;
+import org.jeecgframework.web.system.service.SystemService;
 import net.sf.json.JSONObject;
 
 import org.apache.log4j.Logger;
@@ -15,10 +18,8 @@ import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
-import org.jeecgframework.web.demo.entity.test.JeecgJdbcEntity;
-import org.jeecgframework.web.demo.service.test.JeecgJdbcServiceI;
-import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,7 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version V1.0   
  *
  */
-//@Scope("prototype")
+@Scope("prototype")
 @Controller
 @RequestMapping("/jeecgJdbcController")
 public class JeecgJdbcController extends BaseController {
@@ -45,6 +46,15 @@ public class JeecgJdbcController extends BaseController {
 	private JeecgJdbcServiceI jeecgJdbcService;
 	@Autowired
 	private SystemService systemService;
+	private String message;
+	
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 
 	/**
@@ -91,7 +101,6 @@ public class JeecgJdbcController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(JeecgJdbcEntity jeecgJdbc, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		
 		String sql = "delete from jeecg_demo where id='" + jeecgJdbc.getId() + "'";
@@ -114,7 +123,6 @@ public class JeecgJdbcController extends BaseController {
 	@RequestMapping(params = "save")
 	@ResponseBody
 	public AjaxJson save(JeecgJdbcEntity jeecgJdbc, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(jeecgJdbc.getId())) {
 			message = "更新成功";
@@ -152,19 +160,12 @@ public class JeecgJdbcController extends BaseController {
 	public void responseDatagrid(HttpServletResponse response, JSONObject jObject) {
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "no-store");
-		PrintWriter pw = null;
 		try {
-			pw=response.getWriter();
+			PrintWriter pw=response.getWriter();
 			pw.write(jObject.toString());
 			pw.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				pw.close();
-			} catch (Exception e2) {
-				// TODO: handle exception
-			}
 		}
 	}	
 	@RequestMapping(params = "dictParameter")

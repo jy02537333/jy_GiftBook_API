@@ -2207,11 +2207,9 @@ a.s-btn-plain-active {
 	background-color: #F0F0F0;
 }
 .shortcut{
-	margin-left: 5px;
-	margin-right: 15px;
-	margin-top: 8px;
-	height: 62px;
-	float: right;
+margin-left: 5px;
+margin-top: 8px;
+height: 62px;
 }
 .shortcut li{
 	float: left;

@@ -6,8 +6,6 @@ import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.jeecgframework.core.util.MutiLangUtil;
-
 /**
  * 
  * 类描述：上传标签
@@ -31,17 +29,6 @@ public class UploadTag extends TagSupport {
 	protected boolean auto=false;//是否自动上传
 	protected String onUploadSuccess;//上传成功处理函数
 	protected boolean view=false;//生成查看删除链接
-
-	protected String formId;//参数名称
-	
-	public String getFormId() {
-		return formId;
-	}
-	public void setFormId(String formId) {
-		this.formId = formId;
-	}
-
-
 	public void setView(boolean view) {
 		this.view = view;
 	}
@@ -76,19 +63,12 @@ public class UploadTag extends TagSupport {
 		return EVAL_PAGE;
 	}
 	public int doEndTag() throws JspTagException {
-		JspWriter out = null;
 		try {
-			out = this.pageContext.getOut();
+			JspWriter out = this.pageContext.getOut();
 			out.print(end().toString());
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				out.clear();
-				out.close();
-			} catch (Exception e2) {
-			}
 		}
 		return EVAL_PAGE;
 	}
@@ -113,7 +93,7 @@ public class UploadTag extends TagSupport {
 				+"var m = new Map();"
 				+ "$(function(){"
 				+"$(\'#"+id+"\').uploadify({"
-				+"buttonText:\'"+MutiLangUtil.getMutiLangInstance().getLang(buttonText)+"\',"
+				+"buttonText:\'"+buttonText+"\',"
 				+"auto:"+auto+","
 				+"progressData:\'speed\'," 
 				+"multi:"+multi+","
@@ -142,23 +122,7 @@ public class UploadTag extends TagSupport {
 						}
 					}
 			        sb.append("});");
-
-				}else if (formId!=null) {
-					sb.append(" var o = {};");
-            		sb.append("    var _array = $('#"+formId+"').serializeArray();");
-            		sb.append("    $.each(_array, function() {");
-            		sb.append("        if (o[this.name]) {");
-            		sb.append("            if (!o[this.name].push) {");
-            		sb.append("                o[this.name] = [ o[this.name] ];");
-            		sb.append("            }");
-            		sb.append("            o[this.name].push(this.value || '');");
-            		sb.append("        } else {");
-            		sb.append("            o[this.name] = this.value || '';");
-            		sb.append("        }");
-            		sb.append("    });");
-            		sb.append("$(\'#"+id+"\').uploadify(\"settings\", \"formData\", o);");
-				};
-
+				}; 
 		       sb.append("} ," 	          
 				+"onQueueComplete : function(queueData) { ");
 				if(dialog)
@@ -185,9 +149,6 @@ public class UploadTag extends TagSupport {
 				if(view)
 				{
 				sb.append("var fileitem=\"<span id=\'\"+d.attributes.id+\"\'><a href=\'#\' onclick=openwindow(\'文件查看\',\'\"+d.attributes.viewhref+\"\',\'70%\',\'80%\') title=\'查看\'>\"+d.attributes.name+\"</a><img border=\'0\' onclick=confuploadify(\'\"+d.attributes.delurl+\"\',\'\"+d.attributes.id+\"\') title=\'删除\' src=\'plug-in/uploadify/img/uploadify-cancel.png\' widht=\'15\' height=\'15\'>&nbsp;&nbsp;</span>\";");
-
-				sb.append(" m=new Map(); ");
-
 				sb.append("m.put(d.attributes.id,fileitem);");
 				sb.append("fileKey=d.attributes.fileKey;");
 				}

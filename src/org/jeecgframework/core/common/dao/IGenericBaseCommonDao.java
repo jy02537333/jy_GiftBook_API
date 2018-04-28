@@ -69,13 +69,13 @@ public interface IGenericBaseCommonDao {
 	 * @return
 	 */
 	public <T> T findUniqueByProperty(Class<T> entityClass,
-			String propertyName, Object value);
+                                      String propertyName, Object value);
 
 	/**
 	 * 按属性查找对象列表.
 	 */
 	public <T> List<T> findByProperty(Class<T> entityClass,
-			String propertyName, Object value);
+                                      String propertyName, Object value);
 
 	/**
 	 * 加载全部实体
@@ -122,14 +122,16 @@ public interface IGenericBaseCommonDao {
 	 * 通过hql 查询语句查找对象
 	 * 
 	 * @param <T>
+	 * @param query
 	 * @return
 	 */
 	public <T> List<T> findByQueryString(String hql);
-	public <T> List<T> findHQLQuery(String hql,Map<String,Object> kv, Integer page, Integer count);
+
 	/**
 	 * 通过hql查询唯一对象
 	 * 
 	 * @param <T>
+	 * @param query
 	 * @return
 	 */
 	public <T> T singleResult(String hql);
@@ -137,6 +139,7 @@ public interface IGenericBaseCommonDao {
 	/**
 	 * 根据sql更新
 	 * 
+	 * @param query
 	 * @return
 	 */
 	public int updateBySqlString(String sql);
@@ -154,10 +157,11 @@ public interface IGenericBaseCommonDao {
 	 * 通过属性称获取实体带排序
 	 * 
 	 * @param <T>
+	 * @param clas
 	 * @return
 	 */
 	public <T> List<T> findByPropertyisOrder(Class<T> entityClass,
-			String propertyName, Object value, boolean isAsc);
+                                             String propertyName, Object value, boolean isAsc);
 
 	/**
 	 * 
@@ -177,34 +181,39 @@ public interface IGenericBaseCommonDao {
 	 * @return
 	 */
 	public <T> List<T> getListByCriteriaQuery(final CriteriaQuery cq,
-			Boolean ispage);
+                                              Boolean ispage);
 
 	/**
 	 * 
 	 * hqlQuery方式分页
 	 * 
+	 * @param cq
+	 * @param isOffset
 	 * @return
 	 */
 	public PageList getPageList(final HqlQuery hqlQuery,
-			final boolean needParameter);
+                                final boolean needParameter);
 
 	/**
 	 * 
 	 * sqlQuery方式分页
 	 * 
+	 * @param cq
+	 * @param isOffset
 	 * @return
 	 */
 	public PageList getPageListBySql(final HqlQuery hqlQuery,
-			final boolean needParameter);
+                                     final boolean needParameter);
 
 	public Session getSession();
 
 	public List findByExample(final String entityName,
-			final Object exampleEntity);
+                              final Object exampleEntity);
 
 	/**
 	 * 通过hql 查询语句查找HashMap对象
 	 * 
+	 * @param <T>
 	 * @param query
 	 * @return
 	 */
@@ -218,7 +227,7 @@ public interface IGenericBaseCommonDao {
 	 * @return
 	 */
 	public DataTableReturn getDataTableReturn(final CriteriaQuery cq,
-			final boolean isOffset);
+                                              final boolean isOffset);
 
 	/**
 	 * 返回easyui datagrid模型
@@ -228,7 +237,7 @@ public interface IGenericBaseCommonDao {
 	 * @return
 	 */
 	public DataGridReturn getDataGridReturn(final CriteriaQuery cq,
-			final boolean isOffset);
+                                            final boolean isOffset);
 
 	/**
 	 * 执行SQL
@@ -267,16 +276,19 @@ public interface IGenericBaseCommonDao {
 	 * 通过JDBC查找对象集合,带分页 使用指定的检索标准检索数据并分页返回数据
 	 */
 	public <T> List<T> findObjForJdbc(String sql, int page, int rows,
-			Class<T> clazz);
+                                      Class<T> clazz);
 
 	/**
 	 * 使用指定的检索标准检索数据并分页返回数据-采用预处理方式
 	 * 
+	 * @param criteria
+	 * @param firstResult
+	 * @param maxResults
 	 * @return
 	 * @throws DataAccessException
 	 */
 	public List<Map<String, Object>> findForJdbcParam(String sql, int page,
-			int rows, Object... objs);
+                                                      int rows, Object... objs);
 
 	/**
 	 * 使用指定的检索标准检索数据并分页返回数据For JDBC
@@ -293,6 +305,7 @@ public interface IGenericBaseCommonDao {
 	 * 通过hql 查询语句查找对象
 	 * 
 	 * @param <T>
+	 * @param query
 	 * @return
 	 */
 	public <T> List<T> findHql(String hql, Object... param);
@@ -306,13 +319,7 @@ public interface IGenericBaseCommonDao {
 	public Integer executeHql(String hql);
 
 	public <T> List<T> pageList(DetachedCriteria dc, int firstResult,
-			int maxResult);
+                                int maxResult);
 
 	public <T> List<T> findByDetached(DetachedCriteria dc);
-
-	/**
-	 * 执行存储过程
-	 */
-	public <T> List<T> executeProcedure(String procedureSql,Object... params);
-
 }

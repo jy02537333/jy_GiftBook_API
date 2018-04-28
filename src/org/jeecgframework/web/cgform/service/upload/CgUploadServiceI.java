@@ -23,5 +23,5 @@ public interface CgUploadServiceI extends CommonService{
 	 * @param cgFormName
 	 * @param cgFormField
 	 */
-	public void writeBack(String cgFormId,String cgFormName,String cgFormField,String fileId,String fileUrl);
+	public void writeBack(String cgFormId, String cgFormName, String cgFormField, String fileId, String fileUrl);
 }

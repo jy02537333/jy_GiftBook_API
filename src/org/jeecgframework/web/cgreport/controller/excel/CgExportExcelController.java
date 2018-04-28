@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 /**
- *
+ * 
  * @Title:ExportExcelController
  * @description:报表excel导出
  * @author 赵俊夫
@@ -47,7 +47,7 @@ public class CgExportExcelController extends BaseController {
 	@SuppressWarnings("all")
 	@RequestMapping(params = "exportXls")
 	public void exportXls(HttpServletRequest request,
-						  HttpServletResponse response) {
+			HttpServletResponse response) {
 		//step.1 设置，获取配置信息
 		String codedFileName = "报表";
 		String sheetName="导出信息";
@@ -74,7 +74,7 @@ public class CgExportExcelController extends BaseController {
 			}
 			//step.3 进行查询返回结果
 			List<Map<String, Object>> result= cgReportService.queryByCgReportSql(querySql, queryparams, -1, -1);
-
+			
 			response.setContentType("application/vnd.ms-excel");
 			OutputStream fOut = null;
 			try {
@@ -85,7 +85,7 @@ public class CgExportExcelController extends BaseController {
 					response.setHeader("content-disposition",
 							"attachment;filename="
 									+ java.net.URLEncoder.encode(codedFileName,
-									"UTF-8") + ".xls");
+											"UTF-8") + ".xls");
 				} else {
 					String newtitle = new String(codedFileName.getBytes("UTF-8"),
 							"ISO8859-1");

@@ -8,12 +8,14 @@ package org.jeecgframework.web.cgreport.common;
  * @version V1.0
  */
 public class CgReportConstant {
+	/** 动态报表参数*/
+	public static final String PARAMS=  "params";
+	/**	动态报表参数*/
+	public static final String CONFIG_PARAMS ="config_params";
 	/** 抬头配置 */
 	public static final String MAIN=  "main";
 	/** 明细配置*/
 	public static final String ITEMS=  "items";
-	/** 动态报表参数*/
-	public static final String PARAMS=  "params";
 	/**	配置的id*/
 	public static final String CONFIG_ID="config_id";
 	/**	配置的名称*/
@@ -22,8 +24,6 @@ public class CgReportConstant {
 	public static final String CONFIG_FIELDLIST = "config_fieldList";
 	/**	查询字段*/
 	public static final String CONFIG_QUERYLIST ="config_queryList";
-	/**	动态报表参数*/
-	public static final String CONFIG_PARAMS ="config_params";
 	/**字典数据*/
 	public static final String FIELD_DICTLIST = "field_dictlist";
 	/**系统字典表*/

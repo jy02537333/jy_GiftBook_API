@@ -40,7 +40,6 @@ public class JeecgDataAutorUtils {
 	/**
 	 * 获取查询条件方法
 	 * 
-	 * @param request
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
@@ -52,7 +51,6 @@ public class JeecgDataAutorUtils {
 	/**
 	 * 获取查询条件方法
 	 * 
-	 * @param request
 	 * @return
 	 */
 	public static synchronized String loadDataSearchConditonSQLString() {

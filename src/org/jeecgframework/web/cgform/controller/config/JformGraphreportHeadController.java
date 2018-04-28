@@ -20,7 +20,7 @@ import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.web.cgform.entity.config.JformGraphreportHeadEntity;
 import org.jeecgframework.web.cgform.entity.config.JformGraphreportHeadPage;
 import org.jeecgframework.web.cgform.entity.config.JformGraphreportItemEntity;
-import org.jeecgframework.web.cgform.service.config.JformGraphreportHeadServiceI;
+import com.jeecg.service.config.JformGraphreportHeadServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

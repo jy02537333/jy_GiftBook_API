@@ -1,12 +1,9 @@
 package org.jeecgframework.web.system.pojo.base;
 
+import javax.persistence.*;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.jeecgframework.core.common.entity.IdEntity;
-import org.jeecgframework.poi.excel.annotation.Excel;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 系统用户父类表
@@ -23,27 +20,9 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
 	private String userKey;// 用户验证唯一标示
 	private String password;//用户密码
 	private Short activitiSync;//是否同步工作流引擎
-	/*@Excel(name = "状态")*/
 	private Short status;// 状态1：在线,2：离线,0：禁用
-	
-	private Short deleteFlag;// 状态: 0:不删除  1：删除
-	
 	private byte[] signature;// 签名文件
-
-	private String departid;
-
-	public void setDepartid(String departid){
-		this.departid = departid;
-	}
-	@Column(name = "departid",length=32)
-	public String getDepartid(){
-		return departid;
-	}
-
-    //	private TSDepart TSDepart = new TSDepart();// 部门
-    private List<TSUserOrg> userOrgList = new ArrayList<TSUserOrg>();
-	private TSDepart currentDepart = new TSDepart();// 当前部门
-
+	private TSDepart TSDepart = new TSDepart();// 部门
 
 	@Column(name = "signature",length=3000)
 	public byte[] getSignature() {
@@ -96,16 +75,16 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-//	@JsonIgnore    //getList查询转换为列表时处理json转换异常
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "departid")
-//	public TSDepart getTSDepart() {
-//		return this.TSDepart;
-//	}
-//
-//	public void setTSDepart(TSDepart TSDepart) {
-//		this.TSDepart = TSDepart;
-//	}
+	@JsonIgnore    //getList查询转换为列表时处理json转换异常
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "departid")
+	public TSDepart getTSDepart() {
+		return this.TSDepart;
+	}
+
+	public void setTSDepart(TSDepart TSDepart) {
+		this.TSDepart = TSDepart;
+	}
 	@Column(name = "username", nullable = false, length = 10)
 	public String getUserName() {
 		return this.userName;
@@ -121,34 +100,6 @@ public class TSBaseUser extends IdEntity implements java.io.Serializable {
 
 	public void setRealName(String realName) {
 		this.realName = realName;
-	}
-
-    @Transient
-    public TSDepart getCurrentDepart() {
-        return currentDepart;
-    }
-
-    public void setCurrentDepart(TSDepart currentDepart) {
-        this.currentDepart = currentDepart;
-    }
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "tsUser")
-    public List<TSUserOrg> getUserOrgList() {
-        return userOrgList;
-    }
-
-    public void setUserOrgList(List<TSUserOrg> userOrgList) {
-        this.userOrgList = userOrgList;
-    }
-
-	public void setDeleteFlag(Short deleteFlag) {
-		this.deleteFlag = deleteFlag;
-	}
-	
-	@Column(name = "delete_flag")
-	public Short getDeleteFlag() {
-		return deleteFlag;
 	}
 
 }

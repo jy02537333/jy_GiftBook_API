@@ -14,7 +14,7 @@ import org.jeecgframework.web.cgform.common.CgAutoListConstant;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.service.autolist.ConfigServiceI;
 import org.jeecgframework.web.cgform.service.build.DataBaseService;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import com.jeecg.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.service.excel.ExcelTempletService;
 import org.jeecgframework.web.cgform.service.impl.config.util.FieldNumComparator;
 
@@ -66,14 +66,14 @@ public class ExcelTempletController extends BaseController {
 
 	/**
 	 * 导出excel模版
-	 *
+	 * 
 	 * @param request
 	 * @param response
 	 */
 	@SuppressWarnings("all")
 	@RequestMapping(params = "exportXls")
 	public void exportXls(HttpServletRequest request,
-						  HttpServletResponse response) {
+			HttpServletResponse response) {
 
 		String codedFileName = "模版文件";
 		String sheetName="导出信息";
@@ -104,7 +104,7 @@ public class ExcelTempletController extends BaseController {
 					response.setHeader("content-disposition",
 							"attachment;filename="
 									+ java.net.URLEncoder.encode(codedFileName,
-									"UTF-8") + ".xls");
+											"UTF-8") + ".xls");
 				} else {
 					String newtitle = new String(codedFileName.getBytes("UTF-8"),
 							"ISO8859-1");
@@ -131,15 +131,15 @@ public class ExcelTempletController extends BaseController {
 		} else {
 			throw new BusinessException("参数错误");
 		}
-
+		
 	}
 
 	@RequestMapping(params = "goImplXls" , method = RequestMethod.GET)
-	public ModelAndView goImplXls(HttpServletRequest request) {
+    public ModelAndView goImplXls(HttpServletRequest request) {
 		request.setAttribute("tableName", request.getParameter("tableName"));
-		return  new ModelAndView("jeecg/cgform/excel/upload");
-	}
-
+	    return  new ModelAndView("jeecg/cgform/excel/upload");
+    }
+	
 	/**
 	 * 上传模版数据
 	 * @param request
@@ -158,7 +158,7 @@ public class ExcelTempletController extends BaseController {
 		//数据库中版本号
 		String version = (String)configs.get(CgAutoListConstant.CONFIG_VERSION);
 		List<CgFormFieldEntity> lists = (List<CgFormFieldEntity>) configs.get(CgAutoListConstant.FILEDS);
-
+		
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
 		for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {

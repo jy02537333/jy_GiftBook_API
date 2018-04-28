@@ -47,6 +47,7 @@ public interface CommonService {
 	 * 根据实体名称和主键获取实体
 	 * 
 	 * @param <T>
+	 * @param entityName
 	 * @param id
 	 * @return
 	 */
@@ -72,13 +73,13 @@ public interface CommonService {
 	 * @return
 	 */
 	public <T> T findUniqueByProperty(Class<T> entityClass,
-			String propertyName, Object value);
+                                      String propertyName, Object value);
 
 	/**
 	 * 按属性查找对象列表.
 	 */
 	public <T> List<T> findByProperty(Class<T> entityClass,
-			String propertyName, Object value);
+                                      String propertyName, Object value);
 
 	/**
 	 * 加载全部实体
@@ -92,6 +93,8 @@ public interface CommonService {
 	/**
 	 * 删除实体主键删除
 	 * 
+	 * @param <T>
+	 * @param entities
 	 */
 	public <T> void deleteEntityById(Class entityName, Serializable id);
 
@@ -115,18 +118,15 @@ public interface CommonService {
 	 * 通过hql 查询语句查找对象
 	 * 
 	 * @param <T>
+	 * @param query
 	 * @return
 	 */
 	public <T> List<T> findByQueryString(String hql);
-	/**
-	 * 通过hql 查询语句查找对象
-	 * @param <T>
-	 * @return
-	 */
-	public <T> List<T> findHQLQuery(String hql,Map<String,Object> kv,Integer page,Integer count);
+
 	/**
 	 * 根据sql更新
 	 * 
+	 * @param query
 	 * @return
 	 */
 	public int updateBySqlString(String sql);
@@ -144,10 +144,11 @@ public interface CommonService {
 	 * 通过属性称获取实体带排序
 	 * 
 	 * @param <T>
+	 * @param clas
 	 * @return
 	 */
 	public <T> List<T> findByPropertyisOrder(Class<T> entityClass,
-			String propertyName, Object value, boolean isAsc);
+                                             String propertyName, Object value, boolean isAsc);
 
 	public <T> List<T> getList(Class clas);
 
@@ -171,7 +172,7 @@ public interface CommonService {
 	 * @return
 	 */
 	public DataTableReturn getDataTableReturn(final CriteriaQuery cq,
-			final boolean isOffset);
+                                              final boolean isOffset);
 
 	/**
 	 * 返回easyui datagrid模型
@@ -181,30 +182,34 @@ public interface CommonService {
 	 * @return
 	 */
 	public DataGridReturn getDataGridReturn(final CriteriaQuery cq,
-			final boolean isOffset);
+                                            final boolean isOffset);
 
 	/**
 	 * 
 	 * hqlQuery方式分页
 	 * 
+	 * @param cq
+	 * @param isOffset
 	 * @return
 	 */
 	public PageList getPageList(final HqlQuery hqlQuery,
-			final boolean needParameter);
+                                final boolean needParameter);
 
 	/**
 	 * 
 	 * sqlQuery方式分页
 	 * 
+	 * @param cq
+	 * @param isOffset
 	 * @return
 	 */
 	public PageList getPageListBySql(final HqlQuery hqlQuery,
-			final boolean isToEntity);
+                                     final boolean isToEntity);
 
 	public Session getSession();
 
 	public List findByExample(final String entityName,
-			final Object exampleEntity);
+                              final Object exampleEntity);
 
 	/**
 	 * 通过cq获取全部实体
@@ -214,10 +219,12 @@ public interface CommonService {
 	 * @return
 	 */
 	public <T> List<T> getListByCriteriaQuery(final CriteriaQuery cq,
-			Boolean ispage);
+                                              Boolean ispage);
 
 	/**
 	 * 文件上传
+	 * 
+	 * @param request
 	 */
 	public <T> T uploadFile(UploadFile uploadFile);
 
@@ -225,12 +232,15 @@ public interface CommonService {
 
 	/**
 	 * 生成XML文件
+	 * 
+	 * @param fileName
 	 *            XML全路径
 	 */
 	public HttpServletResponse createXml(ImportFile importFile);
 
 	/**
 	 * 解析XML文件
+	 * 
 	 * @param fileName
 	 *            XML全路径
 	 */
@@ -240,16 +250,20 @@ public interface CommonService {
 
 	/**
 	 * 根据模型生成JSON
-	 * @param all 全部对象
-	 * @param in 已拥有的对象
-	 * @param recursive 是否递归加载所有子节点
-     * @return List<ComboTree>
+	 * 
+	 * @param all
+	 *            全部对象
+	 * @param in
+	 *            已拥有的对象
+	 * @param comboBox
+	 *            模型
+	 * @return
 	 */
-	public List<ComboTree> ComboTree(List all, ComboTreeModel comboTreeModel, List in, boolean recursive);
+	public List<ComboTree> ComboTree(List all, ComboTreeModel comboTreeModel,
+                                     List in);
 
-
-    /**
-     * 构建树形数据表
+	/**
+	 * 构建树形数据表
 	 * 
 	 * @param all
 	 * @param treeGridModel
@@ -302,18 +316,19 @@ public interface CommonService {
 	 * 通过JDBC查找对象集合,带分页 使用指定的检索标准检索数据并分页返回数据
 	 */
 	public <T> List<T> findObjForJdbc(String sql, int page, int rows,
-			Class<T> clazz);
+                                      Class<T> clazz);
 
 	/**
 	 * 使用指定的检索标准检索数据并分页返回数据-采用预处理方式
-	 * @param sql
-	 * @param page
-	 * @param rows
+	 * 
+	 * @param criteria
+	 * @param firstResult
+	 * @param maxResults
 	 * @return
 	 * @throws DataAccessException
 	 */
 	public List<Map<String, Object>> findForJdbcParam(String sql, int page,
-			int rows, Object... objs);
+                                                      int rows, Object... objs);
 
 	/**
 	 * 使用指定的检索标准检索数据并分页返回数据For JDBC
@@ -330,22 +345,13 @@ public interface CommonService {
 	 * 通过hql 查询语句查找对象
 	 * 
 	 * @param <T>
-	 * @param hql
+	 * @param query
 	 * @return
 	 */
 	public <T> List<T> findHql(String hql, Object... param);
 
 	public <T> List<T> pageList(DetachedCriteria dc, int firstResult,
-			int maxResult);
+                                int maxResult);
 
 	public <T> List<T> findByDetached(DetachedCriteria dc);
-
-	/**
-	 * 执行存储过程
-	 * @param procedureSql
-	 * @param params
-	 * @return
-	 */
-	public <T> List<T> executeProcedure(String procedureSql,Object... params);
-
 }

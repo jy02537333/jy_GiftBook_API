@@ -3,7 +3,7 @@
 <!DOCTYPE html >
 <html>
 <head>
-<title><t:mutiLang langKey="jeect.platform"/></title>
+<title>JEECG 微云快速开发平台</title>
 <t:base type="jquery,easyui,tools,DatePicker,autocomplete"></t:base>
 <link rel="stylesheet" href="plug-in/bootstrap/css/bootstrap.css" type="text/css"></link>
 <style type="text/css">
@@ -47,23 +47,22 @@
 <div id="header">
 <div class="navbar">
 <div class="navbar-inner">
-<div class="container-fluid"><a class="brand" href="http://www.jeecg.org" target="_blank"><t:mutiLang langKey="common.platform"/> &nbsp;&nbsp;<span class="slogan"></span></a>
+<div class="container-fluid"><a class="brand" href="http://www.jeecg.org" target="_blank">JEECG 演示系统 &nbsp;&nbsp;<span class="slogan"></span></a>
 <div class="nav-no-collapse bootstrap-menu">
 
 <ul class="nav pull-right usernav">
-	<li style="line-height: 43px;"><span style="color: #CC33FF"><t:mutiLang langKey="common.user"/>:</span><span style="color: #666633">(${userName })</span> <span style="color: #CC33FF"><t:mutiLang langKey="common.role"/></span>:<span style="color: #666633">${roleName
+	<li style="line-height: 43px;"><span style="color: #CC33FF">当前用户:</span><span style="color: #666633">(${userName })</span> <span style="color: #CC33FF">职务</span>:<span style="color: #666633">${roleName
 	}</span></li>
-	<li class="dropdown"><a href="#" class="dropdown-toggle avatar" data-toggle="dropdown"> <i class="icon-wrench"></i> <span class="txt"><t:mutiLang langKey="common.control.panel"/></span> <b class="caret"></b> </a>
+	<li class="dropdown"><a href="#" class="dropdown-toggle avatar" data-toggle="dropdown"> <i class="icon-wrench"></i> <span class="txt">控制面板</span> <b class="caret"></b> </a>
 	<ul class="dropdown-menu">
-		<li onclick="openwindow('<t:mutiLang langKey="common.profile"/>','userController.do?userinfo')"><a href="javascript:;"><i class="icon-user"></i> <t:mutiLang langKey="common.profile"/></a></li>
-		<li onclick="add('<t:mutiLang langKey="common.change.password"/>','userController.do?changepassword')"><a href="javascript:;"><i class="icon-pencil"></i> <t:mutiLang langKey="common.change.password"/></a></li>
-		<li onclick="openwindow('<t:mutiLang langKey="common.ssms.getSysInfos"/>','tSSmsController.do?getSysInfos')"><a href="javascript:;"><i class="icon-pencil"></i> <t:mutiLang langKey="common.ssms.getSysInfos"/></a></li>
-		<li onclick="add('<t:mutiLang langKey="common.change.style"/>','userController.do?changestyle')"><a href="javascript:;"><i class="icon-retweet"></i> <t:mutiLang langKey="common.change.style"/></a></li>
+		<li onclick="openwindow('用户信息','userController.do?userinfo')"><a href="javascript:;"><i class="icon-user"></i> 个人信息</a></li>
+		<li onclick="add('修改密码','userController.do?changepassword')"><a href="javascript:;"><i class="icon-pencil"></i> 修改密码</a></li>
+		<li onclick="add('修改首页风格','userController.do?changestyle')"><a href="javascript:;"><i class="icon-retweet"></i> 首页风格</a></li>
 	</ul>
 	</li>
-	<li class="dropdown"><a href="#" class="dropdown-toggle avatar" data-toggle="dropdown"> <i class="icon-arrow-left"></i> <span class="txt"><t:mutiLang langKey="common.logout"/></span> <b class="caret"></b> </a>
+	<li class="dropdown"><a href="#" class="dropdown-toggle avatar" data-toggle="dropdown"> <i class="icon-arrow-left"></i> <span class="txt">注销</span> <b class="caret"></b> </a>
 	<ul class="dropdown-menu">
-		<li onclick="exit('loginController.do?logout','<t:mutiLang langKey="common.exit.confirm"/>',1);"><a href="javascript:;"><i class="icon-off"></i><t:mutiLang langKey="common.exit"/></a></li>
+		<li onclick="exit('loginController.do?logout','确定退出该系统吗 ?',1);"><a href="javascript:;"><i class="icon-off"></i>退出系统</a></li>
 	</ul>
 	</li>
 </ul>
@@ -81,8 +80,8 @@
 <footer class="footer">
 <div class="container">
 <ul class="footer-links">
-	<li style="display: inline;">&copy; <t:mutiLang langKey="common.copyright"/><a href="http://www.jeecg.org" title="JEECG Framework  <t:mutiLang langKey="system.version.number"/>">JEECG Framework  <t:mutiLang langKey="system.version.number"/></a></li>
-	<li style="display: inline;">&nbsp;<t:mutiLang langKey="common.copyright"/><t:mutiLang langKey="common.browser"/>:<a title="JEECG Framework  <t:mutiLang langKey="system.version.number"/>" href="http://www.jeecg.org">JEECG Framework  <t:mutiLang langKey="system.version.number"/></a></li>
+	<li style="display: inline;">&copy; 版权所有<a href="http://www.jeecg.org" title="JEECG Framework 3.4.3 GA">JEECG Framework 3.4.3 GA</a></li>
+	<li style="display: inline;">&nbsp;(推荐谷歌浏览器，获得更快响应速度) 技术支持:<a title="JEECG Framework 3.4.3 GA版本" href="http://www.jeecg.org">JEECG Framework 3.4.3 GA</a></li>
 </ul>
 </div>
 </footer>

@@ -21,5 +21,5 @@ public interface CgReportExcelServiceI extends CommonService{
 	 * @param dataSet	报表内容
 	 * @return
 	 */
-	public HSSFWorkbook exportExcel(String title, Collection<?> titleSet,Collection<?> dataSet);
+	public HSSFWorkbook exportExcel(String title, Collection<?> titleSet, Collection<?> dataSet);
 }

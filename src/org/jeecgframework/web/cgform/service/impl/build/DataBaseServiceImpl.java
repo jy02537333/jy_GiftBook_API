@@ -16,7 +16,7 @@ import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.cgform.service.build.DataBaseService;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import com.jeecg.service.config.CgFormFieldServiceI;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -49,12 +49,12 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	private AbstractRoutingDataSource dataSource;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	/**
+	/** 
 	 * 表单添加
 	 * @param tableName 表名
 	 * @param data 添加的数据map
 	 */
-
+	
 	public int insertTable(String tableName, Map<String, Object> data) {CgFormHeadEntity cgFormHeadEntity = cgFormFieldService.getCgFormHeadByTableName(tableName);
 		//系统上下文变量赋值
 		fillInsertSysVar(data);
@@ -76,7 +76,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 					insertValue.append(comma + "null");
 				}
 				comma = ", ";
-
+			
 			}
 		}
 		String sql = "INSERT INTO " + tableName + " (" + insertKey + ") VALUES (" + insertValue + ")";
@@ -105,7 +105,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * @param data	插入的数据
 	 */
 	private void keyAdapter(CgFormHeadEntity cgFormHeadEntity,
-							Map<String, Object> data) {
+			Map<String, Object> data) {
 		String pkType = cgFormHeadEntity.getJformPkType();
 		String dbType = DBTypeUtil.getDBType();
 		if("NATIVE".equalsIgnoreCase(pkType)||"SEQUENCE".equalsIgnoreCase(pkType)){
@@ -129,7 +129,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			Object key = it.next();
 			//根据表单配置的字段名 获取 前台数据
 			Object beforeV = data.get(key.toString().toLowerCase());
-
+			
 			//如果值不为空
 			if(oConvertUtils.isNotEmpty(beforeV)){
 				//获取字段配置-字段类型
@@ -180,13 +180,13 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		return data;
 	}
 
-	/**
+	/** 
 	 * 表单修改
 	 * @param tableName 表名
 	 * @param id 表数据id
 	 * @param data 修改的数据map
 	 */
-
+	
 	public int updateTable(String tableName, Object id, Map<String, Object> data) {
 		fillUpdateSysVar(data);
 		dataAdapter(tableName,data);
@@ -204,27 +204,27 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 				comma = ", ";
 			}
 		}
-
-		if(id instanceof java.lang.String){
+		
+		if(id instanceof String){
 			sqlBuffer.append(" where id='").append(id).append("'");
 		}else{
 			sqlBuffer.append(" where id=").append(id);
 		}
 		CgFormHeadEntity cgFormHeadEntity = cgFormFieldService.getCgFormHeadByTableName(tableName);
 		int num = this.executeSql(sqlBuffer.toString(), data);
-
+		
 		if(cgFormHeadEntity!=null){
 			executeSqlExtend(cgFormHeadEntity.getId(),"update",data);
 		}
 		return num;
 	}
 
-	/**
+	/** 
 	 * 查询表单
 	 * @param tableName 表名
 	 * @param id 表数据id
 	 */
-
+	
 	public Map<String, Object> findOneForJdbc(String tableName, String id) {
 		StringBuffer sqlBuffer = new StringBuffer();
 		sqlBuffer.append("select * from ").append(tableName);
@@ -232,10 +232,10 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		Map<String, Object> map = this.findOneForJdbc(sqlBuffer.toString());
 		return map;
 	}
-
+	
 	/**
 	 * sql业务增强
-	 *
+	 * 
 	 */
 	public void executeSqlExtend(String formId,String buttonCode,Map<String, Object> data){
 		//根据formId和buttonCode获取
@@ -260,10 +260,10 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 						}
 					}
 				}
-			}
+		}
 		}
 	}
-
+	
 	private CgformButtonSqlEntity getCgformButtonSqlByCodeFormId(String buttonCode, String formId) {
 		StringBuilder hql = new StringBuilder("");
 		hql.append(" from CgformButtonSqlEntity t");
@@ -275,8 +275,8 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		}
 		return null;
 	}
-
-
+	
+	
 	/**
 	 * sql值替换
 	 * @param sql
@@ -299,47 +299,47 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	}
 
 	@SuppressWarnings("unchecked")
-
+	
 	public Map<String, Object> insertTableMore(Map<String, List<Map<String, Object>>> mapMore, String mainTableName) throws BusinessException {
 		//插入主表信息
 		Map<String, Object> mainMap = mapMore.get(mainTableName).get(0);
 		//消除字段
-		String [] filterName = {"tableName","saveOrUpdateMore"};
-		mainMap = CommUtils.attributeMapFilter(mainMap,filterName);
-		Object pkValue = getPkValue(mainTableName);
-		mainMap.put("id", pkValue);
+	    String [] filterName = {"tableName","saveOrUpdateMore"};
+	    mainMap = CommUtils.attributeMapFilter(mainMap,filterName);
+	    Object pkValue = getPkValue(mainTableName);
+	    mainMap.put("id", pkValue);
 		insertTable(mainTableName, mainMap);
-
+		
 		//插入附表信息
 		//去除主表信息
 		String [] filterMainTable = {mainTableName};
 		mapMore = CommUtils.attributeMapFilter(mapMore,filterMainTable);
 		Iterator it=mapMore.entrySet().iterator();
 		while(it.hasNext()){
-			Map.Entry entry=(Map.Entry)it.next();
-			String ok=(String)entry.getKey();
-			List<Map<String, Object>> ov=(List<Map<String, Object>>)entry.getValue();
-			for(Map<String, Object> fieldMap:ov){
-				//处理关联键
-				List<Map<String, Object>> fkFieldList =  getFKField(mainTableName, ok);
-				Object subPkValue = getPkValue(ok);
-				fieldMap.put("id", subPkValue);
-				fieldMap = CommUtils.convertFKMap(fieldMap,mainMap,fkFieldList);
-				insertTable(ok, fieldMap);
-			}
+	        Entry entry=(Entry)it.next();
+	        String ok=(String)entry.getKey();
+	        List<Map<String, Object>> ov=(List<Map<String, Object>>)entry.getValue();
+	        for(Map<String, Object> fieldMap:ov){
+	        	//处理关联键
+	        	List<Map<String, Object>> fkFieldList =  getFKField(mainTableName, ok);
+	        	Object subPkValue = getPkValue(ok);
+	        	fieldMap.put("id", subPkValue);
+	        	fieldMap = CommUtils.convertFKMap(fieldMap,mainMap,fkFieldList);
+	        	insertTable(ok, fieldMap);
+	        }
 		}
 		return mainMap;
 	}
 
 	@SuppressWarnings("unchecked")
-
+	
 	public boolean updateTableMore(Map<String, List<Map<String, Object>>> mapMore, String mainTableName) throws BusinessException {
 		//更新主表信息
 		Map<String, Object> mainMap = mapMore.get(mainTableName).get(0);
 		Object mainTableId = mainMap.get("id");
 		//消除字段
-		String [] filterName =  {"tableName","saveOrUpdateMore","id"};
-		mainMap = CommUtils.attributeMapFilter(mainMap,filterName);
+	    String [] filterName =  {"tableName","saveOrUpdateMore","id"};
+	    mainMap = CommUtils.attributeMapFilter(mainMap,filterName);
 		updateTable(mainTableName,mainTableId, mainMap);
 		mainMap.put("id", mainTableId);
 		//更新附表信息
@@ -347,47 +347,47 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		mapMore = CommUtils.attributeMapFilter(mapMore,filterMainTable);
 		Iterator it=mapMore.entrySet().iterator();
 		while(it.hasNext()){
-			Map.Entry entry=(Map.Entry)it.next();
-			String ok=(String)entry.getKey();
-			List<Map<String, Object>> ov=(List<Map<String, Object>>)entry.getValue();
-			//处理关联键
-			List<Map<String, Object>> fkFieldList =  getFKField(mainTableName, ok);
-			//根据主表id获取附表信息
-			Map<Object,Map<String, Object>> subTableDateMap = getSubTableData(fkFieldList, mainTableName, ok, mainTableId);
-			for(Map<String, Object> fieldMap:ov){
-				Object subId = fieldMap.get("id")==null?"":fieldMap.get("id");
-				if(subId==null || "".equals(String.valueOf(subId))){
-					fieldMap = CommUtils.convertFKMap(fieldMap,mainMap,fkFieldList);
-					fieldMap.put("id", getPkValue(ok));
-					insertTable(ok, fieldMap);
-				}else{
-					fieldMap = CommUtils.convertFKMap(fieldMap,mainMap,fkFieldList);
-					//消除字段
-					String [] subFilterName =  {"id"};
-					fieldMap = CommUtils.attributeMapFilter(fieldMap,subFilterName);
-					updateTable(ok,subId,fieldMap);
-					//剔除已经更新了的数据
-					if(subTableDateMap.containsKey(subId)){
-						subTableDateMap.remove(subId);
-					}
-				}
-			}
-			//subTableDateMap中剩余的数据就是删除的数据
-			if(subTableDateMap.size()>0){
-				Iterator itSub=subTableDateMap.entrySet().iterator();
-				while(itSub.hasNext()){
-					Map.Entry entrySub=(Map.Entry)itSub.next();
-					Object subId=entrySub.getKey();
-					deleteSubTableDataById(subId,ok);
-				}
-			}
+	        Entry entry=(Entry)it.next();
+	        String ok=(String)entry.getKey();
+	        List<Map<String, Object>> ov=(List<Map<String, Object>>)entry.getValue();
+	        //处理关联键
+        	List<Map<String, Object>> fkFieldList =  getFKField(mainTableName, ok);
+        	//根据主表id获取附表信息
+        	Map<Object,Map<String, Object>> subTableDateMap = getSubTableData(fkFieldList, mainTableName, ok, mainTableId);
+	        for(Map<String, Object> fieldMap:ov){
+	        	Object subId = fieldMap.get("id")==null?"":fieldMap.get("id");
+	        	if(subId==null || "".equals(String.valueOf(subId))){
+	        		fieldMap = CommUtils.convertFKMap(fieldMap,mainMap,fkFieldList);
+		        	fieldMap.put("id", getPkValue(ok));
+		        	insertTable(ok, fieldMap);
+	        	}else{
+	        		fieldMap = CommUtils.convertFKMap(fieldMap,mainMap,fkFieldList);
+	        		//消除字段
+	        	    String [] subFilterName =  {"id"};
+	        	    fieldMap = CommUtils.attributeMapFilter(fieldMap,subFilterName);
+	        		updateTable(ok,subId,fieldMap);
+	        		//剔除已经更新了的数据
+	        		if(subTableDateMap.containsKey(subId)){
+	        			subTableDateMap.remove(subId);
+	        		}
+	        	}
+	        }
+	        //subTableDateMap中剩余的数据就是删除的数据
+	        if(subTableDateMap.size()>0){
+	        	Iterator itSub=subTableDateMap.entrySet().iterator();
+		    	while(itSub.hasNext()){
+		    		Entry entrySub=(Entry)itSub.next();
+		    		Object subId=entrySub.getKey();
+		    		deleteSubTableDataById(subId,ok);
+		    	}
+	        }
 		}
 		return true;
 	}
-
+	
 	/**
 	 * 获得主表附表关联键
-	 *
+	 * 
 	 * @param mainTableName 主表名
 	 * @param subTableName  附表名
 	 * @return
@@ -401,10 +401,10 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 		List<Map<String,Object>> list = this.findForJdbc(sql1.toString(), subTableName,mainTableName);
 		return list;
 	}
-
+	
 	/**
 	 * 根据主表id获取附表信息
-	 *
+	 * 
 	 * @param fkFieldList 主表附表关联键
 	 * @param mainTableName 主表名
 	 * @param subTableName  附表名
@@ -412,7 +412,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	 * @return
 	 */
 	private Map<Object,Map<String, Object>> getSubTableData(List<Map<String, Object>> fkFieldList,String mainTableName, String subTableName,Object mainTableId) {
-
+		
 		StringBuilder sql2 = new StringBuilder("");
 		sql2.append("select sub.* from ").append(subTableName).append(" sub ");
 		sql2.append(", ").append(mainTableName).append(" main ");
@@ -449,14 +449,14 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			pkValue = UUIDGenerator.generate();
 		}else if(StringUtil.isNotEmpty(pkType)&&"NATIVE".equalsIgnoreCase(pkType)){
 			if(StringUtil.isNotEmpty(dbType)&&"oracle".equalsIgnoreCase(dbType)){
-				OracleSequenceMaxValueIncrementer incr = new OracleSequenceMaxValueIncrementer(dataSource, "HIBERNATE_SEQUENCE");
+				OracleSequenceMaxValueIncrementer incr = new OracleSequenceMaxValueIncrementer(dataSource, "HIBERNATE_SEQUENCE");	
 				try{
 					pkValue = incr.nextLongValue();
 				}catch (Exception e) {
 					logger.error(e,e);
 				}
 			}else if(StringUtil.isNotEmpty(dbType)&&"postgres".equalsIgnoreCase(dbType)){
-				PostgreSQLSequenceMaxValueIncrementer incr = new PostgreSQLSequenceMaxValueIncrementer(dataSource, "HIBERNATE_SEQUENCE");
+				PostgreSQLSequenceMaxValueIncrementer incr = new PostgreSQLSequenceMaxValueIncrementer(dataSource, "HIBERNATE_SEQUENCE");	
 				try{
 					pkValue = incr.nextLongValue();
 				}catch (Exception e) {
@@ -467,14 +467,14 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 			}
 		}else if(StringUtil.isNotEmpty(pkType)&&"SEQUENCE".equalsIgnoreCase(pkType)){
 			if(StringUtil.isNotEmpty(dbType)&&"oracle".equalsIgnoreCase(dbType)){
-				OracleSequenceMaxValueIncrementer incr = new OracleSequenceMaxValueIncrementer(dataSource, pkSequence);
+				OracleSequenceMaxValueIncrementer incr = new OracleSequenceMaxValueIncrementer(dataSource, pkSequence);	
 				try{
 					pkValue = incr.nextLongValue();
 				}catch (Exception e) {
 					logger.error(e,e);
 				}
 			}else if(StringUtil.isNotEmpty(dbType)&&"postgres".equalsIgnoreCase(dbType)){
-				PostgreSQLSequenceMaxValueIncrementer incr = new PostgreSQLSequenceMaxValueIncrementer(dataSource, pkSequence);
+				PostgreSQLSequenceMaxValueIncrementer incr = new PostgreSQLSequenceMaxValueIncrementer(dataSource, pkSequence);	
 				try{
 					pkValue = incr.nextLongValue();
 				}catch (Exception e) {
@@ -490,7 +490,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	}
 	/**
 	 * 根据id删除附表信息
-	 *
+	 * 
 	 * @param subId 附表数据
 	 * @param subTableName  附表名
 	 * @return
@@ -498,7 +498,7 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 	private void deleteSubTableDataById(Object subId,String subTableName){
 		StringBuilder sql = new StringBuilder("");
 		sql.append(" delete from ").append(subTableName).append(" where id = ? ");
-
+		
 		this.executeSql(sql.toString(), subId);
 	}
 	/**
@@ -578,14 +578,14 @@ public class DataBaseServiceImpl extends CommonServiceImpl implements DataBaseSe
 				.replace("#{sys.sysdtime}", SysVar.systime.getSysValue());
 		return sql;
 	}
-
+	
 	private Map<String,CgFormFieldEntity> getAllFieldByTableName(String tableName){
 		//获取版本号
-		String version = cgFormFieldService.getCgFormVersionByTableName(tableName);
-		Map<String,CgFormFieldEntity> map  = cgFormFieldService.getAllCgFormFieldByTableName(tableName, version);
+        String version = cgFormFieldService.getCgFormVersionByTableName(tableName);
+        Map<String,CgFormFieldEntity> map  = cgFormFieldService.getAllCgFormFieldByTableName(tableName, version);
 		return map;
 	}
-
+	
 	//判断key是否为表配置的属性
 	private boolean isContainsFieled(String tableName,String fieledName){
 		boolean flag = false;

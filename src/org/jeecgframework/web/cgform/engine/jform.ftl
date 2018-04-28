@@ -3,10 +3,10 @@
 <html>
  <head>
   <title></title>
-  ${config_iframe}
+  <script type="text/javascript" src="plug-in/jquery/jquery-1.8.3.js"></script><script type="text/javascript" src="plug-in/tools/dataformat.js"></script><link id="easyuiTheme" rel="stylesheet" href="plug-in/easyui/themes/default/easyui.css" type="text/css"></link><link rel="stylesheet" href="plug-in/easyui/themes/icon.css" type="text/css"></link><link rel="stylesheet" type="text/css" href="plug-in/accordion/css/accordion.css"><script type="text/javascript" src="plug-in/easyui/jquery.easyui.min.1.3.2.js"></script><script type="text/javascript" src="plug-in/easyui/locale/easyui-lang-zh_CN.js"></script><script type="text/javascript" src="plug-in/tools/syUtil.js"></script><script type="text/javascript" src="plug-in/My97DatePicker/WdatePicker.js"></script><script type="text/javascript" src="plug-in/lhgDialog/lhgdialog.min.js"></script><script type="text/javascript" src="plug-in/tools/curdtools.js"></script><script type="text/javascript" src="plug-in/tools/easyuiextend.js"></script>
+  <link rel="stylesheet" href="plug-in/uploadify/css/uploadify.css" type="text/css"></link><script type="text/javascript" src="plug-in/uploadify/jquery.uploadify-3.1.js"></script><script type="text/javascript" src="plug-in/tools/Map.js"></script>
  </head>
- <body style="overflow-y: hidden; overflow-x: hidden;" scroll="no">
-  <#--update-start--Author:luobaoli  Date:20150614 for：表单单表属性中增加了扩展参数 ${po.extend_json?if_exists}-->
+ <body style="overflow-y: scroll" >
   <form id="formobj" action="cgFormBuildController.do?saveOrUpdate" name="formobj" method="post">
 			<input type="hidden" id="btn_sub" class="btn_sub"/>
 			<input type="hidden" name="tableName" value="${tableName?if_exists?html}" >
@@ -29,54 +29,10 @@
 						</label>
 					</td>
 					<td class="value">
-						<#if head.isTree=='Y' && head.treeParentIdFieldName==po.field_name>
-							<!--如果为树形菜单，父id输入框设置为select-->
-							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
-							       style="width: 150px" class="inputxt easyui-combotree" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
-					               <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
-						       <#if po.field_valid_type?if_exists?html != ''>
-					               datatype="${po.field_valid_type?if_exists?html}"
-					               <#else>
-					               <#if po.type == 'int'>
-					               datatype="n"  <#if po.is_null == 'Y'>ignore="ignore" </#if>
-					               <#elseif po.type=='double'>
-					               datatype="/^(-?\d+)(\.\d+)?$/" <#if po.is_null == 'Y'>ignore="ignore" </#if>
-					               <#else>
-					               <#if po.is_null != 'Y'>datatype="*"</#if>
-					               </#if>
-					               </#if> 
-				               data-options="
-				                    panelHeight:'220',
-				                    url: 'cgAutoListController.do?datagrid&configId=${tableName?if_exists?html}&field=id,${head.treeFieldname}',  
-				                    loadFilter: function(data) {
-				                    	var rows = data.rows || data;
-				                    	var win = frameElement.api.opener;
-				                    	var listRows = win.getDataGrid().treegrid('getData');
-				                    	joinTreeChildren(rows, listRows);
-				                    	convertTreeData(rows, '${head.treeFieldname}');
-				                    	return rows; 
-				                    },
-				                    onLoadSuccess: function() {
-				                    	var win = frameElement.api.opener;
-				                    	var currRow = win.getDataGrid().treegrid('getSelected');
-				                    	if(!'${id?if_exists?html}') {
-				                    		//增加时，选择当前父菜单
-				                    		if(currRow) {
-				                    			$('#${po.field_name}').combotree('setValue', currRow.id);
-				                    		}
-				                    	}else {
-				                    		//编辑时，选择当前父菜单
-				                    		if(currRow) {
-				                    			$('#${po.field_name}').combotree('setValue', currRow._parentId);
-				                    		}
-				                    	}
-				                    }
-				            ">
-						<#elseif po.show_type=='text'>
-							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
+						<#if po.show_type=='text'>
+							<input id="${po.field_name}" name="${po.field_name}" type="text"
 							       style="width: 150px" class="inputxt" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
-					               <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
-						       <#if po.field_valid_type?if_exists?html != ''>
+					               <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
 					               <#else>
 					               <#if po.type == 'int'>
@@ -88,10 +44,9 @@
 					               </#if>
 					               </#if>>
 						<#elseif po.show_type=='password'>
-							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}"  type="password"
+							<input id="${po.field_name}" name="${po.field_name}"  type="password"
 							       style="width: 150px" class="inputxt" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
-					               <#if po.operationCodesReadOnly?if_exists> readonly = "readonly"</#if>
-						       <#if po.field_valid_type?if_exists?html != ''>
+					               <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
 					               <#else>
 					               <#if po.is_null != 'Y'>datatype="*"</#if>
@@ -100,9 +55,7 @@
 						<#elseif po.show_type=='radio'>
 					        <@DictData name="${po.dict_field?if_exists?html}" text="${po.dict_text?if_exists?html}" tablename="${po.dict_table?if_exists?html}" var="dataList">
 								<#list dataList as dictdata> 
-								<input value="${dictdata.typecode?if_exists?html}" ${po.extend_json?if_exists} name="${po.field_name}" type="radio"
-					            <#if dictdata_index==0&&po.is_null != 'Y'>datatype="*"</#if> 
-								<#if po.operationCodesReadOnly?if_exists>onclick="return false;"</#if>
+								<input value="${dictdata.typecode?if_exists?html}"  name="${po.field_name}" type="radio"
 								<#if dictdata.typecode?if_exists?html=="${data['${tableName}']['${po.field_name}']?if_exists?html}"> checked="true" </#if>>
 									${dictdata.typename?if_exists?html}
 								</#list> 
@@ -113,9 +66,7 @@
 							<#assign checkboxlist=checkboxstr?split(",")>
 							<@DictData name="${po.dict_field?if_exists?html}" text="${po.dict_text?if_exists?html}" tablename="${po.dict_table?if_exists?html}" var="dataList">
 								<#list dataList as dictdata> 
-								<input value="${dictdata.typecode?if_exists?html}" ${po.extend_json?if_exists} name="${po.field_name}" type="checkbox"
-								<#if po.operationCodesReadOnly?if_exists>onclick="return false;"</#if>
-					            <#if dictdata_index==0&&po.is_null != 'Y'>datatype="*"</#if> 
+								<input value="${dictdata.typecode?if_exists?html}" name="${po.field_name}" type="checkbox"
 								<#list checkboxlist as x >
 								<#if dictdata.typecode?if_exists?html=="${x?if_exists?html}"> checked="true" </#if></#list>>
 									${dictdata.typename?if_exists?html}
@@ -124,7 +75,7 @@
 					               
 						<#elseif po.show_type=='list'>
 							<@DictData name="${po.dict_field?if_exists?html}" text="${po.dict_text?if_exists?html}" tablename="${po.dict_table?if_exists?html}" var="dataList">
-								<select id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" <#if po.operationCodesReadOnly?if_exists>onfocus="this.defOpt=this.selectedIndex" onchange="this.selectedIndex=this.defOpt;"</#if><#if po.is_null != 'Y'>datatype="*"</#if> >
+								<select id="${po.field_name}" name="${po.field_name}" >
 									<#list dataList as dictdata> 
 									<option value="${dictdata.typecode?if_exists?html}" 
 									<#if dictdata.typecode?if_exists?html=="${data['${tableName}']['${po.field_name}']?if_exists?html}"> selected="selected" </#if>>
@@ -135,34 +86,31 @@
 							</@DictData>
 							
 						<#elseif po.show_type=='date'>
-							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
+							<input id="${po.field_name}" name="${po.field_name}" type="text"
 							       style="width: 150px"  value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
-							       class="Wdate" onClick="WdatePicker({<#if po.operationCodesReadOnly?if_exists> readonly = true</#if>})" 
-					              <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
-						       <#if po.field_valid_type?if_exists?html != ''>
+							       class="Wdate" onClick="WdatePicker()" 
+					               <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
 					               <#else>
 					               <#if po.is_null != 'Y'>datatype="*"</#if> 
 					               </#if>>
 						
 						<#elseif po.show_type=='datetime'>
-							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
+							<input id="${po.field_name}" name="${po.field_name}" type="text"
 							       style="width: 150px"  value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
-							       class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'<#if po.operationCodesReadOnly?if_exists> ,readonly = true</#if>})"
-						         <#if po.operationCodesReadOnly?exists> readonly = "readonly"</#if>
-						       <#if po.field_valid_type?if_exists?html != ''>
+							       class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"
+					               <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
 					               <#else>
 					               <#if po.is_null != 'Y'>datatype="*"</#if> 
 					               </#if>>
 						
 						<#elseif po.show_type=='popup'>
-							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}"  type="text"
+							<input id="${po.field_name}" name="${po.field_name}"  type="text"
 							       style="width: 150px" class="searchbox-inputtext" 
 							       onClick="inputClick(this,'${po.dict_text?if_exists?html}','${po.dict_table?if_exists?html}');" 
 							       value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
-					               <#if po.operationCodesReadOnly?if_exists> readonly = "readonly"</#if>
-						       <#if po.field_valid_type?if_exists?html != ''>
+					               <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
 					               <#else>
 					               <#if po.is_null != 'Y'>datatype="*"</#if>
@@ -181,7 +129,6 @@
 										</#if>
 									</#list>
 								</table>
-								<#if !(po.operationCodesReadOnly ??)>
 							    <div class="form jeecgDetail">
 									<script type="text/javascript">
 									var serverMsg="";
@@ -212,9 +159,8 @@
 										</script><span id="file_uploadspan"><input type="file" name="${po.field_name}" id="${po.field_name}" /></span>
 								</div>
 								<div class="form" id="filediv_${po.field_name}"> </div>
-							</#if>
 						<#else>
-							<input id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" type="text"
+							<input id="${po.field_name}" name="${po.field_name}" type="text"
 							       style="width: 150px" class="inputxt" value="${data['${tableName}']['${po.field_name}']?if_exists?html}"
 					               <#if po.field_valid_type?if_exists?html != ''>
 					               datatype="${po.field_valid_type?if_exists?html}"
@@ -258,9 +204,8 @@
 						</label>
 					</td>
 					<td class="value" colspan="3">
-						<textarea id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" 
+						<textarea id="${po.field_name}" name="${po.field_name}" 
 						       style="width: 600px" class="inputxt" rows="6"
-						<#if po.operationCodesReadOnly?if_exists> readonly = "readonly"</#if>
 				               <#if po.field_valid_type?if_exists?html != ''>
 				               datatype="${po.field_valid_type?if_exists?html}"
 				               <#else>
@@ -278,9 +223,8 @@
 						</label>
 					</td>
 					<td class="value">
-						<textarea id="${po.field_name}" ${po.extend_json?if_exists} name="${po.field_name}" 
+						<textarea id="${po.field_name}" name="${po.field_name}" 
 						       style="width: 300px" class="inputxt" rows="6"
-						<#if po.operationCodesReadOnly?if_exists> readonly = "readonly"</#if>
 				               <#if po.field_valid_type?if_exists?html != ''>
 				               datatype="${po.field_valid_type?if_exists?html}"
 				               <#else>
@@ -292,29 +236,14 @@
 				</tr>
 				</#if>
 			  </#list>
-			  <tr id = "sub_tr" style="display: none;">
-				  <td colspan="2" align="center">
-				  <input type="button" value="提交" onclick="neibuClick();" class="ui_state_highlight">
-				  </td>
-			  </tr>
 			</table>
-			<script type="text/javascript">$(function(){$("#formobj").Validform({tiptype:1,btnSubmit:"#btn_sub",btnReset:"#btn_reset",ajaxPost:true,usePlugin:{passwordstrength:{minLen:6,maxLen:18,trigger:function(obj,error){if(error){obj.parent().next().find(".Validform_checktip").show();obj.find(".passwordStrength").hide();}else{$(".passwordStrength").show();obj.parent().next().find(".Validform_checktip").hide();}}}},callback:function(data){if(data.success==true){uploadFile(data);}else{if(data.responseText==''||data.responseText==undefined){$.messager.alert('错误', data.msg);$.Hidemsg();}else{try{var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'),data.responseText.indexOf('错误信息')); $.messager.alert('错误',emsg);$.Hidemsg();}catch(ex){$.messager.alert('错误',data.responseText+'');}} return false;}if(!neibuClickFlag){var win = frameElement.api.opener; win.reloadTable();}}});});</script>
+			<link rel="stylesheet" href="plug-in/Validform/css/style.css" type="text/css"/><link rel="stylesheet" href="plug-in/Validform/css/tablefrom.css" type="text/css"/><script type="text/javascript" src="plug-in/Validform/js/Validform_v5.3.1_min.js"></script><script type="text/javascript" src="plug-in/Validform/js/Validform_Datatype.js"></script><script type="text/javascript" src="plug-in/Validform/js/datatype.js"></script><SCRIPT type="text/javascript" src="plug-in/Validform/plugin/passwordStrength/passwordStrength-min.js"></SCRIPT><script type="text/javascript">$(function(){$("#formobj").Validform({tiptype:1,btnSubmit:"#btn_sub",btnReset:"#btn_reset",ajaxPost:true,usePlugin:{passwordstrength:{minLen:6,maxLen:18,trigger:function(obj,error){if(error){obj.parent().next().find(".Validform_checktip").show();obj.find(".passwordStrength").hide();}else{$(".passwordStrength").show();obj.parent().next().find(".Validform_checktip").hide();}}}},callback:function(data){var win = frameElement.api.opener;if(data.success==true){uploadFile(data);}else{if(data.responseText==''||data.responseText==undefined){$.messager.alert('错误', data.msg);$.Hidemsg();}else{try{var emsg = data.responseText.substring(data.responseText.indexOf('错误描述'),data.responseText.indexOf('错误信息')); $.messager.alert('错误',emsg);$.Hidemsg();}catch(ex){$.messager.alert('错误',data.responseText+'');}} return false;}win.reloadTable();}});});</script>
 	</form>
-	<#--update-end--Author:luobaoli  Date:20150614 for：表单单表属性中增加了扩展参数 ${po.extend_json?if_exists}-->
 <script type="text/javascript">
    $(function(){
     //查看模式情况下,删除和上传附件功能禁止使用
 	if(location.href.indexOf("load=detail")!=-1){
 		$(".jeecgDetail").hide();
-	}
-	
-	if(location.href.indexOf("mode=read")!=-1){
-		//查看模式控件禁用
-		$("#formobj").find(":input").attr("disabled","disabled");
-	}
-	if(location.href.indexOf("mode=onbutton")!=-1){
-		//其他模式显示提交按钮
-		$("#sub_tr").show();
 	}
    });
   function upload() {
@@ -323,11 +252,6 @@
   		$('#${po.field_name}').uploadify('upload', '*');		
   		</#if>
   	</#list>
-  }
-  var neibuClickFlag = false;
-  function neibuClick() {
-	  neibuClickFlag = true; 
-	  $('#btn_sub').trigger('click');
   }
   function cancel() {
   	<#list columns as po>
@@ -338,22 +262,15 @@
   }
   function uploadFile(data){
   		if(!$("input[name='id']").val()){
-  			if(data.obj!=null && data.obj!='undefined'){
-  				$("input[name='id']").val(data.obj.id);
-  			}
+  			$("input[name='id']").val(data.obj.id);
   		}
   		if($(".uploadify-queue-item").length>0){
   			upload();
   		}else{
-  			if (neibuClickFlag){
-  				alert(data.msg);
-  				neibuClickFlag = false;
-  			}else {
-	  			var win = frameElement.api.opener;
-				win.reloadTable();
-				win.tip(data.msg);
-				frameElement.api.close();
-  			}
+  			var win = frameElement.api.opener;
+			win.reloadTable();
+			win.tip(data.msg);
+			frameElement.api.close();
   		}
   	}
 	$.dialog.setting.zIndex =1990;
@@ -378,35 +295,6 @@
 		}, function(){
 	});
 }
-
-<#--add-start--Author:钟世云  Date:20150614 for：online支持树配置-->
-/**树形列表数据转换**/
-function convertTreeData(rows, textField) {
-    for(var i = 0; i < rows.length; i++) {
-        var row = rows[i];
-        row.text = row[textField];
-        if(row.children) {
-        	row.state = "open";
-            convertTreeData(row.children, textField);
-        }
-    }
-}
-/**树形列表加入子元素**/
-function joinTreeChildren(arr1, arr2) {
-    for(var i = 0; i < arr1.length; i++) {
-        var row1 = arr1[i];
-        for(var j = 0; j < arr2.length; j++) {
-            if(row1.id == arr2[j].id) {
-                var children = arr2[j].children;
-                if(children) {
-                    row1.children = children;
-                }
-                
-            }
-        }
-    }
-}
-<#--add-end--Author:钟世云  Date:20150614 for：online支持树配置-->
 </script>
 	<script type="text/javascript">${js_plug_in?if_exists}</script>		
  </body>

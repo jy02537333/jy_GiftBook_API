@@ -10,6 +10,9 @@ import java.net.ConnectException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.logging.Logger;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -234,6 +237,7 @@ public class WeixinUtil {
 	    }  
         return bt;  
         
-    }  
+    }
+
     
 }

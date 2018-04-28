@@ -352,7 +352,7 @@ public class StringUtil {
 	 * @return
 	 */
 	public static boolean isEmpty(String s) {
-		if (s != null && !s.trim().equals("")) {
+		if (s != null && !s.equals("")) {
 			return false;
 		}
 		return true;
@@ -780,7 +780,7 @@ public class StringUtil {
 			try {
 				Tstr = QJstr.substring(i, i + 1);
 				b = Tstr.getBytes("unicode");
-			} catch (java.io.UnsupportedEncodingException e) {
+			} catch (UnsupportedEncodingException e) {
 				if (logger.isErrorEnabled()) {
 					logger.error(e);
 				}
@@ -790,7 +790,7 @@ public class StringUtil {
 				b[3] = 0;
 				try {
 					outStr = outStr + new String(b, "unicode");
-				} catch (java.io.UnsupportedEncodingException ex) {
+				} catch (UnsupportedEncodingException ex) {
 					if (logger.isErrorEnabled()) {
 						logger.error(ex);
 					}
@@ -1122,31 +1122,6 @@ public class StringUtil {
 			str = s;
 		}
 		return str;
-	}
-	
-	// 字符串的替换
-	public static String replace(String strSource, String strOld, String strNew) {
-		if (strSource == null) {
-			return null;
-		}
-		int i = 0;
-		if ((i = strSource.indexOf(strOld, i)) >= 0) {
-			char[] cSrc = strSource.toCharArray();
-			char[] cTo = strNew.toCharArray();
-			int len = strOld.length();
-			StringBuffer buf = new StringBuffer(cSrc.length);
-			buf.append(cSrc, 0, i).append(cTo);
-			i += len;
-			int j = i;
-			while ((i = strSource.indexOf(strOld, i)) > 0) {
-				buf.append(cSrc, j, i - j).append(cTo);
-				i += len;
-				j = i;
-			}
-			buf.append(cSrc, j, cSrc.length - j);
-			return buf.toString();
-		}
-		return strSource;
 	}
 
 	/**
@@ -1785,6 +1760,30 @@ public class StringUtil {
 	public static String firstUpperCase(String realName) {
 		return StringUtils.replaceChars(realName, realName.substring(0, 1),realName.substring(0, 1).toUpperCase());
 	}
+	// 字符串的替换
+	public static String replace(String strSource, String strOld, String strNew) {
+		if (strSource == null) {
+			return null;
+		}
+		int i = 0;
+		if ((i = strSource.indexOf(strOld, i)) >= 0) {
+			char[] cSrc = strSource.toCharArray();
+			char[] cTo = strNew.toCharArray();
+			int len = strOld.length();
+			StringBuffer buf = new StringBuffer(cSrc.length);
+			buf.append(cSrc, 0, i).append(cTo);
+			i += len;
+			int j = i;
+			while ((i = strSource.indexOf(strOld, i)) > 0) {
+				buf.append(cSrc, j, i - j).append(cTo);
+				i += len;
+				j = i;
+			}
+			buf.append(cSrc, j, cSrc.length - j);
+			return buf.toString();
+		}
+		return strSource;
+	}
 
 	/**
 	 * 首字母小写
@@ -1794,7 +1793,6 @@ public class StringUtil {
 	public static String firstLowerCase(String realName) {
 		return StringUtils.replaceChars(realName, realName.substring(0, 1),realName.substring(0, 1).toLowerCase());
 	}
-	
 	/**
 	 * 判断这个类是不是java自带的类
 	 * @param clazz
@@ -1812,16 +1810,13 @@ public class StringUtil {
 		}
 		return isBaseClass;
 	}
-	
 	/**
 	 * 判断这个类是不是java自带的类
-	 * @param clazz
 	 * @return
 	 */
 	public static String getEmptyString() {
 		return "";
 	}
-
 	/**
 	 * 转义数据库关键词
 	 * @param content

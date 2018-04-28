@@ -93,5 +93,6 @@ public class MutiLangServiceImpl extends CommonServiceImpl implements MutiLangSe
 		ResourceUtil.mutiLangMap.clear();
 		initAllMutiLang();
 	}
+
 	
 }

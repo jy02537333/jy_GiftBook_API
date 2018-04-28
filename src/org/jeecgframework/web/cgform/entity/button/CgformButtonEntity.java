@@ -21,25 +21,25 @@ import org.hibernate.annotations.GenericGenerator;
 @SuppressWarnings("serial")
 public class CgformButtonEntity implements java.io.Serializable {
 	/**id*/
-	private java.lang.String id;
+	private String id;
 	/**外键关联cgform_head*/
-	private java.lang.String formId;
+	private String formId;
 	/**按钮编码*/
-	private java.lang.String buttonCode;
+	private String buttonCode;
 	/**按钮名称*/
-	private java.lang.String buttonName;
+	private String buttonName;
 	/**按钮样式link/button*/
-	private java.lang.String buttonStyle;
+	private String buttonStyle;
 	/**动作类型:js/bus*/
-	private java.lang.String optType;
+	private String optType;
 	/**显示表达式:exp="status#eq#0"*/
-	private java.lang.String exp;
+	private String exp;
 	/**0:禁用/1:使用*/
-	private java.lang.String buttonStatus;
+	private String buttonStatus;
 	/**顺序*/
-	private java.lang.Integer orderNum;
+	private Integer orderNum;
 	/**按钮图标样式*/
-	private java.lang.String buttonIcon;
+	private String buttonIcon;
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -50,7 +50,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -58,7 +58,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -66,7 +66,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *@return: java.lang.String  外键关联cgform_head
 	 */
 	@Column(name ="FORM_ID",nullable=true,length=32)
-	public java.lang.String getFormId(){
+	public String getFormId(){
 		return this.formId;
 	}
 
@@ -74,7 +74,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  外键关联cgform_head
 	 */
-	public void setFormId(java.lang.String formId){
+	public void setFormId(String formId){
 		this.formId = formId;
 	}
 	/**
@@ -82,7 +82,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *@return: java.lang.String  按钮编码
 	 */
 	@Column(name ="BUTTON_CODE",nullable=true,length=50)
-	public java.lang.String getButtonCode(){
+	public String getButtonCode(){
 		return this.buttonCode;
 	}
 
@@ -90,7 +90,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  按钮编码
 	 */
-	public void setButtonCode(java.lang.String buttonCode){
+	public void setButtonCode(String buttonCode){
 		this.buttonCode = buttonCode;
 	}
 	/**
@@ -98,7 +98,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *@return: java.lang.String  按钮名称
 	 */
 	@Column(name ="BUTTON_NAME",nullable=true,length=50)
-	public java.lang.String getButtonName(){
+	public String getButtonName(){
 		return this.buttonName;
 	}
 
@@ -106,7 +106,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  按钮名称
 	 */
-	public void setButtonName(java.lang.String buttonName){
+	public void setButtonName(String buttonName){
 		this.buttonName = buttonName;
 	}
 	/**
@@ -114,7 +114,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *@return: java.lang.String  按钮样式link/button
 	 */
 	@Column(name ="BUTTON_STYLE",nullable=true,length=20)
-	public java.lang.String getButtonStyle(){
+	public String getButtonStyle(){
 		return this.buttonStyle;
 	}
 
@@ -122,7 +122,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  按钮样式link/button
 	 */
-	public void setButtonStyle(java.lang.String buttonStyle){
+	public void setButtonStyle(String buttonStyle){
 		this.buttonStyle = buttonStyle;
 	}
 	/**
@@ -130,7 +130,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *@return: java.lang.String  动作类型:js/bus
 	 */
 	@Column(name ="OPT_TYPE",nullable=true,length=20)
-	public java.lang.String getOptType(){
+	public String getOptType(){
 		return this.optType;
 	}
 
@@ -138,7 +138,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  动作类型:js/bus
 	 */
-	public void setOptType(java.lang.String optType){
+	public void setOptType(String optType){
 		this.optType = optType;
 	}
 	/**
@@ -146,7 +146,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *@return: java.lang.String  显示表达式:exp="status#eq#0"
 	 */
 	@Column(name ="EXP",nullable=true,length=255)
-	public java.lang.String getExp(){
+	public String getExp(){
 		return this.exp;
 	}
 
@@ -154,7 +154,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  显示表达式:exp="status#eq#0"
 	 */
-	public void setExp(java.lang.String exp){
+	public void setExp(String exp){
 		this.exp = exp;
 	}
 	/**
@@ -162,7 +162,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *@return: java.lang.String  0:禁用/1:使用
 	 */
 	@Column(name ="BUTTON_STATUS",nullable=true,length=2)
-	public java.lang.String getButtonStatus(){
+	public String getButtonStatus(){
 		return this.buttonStatus;
 	}
 
@@ -170,7 +170,7 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  0:禁用/1:使用
 	 */
-	public void setButtonStatus(java.lang.String buttonStatus){
+	public void setButtonStatus(String buttonStatus){
 		this.buttonStatus = buttonStatus;
 	}
 	
@@ -179,20 +179,20 @@ public class CgformButtonEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  顺序
 	 */
 	@Column(name ="order_num",nullable=true,length=4)
-	public java.lang.Integer getOrderNum() {
+	public Integer getOrderNum() {
 		return orderNum;
 	}
 
-	public void setOrderNum(java.lang.Integer orderNum) {
+	public void setOrderNum(Integer orderNum) {
 		this.orderNum = orderNum;
 	}
 
 	@Column(name ="button_icon",nullable=true,length=20)
-	public java.lang.String getButtonIcon() {
+	public String getButtonIcon() {
 		return buttonIcon;
 	}
 
-	public void setButtonIcon(java.lang.String buttonIcon) {
+	public void setButtonIcon(String buttonIcon) {
 		this.buttonIcon = buttonIcon;
 	}
 	

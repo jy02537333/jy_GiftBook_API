@@ -15,9 +15,9 @@ package org.jeecgframework.web.system.dao;
 import java.util.List;
 
 import org.jeecgframework.minidao.annotation.Arguments;
+import org.jeecgframework.minidao.annotation.MiniDao;
 import org.jeecgframework.minidao.annotation.ResultType;
 import org.jeecgframework.web.system.pojo.base.DictEntity;
-import org.springframework.stereotype.Repository;
 
 /**
  * 类 名 称： JeecgDictDao
@@ -31,7 +31,7 @@ import org.springframework.stereotype.Repository;
  * 操作原因： 
  * 
  */
-@Repository("jeecgDictDao")
+@MiniDao
 public interface JeecgDictDao {
 
 	/**
@@ -46,7 +46,7 @@ public interface JeecgDictDao {
 	 */
 	@Arguments({"dicTable", "dicCode", "dicText"})
 	@ResultType(DictEntity.class)
-	public List<DictEntity> queryCustomDict(String dicTable, String dicCode,String dicText);
+	public List<DictEntity> queryCustomDict(String dicTable, String dicCode, String dicText);
 	
 	
 	/**

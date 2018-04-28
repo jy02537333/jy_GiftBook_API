@@ -24,12 +24,10 @@ function createDataGrid${config_id}(){
 	{
 	<#if config_istree=="Y">treeField:'text',</#if>
 	url:initUrl,
-	idField: 'id', <#if config_istree=="Y">treeField:"${tree_fieldname}",</#if>
+	idField: 'id',
 	title: '${config_name}',
 	fit:true,
-	fitColumns:true,
-	striped:true,
-	autoRowHeight:true,
+	fitColumns:false,
 	pageSize: 10,
 	<#if config_ispagination =="Y">pagination:true,</#if>
 	<#if config_ischeckbox=="Y">singleSelect:false,<#else>singleSelect:true,</#if>
@@ -125,11 +123,8 @@ function createDataGrid${config_id}(){
 	//列表刷新
 	function reloadTable(){	
 		try{
-		<#if config_istree=="Y">
-			$('#'+gridname).treegrid('reload');
-		<#else>
-			$('#'+gridname).datagrid('reload');
-		</#if>
+		$('#'+gridname).datagrid('reload');
+		$('#'+gridname).treegrid('reload');
 		}catch(ex){
 			//donothing
 		}
@@ -163,15 +158,6 @@ function createDataGrid${config_id}(){
 			value='';
 		}
 		return value;
-	}
-	
-	/**
-	 * 获取表格对象
-	 * @return 表格对象
-	 */
-	function getDataGrid(){
-		var datagrid = $('#'+gridname);
-		return datagrid;
 	}
 	/**
 	 * 获取列表中选中行的数据（多行）
@@ -218,10 +204,6 @@ function createDataGrid${config_id}(){
 	//查询重置
 	function ${config_id}searchReset(name){ 
 		$("#"+name+"tb").find("input[type!='hidden']").val("");
-		<#if config_istree=="Y">
-		//为树形表单时，删除id查询参数
-		delete $('#${config_id}List').treegrid('options').queryParams.id;  
-		</#if>
 		${config_id}Listsearch();
 	}
 	//将字段href中的变量替换掉
@@ -264,15 +246,15 @@ function createDataGrid${config_id}(){
 	}
 	//新增
 	function ${config_id}add(){
-		add('${config_name}录入','cgFormBuildController.do?goAddFtlForm&tableName=${config_id}','${config_id}List',${config_id}Fw,${config_id}Fh);
+		add('${config_name}录入','cgFormBuildController.do?ftlForm&tableName=${config_id}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}
 	//修改
 	function ${config_id}update(){
-		update('${config_name}编辑','cgFormBuildController.do?goUpdateFtlForm&tableName=${config_id}','${config_id}List',${config_id}Fw,${config_id}Fh);
+		update('${config_name}编辑','cgFormBuildController.do?ftlForm&tableName=${config_id}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}
 	//查看
 	function ${config_id}view(){
-		detail('查看','cgFormBuildController.do?goDatilFtlForm&tableName=${config_id}&mode=read','${config_id}List',${config_id}Fw,${config_id}Fh);
+		detail('查看','cgFormBuildController.do?ftlForm&tableName=${config_id}','${config_id}List',${config_id}Fw,${config_id}Fh);
 	}
 	
 	//批量删除
@@ -301,26 +283,6 @@ function createDataGrid${config_id}(){
 			}
 		);
 	}
-
-	function ${config_id}ExportExcel(){
-		var queryParams = $('#${config_id}List').datagrid('options').queryParams;
-		$('#${config_id}Listtb').find('*').each(function() {
-		    queryParams[$(this).attr('name')] = $(this).val();
-		});
-		var params = '&';
-		$.each(queryParams, function(key, val){
-			params+='&'+key+'='+val;
-		}); 
-		var fields = '&field=';
-		$.each($('#${config_id}List').datagrid('options').columns[0], function(i, val){
-			if(val.field != 'opt'&&val.field != 'ck'){
-				fields+=val.field+',';
-			}
-		}); 
-		window.location.href = "excelTempletController.do?exportXls&tableName=${config_id}"+encodeURI(params+fields)
-	}
-	
-	
 	//JS增强
 	${config_jsenhance}
 </script>
@@ -335,9 +297,9 @@ function createDataGrid${config_id}(){
 		</#if>
 		<#if x['field_queryMode']=="group">
 			<#if x['field_isQuery']=="Y">
-			<input type="text" name="${x['field_id']}_begin"  style="width: 94px"  <#if x['field_type']=="Date">class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"</#if> value="${x['field_value_begin']}" />
+			<input type="text" name="${x['field_id']}_begin"  style="height:20px;width: 94px"  <#if x['field_type']=="Date">class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"</#if> value="${x['field_value_begin']}" />
 			<span style="display:-moz-inline-box;display:inline-block;width: 8px;text-align:right;">~</span>
-			<input type="text" name="${x['field_id']}_end"  style="width: 94px" <#if x['field_type']=="Date">class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"</#if> value="${x['field_value_end']}"/>
+			<input type="text" name="${x['field_id']}_end"  style="height:20px;width: 94px" <#if x['field_type']=="Date">class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"</#if> value="${x['field_value_end']}"/>
 			<#else>
 			<input type="hidden" name="${x['field_id']}_begin"   value="${x['field_value_begin']}"/>
 			<input type="hidden" name="${x['field_id']}_end"    value="${x['field_value_end']}"/>
@@ -355,11 +317,11 @@ function createDataGrid${config_id}(){
 				</#if>
 				<#if  (x['field_dictlist']?size <= 0)>
 					<#if x['field_showType']!='popup'>
-					<input type="text" name="${x['field_id']}" style="width: 100px" <#if x['field_type']=="Date">class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"</#if>  value="${x['field_value']?if_exists?default('')}" />
+					<input type="text" name="${x['field_id']}"  style="height:20px;width: 100px" <#if x['field_type']=="Date">class="Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'});"</#if>  value="${x['field_value']?if_exists?default('')}" />
 					<#else>
 					<input type="text" name="${x['field_id']}"  style="width: 100px" 
 									class="searchbox-inputtext" value="${x['field_value']?if_exists?default('')}"
-							       onClick="inputClick(this,'${x['field_dictField']?if_exists?html}','${x['field_dictTable']?if_exists?html}');" />
+							       onClick="inputClick(this,'${x['field_dictText']?if_exists?html}','${x['field_dictTable']?if_exists?html}');" />
 					</#if>
 				</#if>
 			<#else>
@@ -378,7 +340,7 @@ function createDataGrid${config_id}(){
 	<a id="delete" href="#" class="easyui-linkbutton" plain="true"  icon="icon-remove" onclick="${config_id}delBatch()">批量删除</a>
 	<a id="detail" href="#" class="easyui-linkbutton" plain="true"  icon="icon-search" onclick="${config_id}view()">查看</a>
 	<a id="import" href="#"  class="easyui-linkbutton" plain="true"  icon="icon-put" onclick="add('${config_name}Excel数据导入','excelTempletController.do?goImplXls&tableName=${config_id}','${config_id}List')">Excel数据导入</a>
-	<a id="excel" href="#" class="easyui-linkbutton" plain="true" onclick="${config_id}ExportExcel()"  icon="icon-putout">Excel导出</a>
+	<a id="excel" href="excelTempletController.do?exportXls&tableName=${config_id}" class="easyui-linkbutton" plain="true"  icon="icon-putout">Excel模板下载</a>
 	
 	<#list config_buttons as x>
 		<#if x['buttonStyle'] == 'button' && x['buttonStatus']=='1'>

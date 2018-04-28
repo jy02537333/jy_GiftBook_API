@@ -24,30 +24,7 @@ public class JeecgMinidaoServiceImpl implements JeecgMinidaoServiceI {
 		return entities;
 	}
 	
-	/**
-	public JeecgMinidaoEntity getEntity(Class clazz, String id) {
-		JeecgMinidaoEntity jeecgMinidao = null; //(JeecgMinidaoEntity)jeecgMinidaoDao.getByIdHiber(clazz, id);
-		return jeecgMinidao;
-	}
 	
-	public void insert(JeecgMinidaoEntity jeecgMinidao) {
-		//jeecgMinidaoDao.saveByHiber(jeecgMinidao);
-	}
-	
-	public void update(JeecgMinidaoEntity jeecgMinidao) {
-		//jeecgMinidaoDao.updateByHiber(jeecgMinidao);
-	}
-	
-	public void delete(JeecgMinidaoEntity jeecgMinidao) {
-		//jeecgMinidaoDao.deleteByHiber(jeecgMinidao);
-	}
-	
-	public void deleteAllEntitie(List<JeecgMinidaoEntity> entities) {
-		for (JeecgMinidaoEntity entity : entities) {
-			//jeecgMinidaoDao.deleteByHiber(entity);
-		}
-	}
-	*/
 	public Integer getCount() {
 		return jeecgMinidaoDao.getCount();
 	}

@@ -8,7 +8,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.jeecgframework.web.demo.entity.test.CKEditorEntity;
+import org.jeecgframework.web.demo.entity.test.JeecgDemo;
+import org.jeecgframework.web.demo.service.test.JeecgDemoServiceI;
+import org.jeecgframework.web.system.pojo.base.TSDepart;
+import org.jeecgframework.web.system.service.SystemService;
+
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.annotation.config.AutoMenu;
 import org.jeecgframework.core.annotation.config.AutoMenuOperation;
@@ -20,20 +25,12 @@ import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.tag.core.easyui.TagUtil;
-import org.jeecgframework.tag.vo.datatable.SortDirection;
-import org.jeecgframework.web.demo.entity.test.CKEditorEntity;
-import org.jeecgframework.web.demo.entity.test.JeecgDemo;
-import org.jeecgframework.web.demo.entity.test.JeecgDemoPage;
-import org.jeecgframework.web.demo.service.test.JeecgDemoServiceI;
-import org.jeecgframework.web.system.pojo.base.TSDepart;
-import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.google.gson.Gson;
 
 /**   
  * @Title: Controller
@@ -43,7 +40,7 @@ import com.google.gson.Gson;
  * @version V1.0   
  *
  */
-//@Scope("prototype")
+@Scope("prototype")
 @Controller
 @RequestMapping("/jeecgDemoController")
 @AutoMenu(name = "常用Demo", url = "jeecgDemoController.do?jeecgDemo")
@@ -57,6 +54,15 @@ public class JeecgDemoController extends BaseController {
 	private JeecgDemoServiceI jeecgDemoService;
 	@Autowired
 	private SystemService systemService;
+	private String message;
+	
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 	
 	/**
 	 * popup 例子
@@ -94,13 +100,7 @@ public class JeecgDemoController extends BaseController {
 	@RequestMapping(params = "ckeditor")
 	public ModelAndView ckeditor(HttpServletRequest request) {
 //		CKEditorEntity t = jeecgDemoService.get(CKEditorEntity.class, "1");
-		CKEditorEntity t = null;
-		List<CKEditorEntity> ls = jeecgDemoService.loadAll(CKEditorEntity.class);
-		if(ls!=null && ls.size()>0){
-			t = ls.get(0);
-		}else{
-			t = new CKEditorEntity();
-		}
+		CKEditorEntity t = jeecgDemoService.loadAll(CKEditorEntity.class).get(0);
 		request.setAttribute("cKEditorEntity", t);
 		if(t.getContents() == null ){
 			request.setAttribute("contents", "");
@@ -169,32 +169,19 @@ public class JeecgDemoController extends BaseController {
 	public ModelAndView jeecgDemo(HttpServletRequest request) {
 		return new ModelAndView("jeecg/demo/jeecgDemo/jeecgDemoList");
 	}
-	/**
-	 * JeecgDemo例子列表 页面跳转
-	 * 
-	 * @return
-	 */
-	@RequestMapping(params = "jeecgDemo2")
-	public ModelAndView jeecgDemo2(HttpServletRequest request) {
-		//request.setAttribute("sex", "1");
-		request.setAttribute("status", "1");
-		return new ModelAndView("jeecg/demo/jeecgDemo/jeecgDemoList2");
-	}
+
 	/**
 	 * easyuiAJAX请求数据
 	 * 
 	 * @param request
 	 * @param response
 	 * @param dataGrid
-	 * @param
+	 * @param user
 	 */
 
 	@RequestMapping(params = "datagrid")
 	public void datagrid(JeecgDemo jeecgDemo,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
 		CriteriaQuery cq = new CriteriaQuery(JeecgDemo.class, dataGrid);
-		//多字段排序
-		cq.addOrder("mobilePhone",SortDirection.asc);
-		cq.addOrder("age",SortDirection.asc);
 		//查询条件组装器
 		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, jeecgDemo,request.getParameterMap());
 		this.jeecgDemoService.getDataGridReturn(cq, true);
@@ -206,21 +193,7 @@ public class JeecgDemoController extends BaseController {
 		TagUtil.datagrid(response, dataGrid);
 	}
 
-	@RequestMapping(params = "datagrid2")
-	public void datagrid2(JeecgDemo jeecgDemo,HttpServletRequest request, HttpServletResponse response, DataGrid dataGrid) {
-		CriteriaQuery cq = new CriteriaQuery(JeecgDemo.class, dataGrid);
-		//查询条件组装器
-		org.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil.installHql(cq, jeecgDemo,request.getParameterMap());
-		this.jeecgDemoService.getDataGridReturn(cq, true);
-		//String total_salary = String.valueOf(jeecgDemoService.findOneForJdbc("select sum(salary) as ssum from jeecg_demo").get("ssum"));
-		//request.setAttribute("maptest", "1");
-		/*
-		 * 说明：格式为 字段名:值(可选，不写该值时为分页数据的合计) 多个合计 以 , 分割
-		 */
-		//dataGrid.setFooter("salary:"+(total_salary.equalsIgnoreCase("null")?"0.0":total_salary)+",age,email:合计");
-		
-		TagUtil.datagrid(response, dataGrid);
-	}
+	
 	/**
 	 * 权限列表
 	 */
@@ -239,7 +212,6 @@ public class JeecgDemoController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(JeecgDemo jeecgDemo, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		jeecgDemo = systemService.getEntity(JeecgDemo.class, jeecgDemo.getId());
 		message = "JeecgDemo例子: " + jeecgDemo.getUserName() + "被删除 成功";
@@ -254,14 +226,13 @@ public class JeecgDemoController extends BaseController {
 	/**
 	 * 添加JeecgDemo例子
 	 * 
-	 * @param
+	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "save")
 	@ResponseBody
 	@AutoMenuOperation(name="添加",code = "add")
 	public AjaxJson save(JeecgDemo jeecgDemo, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(jeecgDemo.getId())) {
 			message = "JeecgDemo例子: " + jeecgDemo.getUserName() + "被更新成功";
@@ -269,10 +240,6 @@ public class JeecgDemoController extends BaseController {
 			try {
 				MyBeanUtils.copyBeanNotNull2Bean(jeecgDemo, t);
 				jeecgDemoService.saveOrUpdate(t);
-				//-----数据修改日志[类SVN]------------
-				Gson gson = new Gson();
-				systemService.addDataLog("jeecg_demo", t.getId(), gson.toJson(t));
-				//-----数据修改日志[类SVN]------------
 				systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -281,10 +248,6 @@ public class JeecgDemoController extends BaseController {
 			message = "JeecgDemo例子: " + jeecgDemo.getUserName() + "被添加成功";
 			jeecgDemo.setStatus("0");
 			jeecgDemoService.save(jeecgDemo);
-			//-----数据修改日志[类SVN]------------
-			Gson gson = new Gson();
-			systemService.addDataLog("jeecg_demo", jeecgDemo.getId(), gson.toJson(jeecgDemo));
-			//-----数据修改日志[类SVN]------------
 			systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
 		}
 		
@@ -295,13 +258,12 @@ public class JeecgDemoController extends BaseController {
 	/**
 	 * 审核报错
 	 * 
-	 * @param
+	 * @param ids
 	 * @return
 	 */
 	@RequestMapping(params = "saveAuthor")
 	@ResponseBody
 	public AjaxJson saveAuthor(JeecgDemo jeecgDemo, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(jeecgDemo.getId())) {
 			message = "测试-用户申请成功";
@@ -392,7 +354,6 @@ public class JeecgDemoController extends BaseController {
 	@RequestMapping(params = "doDeleteALLSelect")
 	@ResponseBody
 	public AjaxJson doDeleteALLSelect(JeecgDemo jeecgDemo, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		String ids = request.getParameter("ids");
 		String[] entitys = ids.split(",");
@@ -407,44 +368,4 @@ public class JeecgDemoController extends BaseController {
 		j.setMsg(message);
 		return j;
 	}
-	@RequestMapping(params = "goDemo")
-	public ModelAndView goDemo(HttpServletRequest request) {
-		return new ModelAndView("jeecg/demo/jeecgDemo/"+request.getParameter("demoPage"));
-	}
-
-
-	/**
-	 * 保存新增/更新的行数据
-	 * @param page
-	 * @return
-	 */
-	@RequestMapping(params = "saveRows")
-	@ResponseBody
-	public AjaxJson saveRows(JeecgDemoPage page){
-		String message = null;
-		List<JeecgDemo> demos=page.getDemos();
-		AjaxJson j = new AjaxJson();
-		if(CollectionUtils.isNotEmpty(demos)){
-			for(JeecgDemo jeecgDemo:demos){
-				if (StringUtil.isNotEmpty(jeecgDemo.getId())) {
-					JeecgDemo t =jeecgDemoService.get(JeecgDemo.class, jeecgDemo.getId());
-					try {
-						message = "JeecgDemo例子: " + jeecgDemo.getUserName() + "被更新成功";
-						MyBeanUtils.copyBeanNotNull2Bean(jeecgDemo, t);
-						jeecgDemoService.saveOrUpdate(t);
-						systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				} else {
-					message = "JeecgDemo例子: " + jeecgDemo.getUserName() + "被添加成功";
-					jeecgDemo.setStatus("0");
-					jeecgDemoService.save(jeecgDemo);
-					systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
-				}
-			}
-		}
-		return j;
-	}
-
 }

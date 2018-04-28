@@ -19,16 +19,14 @@ import net.sf.json.JSONObject;
 
 import org.jeecgframework.codegenerate.database.JeecgReadTable;
 import org.jeecgframework.codegenerate.pojo.Columnt;
-import org.jeecgframework.codegenerate.util.CodeResourceUtil;
 import org.jeecgframework.core.common.model.json.AjaxJson;
 import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.util.StringUtil;
-import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.tag.vo.datatable.SortDirection;
 import org.jeecgframework.web.cgform.entity.config.CgFormFieldEntity;
 import org.jeecgframework.web.cgform.entity.config.CgFormHeadEntity;
 import org.jeecgframework.web.cgform.entity.consts.DataBaseConst;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import com.jeecg.service.config.CgFormFieldServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping("/cgformTransController")
-public class CgformTransController {    
+public class CgformTransController {
 
 	@Autowired
 	private CgFormFieldServiceI cgFormFieldService;
@@ -65,10 +63,6 @@ public class CgformTransController {
 
 		List<String> list = new ArrayList<String>();
 		try {
-			CodeResourceUtil.URL="jdbc:mysql://59.110.136.238:3306/giftbook?useUnicode=true&characterEncoding=UTF-8";
-			CodeResourceUtil.USERNAME="root";
-			CodeResourceUtil.PASSWORD="libo_db";
-			CodeResourceUtil.DATABASE_NAME="giftbook";
 			list = new JeecgReadTable().readAllTableNames();
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -86,20 +80,14 @@ public class CgformTransController {
 			html = getJson(index, index.size());
 		} else
 			html = getJson(list, list.size());
-		PrintWriter writer = null;
 		try {
 			response.setContentType("text/html");
 			response.setHeader("Cache-Control", "no-store");
-			writer = response.getWriter();
+			PrintWriter writer = response.getWriter();
 			writer.println(html);
 			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				writer.close();
-			} catch (Exception e2) {
-			}
 		}
 	}
 
@@ -203,13 +191,11 @@ public class CgformTransController {
 							cgFormField.setLength(Integer.valueOf(columnt
 									.getPrecision()));
 						}
-						//update-begin--Author:zhangdaihao  Date:20140212 for：[001]oracle下number类型，数据库表导出表单，默认长度为0同步失败
 						else{
 							if(cgFormField.getType().equals(DataBaseConst.INT)){
 								cgFormField.setLength(10);
 							}
 						}
-						//update-end--Author:zhangdaihao  Date:20140212 for：[001]oracle下number类型，数据库表导出表单，默认长度为0同步失败
 						if (StringUtil.isNotEmpty(columnt.getScale()))
 							cgFormField.setPointLength(Integer.valueOf(columnt
 									.getScale()));
@@ -218,11 +204,6 @@ public class CgformTransController {
 					columnsList.add(cgFormField);
 				}
 				cgFormHead.setColumns(columnsList);
-				//update-begin--Author:scott  Date:20170720  for：导入报单报错-----
-				if(oConvertUtils.isEmpty(cgFormHead.getJformCategory())){
-					cgFormHead.setJformCategory("bdfl_ptbd");
-				}
-				//update-end--Author:scott  Date:20170720  for：导入报单报错-----
 				cgFormFieldService.saveTable(cgFormHead, "");
 				if (yes != "")
 					yes += ",";

@@ -22,19 +22,19 @@ import org.hibernate.annotations.GenericGenerator;
 @SuppressWarnings("serial")
 public class CgformButtonSqlEntity implements java.io.Serializable {
 	/**id*/
-	private java.lang.String id;
+	private String id;
 	/**外键关联cgform_head*/
-	private java.lang.String formId;
+	private String formId;
 	/**按钮编码*/
-	private java.lang.String buttonCode;
+	private String buttonCode;
 	/**称名*/
-	private java.lang.String cgbSqlName;
+	private String cgbSqlName;
 	/**强增sql*/
 	private byte[] cgbSql;
 	/**强增sql Str*/
 	private String cgbSqlStr;
 	/**描述*/
-	private java.lang.String content;
+	private String content;
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -45,7 +45,7 @@ public class CgformButtonSqlEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -53,7 +53,7 @@ public class CgformButtonSqlEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  id
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -61,7 +61,7 @@ public class CgformButtonSqlEntity implements java.io.Serializable {
 	 *@return: java.lang.String  外键关联cgform_head
 	 */
 	@Column(name ="FORM_ID",nullable=true,length=32)
-	public java.lang.String getFormId(){
+	public String getFormId(){
 		return this.formId;
 	}
 
@@ -69,7 +69,7 @@ public class CgformButtonSqlEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  外键关联cgform_head
 	 */
-	public void setFormId(java.lang.String formId){
+	public void setFormId(String formId){
 		this.formId = formId;
 	}
 	/**
@@ -77,7 +77,7 @@ public class CgformButtonSqlEntity implements java.io.Serializable {
 	 *@return: java.lang.String  按钮编码
 	 */
 	@Column(name ="BUTTON_CODE",nullable=true,length=50)
-	public java.lang.String getButtonCode(){
+	public String getButtonCode(){
 		return this.buttonCode;
 	}
 
@@ -85,7 +85,7 @@ public class CgformButtonSqlEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  按钮编码
 	 */
-	public void setButtonCode(java.lang.String buttonCode){
+	public void setButtonCode(String buttonCode){
 		this.buttonCode = buttonCode;
 	}
 	/**
@@ -93,7 +93,7 @@ public class CgformButtonSqlEntity implements java.io.Serializable {
 	 *@return: java.lang.String  称名
 	 */
 	@Column(name ="CGB_SQL_NAME",nullable=true,length=50)
-	public java.lang.String getCgbSqlName(){
+	public String getCgbSqlName(){
 		return this.cgbSqlName;
 	}
 
@@ -101,7 +101,7 @@ public class CgformButtonSqlEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  称名
 	 */
-	public void setCgbSqlName(java.lang.String cgbSqlName){
+	public void setCgbSqlName(String cgbSqlName){
 		this.cgbSqlName = cgbSqlName;
 	}
 	/**
@@ -141,7 +141,7 @@ public class CgformButtonSqlEntity implements java.io.Serializable {
 	 *@return: java.lang.String  描述
 	 */
 	@Column(name ="CONTENT",nullable=true,length=1000)
-	public java.lang.String getContent(){
+	public String getContent(){
 		return this.content;
 	}
 
@@ -149,7 +149,7 @@ public class CgformButtonSqlEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  描述
 	 */
-	public void setContent(java.lang.String content){
+	public void setContent(String content){
 		this.content = content;
 	}
 }

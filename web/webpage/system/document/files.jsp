@@ -11,11 +11,11 @@
 	<fieldset class="step">
 	<div class="form">
 		<label class="Validform_label"> 文件标题: </label> 
-		<input name="documentTitle" id="documentTitle" datatype="s3-50" value="${doc.documentTitle}" type="text"> 
+		<input name="documentTitle" id="documentTitle" datatype="s3-50"> 
 		<span class="Validform_checktip">标题名称在3~50位字符,且不为空</span>
 	</div>
 	<div class="form">
-		<t:upload name="fiels" buttonText="上传文件" uploader="systemController.do?saveFiles&fileKey=${doc.id}" extend="office" id="file_upload" formData="documentTitle"></t:upload>
+		<t:upload name="fiels" buttonText="上传文件" uploader="systemController.do?saveFiles" extend="office" id="file_upload" formData="documentTitle"></t:upload>
 	</div>
 	<div class="form" id="filediv" style="height: 50px"></div>
 	</fieldset>

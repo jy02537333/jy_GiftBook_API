@@ -24,13 +24,13 @@ import org.hibernate.annotations.GenericGenerator;
 @SuppressWarnings("serial")
 public class JeecgDemoCkfinderEntity implements java.io.Serializable {
 	/** id */
-	private java.lang.String id;
+	private String id;
 	/** 图片 */
-	private java.lang.String image;
+	private String image;
 	/** 附件 */
-	private java.lang.String attachment;
+	private String attachment;
 	/** 备注 */
-	private java.lang.String remark;
+	private String remark;
 
 	/**
 	 * 方法: 取得java.lang.String
@@ -42,7 +42,7 @@ public class JeecgDemoCkfinderEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name = "ID", nullable = false, length = 32)
-	public java.lang.String getId() {
+	public String getId() {
 		return this.id;
 	}
 
@@ -51,7 +51,7 @@ public class JeecgDemoCkfinderEntity implements java.io.Serializable {
 	 * 
 	 * @param: java.lang.String id
 	 */
-	public void setId(java.lang.String id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -61,7 +61,7 @@ public class JeecgDemoCkfinderEntity implements java.io.Serializable {
 	 * @return: java.lang.String 图片
 	 */
 	@Column(name = "IMAGE", nullable = true, length = 255)
-	public java.lang.String getImage() {
+	public String getImage() {
 		return this.image;
 	}
 
@@ -70,7 +70,7 @@ public class JeecgDemoCkfinderEntity implements java.io.Serializable {
 	 * 
 	 * @param: java.lang.String 图片
 	 */
-	public void setImage(java.lang.String image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 
@@ -80,7 +80,7 @@ public class JeecgDemoCkfinderEntity implements java.io.Serializable {
 	 * @return: java.lang.String 附件
 	 */
 	@Column(name = "ATTACHMENT", nullable = true, length = 255)
-	public java.lang.String getAttachment() {
+	public String getAttachment() {
 		return this.attachment;
 	}
 
@@ -89,7 +89,7 @@ public class JeecgDemoCkfinderEntity implements java.io.Serializable {
 	 * 
 	 * @param: java.lang.String 附件
 	 */
-	public void setAttachment(java.lang.String attachment) {
+	public void setAttachment(String attachment) {
 		this.attachment = attachment;
 	}
 
@@ -101,7 +101,7 @@ public class JeecgDemoCkfinderEntity implements java.io.Serializable {
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "REMARK", nullable = true)
-	public java.lang.String getRemark() {
+	public String getRemark() {
 		return this.remark;
 	}
 
@@ -110,7 +110,7 @@ public class JeecgDemoCkfinderEntity implements java.io.Serializable {
 	 * 
 	 * @param: java.lang.Object 备注
 	 */
-	public void setRemark(java.lang.String remark) {
+	public void setRemark(String remark) {
 		this.remark = remark;
 	}
 }

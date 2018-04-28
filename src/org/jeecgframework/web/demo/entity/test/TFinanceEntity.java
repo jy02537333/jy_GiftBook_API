@@ -25,39 +25,39 @@ import org.hibernate.annotations.GenericGenerator;
 @SuppressWarnings("serial")
 public class TFinanceEntity implements java.io.Serializable {
 	/**主键*/
-	private java.lang.String id;
+	private String id;
 	/**类别*/
-	private java.lang.String category;
+	private String category;
 	/**年份*/
-	private java.lang.Integer happenyear;
+	private Integer happenyear;
 	/**拨款时间*/
 	private java.util.Date paytime;
 	/**收款单位*/
-	private java.lang.String collectorg;
+	private String collectorg;
 	/**拨款文件类别*/
-	private java.lang.String approfiletype;
+	private String approfiletype;
 	/**指标文号*/
-	private java.lang.String zbwno;
+	private String zbwno;
 	/**金额合计*/
-	private java.lang.Float moneytotal;
+	private Float moneytotal;
 	/**支出科目*/
-	private java.lang.String expenseaccount;
+	private String expenseaccount;
 	/**资金用途*/
-	private java.lang.String moneyuse;
+	private String moneyuse;
 	/**列支地区*/
-	private java.lang.String moneyarea;
+	private String moneyarea;
 	/**资金来源*/
-	private java.lang.String moneysource;
+	private String moneysource;
 	/**采购年份*/
-	private java.lang.String buyyear;
+	private String buyyear;
 	/**采购项目号*/
-	private java.lang.String buyprojectno;
+	private String buyprojectno;
 	/**采购项目单位*/
-	private java.lang.String buyprojectorg;
+	private String buyprojectorg;
 	/**采购金额*/
-	private java.lang.Float buymoney;
+	private Float buymoney;
 	/**采购用途*/
-	private java.lang.String buyuse;
+	private String buyuse;
 	
 	private List<TFinanceFilesEntity> financeFiles;
 	/**
@@ -69,7 +69,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -77,7 +77,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  主键
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -85,7 +85,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *@return: java.lang.String  类别
 	 */
 	@Column(name ="CATEGORY",nullable=true,length=255)
-	public java.lang.String getCategory(){
+	public String getCategory(){
 		return this.category;
 	}
 
@@ -93,7 +93,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  类别
 	 */
-	public void setCategory(java.lang.String category){
+	public void setCategory(String category){
 		this.category = category;
 	}
 	/**
@@ -101,7 +101,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  年份
 	 */
 	@Column(name ="HAPPENYEAR",nullable=true,precision=10,scale=0)
-	public java.lang.Integer getHappenyear(){
+	public Integer getHappenyear(){
 		return this.happenyear;
 	}
 
@@ -109,7 +109,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  年份
 	 */
-	public void setHappenyear(java.lang.Integer happenyear){
+	public void setHappenyear(Integer happenyear){
 		this.happenyear = happenyear;
 	}
 	/**
@@ -133,7 +133,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *@return: java.lang.String  收款单位
 	 */
 	@Column(name ="COLLECTORG",nullable=true,length=255)
-	public java.lang.String getCollectorg(){
+	public String getCollectorg(){
 		return this.collectorg;
 	}
 
@@ -141,7 +141,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  收款单位
 	 */
-	public void setCollectorg(java.lang.String collectorg){
+	public void setCollectorg(String collectorg){
 		this.collectorg = collectorg;
 	}
 	/**
@@ -149,7 +149,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *@return: java.lang.String  拨款文件类别
 	 */
 	@Column(name ="APPROFILETYPE",nullable=true,length=255)
-	public java.lang.String getApprofiletype(){
+	public String getApprofiletype(){
 		return this.approfiletype;
 	}
 
@@ -157,7 +157,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  拨款文件类别
 	 */
-	public void setApprofiletype(java.lang.String approfiletype){
+	public void setApprofiletype(String approfiletype){
 		this.approfiletype = approfiletype;
 	}
 	/**
@@ -165,7 +165,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *@return: java.lang.String  指标文号
 	 */
 	@Column(name ="ZBWNO",nullable=true,length=255)
-	public java.lang.String getZbwno(){
+	public String getZbwno(){
 		return this.zbwno;
 	}
 
@@ -173,7 +173,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  指标文号
 	 */
-	public void setZbwno(java.lang.String zbwno){
+	public void setZbwno(String zbwno){
 		this.zbwno = zbwno;
 	}
 	/**
@@ -181,7 +181,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *@return: java.lang.Float  金额合计
 	 */
 	@Column(name ="MONEYTOTAL",nullable=true,precision=12)
-	public java.lang.Float getMoneytotal(){
+	public Float getMoneytotal(){
 		return this.moneytotal;
 	}
 
@@ -189,7 +189,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Float
 	 *@param: java.lang.Float  金额合计
 	 */
-	public void setMoneytotal(java.lang.Float moneytotal){
+	public void setMoneytotal(Float moneytotal){
 		this.moneytotal = moneytotal;
 	}
 	/**
@@ -197,7 +197,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *@return: java.lang.String  支出科目
 	 */
 	@Column(name ="EXPENSEACCOUNT",nullable=true,length=255)
-	public java.lang.String getExpenseaccount(){
+	public String getExpenseaccount(){
 		return this.expenseaccount;
 	}
 
@@ -205,7 +205,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  支出科目
 	 */
-	public void setExpenseaccount(java.lang.String expenseaccount){
+	public void setExpenseaccount(String expenseaccount){
 		this.expenseaccount = expenseaccount;
 	}
 	/**
@@ -213,7 +213,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *@return: java.lang.String  资金用途
 	 */
 	@Column(name ="MONEYUSE",nullable=true,length=255)
-	public java.lang.String getMoneyuse(){
+	public String getMoneyuse(){
 		return this.moneyuse;
 	}
 
@@ -221,7 +221,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  资金用途
 	 */
-	public void setMoneyuse(java.lang.String moneyuse){
+	public void setMoneyuse(String moneyuse){
 		this.moneyuse = moneyuse;
 	}
 	/**
@@ -229,7 +229,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *@return: java.lang.String  列支地区
 	 */
 	@Column(name ="MONEYAREA",nullable=true,length=255)
-	public java.lang.String getMoneyarea(){
+	public String getMoneyarea(){
 		return this.moneyarea;
 	}
 
@@ -237,7 +237,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  列支地区
 	 */
-	public void setMoneyarea(java.lang.String moneyarea){
+	public void setMoneyarea(String moneyarea){
 		this.moneyarea = moneyarea;
 	}
 	/**
@@ -245,7 +245,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *@return: java.lang.String  资金来源
 	 */
 	@Column(name ="MONEYSOURCE",nullable=true,length=255)
-	public java.lang.String getMoneysource(){
+	public String getMoneysource(){
 		return this.moneysource;
 	}
 
@@ -253,7 +253,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  资金来源
 	 */
-	public void setMoneysource(java.lang.String moneysource){
+	public void setMoneysource(String moneysource){
 		this.moneysource = moneysource;
 	}
 	/**
@@ -261,7 +261,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *@return: java.lang.String  采购年份
 	 */
 	@Column(name ="BUYYEAR",nullable=true,length=255)
-	public java.lang.String getBuyyear(){
+	public String getBuyyear(){
 		return this.buyyear;
 	}
 
@@ -269,7 +269,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  采购年份
 	 */
-	public void setBuyyear(java.lang.String buyyear){
+	public void setBuyyear(String buyyear){
 		this.buyyear = buyyear;
 	}
 	/**
@@ -277,7 +277,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *@return: java.lang.String  采购项目号
 	 */
 	@Column(name ="BUYPROJECTNO",nullable=true,length=255)
-	public java.lang.String getBuyprojectno(){
+	public String getBuyprojectno(){
 		return this.buyprojectno;
 	}
 
@@ -285,7 +285,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  采购项目号
 	 */
-	public void setBuyprojectno(java.lang.String buyprojectno){
+	public void setBuyprojectno(String buyprojectno){
 		this.buyprojectno = buyprojectno;
 	}
 	/**
@@ -293,7 +293,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *@return: java.lang.String  采购项目单位
 	 */
 	@Column(name ="BUYPROJECTORG",nullable=true,length=255)
-	public java.lang.String getBuyprojectorg(){
+	public String getBuyprojectorg(){
 		return this.buyprojectorg;
 	}
 
@@ -301,7 +301,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  采购项目单位
 	 */
-	public void setBuyprojectorg(java.lang.String buyprojectorg){
+	public void setBuyprojectorg(String buyprojectorg){
 		this.buyprojectorg = buyprojectorg;
 	}
 	/**
@@ -309,7 +309,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *@return: java.lang.Float  采购金额
 	 */
 	@Column(name ="BUYMONEY",nullable=true,precision=12)
-	public java.lang.Float getBuymoney(){
+	public Float getBuymoney(){
 		return this.buymoney;
 	}
 
@@ -317,7 +317,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Float
 	 *@param: java.lang.Float  采购金额
 	 */
-	public void setBuymoney(java.lang.Float buymoney){
+	public void setBuymoney(Float buymoney){
 		this.buymoney = buymoney;
 	}
 	/**
@@ -325,7 +325,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *@return: java.lang.String  采购用途
 	 */
 	@Column(name ="BUYUSE",nullable=true,length=255)
-	public java.lang.String getBuyuse(){
+	public String getBuyuse(){
 		return this.buyuse;
 	}
 
@@ -333,7 +333,7 @@ public class TFinanceEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  采购用途
 	 */
-	public void setBuyuse(java.lang.String buyuse){
+	public void setBuyuse(String buyuse){
 		this.buyuse = buyuse;
 	}
 

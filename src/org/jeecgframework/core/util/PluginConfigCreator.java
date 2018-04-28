@@ -33,7 +33,7 @@ public class PluginConfigCreator {
 				String filename1 = filenames[0];
 				String filename2 = filenames[1];
 				result = filename1 + "," + filename2 + ",file:/" + path + "/" + fileName + "//,4,false";
-				org.jeecgframework.core.util.LogUtil.info(result);
+				LogUtil.info(result);
 			} else if (file.isFile()) {
 				String fileName = file.getName();
 				if (fileName.indexOf("_") < 0) {
@@ -43,7 +43,7 @@ public class PluginConfigCreator {
 				String filename1 = fileName.substring(0, last);
 				String filename2 = fileName.substring(last + 1, fileName.length() - 4);
 				result = filename1 + "," + filename2 + ",file:/" + path + "/" + fileName + ",4,false";
-				org.jeecgframework.core.util.LogUtil.info(result);
+				LogUtil.info(result);
 			}
 		}
 	}

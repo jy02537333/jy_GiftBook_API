@@ -93,7 +93,7 @@ function addTab(subtitle, url, icon) {
 	if(progress.length){return;}
 	rowid="";
 	$.messager.progress({
-		text : loading,
+		text : '页面加载中....',
 		interval : 200
 	});
 	if (!$('#maintabs').tabs('exists', subtitle)) {
@@ -163,7 +163,7 @@ function addLeftOneTab(subtitle, url, icon) {
 }
 function addmask() {
 	$.messager.progress({
-		text : loading,
+		text : '页面加载中....',
 		interval : 100
 	});
 }

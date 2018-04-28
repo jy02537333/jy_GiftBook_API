@@ -15,5 +15,5 @@ public interface ConfigServiceI {
 	 * @param configId 标示配置的id
 	 * @return
 	 */
-	public Map<String,Object> queryConfigs(String configId,String jversion);
+	public Map<String,Object> queryConfigs(String configId, String jversion);
 }

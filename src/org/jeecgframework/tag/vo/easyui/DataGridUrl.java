@@ -19,8 +19,6 @@ public class DataGridUrl {
 	private String funname;//自定义函数名称
 	private boolean isRadio;//是否是单选框
 	private String onclick;//选项单击事件
-	private String urlStyle;//url样式
-	private String columnFilters;
 	public String getOnclick() {
 		return onclick;
 	}
@@ -117,21 +115,6 @@ public class DataGridUrl {
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}
-
-	public void setUrlStyle(String urlStyle) {
-		this.urlStyle = urlStyle;
-	}
-
-	public String getUrlStyle() {
-		return urlStyle;
-	}
-	public void setColumnFilters(String columnFilters) {
-		this.columnFilters = columnFilters;
-	}
-
-	public String getColumnFilters() {
-		return columnFilters;
-	}
 	
-	
+
 }

@@ -24,13 +24,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.apache.tools.zip.ZipEntry;
-import org.apache.tools.zip.ZipFile;
-import org.apache.tools.zip.ZipOutputStream;
-import org.jeecgframework.core.common.model.common.DBTable;
-import org.jeecgframework.core.util.ReflectHelper;
 import org.jeecgframework.web.cgform.entity.button.CgformButtonEntity;
 import org.jeecgframework.web.cgform.entity.button.CgformButtonSqlEntity;
 import org.jeecgframework.web.cgform.entity.cgformftl.CgformFtlEntity;
@@ -40,12 +33,20 @@ import org.jeecgframework.web.cgform.exception.BusinessException;
 import org.jeecgframework.web.cgform.pojo.config.CgFormFieldPojo;
 import org.jeecgframework.web.cgform.pojo.config.CgFormHeadPojo;
 import org.jeecgframework.web.cgform.util.PublicUtil;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.apache.tools.zip.ZipEntry;
+import org.apache.tools.zip.ZipFile;
+import org.apache.tools.zip.ZipOutputStream;
+import org.jeecgframework.core.common.model.common.DBTable;
+import org.jeecgframework.core.util.ReflectHelper;
 import org.springframework.beans.BeanUtils;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 import org.springframework.stereotype.Service;
@@ -245,9 +246,7 @@ public class MigrateForm<T> {
 		DBTable<T> dbTable = new DBTable<T>();
 		dbTable.setTableName(PublicUtil.getTableName(sql));
 		dbTable.setClass1(clazz);
-
-		List<T> dataList = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(clazz));
-
+		List<T> dataList = jdbcTemplate.query(sql, ParameterizedBeanPropertyRowMapper.newInstance(clazz));
 		dbTable.setTableData(dataList);
 		return dbTable;
 	}

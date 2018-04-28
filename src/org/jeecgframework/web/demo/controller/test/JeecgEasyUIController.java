@@ -33,7 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @Description: 页面不用自定义标签
  *@author  张代浩
  */
-//@Scope("prototype")
+@Scope("prototype")
 @Controller
 @RequestMapping("/jeecgEasyUIController")
 public class JeecgEasyUIController extends BaseController {
@@ -46,6 +46,15 @@ public class JeecgEasyUIController extends BaseController {
 	private JeecgJdbcServiceI jeecgJdbcService;
 	@Autowired
 	private SystemService systemService;
+	private String message;
+	
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
 	/**
 	 * 页面不用自定义标签 页面跳转
@@ -101,7 +110,6 @@ public class JeecgEasyUIController extends BaseController {
 	@RequestMapping(params = "del")
 	@ResponseBody
 	public AjaxJson del(JeecgJdbcEntity jeecgJdbc, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		
 		String sql = "delete from jeecg_demo where id='" + jeecgJdbc.getId() + "'";
@@ -124,7 +132,6 @@ public class JeecgEasyUIController extends BaseController {
 	@RequestMapping(params = "save")
 	@ResponseBody
 	public AjaxJson save(JeecgJdbcEntity jeecgJdbc, HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		if (StringUtil.isNotEmpty(jeecgJdbc.getId())) {
 			message = "更新成功";
@@ -164,19 +171,12 @@ public class JeecgEasyUIController extends BaseController {
 	public void responseDatagrid(HttpServletResponse response, JSONObject jObject) {
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "no-store");
-		PrintWriter pw = null;
 		try {
-			pw=response.getWriter();
+			PrintWriter pw=response.getWriter();
 			pw.write(jObject.toString());
 			pw.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}finally{
-			try {
-				pw.close();
-			} catch (Exception e2) {
-				// TODO: handle exception
-			}
 		}
 	}	
 }

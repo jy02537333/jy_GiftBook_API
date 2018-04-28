@@ -16,6 +16,7 @@
 <t:dgToolBar title="菜单同步到微信" icon="icon-edit" url="menuManagerController.do?sameMenu" funname="sameMenu()"></t:dgToolBar>
 </t:datagrid>
 </div></div>
+<div>faewfwefaewfwae过阿尕  4 </div>
 
 <script type="text/javascript">
 function addFun() {

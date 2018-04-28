@@ -196,11 +196,11 @@ public class LogUtil {
 
   public static void log(String level, Object msg, Throwable e)
   {
-	 StringWriter sw = new StringWriter();
-     PrintWriter pw = new PrintWriter(sw);
     try{
       StringBuilder sb = new StringBuilder();
       Throwable t = new Throwable();
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
       t.printStackTrace(pw);
       String input = sw.getBuffer().toString();
       StringReader sr = new StringReader(input);
@@ -227,13 +227,7 @@ public class LogUtil {
       sb.append(msg);
       getLogger().log((Priority) Level.toLevel(level), sb.toString(), e);
     }catch(Exception ex){
-      ex.printStackTrace();
-    }finally{
-    	try {
-    		sw.close();
-        	pw.close();
-		} catch (Exception e2) {
-		}
+      LogUtil.info(ex.getLocalizedMessage());
     }
   }
 }

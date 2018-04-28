@@ -1,6 +1,6 @@
 package org.jeecgframework.web.system.dao.repair;
 
-import org.springframework.stereotype.Repository;
+import org.jeecgframework.minidao.annotation.MiniDao;
 
 /**
  * 工程修复
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * @date 2013-11-11
  * @version 1.0
  */
-@Repository("repairDao")
+@MiniDao
 public interface RepairDao {
 	
 	public void batchRepairTerritory();

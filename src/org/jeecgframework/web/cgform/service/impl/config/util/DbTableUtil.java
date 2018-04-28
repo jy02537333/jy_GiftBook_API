@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jeecgframework.web.cgform.service.config.DbTableHandleI;
-import org.jeecgframework.web.cgform.service.config.DbTableServiceI;
-import org.jeecgframework.web.cgform.service.impl.config.DbTableMysqlHandleImpl;
-import org.jeecgframework.web.cgform.service.impl.config.DbTableOracleHandleImpl;
-import org.jeecgframework.web.cgform.service.impl.config.DbTablePostgresHandleImpl;
-import org.jeecgframework.web.cgform.service.impl.config.DbTableServiceMysqlImpl;
-import org.jeecgframework.web.cgform.service.impl.config.TableSQLServerHandleImpl;
+import com.jeecg.service.config.DbTableHandleI;
+import com.jeecg.service.config.DbTableServiceI;
+import com.jeecg.service.impl.config.DbTableMysqlHandleImpl;
+import com.jeecg.service.impl.config.DbTableOracleHandleImpl;
+import com.jeecg.service.impl.config.DbTablePostgresHandleImpl;
+import com.jeecg.service.impl.config.DbTableServiceMysqlImpl;
+import com.jeecg.service.impl.config.TableSQLServerHandleImpl;
 
 import org.hibernate.Session;
 import org.hibernate.internal.SessionImpl;
@@ -81,9 +81,6 @@ public class DbTableUtil {
 		}else if (dialect.equals("org.hibernate.dialect.SQLServerDialect")) {
 			dbTableHandle = new TableSQLServerHandleImpl();
 		}
-		else if (dialect.equals("org.jeecgframework.core.common.hibernate.SQLServer2008Dialect")) {
-			dbTableHandle = new TableSQLServerHandleImpl();
-		}
 		return dbTableHandle;
 	}
 	
@@ -104,9 +101,6 @@ public class DbTableUtil {
 		}else if (dialect.equals("org.hibernate.dialect.PostgreSQLDialect")) {
 			dataType = "POSTGRESQL";
 		}else if (dialect.equals("org.hibernate.dialect.SQLServerDialect")) {
-			dataType="SQLSERVER";
-		}
-		else if (dialect.equals("org.jeecgframework.core.common.hibernate.SQLServer2008Dialect")) {
 			dataType="SQLSERVER";
 		}
 		return dataType;

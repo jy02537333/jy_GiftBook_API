@@ -1,4 +1,4 @@
-package weixin.guanjia.menu.service;
+package com.jeecg.service.guanjia.menu;
 
 import java.io.Serializable;
 

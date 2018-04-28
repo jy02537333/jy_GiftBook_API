@@ -1,4 +1,4 @@
-package org.jeecgframework.web.cgform.service.impl.config;
+package com.jeecg.service.impl.config;
 
 import org.jeecgframework.core.common.exception.BusinessException;
 import org.jeecgframework.core.common.service.impl.CommonServiceImpl;
@@ -6,7 +6,7 @@ import org.jeecgframework.core.util.MyBeanUtils;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.web.cgform.entity.config.JformGraphreportHeadEntity;
 import org.jeecgframework.web.cgform.entity.config.JformGraphreportItemEntity;
-import org.jeecgframework.web.cgform.service.config.JformGraphreportHeadServiceI;
+import com.jeecg.service.config.JformGraphreportHeadServiceI;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

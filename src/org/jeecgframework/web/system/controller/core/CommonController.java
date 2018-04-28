@@ -8,6 +8,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jeecgframework.web.system.pojo.base.TSAttachment;
+import org.jeecgframework.web.system.service.SystemService;
+
 import org.apache.log4j.Logger;
 import org.jeecgframework.core.common.controller.BaseController;
 import org.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
@@ -17,6 +20,7 @@ import org.jeecgframework.core.common.model.json.DataGrid;
 import org.jeecgframework.core.common.model.json.ImportFile;
 import org.jeecgframework.core.constant.Globals;
 import org.jeecgframework.core.util.FileUtils;
+import org.jeecgframework.core.util.ImportUtil;
 import org.jeecgframework.core.util.JSONHelper;
 import org.jeecgframework.core.util.MyClassLoader;
 import org.jeecgframework.core.util.ReflectHelper;
@@ -24,9 +28,8 @@ import org.jeecgframework.core.util.StringUtil;
 import org.jeecgframework.core.util.oConvertUtils;
 import org.jeecgframework.tag.core.easyui.TagUtil;
 import org.jeecgframework.tag.vo.easyui.Autocomplete;
-import org.jeecgframework.web.system.pojo.base.TSAttachment;
-import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,7 +45,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author 张代浩
  * 
  */
-//@Scope("prototype")
+@Scope("prototype")
 @Controller
 @RequestMapping("/commonController")
 public class CommonController extends BaseController {
@@ -51,6 +54,7 @@ public class CommonController extends BaseController {
 	 */
 	private static final Logger logger = Logger.getLogger(CommonController.class);
 	private SystemService systemService;
+	private String message;
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
@@ -214,13 +218,9 @@ public class CommonController extends BaseController {
             response.setDateHeader("Expires", 0);
             response.getWriter().write(JSONHelper.listtojson(allFieldArr,allFieldArr.length,autoList));
             response.getWriter().flush();
+            response.getWriter().close();
 		} catch (Exception e1) {
 			e1.printStackTrace();
-		}finally{
-			try {
-				response.getWriter().close();
-			} catch (IOException e) {
-			}
 		}
 
 	}
@@ -234,7 +234,6 @@ public class CommonController extends BaseController {
 	@RequestMapping(params = "delObjFile")
 	@ResponseBody
 	public AjaxJson delObjFile(HttpServletRequest request) {
-		String message = null;
 		AjaxJson j = new AjaxJson();
 		String fileKey = oConvertUtils.getString(request.getParameter("fileKey"));// 文件ID
 		TSAttachment attachment = systemService.getEntity(TSAttachment.class,fileKey);

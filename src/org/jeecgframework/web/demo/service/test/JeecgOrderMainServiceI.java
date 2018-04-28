@@ -14,11 +14,11 @@ public interface JeecgOrderMainServiceI extends CommonService{
 	 * 添加一对多
 	 * 
 	 */
-	public void addMain(JeecgOrderMainEntity jeecgOrderMain,List<JeecgOrderProductEntity> jeecgOrderProducList,List<JeecgOrderCustomEntity> jeecgOrderCustomList) ;
+	public void addMain(JeecgOrderMainEntity jeecgOrderMain, List<JeecgOrderProductEntity> jeecgOrderProducList, List<JeecgOrderCustomEntity> jeecgOrderCustomList) ;
 	/**
 	 * 修改一对多
 	 * 
 	 */
-	public void updateMain(JeecgOrderMainEntity jeecgOrderMain,List<JeecgOrderProductEntity> jeecgOrderProducList,List<JeecgOrderCustomEntity> jeecgOrderCustomList,boolean jeecgOrderCustomShow) ;
-	public void delMain (JeecgOrderMainEntity jeecgOrderMain);
+	public void updateMain(JeecgOrderMainEntity jeecgOrderMain, List<JeecgOrderProductEntity> jeecgOrderProducList, List<JeecgOrderCustomEntity> jeecgOrderCustomList, boolean jeecgOrderCustomShow) ;
+	public void delMain(JeecgOrderMainEntity jeecgOrderMain);
 }

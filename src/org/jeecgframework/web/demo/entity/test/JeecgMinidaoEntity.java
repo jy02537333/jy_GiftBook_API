@@ -27,31 +27,31 @@ import org.hibernate.annotations.GenericGenerator;
 @SuppressWarnings("serial")
 public class JeecgMinidaoEntity implements java.io.Serializable {
 	/**主键*/
-	private java.lang.String id;
+	private String id;
 	/**年龄*/
-	private java.lang.Integer age;
+	private Integer age;
 	/**生日*/
 	private java.util.Date birthday;
 	/**说明*/
-	private java.lang.String content;
+	private String content;
 	/**创建时间*/
 	private java.util.Date createTime;
 	/**部门*/
-	private java.lang.String depId;
+	private String depId;
 	/**电子邮箱*/
-	private java.lang.String email;
+	private String email;
 	/**手机*/
-	private java.lang.String mobilePhone;
+	private String mobilePhone;
 	/**办公电话*/
-	private java.lang.String officePhone;
+	private String officePhone;
 	/**工资*/
 	private BigDecimal salary;
 	/**性别*/
-	private java.lang.Integer sex;
+	private Integer sex;
 	/**状态*/
-	private java.lang.String status;
+	private String status;
 	/**用户名*/
-	private java.lang.String userName;
+	private String userName;
 	
 	/**
 	 *方法: 取得java.lang.String
@@ -62,7 +62,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	@GeneratedValue(generator = "paymentableGenerator")
 	@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
 	@Column(name ="ID",nullable=false,length=32)
-	public java.lang.String getId(){
+	public String getId(){
 		return this.id;
 	}
 
@@ -70,7 +70,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  主键
 	 */
-	public void setId(java.lang.String id){
+	public void setId(String id){
 		this.id = id;
 	}
 	/**
@@ -78,7 +78,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  年龄
 	 */
 	@Column(name ="AGE",nullable=true,precision=10,scale=0)
-	public java.lang.Integer getAge(){
+	public Integer getAge(){
 		return this.age;
 	}
 
@@ -86,7 +86,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  年龄
 	 */
-	public void setAge(java.lang.Integer age){
+	public void setAge(Integer age){
 		this.age = age;
 	}
 	/**
@@ -110,7 +110,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *@return: java.lang.String  说明
 	 */
 	@Column(name ="CONTENT",nullable=true,length=255)
-	public java.lang.String getContent(){
+	public String getContent(){
 		return this.content;
 	}
 
@@ -118,7 +118,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  说明
 	 */
-	public void setContent(java.lang.String content){
+	public void setContent(String content){
 		this.content = content;
 	}
 	/**
@@ -142,7 +142,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *@return: java.lang.String  部门
 	 */
 	@Column(name ="DEP_ID",nullable=true,length=255)
-	public java.lang.String getDepId(){
+	public String getDepId(){
 		return this.depId;
 	}
 
@@ -150,7 +150,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  部门
 	 */
-	public void setDepId(java.lang.String depId){
+	public void setDepId(String depId){
 		this.depId = depId;
 	}
 	/**
@@ -158,7 +158,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *@return: java.lang.String  电子邮箱
 	 */
 	@Column(name ="EMAIL",nullable=true,length=255)
-	public java.lang.String getEmail(){
+	public String getEmail(){
 		return this.email;
 	}
 
@@ -166,7 +166,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  电子邮箱
 	 */
-	public void setEmail(java.lang.String email){
+	public void setEmail(String email){
 		this.email = email;
 	}
 	/**
@@ -174,7 +174,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *@return: java.lang.String  手机
 	 */
 	@Column(name ="MOBILE_PHONE",nullable=true,length=255)
-	public java.lang.String getMobilePhone(){
+	public String getMobilePhone(){
 		return this.mobilePhone;
 	}
 
@@ -182,7 +182,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  手机
 	 */
-	public void setMobilePhone(java.lang.String mobilePhone){
+	public void setMobilePhone(String mobilePhone){
 		this.mobilePhone = mobilePhone;
 	}
 	/**
@@ -190,7 +190,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *@return: java.lang.String  办公电话
 	 */
 	@Column(name ="OFFICE_PHONE",nullable=true,length=255)
-	public java.lang.String getOfficePhone(){
+	public String getOfficePhone(){
 		return this.officePhone;
 	}
 
@@ -198,7 +198,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  办公电话
 	 */
-	public void setOfficePhone(java.lang.String officePhone){
+	public void setOfficePhone(String officePhone){
 		this.officePhone = officePhone;
 	}
 	/**
@@ -222,7 +222,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *@return: java.lang.Integer  性别
 	 */
 	@Column(name ="SEX",nullable=true,precision=10,scale=0)
-	public java.lang.Integer getSex(){
+	public Integer getSex(){
 		return this.sex;
 	}
 
@@ -230,7 +230,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.Integer
 	 *@param: java.lang.Integer  性别
 	 */
-	public void setSex(java.lang.Integer sex){
+	public void setSex(Integer sex){
 		this.sex = sex;
 	}
 	/**
@@ -238,7 +238,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *@return: java.lang.String  状态
 	 */
 	@Column(name ="STATUS",nullable=true,length=255)
-	public java.lang.String getStatus(){
+	public String getStatus(){
 		return this.status;
 	}
 
@@ -246,7 +246,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  状态
 	 */
-	public void setStatus(java.lang.String status){
+	public void setStatus(String status){
 		this.status = status;
 	}
 	/**
@@ -254,7 +254,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *@return: java.lang.String  用户名
 	 */
 	@Column(name ="USER_NAME",nullable=false,length=255)
-	public java.lang.String getUserName(){
+	public String getUserName(){
 		return this.userName;
 	}
 
@@ -262,7 +262,7 @@ public class JeecgMinidaoEntity implements java.io.Serializable {
 	 *方法: 设置java.lang.String
 	 *@param: java.lang.String  用户名
 	 */
-	public void setUserName(java.lang.String userName){
+	public void setUserName(String userName){
 		this.userName = userName;
 	}
 }

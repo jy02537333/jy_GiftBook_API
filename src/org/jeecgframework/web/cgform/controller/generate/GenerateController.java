@@ -35,7 +35,7 @@ import org.jeecgframework.web.cgform.entity.generate.GenerateEntity;
 import org.jeecgframework.web.cgform.entity.generate.GenerateSubListEntity;
 import org.jeecgframework.web.cgform.service.button.CgformButtonServiceI;
 import org.jeecgframework.web.cgform.service.button.CgformButtonSqlServiceI;
-import org.jeecgframework.web.cgform.service.config.CgFormFieldServiceI;
+import com.jeecg.service.config.CgFormFieldServiceI;
 import org.jeecgframework.web.cgform.service.enhance.CgformEnhanceJsServiceI;
 import org.jeecgframework.web.system.service.SystemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- *
+ * 
  * @Title:CgGenerateController
  * @description:智能表单代码生成器[根据智能表单配置+代码生成设置->生成代码]
  * @author 赵俊夫
@@ -73,7 +73,7 @@ public class GenerateController extends BaseController {
 	private CgformButtonSqlServiceI cgformButtonSqlService;
 	@Autowired
 	private CgformEnhanceJsServiceI cgformEnhanceJsService;
-
+	
 	/**
 	 * 代码生成配置页面
 	 * @param request
@@ -108,21 +108,21 @@ public class GenerateController extends BaseController {
 		}
 		String projectPath = CodeResourceUtil.getProject_path();
 		try{
-			Cookie[] cookies=request.getCookies();
-			if(cookies!=null){
-				for(int i=0;i<cookies.length;i++){
-					if(cookies[i].getName().equals("cookie_projectPath")){
-						String value =  cookies[i].getValue();
-						if(value!=null&&!"".equals(value)){
-							projectPath=cookies[i].getValue();
-							projectPath= URLDecoder.decode(projectPath, "UTF-8");
-						}
-					}
-					request.setAttribute("projectPath",projectPath);
-				}
-			}
+		    Cookie[] cookies=request.getCookies();
+		    if(cookies!=null){
+		    for(int i=0;i<cookies.length;i++){
+		        if(cookies[i].getName().equals("cookie_projectPath")){
+		        String value =  cookies[i].getValue();
+		        if(value!=null&&!"".equals(value)){
+		        	projectPath=cookies[i].getValue();
+		        	projectPath= URLDecoder.decode(projectPath, "UTF-8"); 
+		            }
+		         }
+		        request.setAttribute("projectPath",projectPath);
+		    }
+		    }
 		}catch(Exception e){
-			e.printStackTrace();
+		    e.printStackTrace();
 		}
 		String entityName = JeecgReadTable.formatFieldCapital(cgFormHead.getTableName());
 		entityNameMap.put(cgFormHead.getTableName(), entityName);
@@ -135,11 +135,11 @@ public class GenerateController extends BaseController {
 	 * @param generateEntity
 	 * @param request
 	 * @return
-	 * @throws Exception
+	 * @throws Exception 
 	 */
 	@RequestMapping(params = "dogenerate")
 	public void dogenerate(CgFormHeadEntity cgFormHead,GenerateEntity generateEntity,CreateFileProperty createFileProperty,
-						   HttpServletRequest request,HttpServletResponse response) throws Exception {
+			HttpServletRequest request,HttpServletResponse response) throws Exception {
 		//step.1 准备好智能表单的配置
 		if (StringUtil.isNotEmpty(cgFormHead.getId())) {
 			cgFormHead = cgFormFieldService.getEntity(
@@ -161,7 +161,7 @@ public class GenerateController extends BaseController {
 			}else{
 				j.setMsg("表["+tableName+"] 在数据库中，不存在");
 			}
-
+			
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			j.setMsg(e1.getMessage());
@@ -169,7 +169,7 @@ public class GenerateController extends BaseController {
 		}
 		try {
 			String projectPath = URLEncoder.encode(generateEntity.getProjectPath(), "UTF-8");
-			Cookie cookie = new Cookie("cookie_projectPath",projectPath );
+			Cookie cookie = new Cookie("cookie_projectPath",projectPath );				
 			cookie.setMaxAge(60*60*24*30); //cookie 保存30天
 			response.addCookie(cookie);
 			response.getWriter().print(j.getJsonStr());
@@ -180,6 +180,7 @@ public class GenerateController extends BaseController {
 	}
 	/**
 	 * 代码生成执行-一对多
+	 * @param generateEntity
 	 * @param request
 	 * @return
 	 */
@@ -223,7 +224,7 @@ public class GenerateController extends BaseController {
 			}
 			codeParamEntityIn.setSubTabParam(subTabParamIn);
 			//step.5 一对多(父子表)数据模型,代码生成
-			CgformCodeGenerateOneToMany.oneToManyCreate(subTabParamIn, codeParamEntityIn,mainG,subsG);
+			   CgformCodeGenerateOneToMany.oneToManyCreate(subTabParamIn, codeParamEntityIn,mainG,subsG);
 			j.setMsg("成功生成增删改查->功能："+codeParamEntityIn.getFtlDescription());
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -232,7 +233,7 @@ public class GenerateController extends BaseController {
 		}
 		try {
 			String projectPath = URLEncoder.encode(subTableListEntity.getProjectPath(), "UTF-8");
-			Cookie cookie = new Cookie("cookie_projectPath",projectPath );
+			Cookie cookie = new Cookie("cookie_projectPath",projectPath );						
 			cookie.setMaxAge(60*60*24*30); //cookie 保存30天
 			response.addCookie(cookie);
 			response.getWriter().print(j.getJsonStr());
@@ -260,10 +261,10 @@ public class GenerateController extends BaseController {
 	 * 获取智能表单的所有配置
 	 * @param cgFormHead
 	 * @param generateEntity
-	 * @throws Exception
+	 * @throws Exception 
 	 */
 	private void getCgformConfig(CgFormHeadEntity cgFormHead,
-								 GenerateEntity generateEntity) throws Exception {
+			GenerateEntity generateEntity) throws Exception {
 		int filedNums = cgFormHead.getColumns().size();
 		List<CgformButtonEntity> buttons = null;
 		Map<String, String[]> buttonSqlMap = new LinkedHashMap<String, String[]>();
@@ -370,7 +371,7 @@ public class GenerateController extends BaseController {
 						}
 						fjson.add(item);
 					}else{
-
+						
 					}
 				}
 			}
@@ -383,10 +384,10 @@ public class GenerateController extends BaseController {
 	private boolean hasDirs(File dir){
 		try{
 			if(dir.listFiles().length==0){
-				//			item.put("state", "open");
+	//			item.put("state", "open");
 				return false;
 			}else{
-				//			item.put("state", "closed");
+	//			item.put("state", "closed");
 				return true;
 			}
 		}catch (Exception e) {
